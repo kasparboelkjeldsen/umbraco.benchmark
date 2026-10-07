@@ -1,0 +1,3 @@
+# The umbraco.benchmark repo keeps LF line endings in every checkout, so a sync between a run folder and the clone
+# (bench/publish.mjs compares file contents) only sees real changes. Binary files are detected automatically.
+* text=auto eol=lf
