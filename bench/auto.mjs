@@ -471,7 +471,6 @@ async function runOne({ provider, model, effort }, variant) {
 let BIN, VERSION;
 try { BIN = resolveClaudeBin(args.claude); } catch (e) { die(e.message); }
 VERSION = claudeVersion(BIN);
-if (!hasBaseline()) die(`No baseline. Run "npm run baseline" on a pristine Umbraco.Bench first.`);
 // Clean room: inside a git checkout (such as a clone of the umbraco.benchmark repo), a model under test that runs git
 // in Umbraco.Bench finds the whole repo, archive of other models' solutions and grades included. Runs belong in a
 // folder of their own, installed with tools/Get-UmbracoBenchmark.ps1.
@@ -480,6 +479,7 @@ if (!hasBaseline()) die(`No baseline. Run "npm run baseline" on a pristine Umbra
   if (g.status === 0 && !args["allow-git-checkout"])
     die(`${PROJECT} is inside the git checkout ${g.stdout.trim()}. A model under test could read the whole repo from there.\n  Run from a folder outside git (tools/Get-UmbracoBenchmark.ps1 installs one), or pass --allow-git-checkout.`);
 }
+if (!hasBaseline()) die(`No baseline. Run "npm run baseline" on a pristine Umbraco.Bench first.`);
 
 const models = parseModels();
 const tests = parseTests();
