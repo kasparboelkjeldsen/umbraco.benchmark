@@ -10,6 +10,14 @@ export const VARIANTS = {
     hasPrompt1: true,
     mcpJson: "baseline", // the scaffold's own .mcp.json (Umbraco MCP server)
   },
+  // the MCP test for small models: a shorter prompt ending in numbered steps; same channel, checks and rubric
+  "mcp-guided": {
+    name: "MCP Guided",
+    promptFile: "tests/mcp-guided.md",
+    hasPrompt1: true,
+    mcpJson: "baseline",
+    channel: "mcp",
+  },
   migrations: {
     name: "Migrations",
     promptFile: "tests/migrations.md",
@@ -31,9 +39,13 @@ export const VARIANTS = {
   },
 };
 
-// Which test a blog prompt belongs to. Order matters: the MCP prompt mentions migration plans (to forbid them).
+// The test whose checks and phases a test reuses (MCP Guided is the MCP test with another prompt)
+export const channelOf = variant => VARIANTS[variant]?.channel ?? variant;
+
+// Which test a blog prompt belongs to. Order matters: the MCP prompts mention migration plans (to forbid them).
 export function detectVariant(prompt2) {
   if (/playwright/i.test(prompt2)) return "playwright";
+  if (/follow these steps in order/i.test(prompt2)) return "mcp-guided";
   if (/always use the (umbraco )?mcp server/i.test(prompt2)) return "mcp";
   if (/migration plan/i.test(prompt2)) return "migrations";
   return "mcp";

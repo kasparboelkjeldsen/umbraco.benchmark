@@ -8,6 +8,7 @@ import { spawnSync } from "node:child_process";
 import { SITE, SITE_NAME, PROJECT, parseArgs, resolveRun, writeJson } from "./lib/common.mjs";
 import { BASE_URL, api, walkTree, stopSite, startSite, waitForReady, findSiteProcesses } from "./lib/umbraco.mjs";
 import { changes, diffPatch, hasBaseline } from "./lib/baseline.mjs";
+import { channelOf } from "./lib/variants.mjs";
 import { repeatedImages } from "./lib/images.mjs";
 
 const args = parseArgs();
@@ -273,7 +274,7 @@ const channelProblems = {
   mcp: [!ch.umbracoMcpWrites && "no Umbraco MCP writes", ch.migrationFileWrites && `${ch.migrationFileWrites} migration file write(s)`, ...sideDoors],
   migrations: [!ch.migrationFileWrites && "no migration files written", ch.umbracoMcpCalls && `${ch.umbracoMcpCalls} Umbraco MCP call(s)`, ch.browserCalls && `${ch.browserCalls} browser call(s)`, ...sideDoors],
   playwright: [!ch.browserCalls && "no browser calls", ch.umbracoMcpCalls && `${ch.umbracoMcpCalls} Umbraco MCP call(s)`, ch.migrationFileWrites && `${ch.migrationFileWrites} migration file write(s)`, ...sideDoors],
-}[variant].filter(Boolean);
+}[channelOf(variant)].filter(Boolean);
 add("process.intendedChannel", channelProblems.length === 0, channelProblems.join("; ") || `built through ${variant}`);
 const roomProblems = [ch.memoryAccess && `${ch.memoryAccess} memory access(es)`, ch.benchFolderShellRefs && `${ch.benchFolderShellRefs} shell call(s) into the bench's own folders`,
   ch.outsideFolderPaths?.length && `outside the project: ${ch.outsideFolderPaths.slice(0, 5).join(", ")}`].filter(Boolean);

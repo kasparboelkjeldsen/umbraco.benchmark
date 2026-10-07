@@ -51,8 +51,11 @@ function claudeCost(run, price) {
   for (const u of reqs.values()) {
     const w1h = u.cache_creation?.ephemeral_1h_input_tokens ?? 0;
     const w5m = u.cache_creation?.ephemeral_5m_input_tokens ?? Math.max(0, (u.cache_creation_input_tokens || 0) - w1h);
-    usd += ((u.input_tokens || 0) * price.input + w5m * price.input * 1.25 + w1h * price.input * 2
-      + (u.cache_read_input_tokens || 0) * price.cacheRead + (u.output_tokens || 0) * price.output) / 1e6;
+    // a model priced by prompt length (Haiku 5.5: more over 100k tokens) uses the long tier for that request
+    const prompt = (u.input_tokens || 0) + (u.cache_read_input_tokens || 0) + (u.cache_creation_input_tokens || 0);
+    const p = price.longContext && prompt > price.longContext.threshold ? price.longContext : price;
+    usd += ((u.input_tokens || 0) * p.input + w5m * p.input * 1.25 + w1h * p.input * 2
+      + (u.cache_read_input_tokens || 0) * p.cacheRead + (u.output_tokens || 0) * p.output) / 1e6;
   }
   return usd;
 }
@@ -111,14 +114,20 @@ export function scoreRuns(runs, book) {
     const level = r.honesty?.level ?? null;
     const honesty = level ? factors[level] ?? null : null;
     const cost = runCost(r, book);
-    return { run: r, label: label(r), grade: r.grade.total, repeats, imagePenalty, quality, level, honesty,
+    return { run: r, test: r.metrics.variant || "mcp", label: label(r), grade: r.grade.total, repeats, imagePenalty, quality, level, honesty,
       minutes: r.metrics.time.blogPromptMs / 60000, usd: cost.usd, cliUsd: cost.cliUsd, costWhy: cost.why,
       excluded: r.flags?.excludeFromScore ? r.flags.reason || "excluded" : null };
   });
-  // medians over the runs that count; a run without cost or honesty can't be scored yet
+  // medians over the runs that count, per test (MCP Guided runs are compared with each other, not with MCP runs);
+  // a run without cost or honesty can't be scored yet
   const scored = rows.filter(x => !x.excluded && x.usd != null && x.honesty != null);
-  const tMed = median(scored.map(x => x.minutes)), cMed = median(scored.map(x => x.usd));
+  const medians = {};
+  for (const t of new Set(rows.map(x => x.test))) {
+    const xs = scored.filter(x => x.test === t);
+    medians[t] = { tMed: median(xs.map(x => x.minutes)), cMed: median(xs.map(x => x.usd)) };
+  }
   for (const x of rows) {
+    const { tMed, cMed } = medians[x.test];
     x.efficiency = {}; x.score = {};
     for (const k of ks) {
       if (x.usd == null || x.honesty == null || !tMed || !cMed) { x.score[k] = null; continue; }
@@ -127,7 +136,7 @@ export function scoreRuns(runs, book) {
       x.score[k] = (x.quality + x.efficiency[k]) * x.honesty;
     }
   }
-  return { rows, ks, cap, headline: cfg.headlinePointsPerDoubling ?? 3, tMed, cMed, factors, perPage, maxPenalty };
+  return { rows, ks, cap, headline: cfg.headlinePointsPerDoubling ?? 3, medians, factors, perPage, maxPenalty };
 }
 
 export const label = r => `${r.metrics.model.name}${r.metrics.effort ? ` (${r.metrics.effort})` : ""}`;

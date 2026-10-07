@@ -1,0 +1,28 @@
+{
+  "runId": "2026-10-07_2011_mcp_haiku-5.5-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-07T18:20:21Z",
+  "total": 96,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "Build OK with 0 errors and 0 warnings. / returns 200 through the '/' domain on the Blog page and lists both posts as cards with an image, date, title and summary; the links work. Both posts render every block (rich text, image, rich text) with no fallback or exception text. All 7 images are the provided Unsplash photos, imported into a 'Blog' media folder and served through signed GetCropUrl URLs that load. Everything is published." },
+    { "id": "modeling", "name": "Content modeling", "score": 23, "max": 25, "notes": "Folders 8/8: heroBlock/richTextBlock/imageBlock are elements in Blocks, blogFrontPage/blogPost are documents in Pages. Block grid 6/7: both pages use one shared 'Page Blocks' grid with hero, rich text and image blocks and sensible properties, but imageBlock has no alt-text field (the caption 'Photo by … on Unsplash' doubles as alt), and the hero block is only used on the front page. Structure 5/5: siteRoot is the only root type and allows blogFrontPage, which allows only blogPost; templates are assigned; aliases are camelCase; 'Page Blocks' sits in Custom/Umbraco.BlockGrid. Hygiene 4/5: no compositions; publishDate, summary and heroImage are real properties; no orphans. But blogPost has a 'title' property that duplicates the node name." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 25, "max": 25, "notes": "Both pages render through Html.GetBlockGridHtmlAsync, and the scaffold's blockgrid partials are untouched. There is one markup-free adapter per block at blockgrid/Components/<alias>.cshtml, and each maps BlockGridItem<T> to a plain record in Models/Blog/ and calls Component.InvokeAsync. Hero, RichText and Image ViewComponents render Shared/Components/<Name>/Default.cshtml with no Umbraco dependency. The post listing is a page-level PostList ViewComponent fed plain PostCardModels built with Children<BlogPost>(), Url() and GetCropUrl. Program.cs and appsettings.json are untouched, and there are no migrations. Tailwind was built into wwwroot/dist/site.css. _ViewImports.cshtml was only rewritten with different line endings." },
+    { "id": "content", "name": "Content & presentation", "score": 8, "max": 10, "notes": "Content 4/6: both posts are on-topic and accurate (one contract instead of bespoke adapters, typed tool schemas, client-agnostic servers, an auditable interface, read-back feedback loops), use 3 blocks each, and have fitting photos with correct photographer credits. They are thin, though: about 4 short paragraphs (~150 words) per post, closer to a teaser than a substantive article. Presentation 4/4: clean Tailwind layout, a hero banner, a two-card listing with images, dates and excerpts, readable post pages with a full-width header image, a captioned inline image and a back link." },
+    { "id": "process", "name": "Process & honesty", "score": 5, "max": 5, "notes": "Schema and content were built entirely over MCP (43 calls), with no browser, migration, Management API, uSync or DB use. The order of operations was right: model, then content, then stop/build/restart, then Razor. The run stayed in the project folder and did no memory access, and metrics.json has no warnings. The final report is accurate: it discloses the missing credits on the hero photos, that it didn't check visually, that it didn't verify uSync export, and the overlapping-build slip." }
+  ],
+  "summary": "A clean, fully working MCP-built blog: a front page with a hero and card listing, plus two posts built from a shared hero/rich-text/image block grid. The rendering pipeline follows the scaffold's conventions exactly. The main weakness is that the two posts are short (about 4 brief paragraphs each).",
+  "strengths": [
+    "All 43 automated checks pass; build has 0 warnings",
+    "Textbook block pipeline: GetBlockGridHtmlAsync → markup-free adapters → ViewComponents with plain records",
+    "Correct folders, allowed children, templates, domain and media folder, all via MCP",
+    "Provided Unsplash photos imported and served with GetCropUrl; captions credit the right photographers",
+    "Polished Tailwind presentation; honest final report"
+  ],
+  "issues": [
+    { "severity": "minor", "text": "Posts are thin, about 4 short paragraphs (~150 words) each (/why-mcp-is-awesome/, /why-mcp-is-awesome-part-2/)" },
+    { "severity": "minor", "text": "blogPost has a 'title' property that duplicates the node name" },
+    { "severity": "minor", "text": "imageBlock has no alt-text property; the caption ('Photo by … on Unsplash') is used as alt (Views/Shared/Components/Image/Default.cshtml)" },
+    { "severity": "minor", "text": "Post hero images have no photographer credit, only a generic 'Photos from Unsplash.' footer (disclosed in the report)" }
+  ]
+}

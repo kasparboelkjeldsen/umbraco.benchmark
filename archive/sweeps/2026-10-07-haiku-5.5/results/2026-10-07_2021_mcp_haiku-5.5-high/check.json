@@ -1,0 +1,444 @@
+{
+  "runId": "2026-10-07_2021_mcp_haiku-5.5-high",
+  "variant": "mcp",
+  "checkedAt": "2026-10-07T18:28:02.685Z",
+  "summary": {
+    "passed": 43,
+    "failed": 0,
+    "notApplicable": 0
+  },
+  "checks": [
+    {
+      "id": "build.ok",
+      "ok": true,
+      "detail": "0 error(s), 0 warning(s)"
+    },
+    {
+      "id": "site.boots",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "site.frontPage200",
+      "ok": true,
+      "detail": "GET / → 200"
+    },
+    {
+      "id": "site.allPagesRender",
+      "ok": true,
+      "detail": "3 page(s) OK"
+    },
+    {
+      "id": "content.twoBlogPosts",
+      "ok": true,
+      "detail": "2 document(s) with a post-like type: Why MCP is awesome, Why MCP is awesome, part 2: the agent in your CMS"
+    },
+    {
+      "id": "site.frontPageLinksPosts",
+      "ok": true,
+      "detail": "front page links 2/2 post URL(s)"
+    },
+    {
+      "id": "site.imagesLoad",
+      "ok": true,
+      "detail": "5/5 images load"
+    },
+    {
+      "id": "site.imagesFromMediaLibrary",
+      "ok": true,
+      "detail": "0 hot-linked external image(s)"
+    },
+    {
+      "id": "site.noUnsignedResizeUrls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "site.stylesheetsLoad",
+      "ok": true,
+      "detail": "/dist/site.css?v=RJMJzH0fCJMvOh2vnONN3yiHULOzsOpJjynrrRA9_Bg → 200"
+    },
+    {
+      "id": "site.usesBlockGrid",
+      "ok": true,
+      "detail": "umb-block-grid markup present on a page"
+    },
+    {
+      "id": "content.noRepeatedImages",
+      "ok": true,
+      "detail": "no page shows the same image twice"
+    },
+    {
+      "id": "schema.docTypesInFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.elementVsDocumentFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.aliasesCamelCase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.dataTypesNotAtRoot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.blockGridOnPages",
+      "ok": true,
+      "detail": "block grid on: blogHome, blogPost"
+    },
+    {
+      "id": "schema.blocksNotUsedAsCompositions",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.domainAssigned",
+      "ok": true,
+      "detail": "Blog: /"
+    },
+    {
+      "id": "content.allPublished",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.mediaInFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.hasMedia",
+      "ok": true,
+      "detail": "5 media item(s)"
+    },
+    {
+      "id": "content.mediaFromProvidedPhotos",
+      "ok": true,
+      "detail": "5 of 5 media file(s) are the provided photos"
+    },
+    {
+      "id": "code.adapterFolderCasing",
+      "ok": true,
+      "detail": "folder is \"Components\""
+    },
+    {
+      "id": "code.adapterPerBlock",
+      "ok": true,
+      "detail": "3 adapter(s): heroBlock.cshtml, imageBlock.cshtml, textBlock.cshtml"
+    },
+    {
+      "id": "code.programCsUnchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.appsettingsJsonUnchanged",
+      "ok": true,
+      "detail": "production settings must not be softened"
+    },
+    {
+      "id": "code.noMigrationsWritten",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "process.intendedChannel",
+      "ok": true,
+      "detail": "built through mcp"
+    },
+    {
+      "id": "process.stayedInFolder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noCsInModelsRoot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.servicesNamedService",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noCustomBlockLoops",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noParallelBlockPartials",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.pagesUseBlockGridHelper",
+      "ok": true,
+      "detail": "Umbraco.Bench.Umbraco/Views/blogHome.cshtml, Umbraco.Bench.Umbraco/Views/blogPost.cshtml"
+    },
+    {
+      "id": "code.adaptersHaveNoMarkup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.adaptersInvokeViewComponents",
+      "ok": true,
+      "detail": "3/3 adapters call Component.InvokeAsync"
+    },
+    {
+      "id": "code.viewComponentPerBlock",
+      "ok": true,
+      "detail": "3 view component(s): Hero, Image, Text"
+    },
+    {
+      "id": "code.noLooseFilesInSharedComponents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.componentViewsArePlain",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noInjectedUrlServices",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noHandWrittenImageQueries",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.frontendBuilt",
+      "ok": true,
+      "detail": "wwwroot/dist/site.css exists"
+    }
+  ],
+  "build": {
+    "ok": true,
+    "exitCode": 0,
+    "warnings": 0,
+    "errors": 0,
+    "errorLines": []
+  },
+  "changes": {
+    "added": [
+      "Umbraco.Bench.Frontend/package-lock.json",
+      "Umbraco.Bench.Umbraco/Models/Blocks/HeroModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/ImageModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/TextModel.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlogHome.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlogPost.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/File.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Folder.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/HeroBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Image.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/ImageBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Member.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/SiteRoot.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/TextBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaArticle.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaAudio.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaVectorGraphics.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaVideo.generated.cs",
+      "Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs",
+      "Umbraco.Bench.Umbraco/ViewComponents/ImageViewComponent.cs",
+      "Umbraco.Bench.Umbraco/ViewComponents/TextViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/textBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Image/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Text/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/_Layout.cshtml",
+      "Umbraco.Bench.Umbraco/Views/blogHome.cshtml",
+      "Umbraco.Bench.Umbraco/Views/blogPost.cshtml",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/blog.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/why-mcp-is-awesome-part-2-the-agent-in-your-cms.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/why-mcp-is-awesome.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/www.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/bloghome.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/blogpost.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/heroblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/imageblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/siteroot.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/textblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ApprovedColor.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/BlogBlockGrid.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/CheckboxList.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ContentPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DatePicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DatePickerWithTime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DateTimePickerWithTimeZone.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Dropdown.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DropdownMultiple.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ImageCropper.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ImageMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelBigint.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelBytes.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelDatetime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelDecimal.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelInteger.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelPixels.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelString.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelTime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ListViewContent.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ListViewMedia.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MemberPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultiURLPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultipleImageMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultipleMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Numeric.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Radiobox.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/RichtextEditor.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Tags.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Textarea.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Textstring.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Truefalse.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadArticle.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadAudio.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadFile.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadVectorGraphics.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadVideo.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Domains/1101_en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Domains/_en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Languages/en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/blog.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/code-on-screen.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/connected-structure.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/laptop-desk-code.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/network-lines-and-dots.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/puzzle-hands.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/file.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/folder.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/image.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediaarticle.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediaaudio.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediavectorgraphics.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediavideo.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MemberTypes/member.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/relateParentElementContainerOnContainerDelete.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/relateParentElementContainerOnElementDelete.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/umbElement.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/umbMember.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/bloghome.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/blogpost.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/usync.config",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/main.js",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/main.js.map",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/site.css"
+    ],
+    "modified": [],
+    "deleted": []
+  },
+  "crawl": {
+    "pages": [
+      {
+        "path": "/",
+        "status": 200,
+        "file": "pages/index.html",
+        "title": "Blog - Umbraco MCP Journal",
+        "h1": "Umbraco MCP Journal",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 538,
+        "links": 2,
+        "images": 1
+      },
+      {
+        "path": "/why-mcp-is-awesome/",
+        "status": 200,
+        "file": "pages/why_mcp_is_awesome.html",
+        "title": "Why MCP is awesome - Umbraco MCP Journal",
+        "h1": "Why MCP is awesome",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 1140,
+        "links": 1,
+        "images": 2
+      },
+      {
+        "path": "/why-mcp-is-awesome-part-2-the-agent-in-your-cms/",
+        "status": 200,
+        "file": "pages/why_mcp_is_awesome_part_2_the_agent_in_your_cms.html",
+        "title": "Why MCP is awesome, part 2: the agent in your CMS - Umbraco MCP Journal",
+        "h1": "Why MCP is awesome, part 2: the agent in your CMS",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 940,
+        "links": 1,
+        "images": 2
+      }
+    ],
+    "assets": [
+      {
+        "url": "/media/rz0htryl/network-lines-dots.jpg?rxy=0,0.5&width=1600&height=600&v=1dd5688f8923898&hmac=1149e02f3bbbcd8998f9719847747f33117f63866826a2821b8abb9df66a7579",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/dist/site.css?v=RJMJzH0fCJMvOh2vnONN3yiHULOzsOpJjynrrRA9_Bg",
+        "kind": "css",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/dist/main.js?v=Eql_sRjSyI63OesYXjABRnDumPOMgFmiH7DZUOuMbkM",
+        "kind": "js",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/v0olrrwl/code-on-screen.jpg?rxy=0,0.5&width=1600&height=900&v=1dd5688f89d61c0&hmac=2064e6a40d810198f37448c1dd1803043367b36dfd30132b12e3b36e9f3eed67",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/pyll0uhp/connected-structure.jpg?rxy=0,0.5&width=1200&v=1dd5688f8a461e5&hmac=1f82d080ec1c32324d822a291cc1a751ef6545115095a819735e9493a4e9feeb",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/2g0kqx5a/laptop-desk-code.jpg?rxy=0,0.5&width=1600&height=900&v=1dd5688f8a9413e&hmac=f2010b92d7ff6bfe69bc03ae86c56c0bdf937bd5999bab5a17121a11efa6664c",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/gdyji0yu/puzzle-hands.jpg?rxy=0,0.5&width=1200&v=1dd5688f8ae3332&hmac=0c4cd7fc04a3e8efe352acc1b49f21b733f1f51de2e6634211a18098c4778682",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      }
+    ]
+  },
+  "counts": {
+    "docTypes": 6,
+    "elementTypes": 3,
+    "customDataTypes": 11,
+    "templates": 2,
+    "documents": 4,
+    "media": 5
+  }
+}

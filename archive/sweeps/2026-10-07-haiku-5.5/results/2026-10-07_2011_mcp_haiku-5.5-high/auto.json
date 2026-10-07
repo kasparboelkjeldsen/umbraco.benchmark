@@ -1,0 +1,42 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "effort": "high",
+  "variant": "mcp",
+  "startedAt": "2026-10-07T18:11:26.052Z",
+  "sessionId": "2a5a3331-6d63-41f1-8e04-e1d261499fd2",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "auto",
+  "settingSources": "project,local",
+  "prompt1": {
+    "durationMs": 13901,
+    "costUsd": 0.0065723000000000005,
+    "isError": false,
+    "toolCalls": 3,
+    "mcpServers": "umbraco=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 368138,
+    "costUsd": 0.31880319999999995,
+    "isError": false,
+    "toolCalls": 99,
+    "failedToolCalls": 0,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\2a5a3331-6d63-41f1-8e04-e1d261499fd2.jsonl",
+  "runId": "2026-10-07_2011_mcp_haiku-5.5-high",
+  "log": "bench\\logs\\auto-2026-10-07T18-11-26-mcp-claude-haiku-5-5.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 163632,
+    "costUsd": 0.9993316000000002,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-07T18-18-39-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-07_2011_mcp_haiku-5.5-high` (Haiku 5.5, high, MCP test) at **96 / 100**. After grading I reset the project and `npm run status` reports it as pristine.\n\n| Category | Score |\n|---|---|\n| It works | 35 / 35 |\n| Content modeling | 23 / 25 |\n| Code architecture & conventions | 25 / 25 |\n| Content & presentation | 8 / 10 |\n| Process & honesty | 5 / 5 |\n\n**Summary:** The model built a clean, fully working blog through the Umbraco MCP server. The front page has a hero banner and a listing of two post cards. Both posts use one shared block grid with hero, rich text and image blocks. The build has 0 warnings, and all 43 automated checks pass. Every block renders through `GetBlockGridHtmlAsync`, then a block file with no markup, then a ViewComponent with a plain model, exactly as the project rules ask. It used only MCP, worked in the required order (schema, then content, then restart, then Razor), and its final report was accurate about what it didn't do.\n\n**Top issues (all minor):**\n- **Short posts:** each is about 4 brief paragraphs (~150 words) at `/why-mcp-is-awesome/` and `/why-mcp-is-awesome-part-2/`. This cost 2 points in content.\n- **Duplicate title:** `blogPost` has a `title` property that repeats the page's name.\n- **No alt text:** `imageBlock` has no alt-text field, so the photo caption (\"Photo by … on Unsplash\") is used as the alt text.\n- **Header photo credits:** the large photos at the top of each post have no photographer credit, only a generic \"Photos from Unsplash.\" footer. The model's final report disclosed this.\n\n`npm run report` shows the grade in its Grade table. Files are in `results/2026-10-07_2011_mcp_haiku-5.5-high/`:\n- `grade.json`\n- `grade.md`\n\nThe two screenshots are in `screenshots/`:\n- `haiku-5.5-high-2026-10-07_2011-frontpage.png`\n- `haiku-5.5-high-2026-10-07_2011-blogpost.png`"
+  }
+}

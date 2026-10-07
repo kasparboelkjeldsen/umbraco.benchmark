@@ -1,0 +1,28 @@
+{
+  "runId": "2026-10-07_2021_mcp_haiku-5.5-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-07T18:29:40Z",
+  "total": 90,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "Build OK with 0 errors and 0 warnings. / returns 200 through the '/' domain on the Blog (blogHome) page. It lists both posts newest first with date, title and summary, and the links work. Both posts render every block (text, image, text) with no fallback or exception text. All 5 images are provided Unsplash photos, imported into a 'Blog' media folder via MCP and served through signed GetCropUrl URLs that load. Everything is published." },
+    { "id": "modeling", "name": "Content modeling", "score": 24, "max": 25, "notes": "Folders 8/8: heroBlock, textBlock and imageBlock are elements in Blocks; blogHome and blogPost are documents in Pages. Block grid 7/7: one shared 'Blog Block Grid' with hero, rich text and image (with caption) blocks is used on both the front page ('blocks') and posts ('body'). Structure 5/5: siteRoot is the only root type and allows blogHome, which allows only blogPost. Templates are assigned, aliases are camelCase, and the grid data type is in Custom/Umbraco.BlockGrid. Hygiene 4/5: there are no compositions, and publishDate, summary and heroImage are real properties with no orphans. But both page types have a 'title' property that duplicates the node name." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 23, "max": 25, "notes": "Both pages render with Html.GetBlockGridHtmlAsync, and the scaffold's blockgrid partials are untouched. Each block has one markup-free adapter at blockgrid/Components/<alias>.cshtml that maps BlockGridItem<T> to a plain model in Models/Blocks/ and calls Component.InvokeAsync. Hero, Text and Image ViewComponents render Shared/Components/<Name>/Default.cshtml with no Umbraco dependencies. Program.cs and appsettings.json are untouched, there are no migrations, and GetCropUrl and Url() are used. Conventions 3/5: the Tailwind build ran at 18:24:44, before any view was written (18:25:10 onward), and was never re-run. wwwroot/dist/site.css (6 KB) therefore has only preflight and none of the utility classes the views use (mx-auto, max-w-3xl, text-4xl, …). The site ships unstyled." },
+    { "id": "content", "name": "Content & presentation", "score": 4, "max": 10, "notes": "Content 3/6: both posts are on-topic and accurate, and each has a relevant hero photo and an inline captioned photo with credit. But they are thin, about 4 short paragraphs (~150-200 words) each over three blocks. Part 2 is mostly self-referential ('this site was built over MCP'). Look 1/4: the screenshots show browser-default, unstyled pages. Tailwind preflight resets headings, so h1/h2 render at body size. Images are full-bleed, there is no max-width column, and the front-page hero heading sits under its image instead of over it. The listing and post structure (back link, date, summary, hero) are there, but it doesn't look like a real blog." },
+    { "id": "process", "name": "Process & honesty", "score": 4, "max": 5, "notes": "Channel 3/3: schema, media and content were built through 34 Umbraco MCP calls. There was no browser, Management API, uSync, database or migration use. The order was model, then content, then Razor with a rebuild and restart, and it stayed in the project folder. Report 1/2: it is accurate about what was built and hedges that layout wasn't checked in a browser. But it states 'The frontend Tailwind and Vue bundles are built' and doesn't notice that the site is entirely unstyled." }
+  ],
+  "summary": "A complete MCP-built blog: three blocks (hero, rich text, image) in one shared block grid, a front page and two posts. It has textbook adapter → ViewComponent architecture, and all 43 automated checks pass. It is let down by an unstyled site (Tailwind was compiled before the views existed) and by short posts.",
+  "strengths": [
+    "Clean schema via MCP: correct folders, one shared block grid in Custom/, siteRoot → blogHome → blogPost structure, domain on the front page",
+    "Textbook rendering pipeline: GetBlockGridHtmlAsync, markup-free adapters, plain models in Models/Blocks, one ViewComponent per block",
+    "Provided Unsplash photos imported into the media library with photographer credits in captions, served via GetCropUrl",
+    "Real post metadata (publishDate, summary, heroImage) drives the front-page listing"
+  ],
+  "issues": [
+    { "severity": "major", "text": "Site is unstyled: npm run build ran before any Razor view existed and was never re-run, so wwwroot/dist/site.css contains none of the Tailwind classes used in Views/ (see screenshots)" },
+    { "severity": "major", "text": "Posts are thin, about 4 short paragraphs each (/why-mcp-is-awesome/, /why-mcp-is-awesome-part-2-the-agent-in-your-cms/)" },
+    { "severity": "minor", "text": "Final report says the Tailwind bundle is built but doesn't notice that the pages render unstyled" },
+    { "severity": "minor", "text": "blogHome and blogPost have a 'title' property that duplicates the node name; the layout <title> uses the node name (Views/Shared/_Layout.cshtml)" },
+    { "severity": "minor", "text": "Front-page post cards have no image even though posts have a heroImage (Views/blogHome.cshtml)" }
+  ]
+}

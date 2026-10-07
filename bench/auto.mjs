@@ -109,7 +109,8 @@ function parseModels() {
     if (/^(opus|sonnet|haiku|fable)-\d/i.test(model)) model = "claude-" + model;
     const provider = section || providerOf(model);
     effort = effort || flagEffort || book[provider]?.effort;
-    if (/haiku/i.test(model) || effort === "default") effort = undefined;
+    // Haiku 4.5 has no effort setting (Haiku 5.5 does)
+    if (/haiku-4/i.test(model) || effort === "default") effort = undefined;
     return { provider, model, effort };
   });
 }
@@ -293,7 +294,7 @@ async function settleProject() {
 // write). Those run with bypassPermissions, the nearest thing: nothing asks, nothing is refused. auto.json records it.
 const PERMISSION_FALLBACK = new Map();
 // Local models too: auto mode's safety classifier would run on the local model itself.
-const permissionModeFor = model => PERMISSION_FALLBACK.get(model) ?? (PERMISSION_MODE === "auto" && (/haiku/i.test(model) || LOCAL_MODELS.has(model) || REMOTE_MODELS.has(model)) ? "bypassPermissions" : PERMISSION_MODE);
+const permissionModeFor = model => PERMISSION_FALLBACK.get(model) ?? (PERMISSION_MODE === "auto" && (/haiku-4/i.test(model) || LOCAL_MODELS.has(model) || REMOTE_MODELS.has(model)) ? "bypassPermissions" : PERMISSION_MODE);
 
 function claudeDriver({ model, effort }, label, logFile, auto, local = null) {
   const sessionId = randomUUID();

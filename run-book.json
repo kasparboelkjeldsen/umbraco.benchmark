@@ -1,9 +1,9 @@
 {
   "comments": {
     "about": "What a parameterless 'npm run auto' does: every model below, one after another, on the 'run' test, each one collected, graded and reset before the next. Flags override any field here, e.g. npm run auto -- --model opus:max --test migrations.",
-    "run": "The test: 'mcp' (Umbraco MCP server, the main one), 'migrations' (C# migration plans) or 'playwright' (driving the backoffice). An array such as [\"mcp\", \"migrations\"] runs every model on every test.",
-    "anthropic.effort": "Effort for every model: 'low', 'medium', 'high', 'xhigh' or 'max'. 'default' leaves it to the CLI. Haiku 4.5 has no effort setting and always runs without one.",
-    "anthropic.models": "Run in this order. Full IDs are pinned, so the sweep means the same thing next month: claude-fable-5-1 (Fable 5.1), claude-opus-5-5 (Opus 5.5), claude-sonnet-5-5 (Sonnet 5.5), claude-sonnet-5 (Sonnet 5), claude-haiku-4-5-20251001 (Haiku 4.5). Aliases 'fable', 'opus', 'sonnet' and 'haiku' also work but follow whatever is newest. Short forms like 'sonnet-5-5' get 'claude-' added. 'model:effort' overrides the effort for one entry, e.g. 'claude-opus-5-5:max'.",
+    "run": "The test: 'mcp' (Umbraco MCP server, the main one), 'mcp-guided' (the same build and rubric, with a shorter prompt that ends in numbered steps: for small models, e.g. npm run auto -- --test mcp-guided --model claude-haiku-4-5-20251001,claude-haiku-5-5,gpt-6-luna,gpt-5.6-luna), 'migrations' (C# migration plans) or 'playwright' (driving the backoffice). An array such as [\"mcp\", \"migrations\"] runs every model on every test. npm run score ranks each test in its own table, against its own medians.",
+    "anthropic.effort": "Effort for every model: 'low', 'medium', 'high', 'xhigh' or 'max'. 'default' leaves it to the CLI. Haiku 4.5 has no effort setting and always runs without one (Haiku 5.5 has one).",
+    "anthropic.models": "Run in this order. Full IDs are pinned, so the sweep means the same thing next month: claude-fable-5-1 (Fable 5.1), claude-opus-5-5 (Opus 5.5), claude-sonnet-5-5 (Sonnet 5.5), claude-sonnet-5 (Sonnet 5), claude-haiku-5-5 (Haiku 5.5, which has auto mode and effort), claude-haiku-4-5-20251001 (Haiku 4.5: no auto mode, no effort; runs with bypassPermissions). Aliases 'fable', 'opus', 'sonnet' and 'haiku' also work but follow whatever is newest. Short forms like 'sonnet-5-5' get 'claude-' added. 'model:effort' overrides the effort for one entry, e.g. 'claude-opus-5-5:max'.",
     "grader": "The headless session that follows exam-prompt.md after each run: check, screenshots, grade, reset. Keep it the same across a sweep so the grades compare.",
     "options.permissionMode": "Permission mode for both sessions. 'auto' matches the manual runs. Nothing can answer a prompt, so anything that would ask is denied.",
     "options.timeoutMinutes": "How long the blog prompt may run before the session is killed.",
@@ -20,7 +20,7 @@
   "anthropic": {
     "effort": "high",
     "models": [
-      "claude-haiku-4-5-20251001",
+      "claude-haiku-5-5",
       "claude-sonnet-5-5",
       "claude-opus-5-5",
       "claude-fable-5-1",
@@ -101,7 +101,7 @@
   },
   "pricing": {
     "anthropic": {
-      "source": "Claude API reference bundled with Claude Code 2.1.286 (prices cached 2026-09-25); cache writes 1.25x input for the 5-minute TTL, 2x for 1-hour",
+      "source": "Claude API reference bundled with Claude Code 2.1.286 (prices cached 2026-09-25); cache writes 1.25x input for the 5-minute TTL, 2x for 1-hour; Haiku 5.5 from https://platform.claude.com/docs/en/about-claude/pricing (fetched 2026-10-07): priced by prompt length, longContext applies per request over 100k prompt tokens",
       "fetched": "2026-10-03",
       "claude-fable-5-1": {
         "input": 10,
@@ -127,6 +127,17 @@
         "input": 1,
         "output": 5,
         "cacheRead": 0.1
+      },
+      "claude-haiku-5-5": {
+        "input": 0.1,
+        "output": 0.5,
+        "cacheRead": 0.01,
+        "longContext": {
+          "threshold": 100000,
+          "input": 0.5,
+          "output": 2.5,
+          "cacheRead": 0.05
+        }
       }
     },
     "openai": {

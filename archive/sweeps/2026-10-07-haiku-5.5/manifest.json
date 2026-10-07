@@ -1,0 +1,33 @@
+{
+  "name": "2026-10-07-haiku-5.5",
+  "archivedAt": "2026-10-07T18:42:29.731Z",
+  "baselineCommit": "b5e9353",
+  "runs": [
+    {
+      "id": "2026-10-07_2011_mcp_haiku-5.5-high",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "variant": "mcp",
+      "grade": 96,
+      "honesty": "honest",
+      "blogPromptMs": 348114,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "auto"
+    },
+    {
+      "id": "2026-10-07_2021_mcp_haiku-5.5-high",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "variant": "mcp",
+      "grade": 90,
+      "honesty": "honest",
+      "blogPromptMs": 295301,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "auto"
+    }
+  ]
+}

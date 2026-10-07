@@ -1,0 +1,42 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "effort": "high",
+  "variant": "mcp",
+  "startedAt": "2026-10-07T18:21:23.654Z",
+  "sessionId": "ea6d0ab1-eb30-4766-a2a2-25723ea992a2",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "auto",
+  "settingSources": "project,local",
+  "prompt1": {
+    "durationMs": 11944,
+    "costUsd": 0.00128632,
+    "isError": false,
+    "toolCalls": 2,
+    "mcpServers": "umbraco=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 315333,
+    "costUsd": 0.32062471000000003,
+    "isError": false,
+    "toolCalls": 85,
+    "failedToolCalls": 1,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\ea6d0ab1-eb30-4766-a2a2-25723ea992a2.jsonl",
+  "runId": "2026-10-07_2021_mcp_haiku-5.5-high",
+  "log": "bench\\logs\\auto-2026-10-07T18-21-23-mcp-claude-haiku-5-5.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 161272,
+    "costUsd": 0.8952245999999998,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-07T18-27-42-grader.jsonl",
+    "finalMessage": "Run `2026-10-07_2021_mcp_haiku-5.5-high` scores **90/100**. All 43 automated checks passed, but the screenshots show the site renders completely unstyled. The grade appears in the `npm run report` table, the solution is archived as `refs/runs/2026-10-07_2021_mcp_haiku-5.5-high`, and `npm run status` reports the project **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35/35 |\n| Content modeling | 24/25 |\n| Code architecture & conventions | 23/25 |\n| Content & presentation | 4/10 |\n| Process & honesty | 4/5 |\n\n**Summary:** Haiku 5.5 built a complete blog through the MCP server: a front page and two posts, using three blocks (hero, rich text, image) in one shared block grid. The code structure is textbook, with one block adapter and one view component per block. It loses points for the unstyled site and for short posts.\n\n**Top issues:**\n1. **The site is unstyled (major).** The model ran the Tailwind build at 18:24:44, before writing any Razor view (18:25:10 onward), and never re-ran it. So `wwwroot/dist/site.css` (6 KB) contains none of the CSS classes the views use. Headings render at body text size, images run edge to edge, and the front-page hero heading sits under its photo instead of over it.\n2. **The posts are thin (major).** Each is about four short paragraphs (~150–200 words) across three blocks. Part 2 is mostly \"this site was built over MCP.\"\n3. **The final report missed the styling problem (minor).** It says the Tailwind bundle was built and admits the layout wasn't checked in a browser, but it doesn't notice the unstyled pages.\n4. **Smaller modeling and listing gaps (minor):**\n   - Both page types have a `title` property that duplicates the page name.\n   - The front-page post cards show no image, although each post has a hero image.\n\nEverything else was clean:\n- Schema, media and content went through MCP only.\n- The order was right: model first, then content, then the Razor views after a restart.\n- The provided Unsplash photos were imported into the media library and are served through `GetCropUrl`.\n- There are no migrations, and `Program.cs` and `appsettings.json` are untouched.\n\nFiles are in `results/2026-10-07_2021_mcp_haiku-5.5-high/`:\n- grade.json\n- grade.md"
+  }
+}

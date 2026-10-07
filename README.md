@@ -31,7 +31,7 @@ All zero-dependency Node (needs Node 20+, git, and the .NET SDK).
 |---|---|
 | `npm run auto -- --model <m>[:effort]` | **Hands-off run**: setup, boot, prompts 1 and 2 in a headless Claude Code session, collect, grade, reset, report. See [Autonomous runs](#autonomous-runs) |
 | `npm run status` | Baseline, project state, Umbraco up/down, runs and whether they're graded, and what to do next |
-| `npm run setup -- <mcp\|migrations\|playwright>` | Set up the pristine project for a test: `mcp` keeps the Umbraco MCP server, `migrations` removes `.mcp.json`, `playwright` swaps in `@playwright/mcp`. Reset returns to `mcp` |
+| `npm run setup -- <mcp\|mcp-guided\|migrations\|playwright>` | Set up the pristine project for a test: `mcp` and `mcp-guided` (the same test with a shorter prompt ending in numbered steps, for small models) keep the Umbraco MCP server, `migrations` removes `.mcp.json`, `playwright` swaps in `@playwright/mcp`. Reset returns to `mcp` |
 | `npm run up` / `npm run down` | Start Umbraco in the background (waits until the MCP user can log in), or stop it |
 | `npm run collect` | Newest benchmark transcript → `results/<runId>/metrics.json` + a copy of the transcript. `--session <id>` or `--transcript <file>` picks a specific session; `--include-followups` counts prompts after the blog prompt's turn |
 | `npm run check` | Build, boot, API snapshot, crawl and convention checks → `check.json`, `snapshot.json`, `changes.patch`, `pages/` in the run folder |
@@ -77,7 +77,7 @@ Live progress (each tool call, with elapsed time) prints as it goes; Ctrl+C stop
 | `--runbook` | `run-book.json` | Another run-book file |
 | `--model` | run-book `anthropic.models` | Alias (`opus`, `sonnet`, `fable`, `haiku`) or full model ID (`sonnet-5-5` gets `claude-` added). Comma-separate for a sweep; `model:effort` per entry. Haiku never gets an effort |
 | `--effort` | run-book `anthropic.effort` | `low`, `medium`, `high`, `xhigh` or `max`, for entries without their own |
-| `--test` | run-book `run`, else `mcp` | `mcp`, `migrations`, `playwright`, or a comma list (every model × every test) |
+| `--test` | run-book `run`, else `mcp` | `mcp`, `mcp-guided`, `migrations`, `playwright`, or a comma list (every model × every test) |
 | `--grader`, `--grader-effort` | run-book `grader`, else `opus`, `high` | The grading session |
 | `--no-grade` | | Stop after collect (single run only, since the project isn't reset) |
 | `--timeout` | run-book `options.timeoutMinutes`, else `90` | Minutes for the blog prompt before the session is killed |

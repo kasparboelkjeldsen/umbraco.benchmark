@@ -1,10 +1,31 @@
+# 2026-10-07 ~20:45 — STATE BEFORE COMPACTION
+- Haiku 5.5 done: 2 graded runs in results/ (2026-10-07_2011 → 96, honest; 2026-10-07_2021 → 90, honest, unstyled:
+  Tailwind built before views). $0.32 each, 5:48 / 4:55. All-sweeps per-model mean 98.0 (3rd; Sonnet 5.5 101.0, Opus
+  5.5 98.3). 0 "Perfect!"/0 ✅ vs Haiku 4.5's 54/72. User: "good data for a follow up redemption arc post for Haiku".
+- NOT YET DONE: archive as 2026-10-07-haiku-5.5 + Push-Benchmark (asked, no answer yet).
+- NEXT IDEA (user, interrupted before compacting): a "small models" variant of the MCP test (user typed "mvc", means
+  MCP) for old Haiku 4.5, Haiku 5.5 and other small models: a briefer, to-the-point prompt that ends with explicit
+  numbered steps of operation (start Umbraco, model, content, stop, build, Razor, restart, verify) to give them a
+  fighting chance. Would be a new tests/<name>.md + VARIANTS entry (bench/lib/variants.mjs); check how setup/grading
+  key off the variant (exam-prompt.md rubric per variant). Not started.
+
+# 2026-10-07 — HAIKU 5.5
+- Claude CLI updated 2.1.287 → 2.1.293 (knows claude-haiku-5-5; `haiku` alias now → 5.5). Haiku 5.5 HAS auto mode and
+  effort → runner's Haiku special cases narrowed to /haiku-4/. Pricing tiered by prompt length (≤100k: $0.10/$0.50,
+  cache read $0.01; >100k: 5×) → run-book pricing longContext + lib/score.mjs per-request tier. anthropic.models now
+  has claude-haiku-5-5 instead of 4.5.
+- chain-haiku55.mjs (pid 14124): 2 graded runs → honesty → score. Log haiku55-console.log, marker haiku55-done.txt.
+  Then: screenshots to the user, funny-things pass, archive (name e.g. 2026-10-07-haiku-5.5, ask), Push-Benchmark.
+- Note: the pricing page's prose says Sonnet 5.5 cache reads are $0.10 (0.05x) but its table says $0.20 (run-book
+  uses $0.20) — mention to the user, not changed.
+
 # 2026-10-07 — PRIVATE REPO
 - DeepSeek test moved to Friday (user swamped). The user created the private repo kasparboelkjeldsen/umbraco.benchmark;
   pushed main (ccef5ad → 94f8bd2 → 900f720): full copy incl. transcripts/screenshots/logs (971 files, ~264 MB),
   secrets scan clean (only false positives inside Codex encrypted_content). Clone: C:\code\umbraco.benchmark.
   Tools: Push-Benchmark.ps1, Get-UmbracoBenchmark.ps1 (now targets the private repo), repo.gitignore, .gitattributes.
   Rehearsed the work flow in temp (clone 7 s, setup 12 s, push-back = nothing to commit).
-- kjeldsen.dev branch benchmark-transfer is superseded — offered to delete it (not done).
+- kjeldsen.dev branch benchmark-transfer deleted 2026-10-07 at the user's request (GitHub and local).
 
 # 2026-10-06 — LOCAL MODEL: Qwen 3.8 27B through Claude Code + LM Studio
 - Qwen is in LM Studio (~/.lmstudio, key qwen/qwen3.8-27b), not Ollama (Ollama only has gemma3). LM Studio server port
@@ -118,3 +139,12 @@ fnm env passed to sessions (Claude Bash `cd` handicap) · Haiku gets bypassPermi
 also accepts a connected server (same bar as Codex) · grader label stamped from the runner · --no-grade exits 0 ·
 screenshot.mjs puts node's dir on PATH (npx) · Codex rollout timing from item durations (phases) · phase boundary =
 last schema write before first page write.
+
+# 2026-10-07 — MCP Guided test built (not run yet)
+- tests/mcp-guided.md: same prompt 1; prompt 2 = short rules + "Follow these steps in order:" 1–12 (start bg, wait/check MCP, model + read back, media, content + domain + publish + read back, stop, build, Razor, npm install+build Frontend AFTER views, build+start, curl / and both posts, report). 349 words (mcp: 255) — prose cut, steps added.
+- variants.mjs: "mcp-guided" (channel "mcp"), channelOf(); detectVariant checks /follow these steps in order/ before mcp/migrations (the prompt mentions migration plans).
+- check.mjs uses channelOf for intendedChannel. transcript phases: non-migrations/playwright → MCP phases already.
+- exam-prompt.md: 4th row + "grade mcp-guided exactly like mcp".
+- score: medians per test (lib/score.mjs medians[test]); score.mjs one table per test (output unchanged when only mcp).
+- Dry run OK: npm run auto -- --test mcp-guided --model claude-haiku-4-5-20251001,claude-haiku-5-5,gpt-6-luna,gpt-5.6-luna[,gemma-4-26b-a4b]
+- Still pending: archive Haiku 5.5 mcp runs (2026-10-07-haiku-5.5) + push.

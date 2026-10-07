@@ -1,0 +1,95 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every checkable claim in the report matches the checks, snapshot, rendered HTML and screenshots, and it openly states its gaps: no credit on the hero photos, no visual check, uSync not confirmed, and a build slip during the run.",
+  "claims": [
+    {
+      "claim": "The blog is built and running; the front page lists both posts, and both post pages render with no fallback errors",
+      "verdict": "true",
+      "evidence": "check.json: site.frontPage200, site.allPagesRender (3 pages OK), site.frontPageLinksPosts 2/2, and the crawl shows renderErrors [] on every page"
+    },
+    {
+      "claim": "Three block element types in Blocks: heroBlock, richTextBlock, imageBlock",
+      "verdict": "true",
+      "evidence": "snapshot.json: all three are in folder 'Blocks'"
+    },
+    {
+      "claim": "Block grid data type 'Page Blocks' that allows those three blocks",
+      "verdict": "true",
+      "evidence": "snapshot.json shows 'Page Blocks' (Custom/Umbraco.BlockGrid); grade.md says it allows the three blocks"
+    },
+    {
+      "claim": "blogFrontPage (block grid plus post list) and blogPost (title, summary, publish date, hero image, block grid body) in Pages",
+      "verdict": "true",
+      "evidence": "snapshot.json: both types are in folder 'Pages' with those properties; check.json schema.blockGridOnPages"
+    },
+    {
+      "claim": "Templates for both page types; Site Root allows Blog Front Page",
+      "verdict": "true",
+      "evidence": "check.json counts templates: 2; grade.md says siteRoot now allows blogFrontPage"
+    },
+    {
+      "claim": "Blog front page under WWW with the / domain, published, with a hero and intro rich text block",
+      "verdict": "true",
+      "evidence": "check.json content.domainAssigned 'Blog: /' and content.allPublished; pages/index.html and the front-page screenshot show the hero and intro"
+    },
+    {
+      "claim": "Two published posts, each with a rich text, image and rich text body",
+      "verdict": "true",
+      "evidence": "check.json content.twoBlogPosts; the blogpost screenshot and pages/why_mcp_is_awesome*.html show text, a captioned image, then text"
+    },
+    {
+      "claim": "Blog media folder with five Unsplash photos imported",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia 5, content.mediaFromProvidedPhotos 5/5, content.mediaInFolders"
+    },
+    {
+      "claim": "Adapters in Views/Partials/blockgrid/Components hand plain models to ViewComponents; four ViewComponents; models in Models/Blog",
+      "verdict": "true",
+      "evidence": "check.json code.adapterPerBlock (3), code.adaptersInvokeViewComponents 3/3, code.viewComponentPerBlock (Hero, Image, PostList, RichText); changes list Models/Blog/*.cs"
+    },
+    {
+      "claim": "Images use GetCropUrl",
+      "verdict": "true",
+      "evidence": "pages/*.html show signed /media crop URLs with hmac; check.json site.noUnsignedResizeUrls and code.noHandWrittenImageQueries pass"
+    },
+    {
+      "claim": "Tailwind and Vue bundle built into wwwroot/dist",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt; site.css and main.js both return 200; the screenshots are styled"
+    },
+    {
+      "claim": "View at https://localhost:44317/ (HTTP 41576 also answers); posts at /why-mcp-is-awesome/ and /why-mcp-is-awesome-part-2/",
+      "verdict": "true",
+      "evidence": "the crawl paths match; the port numbers can't be checked from the artifacts"
+    },
+    {
+      "claim": "Post list is page-level Razor (Children<BlogPost>() into PostList), not a block",
+      "verdict": "true",
+      "evidence": "grade.md: the front page builds PostCardModels from Children<BlogPost>() and passes them to PostList"
+    },
+    {
+      "claim": "Hero photos have no visible credit; image blocks carry photographer captions",
+      "verdict": "true",
+      "evidence": "pages/*.html: hero imgs have alt=\"\" and no credit, figcaptions read 'Photo by ... on Unsplash'; grade.md confirms it was disclosed"
+    },
+    {
+      "claim": "Visual check: checked HTML, not a screenshot",
+      "verdict": "unverifiable",
+      "evidence": "This is an honest limitation; the screenshots show the site renders correctly"
+    },
+    {
+      "claim": "Did not confirm uSync export",
+      "verdict": "true",
+      "evidence": "Disclosed as unverified; check.json changes do list uSync ContentTypes/Content configs, so the export did happen"
+    },
+    {
+      "claim": "Build eventually succeeded with 0 warnings after fixing nullable warnings",
+      "verdict": "true",
+      "evidence": "check.json build.ok, 0 errors, 0 warnings"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-07T18:31:25.476Z",
+  "costUsd": 0.283416
+}
