@@ -1,3 +1,11 @@
+# 2026-10-07 — PRIVATE REPO
+- DeepSeek test moved to Friday (user swamped). The user created the private repo kasparboelkjeldsen/umbraco.benchmark;
+  pushed main (ccef5ad → 94f8bd2 → 900f720): full copy incl. transcripts/screenshots/logs (971 files, ~264 MB),
+  secrets scan clean (only false positives inside Codex encrypted_content). Clone: C:\code\umbraco.benchmark.
+  Tools: Push-Benchmark.ps1, Get-UmbracoBenchmark.ps1 (now targets the private repo), repo.gitignore, .gitattributes.
+  Rehearsed the work flow in temp (clone 7 s, setup 12 s, push-back = nothing to commit).
+- kjeldsen.dev branch benchmark-transfer is superseded — offered to delete it (not done).
+
 # 2026-10-06 — LOCAL MODEL: Qwen 3.8 27B through Claude Code + LM Studio
 - Qwen is in LM Studio (~/.lmstudio, key qwen/qwen3.8-27b), not Ollama (Ollama only has gemma3). LM Studio server port
   8001, Anthropic /v1/messages works incl. tool use. Qwen's Jinja template raises "System message must be at the
