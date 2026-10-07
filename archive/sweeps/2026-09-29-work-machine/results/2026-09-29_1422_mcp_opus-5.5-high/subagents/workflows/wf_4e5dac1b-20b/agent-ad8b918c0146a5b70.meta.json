@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"audit:code-conventions","workflowPhase":"Audit","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true}

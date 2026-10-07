@@ -1,0 +1,12 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+  Umbraco.Bench.Umbraco -> C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\bin\Debug\net10.0\Umbraco.Bench.Umbraco.dll
+  Copying JSON schema files into project directory: appsettings-schema.usync.json;appsettings-schema.Umbraco.Cms.json
+  Copying JSON schema files into project directory: umbraco-package-schema.json
+  Adding JSON schema references to appsettings-schema.json: https://json.schemastore.org/appsettings.json;appsettings-schema.usync.json#;appsettings-schema.Umbraco.Cms.json#
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.27

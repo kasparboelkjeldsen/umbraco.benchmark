@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"audit:rendering-pipeline","workflowPhase":"Audit","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true}

@@ -1,0 +1,35 @@
+#### Qwen 3.8 27B, local (2026-10-06T17:48:19.806Z)
+Run-book    run-book.json (models from --model)
+Claude CLI  C:\Users\kaspa\.local\bin\claude.exe (2.1.287)
+Auth        logged in (claude.ai, kaspark88@gmail.com)
+Plan        1 run(s), one after another, permission mode auto, graded by claude-opus-5-5 (high)
+              qwen3.8-27b · MCP · Claude Code + LM Studio
+
+════════ qwen3.8-27b · MCP ════════  (19:48)
+
+▸ Setting up the MCP test
+Umbraco.Bench is set up for the MCP test (Umbraco MCP server).
+Prompts: tests/mcp.md
+Next: npm run up, new session in Umbraco.Bench, paste prompt 1, npm run down, paste prompt 2.
+
+▸ Booting Umbraco (first boot installs the database, outside the timing)
+Starting Umbraco (pid 17656), log: C:\code\benchmark\bench\logs\umbraco-2026-10-06T17-48-20-976Z.log
+...........
+Ready on https://localhost:44317 after 22s — the MCP server can connect now.
+
+▸ Local model: LM Studio, qwen/qwen3.8-27b as "qwen3.8-27b", context 131072
+  LM Studio on port 8001; model loaded (loaded successfully in 14.91s.)
+  proxy on port 49599 (one system message, for the model's chat template)
+  ⚠ auto mode isn't available for qwen3.8-27b: running with bypassPermissions
+
+▸ Prompt 1: verify you are connected to the Umbraco.Bench project's Umbraco MCP server
+  [model stderr] ⚠ claude.ai connectors are disabled because ANTHROPIC_API_KEY or another auth source is set and takes precedence over your claude.ai login · Unset it to load your organization's connectors
+  [model stderr] [claude-code:unrecognized_model] {"model":"qwen3.8-27b","query_source":"sdk"}
+     5:41  umbraco:get-document-root  
+     6:07  » Connected. A live call to the Umbraco MCP server succeeded — the content tree root contains one published item: | Name …
+  ✓ 1 successful umbraco call(s); MCP servers: umbraco=connected
+
+▸ Stopping Umbraco
+Stopped Umbraco (pids 26368)
+
+▸ Prompt 2 (the blog), timeout 4:00:00

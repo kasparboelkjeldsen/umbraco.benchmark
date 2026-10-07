@@ -1,0 +1,1 @@
+{"agentType":"workflow-subagent","description":"verify:schema-and-content:All 5 Blog media items have focal point","workflowPhase":"Verify","spawnDepth":1,"requestShape":"foreground","requestNonInteractive":true}

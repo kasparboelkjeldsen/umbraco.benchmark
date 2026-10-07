@@ -1,0 +1,6 @@
+2026-10-02T19:51:28.074Z watching for the run after claude-opus-5-5 (sweep parent 32452)
+2026-10-02T19:55:39.978Z boundary reached (gpt-6-sol:high starting): stopping the sweep
+2026-10-02T19:55:44.150Z down: Umbraco was not running
+2026-10-02T19:55:46.877Z reset: Umbraco.Bench is back to the pristine scaffold (set up for the MCP test). For another test: npm run setup -- <mcp|migrations|playwright>. Then npm run up.
+2026-10-02T19:55:47.645Z status: Project    pristine
+2026-10-02T19:55:47.646Z relaunching: gpt-6-sol,claude-fable-5-1,gpt-6-astra,claude-haiku-4-5-20251001,gpt-5.6-luna,claude-sonnet-5,gpt-5.6-sol,claude-sonnet-5-5,claude-opus-5-5

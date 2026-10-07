@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-06T19:41:44.790Z",
+  "updatedAt": "2026-10-06T19:42:43.122Z",
+  "done": [
+    {
+      "label": "deepseek-v4-flash · MCP",
+      "status": "failed",
+      "runId": null,
+      "grade": null,
+      "error": "Prompt 1 ended in an error: API Error: API returned an empty or malformed response (HTTP 200) — check for a proxy or gateway intercepting the request. Response: content-type json, body is JSON but not a Message, size unknown, request-id absent, intermediary headers transfer-encoding. This was the non-streaming retry of streaming request (no Anthropic request-id), which failed with: no_events, StreamNoEventsError; 0 stream events received."
+    }
+  ],
+  "queued": []
+}
