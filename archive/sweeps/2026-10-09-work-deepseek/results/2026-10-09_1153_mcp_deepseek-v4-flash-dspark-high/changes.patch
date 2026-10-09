@@ -1,0 +1,339 @@
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs
+new file mode 100644
+index 0000000..959744f
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs
+@@ -0,0 +1,12 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public class HeroViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(HeroBlock model)
++    {
++        return View(model);
++    }
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/ImageBlockViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/ImageBlockViewComponent.cs
+new file mode 100644
+index 0000000..ffa8149
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/ImageBlockViewComponent.cs
+@@ -0,0 +1,12 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public class ImageBlockViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(ImageBlock model)
++    {
++        return View(model);
++    }
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/QuoteBlockViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/QuoteBlockViewComponent.cs
+new file mode 100644
+index 0000000..e0cd0d1
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/QuoteBlockViewComponent.cs
+@@ -0,0 +1,12 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public class QuoteBlockViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(QuoteBlock model)
++    {
++        return View(model);
++    }
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/TextBlockViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/TextBlockViewComponent.cs
+new file mode 100644
+index 0000000..4f77c53
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/TextBlockViewComponent.cs
+@@ -0,0 +1,12 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public class TextBlockViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(TextBlock model)
++    {
++        return View(model);
++    }
++}
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml
+new file mode 100644
+index 0000000..c70f11b
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml
+@@ -0,0 +1,3 @@
++@using Umbraco.Cms.Core.Models.Blocks
++@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem>
++@await Component.InvokeAsync("Hero", new { model = Model.Content })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml
+new file mode 100644
+index 0000000..1ddc3d2
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml
+@@ -0,0 +1,3 @@
++@using Umbraco.Cms.Core.Models.Blocks
++@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem>
++@await Component.InvokeAsync("ImageBlock", new { model = Model.Content })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/quoteBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/quoteBlock.cshtml
+new file mode 100644
+index 0000000..3fabde4
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/quoteBlock.cshtml
+@@ -0,0 +1,3 @@
++@using Umbraco.Cms.Core.Models.Blocks
++@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem>
++@await Component.InvokeAsync("QuoteBlock", new { model = Model.Content })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/textBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/textBlock.cshtml
+new file mode 100644
+index 0000000..9ec91b8
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/textBlock.cshtml
+@@ -0,0 +1,3 @@
++@using Umbraco.Cms.Core.Models.Blocks
++@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<BlockGridItem>
++@await Component.InvokeAsync("TextBlock", new { model = Model.Content })
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml
+new file mode 100644
+index 0000000..a026645
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml
+@@ -0,0 +1,23 @@
++@using Umbraco.Extensions
++@model Umbraco.Bench.Umbraco.Models.HeroBlock
++
++@{
++    var bgImage = Model.BackgroundImage;
++}
++
++<div class="hero-block" style="position: relative; min-height: 400px; display: flex; align-items: center; justify-content: center; color: #fff; text-align: center; overflow: hidden; border-radius: 8px;">
++    @if (bgImage != null)
++    {
++        <div style="position: absolute; inset: 0; z-index: 0;">
++            <img src="@bgImage.GetCropUrl(1920, 600)" alt="@Model.Heading" style="width: 100%; height: 100%; object-fit: cover;" />
++            <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.5);"></div>
++        </div>
++    }
++    <div style="position: relative; z-index: 1; padding: 60px 30px; max-width: 800px;">
++        <h1 style="font-size: 2.5rem; margin: 0 0 16px; font-weight: 700;">@Model.Heading</h1>
++        @if (!string.IsNullOrWhiteSpace(Model.Subheading))
++        {
++            <p style="font-size: 1.2rem; margin: 0; opacity: 0.9;">@Model.Subheading</p>
++        }
++    </div>
++</div>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/ImageBlock/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/ImageBlock/Default.cshtml
+new file mode 100644
+index 0000000..49b2bc5
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/ImageBlock/Default.cshtml
+@@ -0,0 +1,19 @@
++@using Umbraco.Extensions
++@model Umbraco.Bench.Umbraco.Models.ImageBlock
++
++@{
++    var image = Model.Image;
++}
++
++<div class="image-block" style="margin: 20px 0;">
++    @if (image != null)
++    {
++        <figure style="margin: 0;">
++            <img src="@image.GetCropUrl(800, 500)" alt="@Model.Caption" style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);" />
++            @if (!string.IsNullOrWhiteSpace(Model.Caption))
++            {
++                <figcaption style="margin-top: 8px; font-size: 0.85rem; color: #718096; text-align: center;">@Model.Caption</figcaption>
++            }
++        </figure>
++    }
++</div>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/QuoteBlock/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/QuoteBlock/Default.cshtml
+new file mode 100644
+index 0000000..2c28590
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/QuoteBlock/Default.cshtml
+@@ -0,0 +1,12 @@
++@model Umbraco.Bench.Umbraco.Models.QuoteBlock
++
++<blockquote class="quote-block" style="margin: 20px 0; padding: 24px 32px; border-left: 4px solid #4299e1; background: #f7fafc; border-radius: 4px;">
++    @if (!string.IsNullOrWhiteSpace(Model.Quote))
++    {
++        <p style="font-size: 1.3rem; font-style: italic; margin: 0 0 12px; color: #2d3748;">"@Model.Quote"</p>
++    }
++    @if (!string.IsNullOrWhiteSpace(Model.Attribution))
++    {
++        <footer style="font-size: 0.9rem; color: #718096; text-align: right;">— @Model.Attribution</footer>
++    }
++</blockquote>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/TextBlock/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/TextBlock/Default.cshtml
+new file mode 100644
+index 0000000..916c983
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/TextBlock/Default.cshtml
+@@ -0,0 +1,8 @@
++@model Umbraco.Bench.Umbraco.Models.TextBlock
++
++<div class="text-block" style="padding: 20px 0;">
++    @if (Model.Text != null)
++    {
++        @Model.Text
++    }
++</div>
+diff --git a/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml b/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml
+new file mode 100644
+index 0000000..807868c
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml
+@@ -0,0 +1,64 @@
++@using Umbraco.Extensions
++@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Bench.Umbraco.Models.BlogFrontPage>
++@{
++    Layout = null;
++    var blogPosts = Model.Children<Umbraco.Bench.Umbraco.Models.BlogPost>();
++}
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="utf-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++    <title>@Model.Title</title>
++    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
++</head>
++<body style="background: #f8fafc; color: #1a202c;">
++    <div class="container py-4">
++        @if (!string.IsNullOrWhiteSpace(Model.Title))
++        {
++            <h1 class="mb-2">@Model.Title</h1>
++        }
++        @if (!string.IsNullOrWhiteSpace(Model.Description))
++        {
++            <p class="lead mb-4 text-muted">@Model.Description</p>
++        }
++
++        @if (Model.Blocks?.Any() == true)
++        {
++            @await Html.GetBlockGridHtmlAsync(Model, "blocks")
++        }
++
++        @if (blogPosts?.Any() == true)
++        {
++            <h2 class="mt-5 mb-3">Latest Posts</h2>
++            <div class="row">
++                @foreach (var post in blogPosts)
++                {
++                    <div class="col-md-6 mb-4">
++                        <div class="card h-100 shadow-sm">
++                            @if (post.FeaturedImage != null)
++                            {
++                                <img src="@post.FeaturedImage.GetCropUrl(600, 300)" class="card-img-top" alt="@post.Title" style="object-fit: cover; height: 200px;" />
++                            }
++                            <div class="card-body">
++                                <h5 class="card-title">@post.Title</h5>
++                                @if (!string.IsNullOrWhiteSpace(post.Excerpt))
++                                {
++                                    <p class="card-text text-muted">@post.Excerpt</p>
++                                }
++                                <a href="@post.Url()" class="btn btn-primary">Read More</a>
++                            </div>
++                            @if (!string.IsNullOrWhiteSpace(post.AuthorName))
++                            {
++                                <div class="card-footer text-muted">
++                                    <small>By @post.AuthorName</small>
++                                </div>
++                            }
++                        </div>
++                    </div>
++                }
++            </div>
++        }
++    </div>
++</body>
++</html>
+diff --git a/Umbraco.Bench.Umbraco/Views/blogPost.cshtml b/Umbraco.Bench.Umbraco/Views/blogPost.cshtml
+new file mode 100644
+index 0000000..164691d
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/blogPost.cshtml
+@@ -0,0 +1,50 @@
++@using Umbraco.Extensions
++@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<Umbraco.Bench.Umbraco.Models.BlogPost>
++@{
++    Layout = null;
++}
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="utf-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++    <title>@Model.Title</title>
++    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
++</head>
++<body style="background: #f8fafc; color: #1a202c;">
++    <div class="container py-4">
++        @{
++            var parentPage = Model.Parent<Umbraco.Bench.Umbraco.Models.BlogFrontPage>();
++            var parentUrl = parentPage?.Url();
++        }
++        @if (!string.IsNullOrWhiteSpace(parentUrl))
++        {
++            <a href="@parentUrl" class="btn btn-outline-secondary mb-4">&larr; Back to Blog</a>
++        }
++
++        <article>
++            @if (Model.FeaturedImage != null)
++            {
++                <img src="@Model.FeaturedImage.GetCropUrl(1200, 400)" alt="@Model.Title" style="width: 100%; height: 300px; object-fit: cover; border-radius: 8px; margin-bottom: 24px;" />
++            }
++
++            <h1>@Model.Title</h1>
++
++            @if (!string.IsNullOrWhiteSpace(Model.AuthorName))
++            {
++                <p class="text-muted mb-4">By @Model.AuthorName</p>
++            }
++
++            @if (!string.IsNullOrWhiteSpace(Model.Excerpt))
++            {
++                <p class="lead mb-4">@Model.Excerpt</p>
++            }
++
++            @if (Model.Content?.Any() == true)
++            {
++                @await Html.GetBlockGridHtmlAsync(Model, "content")
++            }
++        </article>
++    </div>
++</body>
++</html>
+diff --git a/Umbraco.Bench.Umbraco/appsettings.json b/Umbraco.Bench.Umbraco/appsettings.json
+index 85c3dee..84b4947 100644
+--- a/Umbraco.Bench.Umbraco/appsettings.json
++++ b/Umbraco.Bench.Umbraco/appsettings.json
+@@ -16,6 +16,14 @@
+         "UseHttps": true,
+         "Id": "cace597c-0d56-4eca-a13c-3d5ec39225b4"
+       },
++      "Cache": {
++        "ContentTypeKeys": [
++          "c7b391ea-f490-4773-b4a0-f0321af78f64",
++          "3645f5bc-bee7-4e96-96b8-b990160b6ceb",
++          "a5db671e-7dff-4fc2-91c4-8a669ebaea77",
++          "db5b75e6-0ce1-4f74-85b4-d559ad04c604"
++        ]
++      },
+       "Content": {
+         "AllowEditInvariantFromNonDefault": true,
+         "ContentVersionCleanupPolicy": {

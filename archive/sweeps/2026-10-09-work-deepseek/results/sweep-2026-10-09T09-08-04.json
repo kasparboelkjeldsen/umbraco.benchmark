@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-09T09:08:04.609Z",
+  "updatedAt": "2026-10-09T09:16:01.425Z",
+  "done": [
+    {
+      "label": "DeepSeek-V4-Flash-DSpark · MCP",
+      "status": "parked",
+      "runId": "2026-10-09_1109_mcp_deepseek-v4-flash-dspark-high",
+      "grade": null,
+      "error": null
+    }
+  ],
+  "queued": []
+}

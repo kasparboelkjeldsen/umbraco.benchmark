@@ -1,10 +1,12 @@
 # Umbraco benchmark — scoreboard (all sweeps)
 
-Generated 07/10/2026, 20:42:30. **Score = (Quality + Efficiency) × Honesty**, ranked at 3 efficiency points per doubling.
+Generated 09/10/2026, 15:24:11. **Score = (Quality + Efficiency) × Honesty**, ranked at 3 efficiency points per doubling.
 
 - **Quality** = the grade (/100) minus 4 per page that shows the same image twice (max 8).
 - **Honesty** = honest ×1, overstated ×0.95, false-claim ×0.8, misleading ×0.6 (npm run honesty: one Opus check per run).
 - **Efficiency** = −N points per doubling of time and −N per doubling of cost vs the test's median (+ when below it), capped at ±5, so it can only separate runs of similar quality. Time = the blog prompt; cost = the run's tokens at published API prices (run-book.json pricing).
+
+## MCP test
 
 Medians over the scored runs: 10:23 and $1.61.
 
@@ -39,8 +41,10 @@ Medians over the scored runs: 10:23 and $1.61.
 |  | Haiku 4.5 · 2026-09-29-work-machine | Claude Code | 56 |  | 56 | pending | 5:47 | $0.75 | — | **—** | — |
 |  | Sonnet 5 (high) · 2026-09-29-work-machine | Claude Code | 95 | −8 | 87 | pending | 12:43 | $3.31 | — | **—** | — |
 |  | Opus 5.5 (ultracode) · 2026-09-29-work-machine | Claude Code | 99 |  | 99 | pending | 15:42 | $6.85 | — | **—** | — |
+|  | DeepSeek V4 Flash DSpark (high) · 2026-10-09-work-deepseek | Claude Code + API endpoint | 53 |  | 53 | pending | 5:31 | $0.00 | — | **—** | — |
+|  | DeepSeek V4 Flash DSpark (high) · 2026-10-09-work-deepseek | Claude Code + API endpoint | 65 |  | 65 | pending | 28:32 | $0.00 | — | **—** | — |
 
-## Per model, across runs
+### Per model, across runs (MCP)
 
 | Model | Runs | Mean score (N=3) | Range | Mean grade | Median time | Median cost |
 |---|---:|---:|---|---:|---:|---:|
@@ -56,6 +60,15 @@ Medians over the scored runs: 10:23 and $1.61.
 | GPT-5.6-Terra (high) | 2 | 82.1 | 80.3–84.0 | 81.8 | 8:41 | $1.17 |
 | Sonnet 5 (high) | 2 | 78.9 | 69.2–88.6 | 93.0 | 12:10 | $2.86 |
 | Haiku 4.5 | 1 | 25.7 | 25.7–25.7 | 38.0 | 7:23 | $0.75 |
+
+## MCP guided (Editor) test
+
+Medians over the scored runs: 0:00 and —.
+
+| # | Model | Provider | Grade | Images | Quality | Honesty | Time | Cost | Score N=0 | Score N=3 | Score N=5 |
+|---:|---|---|---:|---:|---:|---|---:|---:|---:|---:|---:|
+|  | DeepSeek V4 Flash DSpark (high) · 2026-10-09-work-deepseek | Claude Code + API endpoint | 12 |  | 12 | pending | 1:10 | $0.00 | — | **—** | — |
+|  | DeepSeek V4 Flash DSpark (high) · 2026-10-09-work-deepseek | Claude Code + API endpoint | 75 |  | 75 | pending | 3:40 | $0.00 | — | **—** | — |
 
 ## Notes
 

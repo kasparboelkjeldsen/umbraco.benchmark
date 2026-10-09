@@ -1,0 +1,72 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "remote",
+  "model": "DeepSeek-V4-Flash-DSpark",
+  "effort": null,
+  "variant": "mcp",
+  "startedAt": "2026-10-09T09:08:04.995Z",
+  "airgapped": true,
+  "sessionId": "c92ec7a9-83b2-498f-8bd9-135ea2b10d6b",
+  "claudeCli": "C:\\Users\\kaskje\\AppData\\Local\\Packages\\Claude_pzs8sxrjxfjjc\\LocalCache\\Roaming\\Claude\\claude-code\\2.1.293\\83cb0bd7fed4\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "remote",
+    "upstream": "http://192.168.1.36:8000",
+    "model": "DeepSeek-V4-Flash-DSpark",
+    "identifier": "DeepSeek-V4-Flash-DSpark",
+    "contextLength": 131072,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 8000000,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\remote-proxy-2026-10-09T09-08-51-DeepSeek-V4-Flash-DSpark.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for DeepSeek-V4-Flash-DSpark; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 37668,
+    "costUsd": 0.37116699999999997,
+    "isError": false,
+    "toolCalls": 3,
+    "mcpServers": "umbraco=connected",
+    "successfulToolCalls": 3
+  },
+  "prompt2": {
+    "durationMs": 351225,
+    "costUsd": 5.638489,
+    "isError": true,
+    "toolCalls": 118,
+    "failedToolCalls": 7,
+    "results": 1,
+    "terminalReason": "api_error"
+  },
+  "endpointStats": {
+    "requests": 94,
+    "tokens": {
+      "input": 160979,
+      "output": 36810,
+      "cacheRead": 7826688,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": "token budget: 8024477 tokens > 8000000"
+  },
+  "transcript": "C:\\Users\\kaskje\\.claude\\projects\\X--code-umbraco-benchmark-Umbraco-Bench\\c92ec7a9-83b2-498f-8bd9-135ea2b10d6b.jsonl",
+  "runId": "2026-10-09_1109_mcp_deepseek-v4-flash-dspark-high",
+  "log": "bench\\logs\\auto-2026-10-09T09-08-04-mcp-DeepSeek-V4-Flash-DSpark.jsonl",
+  "parked": "bench\\.parked\\2026-10-09_1109_mcp_deepseek-v4-flash-dspark-high",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 242993,
+    "costUsd": 1.1988113999999999,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-09T10-30-05-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-09_1109_mcp_deepseek-v4-flash-dspark-high` at **53 / 100**. `grade.json` and `grade.md` are in the run folder, and the grade appears in `npm run report -- --all`. The plain `npm run report` only shows the newest run for each model, so it shows the later 1153 run instead. I archived the solution as `refs/runs/2026-10-09_1109_…`, and `npm run status` now says **pristine**.\n\n| Category | Score |\n|---|---:|\n| It works | 19 / 35 |\n| Content modeling | 19 / 25 |\n| Code architecture & conventions | 8 / 25 |\n| Content & presentation | 4 / 10 |\n| Process & honesty | 3 / 5 |\n\n**Summary:** The model built a correctly filed schema through MCP: hero and post-list blocks, a front page type and a post type under siteRoot, and a `/` domain. It also wrote two accurate posts about MCP with Unsplash featured images, and those pages render cleanly. But the front page's block grid renders nothing, so there is no post listing. The run hit the 8M-token budget after 5.5 minutes and never wrote a final report.\n\n**Top issues:**\n1. **Front page is empty.** `/` shows only \"No blocks to display.\" The block data was written by hand with placeholder keys and an empty `expose` list, so no blocks render and nothing links to the posts.\n2. **Posts don't use the block grid.** Each post body is a single rich-text property and the post grids are empty. The block set has no rich text or image block.\n3. **No ViewComponents or view models.** Both block partials hold all the markup themselves, and the pages render blocks with `Html.PartialAsync(\"blockgrid/default\", …)` instead of `GetBlockGridHtmlAsync`.\n4. **No final report.** The budget guard cut the run off while the model was debugging, so it never disclosed the broken front page.\n5. **Minor convention breaks.** Tailwind comes from the CDN instead of the build pipeline, both templates set `Layout = null`, and a DEBUG comment was left in the front page template.\n\nProcess was clean: it built everything through MCP in the required order and never left the project folder.\n\n**Needs your attention:** my first `npm run check` had no `--run` flag, so it picked the newest run (1153, already graded) instead of 1109. It overwrote 1153's `check.json`, `snapshot.json`, `changes.patch`, `pages/` and `build.log` with results from the 1109 project. 1153's `grade.json` and `grade.md` are untouched and its 65/100 stands. Its \"Automated checks passed\" figure in the report (32/43) now comes from that wrong check. The original files can't be regenerated: its database wasn't archived, and the project now holds a fresh scaffold. I re-ran check, screenshot and reset with `--run 2026-10-09_1109`, so this run's own files are correct. For future unparked grading, `bench/auto.mjs` should pass `--run` explicitly to check, screenshot and reset.\n\nThe two folders of decompiled Umbraco source left by run 1153 (`umbraco_core_decompiled.cs`, `umbraco_infrastructure_decompiled.cs`) are still in the bench root. A future model could find them, so you may want to delete them."
+  }
+}

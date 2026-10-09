@@ -5,14 +5,14 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { SITE, SITE_NAME, PROJECT, parseArgs, resolveRun, writeJson } from "./lib/common.mjs";
+import { SITE, SITE_NAME, PROJECT, parseArgs, resolveProjectRun, writeJson } from "./lib/common.mjs";
 import { BASE_URL, api, walkTree, stopSite, startSite, waitForReady, findSiteProcesses } from "./lib/umbraco.mjs";
 import { changes, diffPatch, hasBaseline } from "./lib/baseline.mjs";
 import { channelOf } from "./lib/variants.mjs";
 import { repeatedImages } from "./lib/images.mjs";
 
 const args = parseArgs();
-const run = resolveRun(args.run);
+const run = resolveProjectRun(args.run);
 const out = run.dir;
 const variant = run.metrics.variant || "mcp";
 const checks = [];

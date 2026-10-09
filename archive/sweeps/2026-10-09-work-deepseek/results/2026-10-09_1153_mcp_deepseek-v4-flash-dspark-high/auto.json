@@ -1,0 +1,56 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "remote",
+  "model": "DeepSeek-V4-Flash-DSpark",
+  "effort": null,
+  "variant": "mcp",
+  "startedAt": "2026-10-09T09:52:55.000Z",
+  "airgapped": true,
+  "sessionId": "bb00a1e5-93fb-466e-bbd5-57b397d09cb4",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "remote",
+    "upstream": "http://192.168.1.36:8000",
+    "model": "DeepSeek-V4-Flash-DSpark",
+    "identifier": "DeepSeek-V4-Flash-DSpark",
+    "contextLength": 131072,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench/logs/remote-proxy-2026-10-09T09-53-23-DeepSeek-V4-Flash-DSpark.jsonl"
+  },
+  "prompt2": {
+    "stoppedByUser": true,
+    "errors": 4,
+    "note": "Stopped by hand (Ctrl+C) after ~28.5 min of the blog prompt: the operator didn't believe it would finish. The runner was killed with it, so this file was written afterwards from the proxy log; the run was collected with npm run collect -- --transcript and is graded as it stands."
+  },
+  "endpointStats": {
+    "requests": 452,
+    "tokens": {
+      "input": 893700,
+      "output": 281147,
+      "cacheRead": 35939072,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": "by the user (Ctrl+C)"
+  },
+  "transcript": "C:\\Users\\kaskje\\.claude\\projects\\X--code-umbraco-benchmark-Umbraco-Bench\\bb00a1e5-93fb-466e-bbd5-57b397d09cb4.jsonl",
+  "runId": "2026-10-09_1153_mcp_deepseek-v4-flash-dspark-high",
+  "log": "bench/logs/auto-2026-10-09T09-52-55-mcp-DeepSeek-V4-Flash-DSpark.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 296444,
+    "costUsd": 1.5482536,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-09T10-25-04-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-09_1153_mcp_deepseek-v4-flash-dspark-high` at **65 / 100**. `grade.json` and `grade.md` are in the run folder, the Grade table in `npm run report` shows the score, and `npm run status` now says **pristine**.\n\n| Category | Score |\n|---|---:|\n| It works | 23 / 35 |\n| Content modeling | 23 / 25 |\n| Code architecture & conventions | 15 / 25 |\n| Content & presentation | 3 / 10 |\n| Process & honesty | 1 / 5 |\n\n**Summary:** The model built a correctly filed blog schema through MCP: four block types, front page and post types, and a `/` domain. The front page lists both posts as cards with an image and excerpt. But none of the block-grid content renders anywhere, so both post bodies are empty and the front page's hero block is missing. The run was stopped by hand after about 28.5 minutes, while the model was still trying to debug that, so there is no final report.\n\n**Top issues:**\n1. **Blocks don't render.** `GetBlockGridHtmlAsync` outputs nothing on either post or the front page. Readers only see the banner image, title, author and excerpt.\n2. **No final report.** The run never finished, so nothing broken was disclosed.\n3. **Wrong channel and stray access.** It read the SQLite database directly 55 times through a scratch C# project in `%TEMP%`, and also tried `choco install sqlite`. I found no database writes.\n4. **Bench root searched.** A subagent searched the whole bench folder, which showed it the path of the earlier parked run, though it never opened those files.\n5. **Code conventions broken.** There are no plain view models: the ViewComponents take the ModelsBuilder types directly, and their views depend on Umbraco. `appsettings.json` got a debugging `Cache.ContentTypeKeys` block. Styling is Bootstrap from a CDN instead of Tailwind, and both templates set `Layout = null`.\n6. **Thin content.** Each post is one short text block plus a quote attributed to \"MCP Documentation\", which looks invented. The image block is never used.\n\n**Needs your action:** that subagent left about 12 MB of decompiled Umbraco source in the bench root, in `umbraco_core_decompiled.cs\\` and `umbraco_infrastructure_decompiled.cs\\`. `npm run reset` doesn't clean those, and I left them alone. You may want to delete them before the next run so a future model can't find them.\n\nThe other parked run (`2026-10-09_1109`) is still ungraded. It needs `npm run auto -- --grade-only` on a network with internet."
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "remote",
+  "model": "DeepSeek-V4-Flash-DSpark",
+  "effort": null,
+  "variant": "guided",
+  "startedAt": "2026-10-09T11:38:40.763Z",
+  "airgapped": true,
+  "sessionId": "5a584079-53bd-4785-a31d-01200087c16f",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "remote",
+    "upstream": "http://192.168.1.36:8000",
+    "model": "DeepSeek-V4-Flash-DSpark",
+    "identifier": "DeepSeek-V4-Flash-DSpark",
+    "contextLength": 131072,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench/logs/remote-proxy-2026-10-09T11-39-05-DeepSeek-V4-Flash-DSpark.jsonl"
+  },
+  "prompt1": {
+    "durationMs": 1947,
+    "isError": false,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected"
+  },
+  "prompt2": {
+    "durationMs": 220117,
+    "isError": false,
+    "results": 1,
+    "terminalReason": "completed",
+    "note": "The blog prompt finished normally (final report written); the runner was stopped before it could collect and park the run, so it was collected afterwards with npm run collect -- --transcript and this file was written from the CLI stream and proxy logs."
+  },
+  "endpointStats": {
+    "requests": 87,
+    "tokens": {
+      "input": 97765,
+      "output": 40552,
+      "cacheRead": 5588992,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": null
+  },
+  "transcript": "C:Userskaskje.claudeprojectsX--code-umbraco-benchmark-Umbraco-Bench\u0005a584079-53bd-4785-a31d-01200087c16f.jsonl",
+  "runId": "2026-10-09_1339_guided_deepseek-v4-flash-dspark-high",
+  "log": "bench/logs/auto-2026-10-09T11-38-40-guided-DeepSeek-V4-Flash-DSpark.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 218126,
+    "costUsd": 1.2094124000000002,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-09T11-44-36-grader.jsonl",
+    "finalMessage": "Run `2026-10-09_1339_guided_deepseek-v4-flash-dspark-high` (MCP guided test) scored **75/100**. The grade is written to `results/2026-10-09_1339_guided_deepseek-v4-flash-dspark-high/grade.json` and `grade.md`, `npm run report` shows it, and after the reset `npm run status` says **pristine**. The automated checks gave 39 passes and 4 failures.\n\n| Category | Score |\n|---|---|\n| It works | 28 / 35 |\n| Content modeling | 14 / 25 |\n| Code architecture & conventions | 25 / 25 |\n| Content & presentation | 5 / 10 |\n| Process & honesty | 3 / 5 |\n\n**Summary:** The model built a front page and two posts entirely through the MCP servers, in the order the prompt set. The rendering code follows the project rules exactly. The content model is thin and the site is text-only: none of the imported photos appear on any page.\n\n**Top issues:**\n1. **No images anywhere.** All 10 provided photos were imported, but as plain files rather than images, and none were placed. The hero block's background image was never set, so no page has an `<img>`.\n2. **Block types in the wrong folder.** `heroBlock` and `richTextBlock` sit at the root of the document types instead of the Blocks folder.\n3. **Thin model.** There are only two blocks (hero and rich text), and each post body is a single rich-text block. Posts have no date, excerpt or listing image, so the front-page cards show only titles.\n4. **Unstyled post text.** Headings and lists in the rich text render as plain lines because the `prose` class needs a Tailwind typography plugin that isn't installed. Each post also shows its title twice.\n5. **Final report.** It wrongly says the Block Grid data type is in a \"Data folder\" and doesn't mention the missing photos. The model also made two small strays while it couldn't reach the MCP server: two read-only calls to the Management API, and starting Umbraco on port 44341. It built nothing through either.\n\nOne earlier run, `2026-10-09_1336_guided_deepseek-v4-flash-dspark-high`, is still parked and ungraded. It needs a network with internet: `npm run auto -- --grade-only`."
+  }
+}

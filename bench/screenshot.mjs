@@ -4,11 +4,11 @@
 import fs from "node:fs";
 import path from "node:path";
 import { spawnSync } from "node:child_process";
-import { ROOT, parseArgs, resolveRun, readJson } from "./lib/common.mjs";
+import { ROOT, parseArgs, resolveProjectRun, readJson } from "./lib/common.mjs";
 import { BASE_URL, isUp } from "./lib/umbraco.mjs";
 
 const args = parseArgs();
-const run = resolveRun(args.run);
+const run = resolveProjectRun(args.run);
 if (!(await isUp())) {
   console.error("Umbraco isn't running — npm run check (or npm run up) first.");
   process.exit(1);

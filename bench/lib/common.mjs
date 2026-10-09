@@ -88,6 +88,14 @@ export function resolveRun(sel) {
   return hit[hit.length - 1];
 }
 
+// For the scripts that act on what Umbraco.Bench holds now (check, screenshot, reset): without a selector, the newest
+// run that isn't graded yet, else the newest. A parked run graded later isn't the newest run, and a plain resolveRun()
+// once pointed check at an already graded run and overwrote its files.
+export function resolveProjectRun(sel) {
+  if (sel && sel !== true) return resolveRun(sel);
+  return listRuns().filter(r => !r.grade).at(-1) ?? resolveRun();
+}
+
 export function fmtDuration(ms) {
   if (ms == null || Number.isNaN(ms)) return "—";
   const neg = ms < 0;

@@ -17,14 +17,16 @@ import { hasBaseline, changes } from "./lib/baseline.mjs";
 import { stopSite } from "./lib/umbraco.mjs";
 import { modelDisplayName } from "./lib/transcript.mjs";
 import { resolveClaudeBin, claudeVersion, authStatus, ClaudeSession, killTree } from "./lib/claude.mjs";
-import { resolveLms, ensureServer, loadModel, unloadAll, startProxy, endpointSessionEnv, endpointSettings } from "./lib/local.mjs";
+import { resolveLms, ensureServer, loadModel, unloadAll, startProxy, endpointSessionEnv, endpointSettings, endpointApiKey, endpointKeySource } from "./lib/local.mjs";
 import { resolveCodexBin, codexVersion, codexAuth, codexRateLimits, isUsageLimitError, CodexSession, mcpServerArgs, userMcpServerOffArgs, findRollout, DISABLED_FEATURES } from "./lib/codex.mjs";
+import { park, unpark, parkedRuns } from "./lib/park.mjs";
 
 const args = parseArgs();
 const usage = `Usage: npm run auto                      (the sweep in run-book.json)
        npm run auto -- --model <alias|id>[:effort][,…] [--effort high] [--test mcp[,migrations,playwright]]
-       npm run auto -- --grade-only [--run <id>]
+       npm run auto -- --grade-only [--run <id>]   (without --run: every parked run, else the newest ungraded one)
 Options: --runbook <file> (run-book.json)  --grader <model> (opus)  --grader-effort <level> (high)  --no-grade
+         --airgapped (no internet: npm from its cache only, and each run is parked ungraded for --grade-only later)
          --permission-mode <mode> (auto)  --budget <usd per session>  --timeout <minutes for the blog prompt> (90)
          --codex-max-used <percent of the 5-hour window before a Codex run won't start> (75)
          --claude <path to Claude CLI>  --codex <path to Codex CLI>  --quiet  --dry-run
@@ -39,6 +41,13 @@ if (fs.existsSync(RUNBOOK_FILE)) {
 } else if (args.runbook) { console.error(`✗ No run-book at ${RUNBOOK_FILE}`); process.exit(1); }
 const opt = (flag, value, fallback) => (args[flag] !== undefined && args[flag] !== true ? args[flag] : value ?? fallback);
 
+// On a network without internet (an airgapped endpoint): the grader can't run, so every collected run is parked
+// (bench/lib/park.mjs) and the next one starts on a fresh scaffold; npm and npx (the MCP server, a model's npm install)
+// use only their cache, so they fail at once instead of waiting on a network that isn't there. NuGet restores from
+// ~/.nuget/packages on its own (the scaffold pins exact versions).
+const AIRGAPPED = !!args.airgapped;
+const AIRGAP_ENV = AIRGAPPED ? { npm_config_offline: "true", npm_config_audit: "false", npm_config_fund: "false", npm_config_update_notifier: "false" } : {};
+const PARK = AIRGAPPED && !args["grade-only"];
 const PERMISSION_MODE = opt("permission-mode", book.options?.permissionMode, "auto");
 const GRADER = opt("grader", book.grader?.model, "opus");
 const GRADER_EFFORT = opt("grader-effort", book.grader?.effort, "high");
@@ -47,7 +56,11 @@ const TIMEOUT_MS = Number(opt("timeout", book.options?.timeoutMinutes, 90)) * 60
 // local (LM Studio) and remote (an Anthropic-compatible API, e.g. DeepSeek) models run through Claude Code + the proxy
 const ENDPOINT_PROVIDERS = ["local", "remote"];
 const isEndpoint = provider => ENDPOINT_PROVIDERS.includes(provider);
-const timeoutFor = provider => isEndpoint(provider) && book[provider]?.timeoutMinutes && args.timeout === undefined ? Number(book[provider].timeoutMinutes) * 60_000 : TIMEOUT_MS;
+// (one value for the section, or { "<model>": minutes })
+const timeoutFor = (provider, model) => {
+  const min = isEndpoint(provider) && args.timeout === undefined ? Number(endpointSettings(book, provider, model).timeoutMinutes) : NaN;
+  return min > 0 ? min * 60_000 : TIMEOUT_MS;
+};
 const LOCAL_MODELS = new Set((book.local?.models || []).map(String));
 const REMOTE_MODELS = new Set((book.remote?.models || []).map(String));
 const HARNESS = { anthropic: "Claude Code", openai: "Codex", local: "Claude Code + LM Studio", remote: "Claude Code + API endpoint" };
@@ -152,7 +165,8 @@ let ENDPOINT = null;
 async function ensureEndpoint(provider, model) {
   if (ENDPOINT?.model === model) { ENDPOINT.proxy.reset(); return ENDPOINT; }
   await closeEndpoint({ unload: false });
-  const { contextLength, thinking, rewrite, usageFix, guard, maxOutputTokens, lmstudioKey, baseUrl, apiKeyEnv } = endpointSettings(book, provider, model);
+  const settings = endpointSettings(book, provider, model);
+  const { contextLength, thinking, rewrite, usageFix, guard, maxOutputTokens, lmstudioKey, baseUrl, apiKeyEnv, dropFields } = settings;
   let upstream = null, upstreamPort = null, apiKey = null, lmsBin = null, key = null;
   if (provider === "local") {
     lmsBin = resolveLms();
@@ -164,16 +178,16 @@ async function ensureEndpoint(provider, model) {
     say(`  LM Studio on port ${upstreamPort}; model ${loaded.reused ? "already loaded" : "loaded"}${loaded.info ? ` (${loaded.info})` : ""}`);
   } else {
     upstream = baseUrl;
-    apiKey = process.env[apiKeyEnv] || null;
+    apiKey = endpointApiKey(settings);
     if (!upstream) throw new InfraError(`no base URL for ${model}: set remote.baseUrl in run-book.json or BENCH_REMOTE_URL`);
     if (!apiKey) throw new InfraError(`no API key for ${model}: set the ${apiKeyEnv} environment variable`);
-    step(`Remote model: ${model} at ${upstream}, context ${contextLength} (key from ${apiKeyEnv})`);
+    step(`Remote model: ${model} at ${upstream}, context ${contextLength} (key from ${endpointKeySource(settings)})`);
   }
   const proxyLog = path.join(LOGS, `${provider}-proxy-${stamp()}-${model.replace(/[^a-z0-9.-]+/gi, "-")}.jsonl`);
-  const proxy = await startProxy({ upstream, upstreamPort, apiKey, thinking, rewrite, usageFix, guard, log: line => fs.appendFileSync(proxyLog, line + "\n") });
-  say(`  proxy on port ${proxy.port}: ${[rewrite && "one system message", !thinking && "thinking off", usageFix && "usage fix",
+  const proxy = await startProxy({ upstream, upstreamPort, apiKey, thinking, rewrite, usageFix, dropFields, guard, log: line => fs.appendFileSync(proxyLog, line + "\n") });
+  say(`  proxy on port ${proxy.port}: ${[rewrite && "one system message", !thinking && "thinking off", usageFix && "usage fix", dropFields.length && `dropping ${dropFields.join(", ")}`,
     `loop guard ${guard.loopLimit}`, guard.maxTokens && `max ${guard.maxTokens} tokens`, guard.maxUsd && `max $${guard.maxUsd}`].filter(Boolean).join(", ")}; requests logged to ${path.relative(ROOT, proxyLog)}`);
-  ENDPOINT = { provider, model, key, contextLength, thinking, rewrite, usageFix, guard: { ...guard, price: undefined }, upstream: upstream || `lmstudio:${upstreamPort}`,
+  ENDPOINT = { provider, model, key, contextLength, thinking, rewrite, usageFix, dropFields, guard: { ...guard, price: undefined }, upstream: upstream || `lmstudio:${upstreamPort}`,
     lmsBin, proxy, proxyLog: path.relative(ROOT, proxyLog),
     env: endpointSessionEnv({ proxyPort: proxy.port, identifier: model, contextLength, maxOutputTokens }) };
   return ENDPOINT;
@@ -213,6 +227,7 @@ async function grade(run) {
 Context from the automated runner (bench/auto.mjs): the run to grade is ${run.id} (${what} ${m.sessionId}, a headless run). It has already been collected. For step 1, run exactly this instead of a bare "npm run collect", which only looks for Claude Code transcripts:
 npm run collect -- --transcript "${m.transcript}"
 It updates the same run in place.
+Other runs exist in results/, and this one may not be the newest (runs parked on an airgapped network are graded later). Pass --run ${run.id} to every script that takes it: npm run check -- --run ${run.id}, npm run screenshot -- --run ${run.id}, npm run reset -- --run ${run.id}.
 Nobody is watching this session and nobody will answer questions: work autonomously and finish every step, including "npm run reset" and the final "npm run status".`;
   let turn;
   try {
@@ -274,16 +289,26 @@ async function gradeAndReset(run, auto) {
   return resolveRun(run.id);
 }
 
-// Before a sweep: a project left dirty by an earlier run gets that run graded, or is discarded
+// Before a sweep: a project left dirty by an earlier run gets that run graded (parked when airgapped), or is discarded
 async function settleProject() {
   if (!projectChanges().length) return;
-  const runs = listRuns();
-  const last = runs.at(-1);
-  if (last && !last.grade && !args["no-grade"]) {
+  const parked = new Set(parkedRuns().map(p => p.id));
+  const last = listRuns().filter(r => !parked.has(r.id)).at(-1);
+  if (last && !last.grade && PARK) {
+    say(`Umbraco.Bench holds ${last.id}, which isn't graded yet: parking it for --grade-only.`);
+    await parkRun(last, { ...(last.auto || {}) });
+  } else if (last && !last.grade && !args["no-grade"]) {
     say(`Umbraco.Bench holds ${last.id}, which isn't graded yet: grading it first.`);
     await gradeAndReset(last, { ...(last.auto || {}) });
   }
   if (projectChanges().length) discard(`leftover-${stamp()}`);
+}
+
+async function parkRun(run, auto) {
+  step(`Parking ${run.id} (no grading while airgapped)`);
+  auto.parked = path.relative(ROOT, await park(run.id));
+  writeJson(path.join(run.dir, "auto.json"), auto);
+  say(`  moved to ${auto.parked}; Umbraco.Bench is pristine again. Back online: npm run auto -- --grade-only`);
 }
 
 // ---------------------------------------------------------------- the model under test, per provider
@@ -306,10 +331,11 @@ function claudeDriver({ model, effort }, label, logFile, auto, local = null) {
     "-n", `bench ${label}`, ...(BUDGET ? ["--max-budget-usd", String(BUDGET)] : [])];
   Object.assign(auto, { sessionId, claudeCli: BIN, claudeVersion: VERSION, permissionMode: mode, settingSources: "project,local",
     ...(local ? { endpoint: { provider: local.provider, upstream: local.upstream, model: local.key ?? model, identifier: model, contextLength: local.contextLength,
-      thinking: local.thinking, rewrite: local.rewrite, usageFix: local.usageFix, guard: local.guard, proxyLog: local.proxyLog } } : {}),
+      thinking: local.thinking, rewrite: local.rewrite, usageFix: local.usageFix, ...(local.dropFields?.length ? { dropFields: local.dropFields } : {}),
+      guard: local.guard, proxyLog: local.proxyLog } } : {}),
     ...(mode !== PERMISSION_MODE ? { permissionFallback: `${PERMISSION_MODE} mode isn't available for ${model}; ran with ${mode}` } : {}) });
   if (mode !== PERMISSION_MODE) say(`  ⚠ ${PERMISSION_MODE} mode isn't available for ${model}: running with ${mode}`);
-  const s = session({ label: "model", cwd: PROJECT, cliArgs, logFile, env: local?.env ?? null });
+  const s = session({ label: "model", cwd: PROJECT, cliArgs, logFile, env: { ...(local?.env ?? {}), ...AIRGAP_ENV } });
   return {
     s, sessionId,
     send: (text, o) => s.send(text, o),
@@ -376,7 +402,7 @@ async function runOne({ provider, model, effort }, variant) {
   const label = `${model}${effort ? ":" + effort : ""} · ${v.name}`;
   const logFile = path.join(LOGS, `auto-${stamp()}-${variant}-${model.replace(/[^a-z0-9.-]+/gi, "-")}.jsonl`);
   const t0 = Date.now();
-  const auto = { driver: "bench/auto.mjs", provider, model, effort: effort ?? null, variant, startedAt: new Date().toISOString() };
+  const auto = { driver: "bench/auto.mjs", provider, model, effort: effort ?? null, variant, startedAt: new Date().toISOString(), ...(AIRGAPPED ? { airgapped: true } : {}) };
 
   say(`\n════════ ${label} ════════  (${clock(t0)})`);
   const dirty = projectChanges();
@@ -405,6 +431,9 @@ async function runOne({ provider, model, effort }, variant) {
       Object.assign(auto.prompt1, { mcpServers: g.servers, successfulToolCalls: g.calls });
       if (t1.isError) throw new InfraError(`Prompt 1 ended in an error: ${t1.text || JSON.stringify(t1.result)}`);
       if (!g.ok) throw new InfraError(`Prompt 1: ${g.why} (MCP servers: ${g.servers}). Not sending the blog prompt.`);
+      // a test with several MCP servers (guided: dev + Editor) needs all of them
+      const missing = (v.servers || []).filter(n => !(t1.init?.mcp_servers || []).some(m => m.name === n && m.status === "connected"));
+      if (provider !== "openai" && missing.length) throw new InfraError(`Prompt 1: MCP server(s) ${missing.join(", ")} not connected (${g.servers}). Not sending the blog prompt.`);
       say(`  ✓ ${g.calls} successful ${prefix.slice(5, -2)} call(s); MCP servers: ${g.servers}`);
       step("Stopping Umbraco");
       bench("down.mjs");
@@ -418,10 +447,10 @@ async function runOne({ provider, model, effort }, variant) {
 
   // ---- the blog prompt: a timeout or an error is the model's result and is graded as it stands, a usage limit isn't
   try {
-    step(`Prompt 2 (the blog), timeout ${fmtDuration(timeoutFor(provider))}`);
+    step(`Prompt 2 (the blog), timeout ${fmtDuration(timeoutFor(provider, model))}`);
     let t2;
     try {
-      t2 = await d.send(prompt2, { timeoutMs: timeoutFor(provider), settleMs: 20_000 });
+      t2 = await d.send(prompt2, { timeoutMs: timeoutFor(provider, model), settleMs: 20_000 });
     } catch (e) {
       if (!/timed out/i.test(e.message)) throw new InfraError(`the session broke during the blog prompt: ${e.message}`);
       auto.prompt2 = { timedOut: true, error: e.message };
@@ -457,6 +486,10 @@ async function runOne({ provider, model, effort }, variant) {
   auto.log = path.relative(ROOT, logFile);
   writeJson(path.join(run.dir, "auto.json"), auto);
 
+  if (PARK) {
+    await parkRun(run, auto);
+    return { label, run, ms: Date.now() - t0, status: "parked" };
+  }
   if (args["no-grade"]) {
     say(`\nNot grading (--no-grade). Umbraco.Bench still holds the solution: grade it with "npm run auto -- --grade-only" or exam-prompt.md.`);
     return { label, run, ms: Date.now() - t0, status: "ungraded" };
@@ -487,20 +520,29 @@ const tests = parseTests();
 for (const t of tests) if (!VARIANTS[t]) die(`Unknown test "${t}". Tests: ${Object.keys(VARIANTS).join(", ")}`);
 if (!args["grade-only"] && !models.length) die(usage);
 const matrix = models.flatMap(m => tests.map(t => ({ m, t })));
-if (matrix.length > 1 && args["no-grade"]) die("--no-grade leaves the project un-reset, so it only works for a single run.");
+if (matrix.length > 1 && args["no-grade"] && !PARK) die("--no-grade leaves the project un-reset, so it only works for a single run (--airgapped parks each run instead).");
 
 say(`Run-book    ${fs.existsSync(RUNBOOK_FILE) ? path.relative(ROOT, RUNBOOK_FILE) + (fs.existsSync(path.join(path.dirname(RUNBOOK_FILE), "run-book.local.json")) ? " + run-book.local.json" : "") + (args.model || args.models ? " (models from --model)" : "") : "none"}`);
 say(`Claude CLI  ${BIN} (${VERSION ?? "version unknown"})`);
 const auth = authStatus(BIN);
 say(`Auth        ${auth.loggedIn ? `logged in (${auth.authMethod}${auth.email ? ", " + auth.email : ""})` : "NOT logged in"}`);
-if (args["grade-only"]) say(`Plan        grade ${args.run ? args.run : "the newest run"} with ${GRADER} (${GRADER_EFFORT})`);
+const PARKED_NOW = parkedRuns();
+const IN_PROJECT = args["grade-only"] && !args.run && PARKED_NOW.length && projectChanges().length
+  ? listRuns().filter(r => !r.grade && !PARKED_NOW.some(p => p.id === r.id)).at(-1) : null;
+if (args["grade-only"]) say(`Plan        grade ${args.run ? args.run : PARKED_NOW.length ? [IN_PROJECT && `${IN_PROJECT.id} (in the project)`, `the ${PARKED_NOW.length} parked run(s): ${PARKED_NOW.map(p => p.id).join(", ")}`].filter(Boolean).join(", then ") : "the newest run"} with ${GRADER} (${GRADER_EFFORT})`);
 else {
-  say(`Plan        ${matrix.length} run(s), one after another, permission mode ${PERMISSION_MODE}, ${args["no-grade"] ? "no grading" : `graded by ${GRADER} (${GRADER_EFFORT})`}`);
-  for (const { m, t } of matrix) say(`              ${m.model}${m.effort ? ":" + m.effort : ""} · ${VARIANTS[t].name} · ${HARNESS[m.provider]}`);
+  say(`Plan        ${matrix.length} run(s), one after another, permission mode ${PERMISSION_MODE}, ${PARK ? "AIRGAPPED: npm offline, each run parked for grading later" : args["no-grade"] ? "no grading" : `graded by ${GRADER} (${GRADER_EFFORT})`}`);
+  for (const { m, t } of matrix) {
+    say(`              ${m.model}${m.effort ? ":" + m.effort : ""} · ${VARIANTS[t].name} · ${HARNESS[m.provider]}`);
+    if (m.provider === "remote") {
+      const s = endpointSettings(book, m.provider, m.model);
+      say(`                at ${s.baseUrl ?? "(no base URL!)"}, key from ${endpointKeySource(s)}${endpointApiKey(s) ? "" : " (NOT SET)"}, context ${s.contextLength}, thinking ${s.thinking ? "on" : "off"}, blog prompt timeout ${fmtDuration(timeoutFor(m.provider, m.model))}`);
+    }
+  }
 }
 // Codex only when an OpenAI model is in the plan (the grader is always Claude Code)
 let CODEX = null, CODEX_VERSION = null;
-if (matrix.some(({ m }) => m.provider === "openai")) {
+if (!args["grade-only"] && matrix.some(({ m }) => m.provider === "openai")) {
   try { CODEX = resolveCodexBin(args.codex); } catch (e) { die(e.message); }
   CODEX_VERSION = codexVersion(CODEX);
   const cAuth = codexAuth(CODEX);
@@ -510,7 +552,7 @@ if (matrix.some(({ m }) => m.provider === "openai")) {
   if (rl) say(`Codex use   ${rl.usedPercent}% of the 5-hour window (resets ${rl.resetsAt ? clock(rl.resetsAt) : "?"}), ${rl.weeklyUsedPercent}% of the week, ${rl.plan} plan; a run starts only at ≤${CODEX_MAX_USED}%`);
 }
 // Claude Code runs the anthropic models and every grading session
-const needClaude = args["grade-only"] || !args["no-grade"] || matrix.some(({ m }) => m.provider !== "openai");
+const needClaude = args["grade-only"] || (!args["no-grade"] && !PARK) || matrix.some(({ m }) => m.provider !== "openai");
 if (needClaude && !auth.loggedIn) die(`The CLI isn't logged in. Run "${BIN}" auth login (or claude setup-token and set CLAUDE_CODE_OAUTH_TOKEN), then retry.`);
 if (args["dry-run"]) { say("\nDry run — nothing started."); process.exit(0); }
 
@@ -530,11 +572,22 @@ const writeSweepLog = (state = "running") => {
 
 try {
   if (args["grade-only"]) {
-    const run = resolveRun(args.run);
-    if (run.grade) die(`${run.id} is already graded (${run.grade.total}/${run.grade.max}).`);
-    const graded = await gradeAndReset(run, { ...(run.auto || {}) });
-    done.push({ label: run.id, run: graded, status: graded.grade ? "graded" : "ungraded" });
-    if (!graded.grade) process.exitCode = 1;
+    const parkedIds = new Set(PARKED_NOW.map(p => p.id));
+    // --run <id>, else every parked run (oldest first; a project still holding an ungraded run goes first), else the newest
+    let targets;
+    if (args.run) targets = [resolveRun(args.run)];
+    else if (PARKED_NOW.length) targets = [...(IN_PROJECT ? [IN_PROJECT] : []), ...PARKED_NOW.map(p => resolveRun(p.id))];
+    else targets = [resolveRun()];
+    for (const run of targets) {
+      if (run.grade) { say(`${run.id} is already graded (${run.grade.total}/${run.grade.max}).`); continue; }
+      if (parkedIds.has(run.id)) {
+        step(`Unparking ${run.id}`);
+        try { await unpark(run.id); } catch (e) { say(`  ✗ ${e.message}`); done.push({ label: run.id, status: "failed", error: e.message }); continue; }
+      }
+      const graded = await gradeAndReset(run, { ...(run.auto || {}) });
+      done.push({ label: run.id, run: graded, status: graded.grade ? "graded" : "ungraded" });
+    }
+    if (done.some(d => d.status !== "graded")) process.exitCode = 1;
   } else {
     await settleProject();
     writeSweepLog();
@@ -598,7 +651,8 @@ say(`\n════════ Summary (${fmtDuration(Date.now() - t0)}) ══
 for (const d of done) {
   if (!d.run) { say(`  ${d.label.padEnd(46)} FAILED: ${d.error}`); continue; }
   const m = d.run.metrics;
-  say(`  ${d.run.id.padEnd(46)} ${fmtDuration(m.time.blogPromptMs).padStart(6)}  ${fmtInt(m.tokens.total).padStart(11)} tok  ${d.run.grade ? `${d.run.grade.total}/${d.run.grade.max}` : "ungraded"}`);
+  say(`  ${d.run.id.padEnd(46)} ${fmtDuration(m.time.blogPromptMs).padStart(6)}  ${fmtInt(m.tokens.total).padStart(11)} tok  ${d.run.grade ? `${d.run.grade.total}/${d.run.grade.max}` : d.status === "parked" ? "parked, not graded" : "ungraded"}`);
 }
-// --no-grade asks for an ungraded run, so that is success
-if (done.some(d => d.status !== "graded" && !(args["no-grade"] && d.status === "ungraded"))) process.exitCode = process.exitCode || 1;
+if (PARK && parkedRuns().length) say(`\n${parkedRuns().length} parked run(s) waiting for a grader. Back on a network with internet:  npm run auto -- --grade-only`);
+// --no-grade asks for an ungraded run, and --airgapped for parked ones, so that is success
+if (done.some(d => d.status !== "graded" && !(args["no-grade"] && d.status === "ungraded") && d.status !== "parked")) process.exitCode = process.exitCode || 1;

@@ -1,0 +1,82 @@
+{
+  "runId": "2026-10-09_1339_guided_deepseek-v4-flash-dspark-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-09T11:47:22.669Z",
+  "total": 75,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 28,
+      "max": 35,
+      "notes": "Build OK with 0 errors (5/5). The 10 warnings are the scaffold's ImageSharp NuGet advisories, not the model's. / returns 200 as the blog front page through the \"/\" domain and links both posts, but each card is a bare title with no date, excerpt or image (7/10). Both posts render their hero and rich-text blocks with no render errors or exception text (10/10). The 10 provided Unsplash photos were imported into a \"Blog\" media folder, but as the File media type, not Image, and no page uses any of them. There is no <img> on any page and no GetCropUrl URL to load (1/5). Domain \"/\" is on the Blog page and all three pages are published (5/5)."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 14,
+      "max": 25,
+      "notes": "blogFrontPage and blogPost are documents in Pages, but the element types heroBlock and richTextBlock sit at the document-type root, not in Blocks (4/8). One shared \"Blog Block Grid\" data type is on both page types, but the block set is only hero and rich text. There is no image block, and each post is one hero plus one rich-text block holding the whole body (3/7). Structure is clean: siteRoot is the only type allowed at root, siteRoot → blogFrontPage → blogPost, templates are allowed and set as default, aliases are camelCase, and the data type is in /Custom/Umbraco.BlockGrid (5/5). No compositions are used. Posts have no metadata properties at all (no date, excerpt or listing image), and the hero's backgroundImage uses the Image Media Picker, which cannot pick the photos because they were imported as File media (2/5)."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 25,
+      "max": 25,
+      "notes": "Both page templates call Html.GetBlockGridHtmlAsync(Model, \"blocks\"), and the scaffold's blockgrid partials are unchanged (7/7). Adapters sit at Views/Partials/blockgrid/Components/heroBlock.cshtml and richTextBlock.cshtml. Each takes BlockGridItem<T>, maps to a plain model and calls Component.InvokeAsync, with no markup (6/6). There are two ViewComponents (Hero, RichText) rendering Views/Shared/Components/<Name>/Default.cshtml, with plain models in Models/Blocks/ and no Umbraco dependencies in the views (7/7). Program.cs and appsettings.json are untouched, there are no migrations, and the code uses friendly extensions, GetCropUrl and Tailwind via the Frontend build into wwwroot/dist/site.css (5/5). The typography problem from unused prose classes is scored under presentation."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 5,
+      "max": 10,
+      "notes": "Two posts on MCP: \"What is MCP and Why Should You Care?\" covers the why, and \"Building with MCP: A Practical Guide\" is more of a how-to. Each has about 5–6 short paragraphs plus a list or code sample. Both are mostly accurate, with small errors: \"context windows\" is listed as a standardised MCP primitive, and the Kotlin tool snippet is pseudo-code. Each post is one hero plus one rich-text block, and neither uses a photo, although the prompt asked for different photos per post (3/6). The layout is tidy, with a header, an indigo hero card, a two-card \"Latest Posts\" grid and a footer. But no page has any image. Rich-text h2s and lists render as plain unstyled text, because the prose class has no typography plugin. Each post shows its title twice (page h1 plus the hero h1), and the listing cards are bare titles (2/4)."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 3,
+      "max": 5,
+      "notes": "Schema, media, content, domain and publishing all went through the two Umbraco MCP servers (62 calls, 38 writes), in the prescribed order. The order was templates → modeling → media → pages/blocks → domain → publish → get-page → stop → Razor → build → restart. There was no memory or outside-folder access. Two unauthenticated curl GETs to the Management API (tree/template/root, user/current) probed connectivity while the MCP server was unreachable. The model also briefly started Umbraco on a non-standard port (44341). Both are small strays, and nothing was built through them (2/3). The final report is largely accurate, but it says the Block Grid data type is \"in a Data folder\" when it is in Custom/Umbraco.BlockGrid. It also lists nothing as not working, without disclosing that no photos appear anywhere and the hero backgroundImage is never set (1/2)."
+    }
+  ],
+  "summary": "A small but cleanly architected MCP-built blog: front page plus two posts, rendered through GetBlockGridHtmlAsync → adapter → ViewComponent exactly per AGENTS.md, with Tailwind via the frontend build. The content model is thin: two blocks, element types outside the Blocks folder, no post metadata. None of the imported photos appear on any page, so the site is text-only.",
+  "strengths": [
+    "Textbook rendering pipeline: GetBlockGridHtmlAsync, alias-named adapters with no markup, one ViewComponent per block, plain models in Models/Blocks",
+    "Followed the guided order exactly: templates first, modeling, media, pages/blocks via add-blockgrid-block, domain on the front page, publish and verify",
+    "Clean structure: siteRoot → blogFrontPage → blogPost, templates assigned, data type under /Custom, Program.cs and appsettings untouched",
+    "Every page returns 200 with no render errors, and the front page links both posts"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "No images anywhere: the 10 Unsplash photos were imported as File (not Image) media and never placed. The hero backgroundImage is never set, and there is no image block, so there is no <img> or GetCropUrl output on any page (/, /what-is-mcp-and-why-should-you-care/, /building-with-mcp-a-practical-guide/)"
+    },
+    {
+      "severity": "major",
+      "text": "Element types heroBlock and richTextBlock are at the document-type root instead of the Blocks folder (schema.docTypesInFolders)"
+    },
+    {
+      "severity": "major",
+      "text": "Thin block set and post model: only hero and rich text, with each post body in a single rich-text block. blogPost has no date, excerpt or listing image, so the front-page cards are bare titles (Views/BlogFrontPage.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "Rich-text headings and lists render unstyled: the prose classes in Views/Shared/Components/RichText/Default.cshtml need @tailwindcss/typography, which is not installed"
+    },
+    {
+      "severity": "minor",
+      "text": "Post title shown twice: the h1 in Views/BlogPost.cshtml plus the hero block's h1 with the same text"
+    },
+    {
+      "severity": "minor",
+      "text": "Final report says the Block Grid data type is \"in a Data folder\" and does not disclose the missing photos"
+    },
+    {
+      "severity": "minor",
+      "text": "Two diagnostic curl GETs to the Management API, and Umbraco briefly started on port 44341 while the MCP server could not connect"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

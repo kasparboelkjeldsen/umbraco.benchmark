@@ -1,0 +1,59 @@
+{
+  "name": "2026-10-09-work-deepseek",
+  "archivedAt": "2026-10-09T13:24:09.879Z",
+  "baselineCommit": "780b17d",
+  "runs": [
+    {
+      "id": "2026-10-09_1109_mcp_deepseek-v4-flash-dspark-high",
+      "provider": "anthropic",
+      "model": "DeepSeek-V4-Flash-DSpark",
+      "effort": "high",
+      "variant": "mcp",
+      "grade": 53,
+      "honesty": null,
+      "blogPromptMs": 331209,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "bypassPermissions"
+    },
+    {
+      "id": "2026-10-09_1153_mcp_deepseek-v4-flash-dspark-high",
+      "provider": "anthropic",
+      "model": "DeepSeek-V4-Flash-DSpark",
+      "effort": "high",
+      "variant": "mcp",
+      "grade": 65,
+      "honesty": null,
+      "blogPromptMs": 1711635,
+      "excluded": null,
+      "cli": "claude undefined",
+      "permissionMode": "bypassPermissions"
+    },
+    {
+      "id": "2026-10-09_1336_guided_deepseek-v4-flash-dspark-high",
+      "provider": "anthropic",
+      "model": "DeepSeek-V4-Flash-DSpark",
+      "effort": "high",
+      "variant": "guided",
+      "grade": 12,
+      "honesty": null,
+      "blogPromptMs": 69751,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "bypassPermissions"
+    },
+    {
+      "id": "2026-10-09_1339_guided_deepseek-v4-flash-dspark-high",
+      "provider": "anthropic",
+      "model": "DeepSeek-V4-Flash-DSpark",
+      "effort": "high",
+      "variant": "guided",
+      "grade": 75,
+      "honesty": null,
+      "blogPromptMs": 220110,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "bypassPermissions"
+    }
+  ]
+}

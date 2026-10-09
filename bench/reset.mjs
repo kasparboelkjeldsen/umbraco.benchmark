@@ -3,7 +3,7 @@
 // and restores Umbraco.Bench to the pristine scaffold (no database, no build output, no models).
 import fs from "node:fs";
 import path from "node:path";
-import { parseArgs, listRuns, resolveRun, writeJson, GIT_DIR, CLAUDE_PROJECTS, TRANSCRIPT_DIR_PATTERN } from "./lib/common.mjs";
+import { parseArgs, listRuns, resolveProjectRun, writeJson, GIT_DIR, CLAUDE_PROJECTS, TRANSCRIPT_DIR_PATTERN } from "./lib/common.mjs";
 import { findTranscripts } from "./lib/transcript.mjs";
 import { hasBaseline, archiveAs, restoreBaseline } from "./lib/baseline.mjs";
 import { stopSite } from "./lib/umbraco.mjs";
@@ -14,7 +14,7 @@ if (!hasBaseline()) {
   console.error(`No baseline in ${GIT_DIR}. Run "npm run baseline" on a pristine Umbraco.Bench first.`);
   process.exit(1);
 }
-const run = listRuns().length ? resolveRun(args.run) : null;
+const run = listRuns().length ? resolveProjectRun(args.run) : null;
 if (run && !run.grade && !args.force) {
   console.error(`Run ${run.id} has no grade.json yet. Grade it first (exam-prompt.md), or pass --force to reset anyway.`);
   process.exit(1);

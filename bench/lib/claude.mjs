@@ -36,6 +36,20 @@ function bundledClaudes() {
   return found.sort((a, b) => verKey(b.ver).localeCompare(verKey(a.ver))).map(f => f.exe);
 }
 
+// The VS Code extension ships a native CLI under extensions/anthropic.claude-code-<version>-<platform>/resources/native-binary
+function vscodeClaudes() {
+  const found = [];
+  for (const root of [".vscode", ".vscode-insiders", ".cursor"].map(d => path.join(os.homedir(), d, "extensions"))) {
+    if (!fs.existsSync(root)) continue;
+    for (const d of fs.readdirSync(root)) {
+      const m = d.match(/^anthropic\.claude-code-(\d+(?:\.\d+)*)/i);
+      const exe = m && path.join(root, d, "resources", "native-binary", process.platform === "win32" ? "claude.exe" : "claude");
+      if (exe && fs.existsSync(exe)) found.push({ exe, ver: m[1] });
+    }
+  }
+  return found.sort((a, b) => verKey(b.ver).localeCompare(verKey(a.ver))).map(f => f.exe);
+}
+
 export function resolveClaudeBin(explicit) {
   const pick = explicit || process.env.BENCH_CLAUDE;
   if (pick) {
@@ -49,7 +63,7 @@ export function resolveClaudeBin(explicit) {
   if (native) return native;
   const local = path.join(os.homedir(), ".local", "bin", process.platform === "win32" ? "claude.exe" : "claude");
   if (fs.existsSync(local)) return local;
-  const bundled = bundledClaudes()[0];
+  const bundled = bundledClaudes()[0] || vscodeClaudes()[0];
   if (bundled) return bundled;
   throw new Error("Claude Code CLI not found. Install it (claude.ai/code), put it on PATH, or pass --claude <path> / set BENCH_CLAUDE.");
 }
@@ -75,10 +89,19 @@ export function authStatus(bin) {
 // MCP_CONNECTION_NONBLOCKING, …). Started from inside one, a nested CLI would inherit it, so strip it all
 // except what deliberately configures auth or the config folder.
 const KEEP = new Set(["CLAUDE_CODE_OAUTH_TOKEN", "CLAUDE_CONFIG_DIR", "CLAUDE_CODE_GIT_BASH_PATH"]);
+// A shell set up for some other endpoint ($env:ANTHROPIC_BASE_URL = "http://<box>:8000", ANTHROPIC_MODEL, …) would send
+// the grader and every Claude run there. The model overrides always go; the base URL goes too, and with it the key and
+// token that belong to it. Endpoint runs get their own ANTHROPIC_* from endpointSessionEnv. BENCH_KEEP_ANTHROPIC_ENV=1
+// keeps them all (e.g. Claude itself reached through a gateway).
+const ROUTING = /^ANTHROPIC_(BASE_URL|MODEL|DEFAULT_\w+_MODEL|SMALL_FAST_MODEL)$/i;
+const ENDPOINT_AUTH = /^ANTHROPIC_(API_KEY|AUTH_TOKEN)$/i;
 export function cleanEnv() {
   const env = {};
+  const keepAnthropic = process.env.BENCH_KEEP_ANTHROPIC_ENV === "1";
+  const foreignBase = !keepAnthropic && process.env.ANTHROPIC_BASE_URL && !/(^|\.)anthropic\.com/i.test(process.env.ANTHROPIC_BASE_URL);
   for (const [k, v] of Object.entries(process.env)) {
     if (/^(CLAUDECODE|CLAUDE_|MCP_|OTEL_)/i.test(k) && !KEEP.has(k.toUpperCase())) continue;
+    if (!keepAnthropic && (ROUTING.test(k) || (foreignBase && ENDPOINT_AUTH.test(k)))) continue;
     env[k] = v;
   }
   // npx-launched MCP servers need node; it may not be on PATH (e.g. fnm without shell setup)

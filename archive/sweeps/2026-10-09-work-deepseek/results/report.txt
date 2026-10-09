@@ -1,0 +1,145 @@
+All tests side by side (token split excludes cache reads)
+	DeepSeek V4 Flash DSpark · MCP	DeepSeek V4 Flash DSpark · MCP guided
+Blog prompt time	28:32	3:40
+API requests	428	86
+Total tokens	39,531,320	5,618,948
+Total excluding cache reads	5,612,600	131,076
+  Umbraco MCP	101,859 (2%)	58,554 (45%)
+  Coding: site (views, components, models)	371,516 (7%)	36,174 (28%)
+  Build, run & verify	165,122 (3%)	19,956 (15%)
+  Web research	5,947 (0%)	0 (0%)
+  Other tools	4,800,324 (86%)	0 (0%)
+Tool calls	480	142
+Grade	65/100	75/100
+
+MCP — Time
+Phase	DeepSeek V4 Flash DSpark
+Prompt 1: verify MCP	0:02
+Boot, read rules, plan → first type created	1:45
+Content modeling	0:38
+Content: media, pages, publish	0:55
+Stop, build, Razor, restart	25:03
+Checking the result and final report	0:10
+Total from first prompt	28:34
+Blog prompt only	28:32
+
+MCP — Tokens
+Tokens	DeepSeek V4 Flash DSpark
+API requests	428
+  of which subagent requests	75
+Fresh input	5,401,020
+Cache creation	0
+Cache read	33,918,720
+Output	211,580
+  of which thinking	0
+Total	39,531,320
+Total excluding cache reads	5,612,600
+
+MCP — Tokens by activity
+Activity	DeepSeek V4 Flash DSpark
+Umbraco MCP	1,557,716 (4%)
+Coding: site (views, components, models)	3,851,740 (10%)
+Build, run & verify	1,547,624 (4%)
+Web research	59,944 (0%)
+Other tools	9,924,659 (25%)
+Base context & reasoning	22,589,636 (57%)
+
+MCP — Tokens by activity, excluding cache reads
+Activity	DeepSeek V4 Flash DSpark
+Umbraco MCP	101,859 (2%)
+Coding: site (views, components, models)	371,516 (7%)
+Build, run & verify	165,122 (3%)
+Web research	5,947 (0%)
+Other tools	4,800,324 (86%)
+Base context & reasoning	167,831 (3%)
+
+MCP — Tool calls
+Tool	DeepSeek V4 Flash DSpark
+Shell (Bash)	206
+Umbraco MCP	95
+Read / Grep / Glob	111
+Edit / Write	50
+Background task control	7
+Subagents	2
+Web	2
+Other	7
+  Umbraco MCP reads / writes	54 / 41
+Total tool calls	480
+Tool calls per API request	1.36
+Failed tool calls	51
+Files written with heredocs	18 files in 17 calls
+dotnet build (failed)	4 (2)
+Context compactions	24
+
+MCP — Grade
+Category	DeepSeek V4 Flash DSpark
+It works (/35)	23
+Content modeling (/25)	23
+Code architecture & conventions (/25)	15
+Content & presentation (/10)	3
+Process & honesty (/5)	1
+Total	65/100
+Automated checks passed	—
+Graded by	Opus 5.5 (high)
+
+MCP guided — Time
+Phase	DeepSeek V4 Flash DSpark
+Prompt 1: verify MCP	0:02
+Boot, read rules, plan → first type created	0:52
+Content modeling	0:32
+Content: media, pages, publish	0:33
+Stop, build, Razor, restart	1:39
+Checking the result and final report	0:05
+Total from first prompt	3:42
+Blog prompt only	3:40
+
+MCP guided — Tokens
+Tokens	DeepSeek V4 Flash DSpark
+API requests	86
+Fresh input	96,220
+Cache creation	0
+Cache read	5,487,872
+Output	34,856
+  of which thinking	0
+Total	5,618,948
+Total excluding cache reads	131,076
+
+MCP guided — Tokens by activity
+Activity	DeepSeek V4 Flash DSpark
+Umbraco MCP	1,203,485 (21%)
+Coding: site (views, components, models)	1,039,568 (19%)
+Build, run & verify	273,914 (5%)
+Base context & reasoning	3,101,981 (55%)
+
+MCP guided — Tokens by activity, excluding cache reads
+Activity	DeepSeek V4 Flash DSpark
+Umbraco MCP	58,554 (45%)
+Coding: site (views, components, models)	36,174 (28%)
+Build, run & verify	19,956 (15%)
+Base context & reasoning	16,392 (13%)
+
+MCP guided — Tool calls
+Tool	DeepSeek V4 Flash DSpark
+Shell (Bash)	46
+Umbraco MCP	62
+Read / Grep / Glob	20
+Edit / Write	12
+Background task control	2
+  Umbraco MCP reads / writes	24 / 38
+Total tool calls	142
+Tool calls per API request	1.65
+Failed tool calls	14
+Files written with heredocs	0
+dotnet build (failed)	3 (1)
+Context compactions	2
+
+MCP guided — Grade
+Category	DeepSeek V4 Flash DSpark
+It works (/35)	28
+Content modeling (/25)	14
+Code architecture & conventions (/25)	25
+Content & presentation (/10)	5
+Process & honesty (/5)	3
+Total	75/100
+Automated checks passed	39/43
+Graded by	Opus 5.5 (high)

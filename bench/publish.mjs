@@ -37,6 +37,8 @@ const MACHINE = [
   /(^|\/)wwwroot\/media(\/|$)/i, /^run-book\.local\.json$/, /^\.gitignore$/, /^\.git(\/|$)/,
   // the runner's raw per-run streams: each run folder has its own copy
   /^bench\/logs\/auto-.*\.jsonl$/,
+  // runs parked on an airgapped network (npm run auto -- --airgapped), waiting to be graded on this machine
+  /^bench\/\.parked(\/|$)/,
 ];
 // left out of the public lean copy only
 const LEAN = [

@@ -31,7 +31,7 @@ All zero-dependency Node (needs Node 20+, git, and the .NET SDK).
 |---|---|
 | `npm run auto -- --model <m>[:effort]` | **Hands-off run**: setup, boot, prompts 1 and 2 in a headless Claude Code session, collect, grade, reset, report. See [Autonomous runs](#autonomous-runs) |
 | `npm run status` | Baseline, project state, Umbraco up/down, runs and whether they're graded, and what to do next |
-| `npm run setup -- <mcp\|mcp-guided\|migrations\|playwright>` | Set up the pristine project for a test: `mcp` and `mcp-guided` (the same test with a shorter prompt ending in numbered steps, for small models) keep the Umbraco MCP server, `migrations` removes `.mcp.json`, `playwright` swaps in `@playwright/mcp`. Reset returns to `mcp` |
+| `npm run setup -- <mcp\|mcp-guided\|guided\|migrations\|playwright>` | Set up the pristine project for a test: `mcp` and `mcp-guided` (the same test with a shorter prompt ending in numbered steps, for small models) keep the Umbraco MCP server, `guided` swaps in two trimmed Umbraco MCP servers (the dev server plus the Editor server) for an even more step-by-step prompt, `migrations` removes `.mcp.json`, `playwright` swaps in `@playwright/mcp`. Reset returns to `mcp` |
 | `npm run up` / `npm run down` | Start Umbraco in the background (waits until the MCP user can log in), or stop it |
 | `npm run collect` | Newest benchmark transcript → `results/<runId>/metrics.json` + a copy of the transcript. `--session <id>` or `--transcript <file>` picks a specific session; `--include-followups` counts prompts after the blog prompt's turn |
 | `npm run check` | Build, boot, API snapshot, crawl and convention checks → `check.json`, `snapshot.json`, `changes.patch`, `pages/` in the run folder |
@@ -77,7 +77,7 @@ Live progress (each tool call, with elapsed time) prints as it goes; Ctrl+C stop
 | `--runbook` | `run-book.json` | Another run-book file |
 | `--model` | run-book `anthropic.models` | Alias (`opus`, `sonnet`, `fable`, `haiku`) or full model ID (`sonnet-5-5` gets `claude-` added). Comma-separate for a sweep; `model:effort` per entry. Haiku never gets an effort |
 | `--effort` | run-book `anthropic.effort` | `low`, `medium`, `high`, `xhigh` or `max`, for entries without their own |
-| `--test` | run-book `run`, else `mcp` | `mcp`, `mcp-guided`, `migrations`, `playwright`, or a comma list (every model × every test) |
+| `--test` | run-book `run`, else `mcp` | `mcp`, `mcp-guided`, `guided`, `migrations`, `playwright`, or a comma list (every model × every test) |
 | `--grader`, `--grader-effort` | run-book `grader`, else `opus`, `high` | The grading session |
 | `--no-grade` | | Stop after collect (single run only, since the project isn't reset) |
 | `--timeout` | run-book `options.timeoutMinutes`, else `90` | Minutes for the blog prompt before the session is killed |
@@ -116,17 +116,28 @@ Any model behind an Anthropic-compatible `/v1/messages` endpoint runs through Cl
 - **Holds the API key.** It's read from the environment variable named in `apiKeyEnv`, so Claude Code and its transcript only see a placeholder.
 - **Rewrites requests for strict endpoints** (`rewrite`). It merges the system prompt into one message, and turns Claude Code's mid-conversation `system` messages into `<system-reminder>` user text. Qwen's chat template and stricter APIs refuse those messages.
 - **Fixes token counts** (`fixUsage`). LM Studio counts the cached prompt in `input_tokens` as well as in `cache_read_input_tokens`. Claude Code then sees twice the real context and compacts at half the window, which wipes the IDs and progress the model needs.
-- **Can switch thinking off** (`thinking: false`).
+- **Can switch thinking off** (`thinking: false`), and **drop request fields** a strict server rejects (`dropFields: ["context_management"]`).
+- **Takes a literal key** (`apiKey`) for a box that accepts any key. It wins over `apiKeyEnv`, so a real key in the environment is never sent there.
 - **Guards the run.** It stops after `loopLimit` identical failing tool calls, or past `maxTokens` / `maxUsd`. Claude Code then gets an error, and the run is collected and graded as it stands.
 - **Logs every request** to `bench/logs/<provider>-proxy-*.jsonl`.
 
 Endpoint models run with `bypassPermissions`, because auto mode's classifier would run on the model itself. They have no effort setting, and use their section's `timeoutMinutes`. Claude Code loads every MCP tool up front for a non-Anthropic endpoint, which is about 40k tokens for the Umbraco server, so `contextLength` matters. A setting can be one value, or `{ "<model>": value }` per model. `remote.sweep: false` keeps API models out of a parameterless `npm run auto`.
 
 ```
-npm run preflight -- --model <id> [--quick]   # ~3 min: key, endpoint, tool call, token counting, system messages, thinking,
-                                              # Claude Code end to end, and (without --quick) Umbraco + the MCP tools
+npm run preflight -- --model <id> [--quick]   # ~3 min: key, served models + context length (/v1/models), endpoint, speed,
+                                              # tool call, token counting, system messages, thinking, Claude Code end to end,
+                                              # and (without --quick) Umbraco + the MCP tools, then a reset
+npm run preflight -- --model <id> --offline   # only this machine's side; nothing is sent to the endpoint
 npm run auto -- --model <id>                  # one run; --no-grade to grade later
 ```
+
+The runner ignores `ANTHROPIC_BASE_URL`, `ANTHROPIC_MODEL`, `ANTHROPIC_DEFAULT_*_MODEL` and `ANTHROPIC_SMALL_FAST_MODEL` in the shell it is started from. When `ANTHROPIC_BASE_URL` points somewhere other than Anthropic, it also ignores `ANTHROPIC_API_KEY` and `ANTHROPIC_AUTH_TOKEN`. That way, a shell set up for another endpoint can't send the grader there. `BENCH_KEEP_ANTHROPIC_ENV=1` keeps them.
+
+**Airgapped endpoints** (a box on a network without internet): `npm run auto -- --model <id> --airgapped`.
+- **npm uses its cache only** (`npm_config_offline`). This covers the MCP server's `npx` and a model's `npm install` in the frontend projects, so they fail at once instead of waiting on a network that isn't there. Warm the cache while online: one `npm install` of each frontend project's `package.json` in a temp folder, plus one Umbraco boot for NuGet and the MCP server.
+- **Each collected run is parked**, because the grader needs the internet. Its project (minus `bin`, `obj` and `node_modules`) is copied to `bench/.parked/<runId>` and the scaffold is reset, so several runs fit in one session.
+- **Back online,** `npm run auto -- --grade-only` puts each parked run back and grades it.
+- **`auto.json` records `airgapped: true`.**
 
 Settings for one machine only (another base URL or model id, a budget) go in `run-book.local.json`. It's merged over `run-book.json`, and syncs never overwrite it.
 

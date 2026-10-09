@@ -24,6 +24,11 @@
     "archive": "node bench/archive.mjs",
     "export": "node bench/export.mjs",
     "preflight": "node bench/preflight.mjs",
+    "dspark:offline": "node bench/preflight.mjs --model DeepSeek-V4-Flash-DSpark --offline",
+    "dspark:check": "node bench/preflight.mjs --model DeepSeek-V4-Flash-DSpark --quick",
+    "dspark": "node bench/auto.mjs --model DeepSeek-V4-Flash-DSpark --airgapped",
+    "dspark:guided": "node bench/auto.mjs --model DeepSeek-V4-Flash-DSpark --airgapped --test guided",
+    "grade-parked": "node bench/auto.mjs --grade-only",
     "publish": "node bench/publish.mjs"
   }
 }

@@ -28,6 +28,6 @@ else if (v.mcpJson === null) fs.rmSync(mcpFile, { force: true });
 else writeJson(mcpFile, v.mcpJson);
 writeVariantState(key);
 
-console.log(`Umbraco.Bench is set up for the ${v.name} test (${v.mcpJson === null ? "no MCP servers" : v.mcpJson === "baseline" ? "Umbraco MCP server" : "Playwright MCP server"}).
+console.log(`Umbraco.Bench is set up for the ${v.name} test (${v.mcpJson === null ? "no MCP servers" : v.mcpJson === "baseline" ? "Umbraco MCP server" : `MCP servers: ${Object.keys(v.mcpJson.mcpServers).join(", ")}`}).
 Prompts: ${v.promptFile}
 Next: npm run up${v.hasPrompt1 ? ", new session in Umbraco.Bench, paste prompt 1, npm run down, paste prompt 2" : ", npm run down, then a new session in Umbraco.Bench and paste prompt 2"}.`);

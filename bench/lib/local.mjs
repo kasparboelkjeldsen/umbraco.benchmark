@@ -123,10 +123,11 @@ export function findLoop(messages, limit) {
 // - guard: stops the run when the model loops (loopLimit identical failing calls) or spends more than maxTokens / maxUsd
 //   (price per million tokens: input, output, cacheRead, cacheWrite). A stopped run gets an error response, which ends
 //   the turn; the runner collects and grades what was built. stats() says what happened; reset() starts a new run.
-// - log: one JSON line per request (see describeRequest)
+// - dropFields: top-level request fields deleted before forwarding (e.g. one a strict server rejects as unknown)
+// - log: one JSON line per request (see describeRequest), with the error body when the endpoint refuses
 // Resolves to { port, close(), stats(), reset() }.
 export function startProxy({ upstream = null, upstreamPort = null, apiKey = null, port = 0, log = null, thinking = true, rewrite = true,
-  usageFix = true, guard = {} }) {
+  usageFix = true, dropFields = [], guard = {} }) {
   const target = new URL(upstream || `http://127.0.0.1:${upstreamPort}`);
   const client = target.protocol === "https:" ? https : http;
   const basePath = target.pathname.replace(/\/$/, "");
@@ -170,6 +171,7 @@ export function startProxy({ upstream = null, upstreamPort = null, apiKey = null
             return refuse(res, `Benchmark guard stopped this run (${state.stopped}).`);
           }
           if (rewrite) rewriteRequest(j, { thinking }); else if (!thinking) delete j.thinking;
+          for (const f of dropFields) delete j[f];
           body = Buffer.from(JSON.stringify(j));
           state.requests++;
           if (log) summary = describeRequest(j, body.length);
@@ -179,11 +181,11 @@ export function startProxy({ upstream = null, upstreamPort = null, apiKey = null
       if (apiKey) { headers.authorization = `Bearer ${apiKey}`; headers["x-api-key"] = apiKey; }
       const up = client.request({ protocol: target.protocol, hostname: target.hostname, port: target.port || undefined,
         path: basePath + req.url, method: req.method, headers }, r => {
-        let usage = null;
+        let usage = null, error = null;
         // after the body has been handled, so the usage it carried is known
         const done = () => {
           if (isMessages) account(usage);
-          if (summary) log(JSON.stringify({ ...summary, status: r.statusCode, seconds: Math.round((Date.now() - t0) / 100) / 10, usage }));
+          if (summary) log(JSON.stringify({ ...summary, status: r.statusCode, seconds: Math.round((Date.now() - t0) / 100) / 10, usage, ...(error ? { error } : {}) }));
         };
         if (!isMessages) { res.writeHead(r.statusCode, r.headers); r.on("end", done); r.pipe(res); return; }
         const out = { ...r.headers };
@@ -213,6 +215,7 @@ export function startProxy({ upstream = null, upstreamPort = null, apiKey = null
           r.on("data", c => parts.push(c));
           r.on("end", () => {
             let b = Buffer.concat(parts);
+            if (r.statusCode >= 400) error = b.toString("utf8").slice(0, 1000);
             try { const j = JSON.parse(b.toString("utf8")); fix(j.usage); b = Buffer.from(JSON.stringify(j)); } catch {}
             res.end(b);
             done();
@@ -254,9 +257,17 @@ export function endpointSettings(book, provider, model) {
     lmstudioKey: provider === "local" ? pick("lmstudioKeys", model) : null,
     baseUrl: provider === "remote" ? process.env.BENCH_REMOTE_URL || pick("baseUrl", null) : null,
     apiKeyEnv: provider === "remote" ? pick("apiKeyEnv", "BENCH_REMOTE_KEY") : null,
+    // a literal key, only for endpoints that don't check one (a box on the LAN that wants "dummy"); it wins over
+    // apiKeyEnv, so a real key in the environment is never sent to such a box
+    apiKey: provider === "remote" ? pick("apiKey", null) : null,
+    dropFields: [].concat(pick("dropFields", [])),
     timeoutMinutes: pick("timeoutMinutes", null),
   };
 }
+
+// The key for an endpoint: the run-book's literal apiKey, else the environment variable it names
+export const endpointApiKey = s => s.apiKey ?? (s.apiKeyEnv ? process.env[s.apiKeyEnv] : null) ?? null;
+export const endpointKeySource = s => (s.apiKey != null ? "the run-book's apiKey" : s.apiKeyEnv);
 
 // The environment that points a Claude Code session at the proxy: every model alias (and subagents) → the endpoint's
 // model, no claude.ai traffic, the real context window (so auto-compaction comes in time), a 16k cap per response (a
@@ -271,6 +282,7 @@ export function endpointSessionEnv({ proxyPort, identifier, contextLength, maxOu
     ANTHROPIC_DEFAULT_OPUS_MODEL: identifier,
     ANTHROPIC_DEFAULT_SONNET_MODEL: identifier,
     ANTHROPIC_DEFAULT_HAIKU_MODEL: identifier,
+    ANTHROPIC_SMALL_FAST_MODEL: identifier,
     CLAUDE_CODE_SUBAGENT_MODEL: identifier,
     CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: "1",
     CLAUDE_CODE_AUTO_COMPACT_WINDOW: String(contextLength),
