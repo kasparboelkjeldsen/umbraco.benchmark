@@ -109,9 +109,9 @@ The Codex CLI comes with the Codex desktop app (`%LOCALAPPDATA%\OpenAI\Codex\bin
 
 The CLI has to be logged in on its own (`claude auth login`), or `CLAUDE_CODE_OAUTH_TOKEN` (from `claude setup-token`) or `ANTHROPIC_API_KEY` set; `--dry-run` shows which. Headless runs report `entrypoint: sdk-cli` in `metrics.json`, and their time has no waiting on a human in it.
 
-### Other models through Claude Code: local (LM Studio) and remote (API) endpoints
+### Other models through Claude Code: local (LM Studio), remote (API) and OpenRouter endpoints
 
-Any model behind an Anthropic-compatible `/v1/messages` endpoint runs through Claude Code like a Claude model. `run-book.json` has two sections for them: `local`, for models that LM Studio serves on this machine, and `remote`, for an API such as DeepSeek's `https://api.deepseek.com/anthropic`. The runner starts a small proxy between Claude Code and the endpoint (`bench/lib/local.mjs`), which does the following:
+Any model behind an Anthropic-compatible `/v1/messages` endpoint runs through Claude Code like a Claude model. `run-book.json` has three sections for them: `local`, for models that LM Studio serves on this machine; `remote`, for an API such as DeepSeek's `https://api.deepseek.com/anthropic`; and `openrouter`, for any model on OpenRouter (see below). The runner starts a small proxy between Claude Code and the endpoint (`bench/lib/local.mjs`), which does the following:
 
 - **Holds the API key.** It's read from the environment variable named in `apiKeyEnv`, so Claude Code and its transcript only see a placeholder.
 - **Rewrites requests for strict endpoints** (`rewrite`). It merges the system prompt into one message, and turns Claude Code's mid-conversation `system` messages into `<system-reminder>` user text. Qwen's chat template and stricter APIs refuse those messages.
@@ -132,6 +132,18 @@ npm run auto -- --model <id>                  # one run; --no-grade to grade lat
 ```
 
 The runner ignores `ANTHROPIC_BASE_URL`, `ANTHROPIC_MODEL`, `ANTHROPIC_DEFAULT_*_MODEL` and `ANTHROPIC_SMALL_FAST_MODEL` in the shell it is started from. When `ANTHROPIC_BASE_URL` points somewhere other than Anthropic, it also ignores `ANTHROPIC_API_KEY` and `ANTHROPIC_AUTH_TOKEN`. That way, a shell set up for another endpoint can't send the grader there. `BENCH_KEEP_ANTHROPIC_ENV=1` keeps them.
+
+**OpenRouter.** OpenRouter has an Anthropic-compatible endpoint (`https://openrouter.ai/api`), so its models go through the same proxy. Any id with a slash is an OpenRouter model, whether or not it's listed under `openrouter.models`:
+```
+$env:OPENROUTER_API_KEY = "sk-or-..."
+npm run preflight -- --model mistralai/mistral-large-4-0 --quick    # also prints OpenRouter's context length and price for it
+npm run auto -- --model mistralai/mistral-large-4-0
+npm run auto -- --model mistralai/mistral-large-4-0,qwen/qwen3-coder --test mcp-guided
+```
+- **Settings** come from the `openrouter` section, the same keys as `remote`, per model where needed. `contextLength` is 200k, the window Claude Code gives Claude models, so runs compare. Guards: `maxUsd` 15 and 20M tokens per run.
+- **Prices** for scoring go under `pricing.openrouter`. Preflight reads them from OpenRouter's model list and prints a ready-made entry when one is missing.
+- **Provider routing:** `extraBody` adds top-level fields to every request. Use it to pin a provider when a model has several that differ in quantization or context: `"extraBody": { "<model>": { "provider": { "order": ["<provider>"], "allow_fallbacks": false } } }`. Mistral Large 4 has only Mistral.
+- Runs show up as "Claude Code + OpenRouter", and the proxy log is `bench/logs/openrouter-proxy-*.jsonl`.
 
 **Airgapped endpoints** (a box on a network without internet): `npm run auto -- --model <id> --airgapped`.
 - **npm uses its cache only** (`npm_config_offline`). This covers the MCP server's `npx` and a model's `npm install` in the frontend projects, so they fail at once instead of waiting on a network that isn't there. Warm the cache while online: one `npm install` of each frontend project's `package.json` in a temp folder, plus one Umbraco boot for NuGet and the MCP server.

@@ -124,10 +124,11 @@ export function findLoop(messages, limit) {
 //   (price per million tokens: input, output, cacheRead, cacheWrite). A stopped run gets an error response, which ends
 //   the turn; the runner collects and grades what was built. stats() says what happened; reset() starts a new run.
 // - dropFields: top-level request fields deleted before forwarding (e.g. one a strict server rejects as unknown)
+// - extraBody: top-level fields merged into every request (e.g. OpenRouter's { provider: { order, allow_fallbacks } })
 // - log: one JSON line per request (see describeRequest), with the error body when the endpoint refuses
 // Resolves to { port, close(), stats(), reset() }.
 export function startProxy({ upstream = null, upstreamPort = null, apiKey = null, port = 0, log = null, thinking = true, rewrite = true,
-  usageFix = true, dropFields = [], guard = {} }) {
+  usageFix = true, dropFields = [], extraBody = null, guard = {} }) {
   const target = new URL(upstream || `http://127.0.0.1:${upstreamPort}`);
   const client = target.protocol === "https:" ? https : http;
   const basePath = target.pathname.replace(/\/$/, "");
@@ -172,6 +173,7 @@ export function startProxy({ upstream = null, upstreamPort = null, apiKey = null
           }
           if (rewrite) rewriteRequest(j, { thinking }); else if (!thinking) delete j.thinking;
           for (const f of dropFields) delete j[f];
+          if (extraBody) Object.assign(j, extraBody);
           body = Buffer.from(JSON.stringify(j));
           state.requests++;
           if (log) summary = describeRequest(j, body.length);
@@ -240,11 +242,31 @@ export function startProxy({ upstream = null, upstreamPort = null, apiKey = null
   });
 }
 
-// The run-book's settings for an endpoint model (sections "local" and "remote"; a setting is one value or
+// Endpoint providers that are an API somewhere else: "remote" (any Anthropic-compatible API, e.g. DeepSeek's) and
+// "openrouter" (OpenRouter's Anthropic-compatible endpoint; any "vendor/model" id goes there)
+export const REMOTE_LIKE = ["remote", "openrouter"];
+const REMOTE_DEFAULTS = {
+  remote: { baseUrl: null, apiKeyEnv: "BENCH_REMOTE_KEY", urlEnv: "BENCH_REMOTE_URL" },
+  openrouter: { baseUrl: "https://openrouter.ai/api", apiKeyEnv: "OPENROUTER_API_KEY", urlEnv: "BENCH_OPENROUTER_URL" },
+};
+
+// Which endpoint section a model belongs to, or null (a Claude or OpenAI model). Shared by the runner and preflight.
+export function endpointProviderOf(book, model) {
+  if ((book.local?.models || []).map(String).includes(model)) return "local";
+  if ((book.remote?.models || []).map(String).includes(model)) return "remote";
+  if ((book.openrouter?.models || []).map(String).includes(model) || model.includes("/")) return "openrouter";
+  return null;
+}
+
+// The run-book's settings for an endpoint model (sections "local", "remote" and "openrouter"; a setting is one value or
 // { "<model>": value }). Shared by the runner and npm run preflight so both talk to the endpoint the same way.
 export function endpointSettings(book, provider, model) {
   const cfg = book[provider] || {};
-  const pick = (k, fallback) => { const v = cfg[k]; return (v && typeof v === "object" && !Array.isArray(v) ? v[model] : v) ?? fallback; };
+  const pick = (k, fallback) => { const v = cfg[k]; return (v && typeof v === "object" && !Array.isArray(v) && k !== "extraBody" ? v[model] : v) ?? fallback; };
+  const remote = REMOTE_DEFAULTS[provider];
+  // extraBody: one object for every model, or { "<model>": object } (told apart by whether the keys are this section's models)
+  const eb = cfg.extraBody;
+  const extraBody = eb && typeof eb === "object" ? ((cfg.models || []).some(m => m in eb) || model in eb ? eb[model] ?? null : eb) : null;
   return {
     provider, model,
     contextLength: Number(pick("contextLength", 131072)),
@@ -255,12 +277,14 @@ export function endpointSettings(book, provider, model) {
     maxOutputTokens: Number(pick("maxOutputTokens", 16000)),
     guard: { loopLimit: Number(pick("loopLimit", 4)), maxTokens: pick("maxTokens", null), maxUsd: pick("maxUsd", null), price: book.pricing?.[provider]?.[model] ?? null },
     lmstudioKey: provider === "local" ? pick("lmstudioKeys", model) : null,
-    baseUrl: provider === "remote" ? process.env.BENCH_REMOTE_URL || pick("baseUrl", null) : null,
-    apiKeyEnv: provider === "remote" ? pick("apiKeyEnv", "BENCH_REMOTE_KEY") : null,
+    baseUrl: remote ? process.env[remote.urlEnv] || pick("baseUrl", remote.baseUrl) : null,
+    apiKeyEnv: remote ? pick("apiKeyEnv", remote.apiKeyEnv) : null,
     // a literal key, only for endpoints that don't check one (a box on the LAN that wants "dummy"); it wins over
     // apiKeyEnv, so a real key in the environment is never sent to such a box
-    apiKey: provider === "remote" ? pick("apiKey", null) : null,
+    apiKey: remote ? pick("apiKey", null) : null,
     dropFields: [].concat(pick("dropFields", [])),
+    // top-level fields merged into every /v1/messages request, e.g. OpenRouter's provider routing
+    extraBody,
     timeoutMinutes: pick("timeoutMinutes", null),
   };
 }

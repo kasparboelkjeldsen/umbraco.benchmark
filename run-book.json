@@ -14,7 +14,8 @@
     "flags": "Any model name starting with gpt picks Codex when given with --model, one listed in local.models picks LM Studio, and one listed in remote.models picks that API endpoint, e.g. npm run auto -- --model claude-sonnet-5-5,gpt-5.6-terra --effort high.",
     "scoring": "npm run score. Score = (Quality + Efficiency) x Honesty. Quality = the grade minus repeatedImagePenaltyPerPage per page showing the same photo twice (capped at repeatedImagePenaltyMax). Efficiency = points: minus N per doubling of blog-prompt time and minus N per doubling of cost relative to the median of the scored runs (plus when below the median), capped at plus/minus efficiencyCap, so it only separates runs of similar quality. A multiplier was tried first and let a 34x cheaper 89 outrank a 99; a cap of 10 (2026-10-03) still let a 27x cheaper 94 outrank a 99, so it is 5. The table shows every N in efficiencyPointsPerDoubling, ranked at headlinePointsPerDoubling. Honesty = the multiplier for the run's honesty level (npm run honesty: one Opus check per run against the same rubric).",
     "pricing": "Per million tokens, used by npm run score to price every run the same way from its own token counts (Codex reports no cost, it runs on a subscription). Update with the source and date when prices change.",
-    "remote": "Models behind a remote Anthropic-compatible API (e.g. DeepSeek: https://api.deepseek.com/anthropic), run through Claude Code exactly like local ones: the runner starts the same proxy, which adds the API key (read from the environment variable named in apiKeyEnv, never stored here, so Claude Code and its transcript only see a placeholder), logs every request to bench/logs/remote-proxy-*.jsonl and guards the run. sweep: false keeps these out of a parameterless npm run auto; run them with npm run auto -- --model <id>. models = the model id the API expects. contextLength = what Claude Code compacts against. thinking: false drops Claude Code's thinking request. rewrite: one system message, and Claude Code's mid-conversation system messages as <system-reminder> user text — on, because stricter Anthropic-compatible APIs refuse role:system messages (harmless otherwise). fixUsage: input_tokens without the cached part — only if npm run preflight says the endpoint counts the cache twice. Guards: loopLimit = stop after this many identical failing tool calls; maxTokens / maxUsd = stop the run beyond this (maxUsd needs a price under pricing.remote). timeoutMinutes = the blog prompt's limit. apiKey = a literal key for an endpoint that accepts any (a LAN box wanting 'dummy'); it wins over apiKeyEnv. dropFields = top-level request fields the proxy deletes (for a server that rejects one as unknown). Settings can be one value or { \"<model>\": value } per model. Run npm run preflight -- --model <id> first: ~3 minutes, checks key, endpoint, tool calls, usage counting, Claude Code end to end and the Umbraco MCP setup."
+    "remote": "Models behind a remote Anthropic-compatible API (e.g. DeepSeek: https://api.deepseek.com/anthropic), run through Claude Code exactly like local ones: the runner starts the same proxy, which adds the API key (read from the environment variable named in apiKeyEnv, never stored here, so Claude Code and its transcript only see a placeholder), logs every request to bench/logs/remote-proxy-*.jsonl and guards the run. sweep: false keeps these out of a parameterless npm run auto; run them with npm run auto -- --model <id>. models = the model id the API expects. contextLength = what Claude Code compacts against. thinking: false drops Claude Code's thinking request. rewrite: one system message, and Claude Code's mid-conversation system messages as <system-reminder> user text — on, because stricter Anthropic-compatible APIs refuse role:system messages (harmless otherwise). fixUsage: input_tokens without the cached part — only if npm run preflight says the endpoint counts the cache twice. Guards: loopLimit = stop after this many identical failing tool calls; maxTokens / maxUsd = stop the run beyond this (maxUsd needs a price under pricing.remote). timeoutMinutes = the blog prompt's limit. apiKey = a literal key for an endpoint that accepts any (a LAN box wanting 'dummy'); it wins over apiKeyEnv. dropFields = top-level request fields the proxy deletes (for a server that rejects one as unknown). Settings can be one value or { \"<model>\": value } per model. Run npm run preflight -- --model <id> first: ~3 minutes, checks key, endpoint, tool calls, usage counting, Claude Code end to end and the Umbraco MCP setup.",
+    "openrouter": "Models on OpenRouter (https://openrouter.ai), run through Claude Code exactly like the remote ones: OpenRouter has an Anthropic-compatible /v1/messages at https://openrouter.ai/api, and the same proxy sits in between (key from OPENROUTER_API_KEY, added by the proxy; requests logged to bench/logs/openrouter-proxy-*.jsonl; loop, token and cost guards). Any id with a slash ('vendor/model', as OpenRouter writes them) is an OpenRouter model, listed here or not: npm run auto -- --model qwen/qwen3-coder works with this section's settings. List a model under models only to give it per-model settings; sweep: false keeps the section out of a parameterless npm run auto. Same settings as remote ({ \"<model>\": value } per model). contextLength 200000 = the window Claude Code gives Claude models, so the runs compare (Mistral Large 4 itself takes 1M). extraBody = top-level fields added to every request, for OpenRouter's provider routing when a model has several providers that differ (quantization, context): e.g. \"extraBody\": { \"<model>\": { \"provider\": { \"order\": [\"mistral\"], \"allow_fallbacks\": false } } }. Prices go under pricing.openrouter (OpenRouter's model page or npm run preflight, which reads them from /api/v1/models). Run npm run preflight -- --model <id> first."
   },
   "run": "mcp",
   "anthropic": {
@@ -69,6 +70,23 @@
     "loopLimit": 4,
     "maxTokens": 8000000,
     "maxUsd": null,
+    "maxOutputTokens": 16000,
+    "timeoutMinutes": 60
+  },
+  "openrouter": {
+    "sweep": false,
+    "models": [
+      "mistralai/mistral-large-4-0"
+    ],
+    "baseUrl": "https://openrouter.ai/api",
+    "apiKeyEnv": "OPENROUTER_API_KEY",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "fixUsage": false,
+    "loopLimit": 4,
+    "maxTokens": 20000000,
+    "maxUsd": 15,
     "maxOutputTokens": 16000,
     "timeoutMinutes": 60
   },
@@ -206,6 +224,15 @@
     },
     "remote": {
       "source": "Fill in per million tokens (input, output, cacheRead) from the provider's price list before scoring; without a price the run is collected and graded but not scored, and maxUsd can't apply."
+    },
+    "openrouter": {
+      "source": "https://openrouter.ai/api/v1/models, fetched 2026-10-09 (per million tokens; OpenRouter passes the provider's price through)",
+      "fetched": "2026-10-09",
+      "mistralai/mistral-large-4-0": {
+        "input": 0.68,
+        "output": 2.09,
+        "cacheRead": 0.07
+      }
     }
   }
 }

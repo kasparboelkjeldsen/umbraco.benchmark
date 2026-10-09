@@ -19,7 +19,7 @@ import net from "node:net";
 import { spawn, spawnSync } from "node:child_process";
 import { ROOT, PROJECT, parseArgs, readRunBook } from "./lib/common.mjs";
 import { resolveClaudeBin, authStatus, cleanEnv } from "./lib/claude.mjs";
-import { resolveLms, ensureServer, loadModel, startProxy, endpointSessionEnv, endpointSettings, endpointApiKey, endpointKeySource } from "./lib/local.mjs";
+import { resolveLms, ensureServer, loadModel, startProxy, endpointSessionEnv, endpointSettings, endpointApiKey, endpointKeySource, endpointProviderOf, REMOTE_LIKE } from "./lib/local.mjs";
 import { hasBaseline, changes } from "./lib/baseline.mjs";
 
 const args = parseArgs();
@@ -27,7 +27,7 @@ const model = typeof args.model === "string" ? args.model : null;
 if (!model) { console.error("Usage: npm run preflight -- --model <id> [--quick | --offline]"); process.exit(1); }
 const offline = !!args.offline;
 const book = readRunBook();
-const provider = (book.remote?.models || []).includes(model) ? "remote" : (book.local?.models || []).includes(model) ? "local" : null;
+const provider = endpointProviderOf(book, model);
 
 const results = [];
 const recommend = {};
@@ -46,13 +46,13 @@ function summary() {
 
 say(`Preflight for ${model}${offline ? " (offline: nothing is sent to the endpoint)" : ""}\n`);
 // ---- 1. configuration
-if (!provider) fail(`${model} isn't in run-book.json remote.models or local.models`);
+if (!provider) fail(`${model} isn't in run-book.json local.models, remote.models or openrouter.models (or an OpenRouter "vendor/model" id)`);
 const s = endpointSettings(book, provider, model);
 check(true, `run-book: ${provider}`, `context ${s.contextLength}, thinking ${s.thinking ? "on" : "off"}, rewrite ${s.rewrite ? "on" : "off"}, usage fix ${s.usageFix ? "on" : "off"}${s.dropFields.length ? `, dropping ${s.dropFields.join(", ")}` : ""}, loop guard ${s.guard.loopLimit}, max tokens ${s.guard.maxTokens ?? "none"}, max $ ${s.guard.maxUsd ?? "none"}, timeout ${s.timeoutMinutes ?? book.options?.timeoutMinutes ?? 90} min`);
 if (!s.guard.price) check(null, "no price under pricing." + provider + "." + model, "the run can't be scored for cost, and maxUsd can't apply (maxTokens still does)");
 let upstream = null, upstreamPort = null, apiKey = null;
-if (provider === "remote") {
-  if (!s.baseUrl) fail("no base URL: set remote.baseUrl or BENCH_REMOTE_URL");
+if (REMOTE_LIKE.includes(provider)) {
+  if (!s.baseUrl) fail(`no base URL: set ${provider}.baseUrl`);
   apiKey = endpointApiKey(s);
   if (!apiKey) fail(`no API key: set the ${s.apiKeyEnv} environment variable (e.g. $env:${s.apiKeyEnv} = "…" in this PowerShell)`);
   check(true, `endpoint ${s.baseUrl}, key from ${endpointKeySource(s)}`, `${apiKey.length} characters`);
@@ -92,9 +92,9 @@ if (!offline && upstream) {
 }
 if (!offline) {
   // through the proxy, with the run-book's settings
-  const proxy = await startProxy({ upstream, upstreamPort, apiKey, thinking: s.thinking, rewrite: s.rewrite, usageFix: s.usageFix, dropFields: s.dropFields, guard: { loopLimit: 0 } });
+  const proxy = await startProxy({ upstream, upstreamPort, apiKey, thinking: s.thinking, rewrite: s.rewrite, usageFix: s.usageFix, dropFields: s.dropFields, extraBody: s.extraBody, guard: { loopLimit: 0 } });
   // a raw proxy (no rewrite, no usage fix) to see what the endpoint itself does
-  const raw = await startProxy({ upstream, upstreamPort, apiKey, rewrite: false, usageFix: false, guard: { loopLimit: 0 } });
+  const raw = await startProxy({ upstream, upstreamPort, apiKey, rewrite: false, usageFix: false, extraBody: s.extraBody, guard: { loopLimit: 0 } });
   const call = async (p, body) => {
     const t = Date.now();
     const r = await fetch(`http://127.0.0.1:${p.port}/v1/messages`, { method: "POST", headers: { "content-type": "application/json", "anthropic-version": "2023-06-01" },
@@ -113,10 +113,14 @@ if (!offline) {
     if (!list) check(null, "served models", `/v1/models answered HTTP ${res.status}; can't confirm the model id or context length`);
     else {
       const mine = list.find(m => m.id === model);
-      const ids = list.map(m => m.id).join(", ") || "none";
-      check(mine ? true : null, "served models", mine ? `${model}${mine.max_model_len ? `, max_model_len ${mine.max_model_len}` : ""}` : `${model} isn't listed; the server has: ${ids}`);
+      // OpenRouter lists hundreds of models (with context_length and a price); a vLLM server lists its one or two
+      const ids = list.length > 20 ? `${list.length} models, e.g. ${list.filter(m => m.id.split("/")[0] === model.split("/")[0]).slice(0, 8).map(m => m.id).join(", ") || list.slice(0, 8).map(m => m.id).join(", ")}` : list.map(m => m.id).join(", ") || "none";
+      const ctxOf = m => m?.max_model_len || m?.context_length || m?.top_provider?.context_length || 0;
+      const priceOf = m => m?.pricing?.prompt ? `, $${(m.pricing.prompt * 1e6).toFixed(2)} in / $${(m.pricing.completion * 1e6).toFixed(2)} out / $${(Number(m.pricing.input_cache_read || m.pricing.prompt) * 1e6).toFixed(2)} cache read per M` : "";
+      check(mine ? true : null, "served models", mine ? `${model}${ctxOf(mine) ? `, context ${ctxOf(mine)}` : ""}${priceOf(mine)}` : `${model} isn't listed; the server has: ${ids}`);
       if (!mine && list.length === 1) recommend.models = [list[0].id];
-      const max = Number(mine?.max_model_len || (list.length === 1 ? list[0].max_model_len : 0));
+      if (mine && !s.guard.price && mine.pricing?.prompt) recommend.price = { input: +(mine.pricing.prompt * 1e6).toFixed(4), output: +(mine.pricing.completion * 1e6).toFixed(4), cacheRead: +(Number(mine.pricing.input_cache_read || mine.pricing.prompt) * 1e6).toFixed(4), note: `goes under pricing.${provider}` };
+      const max = Number(ctxOf(mine) || (list.length === 1 ? ctxOf(list[0]) : 0));
       if (max && max < s.contextLength) {
         check(false, "context length", `the server allows ${max} tokens, the run-book says ${s.contextLength}: Claude Code would overflow before compacting`);
         recommend.contextLength = max;

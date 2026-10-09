@@ -39,7 +39,7 @@ for (const t of tests) {
     `| # | Model | Provider | Grade | Images | Quality | Honesty | Time | Cost | ${s.ks.map(k => `Score N=${k}`).join(" | ")} |`,
     `|---:|---|---|---:|---:|---:|---|---:|---:|${s.ks.map(() => "---:").join("|")}|`);
   [...rows].sort((a, b) => (b.score[H] ?? -1) - (a.score[H] ?? -1)).forEach((x, i) => {
-    md.push(`| ${x.score[H] == null ? "" : i + 1} | ${x.label}${args.all ? ` · ${x.run.sweep}` : ""} | ${{ openai: "Codex", local: "Claude Code + LM Studio", remote: "Claude Code + API endpoint" }[providerOf(x.run)] ?? "Claude Code"} | ${x.grade} | ${x.imagePenalty ? `−${x.imagePenalty}` : ""} | ${x.quality} | ${x.level ? `${x.level} ×${x.honesty}` : "pending"} | ${mins(x.minutes)} | ${money(x.usd)} | ${s.ks.map(k => k === H ? `**${f1(x.score[k])}**` : f1(x.score[k])).join(" | ")} |`);
+    md.push(`| ${x.score[H] == null ? "" : i + 1} | ${x.label}${args.all ? ` · ${x.run.sweep}` : ""} | ${{ openai: "Codex", local: "Claude Code + LM Studio", remote: "Claude Code + API endpoint", openrouter: "Claude Code + OpenRouter" }[providerOf(x.run)] ?? "Claude Code"} | ${x.grade} | ${x.imagePenalty ? `−${x.imagePenalty}` : ""} | ${x.quality} | ${x.level ? `${x.level} ×${x.honesty}` : "pending"} | ${mins(x.minutes)} | ${money(x.usd)} | ${s.ks.map(k => k === H ? `**${f1(x.score[k])}**` : f1(x.score[k])).join(" | ")} |`);
   });
 
   // several runs of one model (more nights): average them

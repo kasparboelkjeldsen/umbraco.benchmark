@@ -17,7 +17,7 @@ import { hasBaseline, changes } from "./lib/baseline.mjs";
 import { stopSite } from "./lib/umbraco.mjs";
 import { modelDisplayName } from "./lib/transcript.mjs";
 import { resolveClaudeBin, claudeVersion, authStatus, ClaudeSession, killTree } from "./lib/claude.mjs";
-import { resolveLms, ensureServer, loadModel, unloadAll, startProxy, endpointSessionEnv, endpointSettings, endpointApiKey, endpointKeySource } from "./lib/local.mjs";
+import { resolveLms, ensureServer, loadModel, unloadAll, startProxy, endpointSessionEnv, endpointSettings, endpointApiKey, endpointKeySource, endpointProviderOf, REMOTE_LIKE } from "./lib/local.mjs";
 import { resolveCodexBin, codexVersion, codexAuth, codexRateLimits, isUsageLimitError, CodexSession, mcpServerArgs, userMcpServerOffArgs, findRollout, DISABLED_FEATURES } from "./lib/codex.mjs";
 import { park, unpark, parkedRuns } from "./lib/park.mjs";
 
@@ -53,17 +53,16 @@ const GRADER = opt("grader", book.grader?.model, "opus");
 const GRADER_EFFORT = opt("grader-effort", book.grader?.effort, "high");
 const TIMEOUT_MS = Number(opt("timeout", book.options?.timeoutMinutes, 90)) * 60_000;
 // a local model on one consumer GPU is far slower than an API, so it gets its own blog-prompt timeout
-// local (LM Studio) and remote (an Anthropic-compatible API, e.g. DeepSeek) models run through Claude Code + the proxy
-const ENDPOINT_PROVIDERS = ["local", "remote"];
+// local (LM Studio), remote (an Anthropic-compatible API, e.g. DeepSeek) and openrouter (any "vendor/model" id on
+// OpenRouter) models run through Claude Code + the proxy
+const ENDPOINT_PROVIDERS = ["local", ...REMOTE_LIKE];
 const isEndpoint = provider => ENDPOINT_PROVIDERS.includes(provider);
 // (one value for the section, or { "<model>": minutes })
 const timeoutFor = (provider, model) => {
   const min = isEndpoint(provider) && args.timeout === undefined ? Number(endpointSettings(book, provider, model).timeoutMinutes) : NaN;
   return min > 0 ? min * 60_000 : TIMEOUT_MS;
 };
-const LOCAL_MODELS = new Set((book.local?.models || []).map(String));
-const REMOTE_MODELS = new Set((book.remote?.models || []).map(String));
-const HARNESS = { anthropic: "Claude Code", openai: "Codex", local: "Claude Code + LM Studio", remote: "Claude Code + API endpoint" };
+const HARNESS = { anthropic: "Claude Code", openai: "Codex", local: "Claude Code + LM Studio", remote: "Claude Code + API endpoint", openrouter: "Claude Code + OpenRouter" };
 const BUDGET = opt("budget", book.options?.budgetUsd, null);
 // one Codex run took ~15% of the Plus plan's 5-hour window; don't start one that would likely run out halfway
 const CODEX_MAX_USED = Number(opt("codex-max-used", book.options?.codexMaxUsedPercent, 75));
@@ -106,7 +105,7 @@ function discard(ref) {
 }
 
 // OpenAI models run through Codex, the run-book's local models through Claude Code + LM Studio, the rest through Claude Code
-const providerOf = model => LOCAL_MODELS.has(model) ? "local" : REMOTE_MODELS.has(model) ? "remote" : /^(gpt|o\d|codex)/i.test(model) ? "openai" : "anthropic";
+const providerOf = model => endpointProviderOf(book, model) ?? (/^(gpt|o\d|codex)/i.test(model) ? "openai" : "anthropic");
 
 // "opus:high,gpt-5.6-terra" → [{ provider: "anthropic", model: "opus", effort: "high" }, { provider: "openai", model: "gpt-5.6-terra", effort: … }]
 // Without --model: run-book anthropic.models, then openai.models, then local.models, each with its section's effort.
@@ -116,9 +115,11 @@ function parseModels() {
   const flagEffort = args.effort !== undefined && args.effort !== true ? args.effort : undefined;
   const entries = fromFlags
     ? String(fromFlags).split(",").map(s => ({ s, section: null }))
-    : ["anthropic", "openai", "local", "remote"].filter(p => book[p]?.sweep !== false).flatMap(p => (book[p]?.models || []).map(s => ({ s, section: p })));
+    : ["anthropic", "openai", "local", ...REMOTE_LIKE].filter(p => book[p]?.sweep !== false).flatMap(p => (book[p]?.models || []).map(s => ({ s, section: p })));
   return entries.map(({ s, section }) => ({ s: String(s).trim(), section })).filter(e => e.s).map(({ s, section }) => {
-    let [model, effort] = s.split(":");
+    // the effort is the part after the last ":" when it is one (OpenRouter ids can have a ":variant" of their own)
+    const em = s.match(/^(.*):(low|medium|high|xhigh|max|default)$/i);
+    let [model, effort] = em ? [em[1], em[2]] : [s, undefined];
     if (/^(opus|sonnet|haiku|fable)-\d/i.test(model)) model = "claude-" + model;
     const provider = section || providerOf(model);
     effort = effort || flagEffort || book[provider]?.effort;
@@ -166,7 +167,7 @@ async function ensureEndpoint(provider, model) {
   if (ENDPOINT?.model === model) { ENDPOINT.proxy.reset(); return ENDPOINT; }
   await closeEndpoint({ unload: false });
   const settings = endpointSettings(book, provider, model);
-  const { contextLength, thinking, rewrite, usageFix, guard, maxOutputTokens, lmstudioKey, baseUrl, apiKeyEnv, dropFields } = settings;
+  const { contextLength, thinking, rewrite, usageFix, guard, maxOutputTokens, lmstudioKey, baseUrl, apiKeyEnv, dropFields, extraBody } = settings;
   let upstream = null, upstreamPort = null, apiKey = null, lmsBin = null, key = null;
   if (provider === "local") {
     lmsBin = resolveLms();
@@ -179,13 +180,13 @@ async function ensureEndpoint(provider, model) {
   } else {
     upstream = baseUrl;
     apiKey = endpointApiKey(settings);
-    if (!upstream) throw new InfraError(`no base URL for ${model}: set remote.baseUrl in run-book.json or BENCH_REMOTE_URL`);
+    if (!upstream) throw new InfraError(`no base URL for ${model}: set ${provider}.baseUrl in run-book.json`);
     if (!apiKey) throw new InfraError(`no API key for ${model}: set the ${apiKeyEnv} environment variable`);
     step(`Remote model: ${model} at ${upstream}, context ${contextLength} (key from ${endpointKeySource(settings)})`);
   }
   const proxyLog = path.join(LOGS, `${provider}-proxy-${stamp()}-${model.replace(/[^a-z0-9.-]+/gi, "-")}.jsonl`);
-  const proxy = await startProxy({ upstream, upstreamPort, apiKey, thinking, rewrite, usageFix, dropFields, guard, log: line => fs.appendFileSync(proxyLog, line + "\n") });
-  say(`  proxy on port ${proxy.port}: ${[rewrite && "one system message", !thinking && "thinking off", usageFix && "usage fix", dropFields.length && `dropping ${dropFields.join(", ")}`,
+  const proxy = await startProxy({ upstream, upstreamPort, apiKey, thinking, rewrite, usageFix, dropFields, extraBody, guard, log: line => fs.appendFileSync(proxyLog, line + "\n") });
+  say(`  proxy on port ${proxy.port}: ${[rewrite && "one system message", !thinking && "thinking off", usageFix && "usage fix", dropFields.length && `dropping ${dropFields.join(", ")}`, extraBody && `adding ${JSON.stringify(extraBody)}`,
     `loop guard ${guard.loopLimit}`, guard.maxTokens && `max ${guard.maxTokens} tokens`, guard.maxUsd && `max $${guard.maxUsd}`].filter(Boolean).join(", ")}; requests logged to ${path.relative(ROOT, proxyLog)}`);
   ENDPOINT = { provider, model, key, contextLength, thinking, rewrite, usageFix, dropFields, guard: { ...guard, price: undefined }, upstream: upstream || `lmstudio:${upstreamPort}`,
     lmsBin, proxy, proxyLog: path.relative(ROOT, proxyLog),
@@ -319,7 +320,7 @@ async function parkRun(run, auto) {
 // write). Those run with bypassPermissions, the nearest thing: nothing asks, nothing is refused. auto.json records it.
 const PERMISSION_FALLBACK = new Map();
 // Local models too: auto mode's safety classifier would run on the local model itself.
-const permissionModeFor = model => PERMISSION_FALLBACK.get(model) ?? (PERMISSION_MODE === "auto" && (/haiku-4/i.test(model) || LOCAL_MODELS.has(model) || REMOTE_MODELS.has(model)) ? "bypassPermissions" : PERMISSION_MODE);
+const permissionModeFor = model => PERMISSION_FALLBACK.get(model) ?? (PERMISSION_MODE === "auto" && (/haiku-4/i.test(model) || isEndpoint(providerOf(model))) ? "bypassPermissions" : PERMISSION_MODE);
 
 function claudeDriver({ model, effort }, label, logFile, auto, local = null) {
   const sessionId = randomUUID();
@@ -534,7 +535,7 @@ else {
   say(`Plan        ${matrix.length} run(s), one after another, permission mode ${PERMISSION_MODE}, ${PARK ? "AIRGAPPED: npm offline, each run parked for grading later" : args["no-grade"] ? "no grading" : `graded by ${GRADER} (${GRADER_EFFORT})`}`);
   for (const { m, t } of matrix) {
     say(`              ${m.model}${m.effort ? ":" + m.effort : ""} · ${VARIANTS[t].name} · ${HARNESS[m.provider]}`);
-    if (m.provider === "remote") {
+    if (REMOTE_LIKE.includes(m.provider)) {
       const s = endpointSettings(book, m.provider, m.model);
       say(`                at ${s.baseUrl ?? "(no base URL!)"}, key from ${endpointKeySource(s)}${endpointApiKey(s) ? "" : " (NOT SET)"}, context ${s.contextLength}, thinking ${s.thinking ? "on" : "off"}, blog prompt timeout ${fmtDuration(timeoutFor(m.provider, m.model))}`);
     }
