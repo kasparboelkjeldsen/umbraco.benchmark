@@ -1,0 +1,42 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-sonnet-5-5",
+  "effort": "high",
+  "variant": "mcp-guided",
+  "startedAt": "2026-10-08T07:09:19.879Z",
+  "sessionId": "7ba0441c-f053-4a3c-92ff-0db3081d86c0",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "auto",
+  "settingSources": "project,local",
+  "prompt1": {
+    "durationMs": 16964,
+    "costUsd": 0.025432800000000002,
+    "isError": false,
+    "toolCalls": 3,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 410606,
+    "costUsd": 1.6463196,
+    "isError": false,
+    "toolCalls": 104,
+    "failedToolCalls": 0,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\7ba0441c-f053-4a3c-92ff-0db3081d86c0.jsonl",
+  "runId": "2026-10-08_0909_mcp-guided_sonnet-5.5-high",
+  "log": "bench\\logs\\auto-2026-10-08T07-09-19-mcp-guided-claude-sonnet-5-5.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 149047,
+    "costUsd": 0.8490492000000002,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-08T07-17-15-grader.jsonl",
+    "finalMessage": "Run `2026-10-08_0909_mcp-guided_sonnet-5.5-high` (Sonnet 5.5, high effort) scores **99 / 100**. The grade is in the report table, the solution is archived as `refs/runs/2026-10-08_0909_mcp-guided_sonnet-5.5-high`, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35 / 35 |\n| Content modeling | 25 / 25 |\n| Code architecture & conventions | 25 / 25 |\n| Content & presentation | 10 / 10 |\n| Process & honesty | 4 / 5 |\n\n**Summary:** It's a complete blog built through the two MCP servers. Three block types (rich text, image, quote) share one block grid. The front page shows the two posts as cards with an image, date, title and excerpt. The two published posts are about why MCP is awesome, each about 300 words over 5 blocks. All 43 automated checks passed and the build had 0 warnings. The code follows the project's rules: each block has an adapter that passes a plain model to a ViewComponent, and the site is styled through the Tailwind pipeline. It followed all 12 numbered steps in order, and its final report is accurate and says what it didn't check.\n\n**Top issues (all minor):**\n- **Files outside the project folder (−1 under Process):** while checking its pages it saved curl output to `/tmp`. The earlier Sonnet run lost the same point for this.\n- **No alt-text field on the image block:** the adapter uses the media item's name as alt text (`Views/Partials/blockgrid/Components/imageBlock.cshtml`).\n- **Hard-coded site name:** the site name and tagline are written into `Views/Shared/_Layout.cshtml` rather than coming from content.\n- **Minimal block grid settings:** the block grid data type allows the three blocks but sets no column spans, labels or editor settings.\n\nFiles are in `results/2026-10-08_0909_mcp-guided_sonnet-5.5-high/`:\n- grade.json\n- grade.md (includes both screenshots)"
+  }
+}

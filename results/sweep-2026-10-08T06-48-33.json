@@ -1,0 +1,36 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-08T06:48:33.899Z",
+  "updatedAt": "2026-10-08T07:29:14.340Z",
+  "done": [
+    {
+      "label": "claude-sonnet-5-5:high · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-08_0849_mcp-guided_sonnet-5.5-high",
+      "grade": "98/100",
+      "error": null
+    },
+    {
+      "label": "claude-opus-5-5:high · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-08_0857_mcp-guided_opus-5.5-high",
+      "grade": "98/100",
+      "error": null
+    },
+    {
+      "label": "claude-sonnet-5-5:high · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-08_0909_mcp-guided_sonnet-5.5-high",
+      "grade": "99/100",
+      "error": null
+    },
+    {
+      "label": "claude-opus-5-5:high · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-08_0920_mcp-guided_opus-5.5-high",
+      "grade": "99/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

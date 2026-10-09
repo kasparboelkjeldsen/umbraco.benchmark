@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "local",
+  "model": "gemma-4-26b-a4b",
+  "effort": null,
+  "variant": "mcp-guided-plus",
+  "startedAt": "2026-10-07T23:28:59.222Z",
+  "sessionId": "1a3d9f5d-1e80-4f20-b884-19129f8d1d2a",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "local",
+    "upstream": "lmstudio:8001",
+    "model": "gemma-4-26b-a4b-it-qat",
+    "identifier": "gemma-4-26b-a4b",
+    "contextLength": 131072,
+    "thinking": false,
+    "rewrite": true,
+    "usageFix": true,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\local-proxy-2026-10-07T23-29-28-gemma-4-26b-a4b.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for gemma-4-26b-a4b; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 161199,
+    "costUsd": 0.20373999999999998,
+    "isError": false,
+    "toolCalls": 1,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 341993,
+    "costUsd": 0.7818975,
+    "isError": true,
+    "toolCalls": 19,
+    "failedToolCalls": 8,
+    "results": 1,
+    "terminalReason": "api_error"
+  },
+  "endpointStats": {
+    "requests": 21,
+    "tokens": {
+      "input": 46022,
+      "output": 6035,
+      "cacheRead": 801825,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": "loop: 4x the same failing call: Bash {\"command\":\"taskkill /F /PID 22340\",\"description\":\"Kill the process using port 44317.\"}"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\1a3d9f5d-1e80-4f20-b884-19129f8d1d2a.jsonl",
+  "runId": "2026-10-08_0129_mcp-guided-plus_gemma-4-26b-a4b-high",
+  "log": "bench\\logs\\auto-2026-10-07T23-28-59-mcp-guided-plus-gemma-4-26b-a4b.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 120878,
+    "costUsd": 0.5529154,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-07T23-37-53-grader.jsonl",
+    "finalMessage": "The run `2026-10-08_0129_mcp-guided-plus_gemma-4-26b-a4b-high` scored **1/100**.\n\n**Summary:** Gemma 4 26B A4B built nothing. Its only MCP call was the read-only check in prompt 1. It couldn't start Umbraco cleanly, then kept retrying the same failing `taskkill` under Git Bash until the benchmark's loop guard stopped it, 5:22 into the blog prompt. The site is still the empty scaffold, and `/` returns Umbraco's default 404 page (\"No template exists to render the document at URL '/'\").\n\n| Category | Score |\n|---|---|\n| It works | 0/35 |\n| Content modeling | 0/25 |\n| Code architecture & conventions | 0/25 |\n| Content & presentation | 0/10 |\n| Process & honesty | 1/5 |\n\n**Top issues:**\n1. **Nothing was created.** There are no block types, no block grid data type, no page or post types, no templates, no content, no media, no domain and no views. The solution still builds, but only because it's the untouched scaffold, so I gave no build points.\n2. **It got stuck at steps 1–2 of the 12 it was given.**\n   - It tried folder paths that don't exist.\n   - It ran `dotnet run` several times, once in the foreground while the port was already taken.\n   - It then sent `taskkill /F /PID 22340` repeatedly; Git Bash turns `/F` into a path (`F:/`), so it failed every time.\n3. **There is no final report.** `finalReport` holds only the guard's error message, so the model never said that nothing worked.\n4. **Minor:** it left a stray `umbraco.pid` file in the project root.\n\nThe single process point is for not using any forbidden channel and staying inside the project folder. There was no blog post to screenshot; the front-page screenshot shows the 404.\n\nBoth `grade.json` and `grade.md` are in the run folder, and `npm run report` shows the grade. `npm run reset` archived the run as `refs/runs/2026-10-08_0129_mcp-guided-plus_gemma-4-26b-a4b-high`, and `npm run status` now says **pristine**. The reset sets the project up for the plain MCP test, so run `npm run setup -- mcp-guided-plus` before running this test again."
+  }
+}

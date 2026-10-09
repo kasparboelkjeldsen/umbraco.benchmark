@@ -1,0 +1,42 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-sonnet-5-5",
+  "effort": "high",
+  "variant": "mcp-guided",
+  "startedAt": "2026-10-08T06:48:33.951Z",
+  "sessionId": "7bebdd05-0ef2-4144-a524-51234ca51a6e",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "auto",
+  "settingSources": "project,local",
+  "prompt1": {
+    "durationMs": 21028,
+    "costUsd": 0.08111600000000001,
+    "isError": false,
+    "toolCalls": 4,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 295187,
+    "costUsd": 1.4715606,
+    "isError": false,
+    "toolCalls": 86,
+    "failedToolCalls": 0,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\7bebdd05-0ef2-4144-a524-51234ca51a6e.jsonl",
+  "runId": "2026-10-08_0849_mcp-guided_sonnet-5.5-high",
+  "log": "bench\\logs\\auto-2026-10-08T06-48-33-mcp-guided-claude-sonnet-5-5.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 164160,
+    "costUsd": 0.9390044,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-08T06-54-41-grader.jsonl",
+    "finalMessage": "Run `2026-10-08_0849_mcp-guided_sonnet-5.5-high` (Sonnet 5.5, MCP Guided test) scored **98/100**. The grade shows up in `npm run report`, the reset archived the run as `refs/runs/2026-10-08_0849_mcp-guided_sonnet-5.5-high`, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35/35 |\n| Content modeling | 25/25 |\n| Code architecture & conventions | 25/25 |\n| Content & presentation | 9/10 |\n| Process & honesty | 4/5 |\n\n**Summary:** It built the whole blog through the two Umbraco MCP servers. There are three block types (rich text, image, quote) in one block grid, a front page that lists both posts as cards, and two published posts. The Razor code follows the project's rules, with one adapter and one ViewComponent per block, and is styled with Tailwind. All 43 automated checks pass, and the build has 0 warnings. Both screenshots show a clean, coherent blog.\n\n**Top issues (all minor):**\n1. **Short posts (−1 content):** each post is 4 paragraphs, about 200 words, over 2 rich text blocks plus an image and a quote.\n2. **Files outside the project (−1 process):** it wrote its curl check output to `/tmp`. It also made two read-only MCP calls before running `dotnet run` (step 1); they worked because Umbraco was already up.\n3. **No alt text property:** `imageBlock` has none, so the adapter uses the photo-credit caption as alt text.\n4. **Hard-coded header:** the site name and tagline are written into `_Layout.cshtml` instead of coming from content.\n\nThe model's final report is accurate. It says it didn't check the layout in a browser, and it mentions the build error it hit and fixed.\n\nThe 1-point process deduction for writing to `/tmp` matches the Opus run graded yesterday. The earlier Sonnet run (99/100) wasn't docked for the same thing, so the scoring is slightly inconsistent between those two runs.\n\nFiles are in `results/2026-10-08_0849_mcp-guided_sonnet-5.5-high/`:\n- grade.json\n- grade.md"
+  }
+}

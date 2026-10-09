@@ -70,8 +70,10 @@ export function modelDisplayName(id = "", marketing) {
 // ---------------------------------------------------------------- classification
 
 const isBrowserTool = n => /^mcp__playwright__/.test(n);
-// the Umbraco MCP servers: the dev server, and (guided test) the Editor server for pages, blocks and publishing
-const isUmbracoMcp = n => /^mcp__umbraco(-editor)?__/.test(n);
+// the Umbraco MCP servers: the dev server (umbraco) and, in the MCP Guided test, Umbraco's editor server (umbraco-editor)
+const UMBRACO_MCP = /^mcp__umbraco(-editor)?__/;
+const isUmbracoMcp = n => UMBRACO_MCP.test(n);
+const isEditorMcp = n => n.startsWith("mcp__umbraco-editor__");
 
 export function toolCategory(name) {
   if (name === "Bash") return "Shell (Bash)";
@@ -129,12 +131,11 @@ function activityOf(call) {
   return "other";
 }
 
-const mcpShort = n => n.replace(/^mcp__umbraco(-editor)?__/, "");
-// the Editor server's writes: create-page, add-blockgrid-block, edit-block, set-page-template, save-and-publish, …
-const isMcpWrite = n => /^(create|update|put|delete|move|publish|unpublish|copy|sort|post|patch|restore|empty|add-|edit-|set-|save-)/.test(mcpShort(n));
-const isSchemaWrite = n => isUmbracoMcp(n) && isMcpWrite(n) && /(document-type|element-type|data-type|template)/.test(mcpShort(n));
-const isContentWrite = n => isUmbracoMcp(n) && isMcpWrite(n) && !/document-type/.test(mcpShort(n)) && /(^|-)(document|media|page|block|blockgrid)(-|$)/.test(mcpShort(n));
-const isPageWrite = n => isUmbracoMcp(n) && isMcpWrite(n) && !/document-type/.test(mcpShort(n)) && /(^|-)(document(s)?|page|block|blockgrid)(-|$)/.test(mcpShort(n));
+const mcpShort = n => n.replace(UMBRACO_MCP, "");
+const isMcpWrite = n => /^(create|update|put|delete|move|publish|unpublish|copy|sort|post|patch|restore|empty|add|edit|save|set|rename|duplicate)/.test(mcpShort(n));
+const isSchemaWrite = n => isUmbracoMcp(n) && !isEditorMcp(n) && isMcpWrite(n) && /(document-type|element-type|data-type|template)/.test(mcpShort(n));
+const isContentWrite = n => isEditorMcp(n) && isMcpWrite(n) || isUmbracoMcp(n) && isMcpWrite(n) && !/document-type/.test(mcpShort(n)) && /(^|-)(document|media)(-|$)/.test(mcpShort(n));
+const isPageWrite = n => isEditorMcp(n) && isMcpWrite(n) || isUmbracoMcp(n) && isMcpWrite(n) && !/document-type/.test(mcpShort(n)) && /(^|-)document(s)?(-|$)/.test(mcpShort(n));
 
 const HEREDOC_TARGETS = [
   /\bcat\s*>{1,2}\s*("[^"]+"|'[^']+'|[^\s<>|;&]+)\s*<</g,

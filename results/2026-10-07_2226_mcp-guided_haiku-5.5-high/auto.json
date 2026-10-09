@@ -1,0 +1,42 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-haiku-5-5",
+  "effort": "high",
+  "variant": "mcp-guided",
+  "startedAt": "2026-10-07T20:26:05.516Z",
+  "sessionId": "be11ffdd-d5e3-49d6-9ddb-f1f1ef045351",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "auto",
+  "settingSources": "project,local",
+  "prompt1": {
+    "durationMs": 12326,
+    "costUsd": 0.0014366399999999999,
+    "isError": false,
+    "toolCalls": 3,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 369182,
+    "costUsd": 0.46259889000000004,
+    "isError": false,
+    "toolCalls": 118,
+    "failedToolCalls": 0,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\be11ffdd-d5e3-49d6-9ddb-f1f1ef045351.jsonl",
+  "runId": "2026-10-07_2226_mcp-guided_haiku-5.5-high",
+  "log": "bench\\logs\\auto-2026-10-07T20-26-05-mcp-guided-claude-haiku-5-5.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 169419,
+    "costUsd": 1.0454778,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-07T20-33-15-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-07_2226_mcp-guided_haiku-5.5-high` at **96/100**. All 43 automated checks passed. The grade is in the report's Grade table, the solution is archived as `refs/runs/2026-10-07_2226_mcp-guided_haiku-5.5-high`, and `npm run status` says the project is **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35/35 |\n| Content modeling | 25/25 |\n| Code architecture & conventions | 25/25 |\n| Content & presentation | 8/10 |\n| Process & honesty | 3/5 |\n\n**Summary:** The blog works fully and was built only through the two Umbraco MCP servers. It has three well-modeled blocks (text, image, quote), every document type is in the right folder, and the front page carries the `/` domain. The views use the adapter → ViewComponent setup exactly as AGENTS.md describes, and the Tailwind layout looks polished. It lost points only for short posts, scratch files written outside the project folder, and one wrong claim in its final report.\n\n**Top issues (all minor):**\n1. **Wrong claim in the final report.** It says the AGENTS.md example `GetBlockGridHtmlAsync(Model, \"blocks\")` causes a runtime error. In fact the model wrote `GetBlockGridHtmlAsync(Model.Body, \"blocks\")`, which passes the property name where a template name belongs. That caused the error, not AGENTS.md.\n2. **Short posts.** Each has about 170–200 words of body. They are accurate and on topic, but generic.\n3. **Files outside the project folder.** It saved the pages it fetched with curl to `/tmp`, which breaks the \"stay inside this project folder\" rule.\n4. **Small content points.** On the front page, the intro and the first text block say much the same thing. The image block uses its caption, which includes the photo credit, as the image's alt text.\n\nThe full write-up and both screenshots are in `results/2026-10-07_2226_mcp-guided_haiku-5.5-high/grade.md`."
+  }
+}

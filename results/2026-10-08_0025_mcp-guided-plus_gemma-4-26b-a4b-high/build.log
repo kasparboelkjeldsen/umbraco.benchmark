@@ -1,0 +1,11 @@
+  Determining projects to restore...
+  All projects are up-to-date for restore.
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Views\blogFrontPageTemplate.cshtml(1,57): error CS0234: The type or namespace name 'PublishedContent' does not exist in the namespace 'Umbraco.Cms.Web.Common.Models' (are you missing an assembly reference?) [C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj]
+
+Build FAILED.
+
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Views\blogFrontPageTemplate.cshtml(1,57): error CS0234: The type or namespace name 'PublishedContent' does not exist in the namespace 'Umbraco.Cms.Web.Common.Models' (are you missing an assembly reference?) [C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj]
+    0 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.64

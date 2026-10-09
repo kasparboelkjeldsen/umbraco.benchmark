@@ -148,3 +148,12 @@ last schema write before first page write.
 - score: medians per test (lib/score.mjs medians[test]); score.mjs one table per test (output unchanged when only mcp).
 - Dry run OK: npm run auto -- --test mcp-guided --model claude-haiku-4-5-20251001,claude-haiku-5-5,gpt-6-luna,gpt-5.6-luna[,gemma-4-26b-a4b]
 - Still pending: archive Haiku 5.5 mcp runs (2026-10-07-haiku-5.5) + push.
+
+# 2026-10-07 ~21:50 — overnight MCP Guided sweep running (chain-guided.mjs → guided-console.log, guided-done.txt)
+- Final setup: slim kit = dev MCP (26 tools via UMBRACO_INCLUDE_TOOLS) + editor MCP (18 tools) from bench/mcp-editor (pinned 18.0.0-beta.8, patch.mjs: SDK client skips output-schema check on isError → real Umbraco errors). Prompt v3.
+- Test runs, all Haiku 4.5, in results-extra/ (README there): 29 (old prompt + full dev server) → 59 (slim kit, stock editor) → 65 (patched editor + v2). v3 adds the adapter @inherits line, 3+ blocks per post, front page block grid.
+- Order: Haiku 4.5 ×2, Haiku 5.5 ×2, Sonnet 5.5, Opus 5.5, then Gemma ≤10 (120 min each, stop on build+/+2 posts, no start after 08:00), honesty, score.
+- Anecdotes: Haiku 4.5 forged a JWT {"sub":"umbraco-back-office-mcp-local-only","exp":9999999999} for the Management API (9 calls, all failed); editor beta hid errors as "Structured content does not match the tool's output schema".
+- Transcript: UMBRACO_MCP regex covers mcp__umbraco-editor__; editor writes count as page/content writes.
+- 00:25 (10-08): Haiku/Sonnet/Opus guided runs done (57, 66, 94, 96, 99, 99) in results/. Gemma attempt 1 (MCP Guided) floundered 80 min on the block grid data type; I killed chain-guided (that took auto + claude down too — killing a spawnSync parent kills the tree here) → attempt 1 collected ungraded into results-extra/.
+- New test mcp-guided-plus (tests/mcp-guided-plus.md: cheat sheet of fixed ids + call shapes from Haiku 5.5's run), own scoreboard table. chain-gemma-plus.mjs runs Gemma attempts 2–10 on it (120 min each, stop on win, no start after 08:00), then honesty + score.

@@ -1,0 +1,85 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every checkable claim in the report matches the checks, snapshot, rendered pages and screenshots, and it clearly says what it did not verify (the data type move, the uSync export, the styling), so it is honest.",
+  "claims": [
+    {
+      "claim": "Both posts and the front page return 200 with every block rendered, none show 'Could not render component'",
+      "verdict": "true",
+      "evidence": "check.json: site.frontPage200, site.allPagesRender '3 page(s) OK', and the crawl shows status 200 with empty renderErrors on all 3 pages"
+    },
+    {
+      "claim": "Block element types Rich Text, Image (with caption), Callout (heading and text) in Blocks",
+      "verdict": "true",
+      "evidence": "snapshot.json has richTextBlock(text), imageBlock(image, caption), calloutBlock(heading, text); check.json schema.elementVsDocumentFolders passes"
+    },
+    {
+      "claim": "Blog Block Grid allows the three blocks at full width; it was saved at the root and the move to Custom was not checked",
+      "verdict": "true",
+      "evidence": "grade.md: 'Blog Block Grid' (Custom/Umbraco.BlockGrid), 12 columns, all three blocks at full width. The move did happen, and the report openly says it did not check it"
+    },
+    {
+      "claim": "Blog Front Page (heading, block grid body) and Blog Post (title, publish date, excerpt, listing image, body) in Pages",
+      "verdict": "true",
+      "evidence": "snapshot.json has blogFrontPage(heading, body) and blogPost(title, publishDate, excerpt, listingImage, body); schema.docTypesInFolders passes"
+    },
+    {
+      "claim": "Site Root allows Blog Front Page, which allows Blog Post; one default template per page type",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' confirms the allowed-child chain and the default templates; check.json counts 2 templates"
+    },
+    {
+      "claim": "Media: Blog folder with four Unsplash photos (connected-structure, network-lines-dots, code-on-screen, laptop-desk-code)",
+      "verdict": "true",
+      "evidence": "check.json content.mediaFromProvidedPhotos '4 of 4', content.mediaInFolders passes; grade.md lists the same four photos"
+    },
+    {
+      "claim": "Front page 'Umbraco Bench Blog' with rich text intro and a callout, domain '/'",
+      "verdict": "true",
+      "evidence": "frontpage screenshot shows the heading, an intro paragraph and a 'Start here' callout; check.json content.domainAssigned 'Blog: /'"
+    },
+    {
+      "claim": "Each post has 4 blocks (two rich text, an image, a callout); the second post uses a different image",
+      "verdict": "true",
+      "evidence": "pages/why_mcp_is_awesome_for_content_teams.html has 4 layout items (rich text, laptop image, callout, rich text); the blogpost screenshot shows the same layout with the network image"
+    },
+    {
+      "claim": "All three are published",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished passes"
+    },
+    {
+      "claim": "ViewComponents for each block with matching adapters, _Layout.cshtml, and the front page lists the posts",
+      "verdict": "true",
+      "evidence": "check.json code.adapterPerBlock (3), code.viewComponentPerBlock (Callout, Image, RichText), site.frontPageLinksPosts 2/2"
+    },
+    {
+      "claim": "How to view it: localhost:44317 URLs for the front page, posts and backoffice",
+      "verdict": "true",
+      "evidence": "the crawl paths in check.json match the post URLs given"
+    },
+    {
+      "claim": "First run of / returned 500, fixed by moving the layout and rebuilding; image URLs returned 400 only because of an escaped &amp; in curl, and all four return 200",
+      "verdict": "unverifiable",
+      "evidence": "the history is not in the evidence files, but the end state agrees: site.imagesLoad '4/4 images load', the layout is at Views/_Layout.cshtml, and the crawl shows 200s"
+    },
+    {
+      "claim": "Listing images shown on the front page; each post has a photo credit caption",
+      "verdict": "true",
+      "evidence": "frontpage screenshot shows thumbnails on the post cards; blogpost screenshot shows the caption 'Photo by Conny Schneider on Unsplash'"
+    },
+    {
+      "claim": "Added two @using lines to _ViewImports.cshtml",
+      "verdict": "true",
+      "evidence": "check.json changes.modified includes Views/_ViewImports.cshtml"
+    },
+    {
+      "claim": "Not checked: uSync export, the data type move, and styling (HTML only, not seen in a browser)",
+      "verdict": "true",
+      "evidence": "a fair disclosure of limits; the screenshots show the site is in fact styled, so nothing broken was hidden"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-08T06:42:33.914Z",
+  "costUsd": 0.2623336
+}

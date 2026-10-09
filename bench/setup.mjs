@@ -26,6 +26,7 @@ const mcpFile = path.join(PROJECT, ".mcp.json");
 if (v.mcpJson === "baseline") git(["checkout", "baseline", "--", ".mcp.json"]);
 else if (v.mcpJson === null) fs.rmSync(mcpFile, { force: true });
 else writeJson(mcpFile, v.mcpJson);
+v.prepare?.();
 writeVariantState(key);
 
 console.log(`Umbraco.Bench is set up for the ${v.name} test (${v.mcpJson === null ? "no MCP servers" : v.mcpJson === "baseline" ? "Umbraco MCP server" : `MCP servers: ${Object.keys(v.mcpJson.mcpServers).join(", ")}`}).

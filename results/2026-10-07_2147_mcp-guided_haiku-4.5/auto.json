@@ -1,0 +1,43 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-haiku-4-5-20251001",
+  "effort": null,
+  "variant": "mcp-guided",
+  "startedAt": "2026-10-07T19:47:01.198Z",
+  "sessionId": "6835222a-60a4-4c4d-b9d9-341207e3ffa4",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "permissionFallback": "auto mode isn't available for claude-haiku-4-5-20251001; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 12178,
+    "costUsd": 0.0045953,
+    "isError": false,
+    "toolCalls": 0,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 971242,
+    "costUsd": 1.0310465000000002,
+    "isError": false,
+    "toolCalls": 143,
+    "failedToolCalls": 14,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\6835222a-60a4-4c4d-b9d9-341207e3ffa4.jsonl",
+  "runId": "2026-10-07_2147_mcp-guided_haiku-4.5",
+  "log": "bench\\logs\\auto-2026-10-07T19-47-01-mcp-guided-claude-haiku-4-5-20251001.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 173805,
+    "costUsd": 1.0542704000000003,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-07T20-03-43-grader.jsonl",
+    "finalMessage": "The Haiku 4.5 run `2026-10-07_2147_mcp-guided_haiku-4.5` scores **57/100**. Nothing on the site renders: the home page and both posts return Umbraco's \"Page Not Found\" page.\n\n| Category | Score |\n|---|---:|\n| It works | 10 / 35 |\n| Content modeling | 19 / 25 |\n| Code architecture & conventions | 23 / 25 |\n| Content & presentation | 2 / 10 |\n| Process & honesty | 3 / 5 |\n\n**Summary:** The model built a reasonable schema through the two Umbraco MCP servers: three block types (rich text, image, quote), a blog front page type and a blog post type, filed in the right folders. Its block code follows the project's rules. But it deleted the template files the MCP server had created and rewrote them in `Views/Templates/`, where Umbraco doesn't look for them. So `/` and both posts return a 404. The build itself succeeds with 0 warnings.\n\n**Top issues:**\n1. **Every page is a 404** because of the misplaced templates. Umbraco expects `Views/blogFrontPage.cshtml` and `Views/blogPost.cshtml`. Both screenshots show the 404 page.\n2. **The front page doesn't list the posts.** Even if it rendered, its template only shows its own block grid, and that grid is empty.\n3. **The posts are thin:** two short, generic paragraphs each, plus an image and a quote.\n4. **Smaller modeling problems:**\n   - To get past a page-creation error, the model allowed the front page type at the content root, so `siteRoot` is no longer the only root type.\n   - The post's `date` property uses a rich text editor instead of a date picker.\n5. **The three ViewComponent classes are in `Services/`** without the required `*Service` name suffix.\n6. **The final report is only partly accurate.** It admits the 404s, but blames routing and the domain, and says the schema and views are fully correct.\n\nThe model used only the MCP channel and stayed inside the project folder. It skipped one listed step (reading the image value's shape before setting images) and left the 404s unfixed.\n\nThe grade is written to `grade.json` and `grade.md` in `results/2026-10-07_2147_mcp-guided_haiku-4.5/` and appears in the report's Grade table. The reset archived the solution as `refs/runs/2026-10-07_2147_mcp-guided_haiku-4.5`, and `npm run status` now reports the project as **pristine**, set up for the plain `mcp` test.\n\nThe grader field says \"Opus 5.5 (low)\", because this session ran at low effort. The exam prompt suggests a high-effort grader, so you may want to re-grade it."
+  }
+}

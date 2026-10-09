@@ -1,0 +1,1701 @@
+{
+  "docTypes": [
+    {
+      "id": "c91a42bc-ea3c-4fdd-b220-f82a2132d557",
+      "alias": "imageBlock",
+      "name": "Image Block",
+      "folder": "Blocks",
+      "isElement": true,
+      "allowedAsRoot": false,
+      "icon": "icon-picture",
+      "properties": [
+        {
+          "alias": "image",
+          "name": "Image",
+          "dataTypeId": "ad9f0cf2-bda2-45d5-9ea1-a63cfc873fd3",
+          "containerId": "038d3e55-6889-4469-ac34-4e63e98a5740",
+          "editorAlias": "Umbraco.MediaPicker3"
+        },
+        {
+          "alias": "caption",
+          "name": "Caption",
+          "dataTypeId": "0cc0eba1-9960-42c9-bf9b-60e150b429ae",
+          "containerId": "038d3e55-6889-4469-ac34-4e63e98a5740",
+          "editorAlias": "Umbraco.TextBox"
+        }
+      ],
+      "containers": [
+        {
+          "id": "038d3e55-6889-4469-ac34-4e63e98a5740",
+          "parent": null,
+          "name": "Content",
+          "type": "Tab",
+          "sortOrder": 0
+        }
+      ],
+      "compositionIds": [],
+      "allowedChildIds": [],
+      "allowedTemplateIds": [],
+      "defaultTemplateId": null,
+      "compositions": [],
+      "allowedChildren": [],
+      "allowedTemplates": [],
+      "defaultTemplate": null
+    },
+    {
+      "id": "50106d26-89da-46b1-8ff8-1f6b85637c14",
+      "alias": "quoteBlock",
+      "name": "Quote Block",
+      "folder": "Blocks",
+      "isElement": true,
+      "allowedAsRoot": false,
+      "icon": "icon-quote",
+      "properties": [
+        {
+          "alias": "quote",
+          "name": "Quote",
+          "dataTypeId": "c6bac0dd-4ab9-45b1-8e30-e4b619ee5da3",
+          "containerId": "0463d0db-7f5b-4955-936f-bbaad30f9907",
+          "editorAlias": "Umbraco.TextArea"
+        },
+        {
+          "alias": "attribution",
+          "name": "Attribution",
+          "dataTypeId": "0cc0eba1-9960-42c9-bf9b-60e150b429ae",
+          "containerId": "0463d0db-7f5b-4955-936f-bbaad30f9907",
+          "editorAlias": "Umbraco.TextBox"
+        }
+      ],
+      "containers": [
+        {
+          "id": "0463d0db-7f5b-4955-936f-bbaad30f9907",
+          "parent": null,
+          "name": "Content",
+          "type": "Tab",
+          "sortOrder": 0
+        }
+      ],
+      "compositionIds": [],
+      "allowedChildIds": [],
+      "allowedTemplateIds": [],
+      "defaultTemplateId": null,
+      "compositions": [],
+      "allowedChildren": [],
+      "allowedTemplates": [],
+      "defaultTemplate": null
+    },
+    {
+      "id": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+      "alias": "richTextBlock",
+      "name": "Rich Text Block",
+      "folder": "Blocks",
+      "isElement": true,
+      "allowedAsRoot": false,
+      "icon": "icon-script",
+      "properties": [
+        {
+          "alias": "text",
+          "name": "Text",
+          "dataTypeId": "ca90c950-0aff-4e72-b976-a30b1ac57dad",
+          "containerId": "c83e03a6-3d78-4b7a-8c3d-68b6f968de47",
+          "editorAlias": "Umbraco.RichText"
+        }
+      ],
+      "containers": [
+        {
+          "id": "c83e03a6-3d78-4b7a-8c3d-68b6f968de47",
+          "parent": null,
+          "name": "Content",
+          "type": "Tab",
+          "sortOrder": 0
+        }
+      ],
+      "compositionIds": [],
+      "allowedChildIds": [],
+      "allowedTemplateIds": [],
+      "defaultTemplateId": null,
+      "compositions": [],
+      "allowedChildren": [],
+      "allowedTemplates": [],
+      "defaultTemplate": null
+    },
+    {
+      "id": "e04eb66c-fe9a-4f92-8b78-ec72664fc1aa",
+      "alias": "blogFrontPage",
+      "name": "Blog Front Page",
+      "folder": "Pages",
+      "isElement": false,
+      "allowedAsRoot": false,
+      "icon": "icon-home",
+      "properties": [
+        {
+          "alias": "title",
+          "name": "Title",
+          "dataTypeId": "0cc0eba1-9960-42c9-bf9b-60e150b429ae",
+          "containerId": "cb4fc3c4-28bb-4cb8-ad4a-a32186cc71db",
+          "editorAlias": "Umbraco.TextBox"
+        },
+        {
+          "alias": "blocks",
+          "name": "Body",
+          "dataTypeId": "2c45f743-6492-4524-a1cd-8e5047ef276b",
+          "containerId": "22acc705-5d2d-4472-8095-ff49b2c0e95a",
+          "editorAlias": "Umbraco.BlockGrid"
+        }
+      ],
+      "containers": [
+        {
+          "id": "256b7b4c-abed-4d3b-9f35-d6eee69a2a5c",
+          "parent": null,
+          "name": "Content",
+          "type": "Tab",
+          "sortOrder": 0
+        },
+        {
+          "id": "cb4fc3c4-28bb-4cb8-ad4a-a32186cc71db",
+          "parent": {
+            "id": "256b7b4c-abed-4d3b-9f35-d6eee69a2a5c"
+          },
+          "name": "Page",
+          "type": "Group",
+          "sortOrder": 0
+        },
+        {
+          "id": "22acc705-5d2d-4472-8095-ff49b2c0e95a",
+          "parent": {
+            "id": "256b7b4c-abed-4d3b-9f35-d6eee69a2a5c"
+          },
+          "name": "Body",
+          "type": "Group",
+          "sortOrder": 1
+        }
+      ],
+      "compositionIds": [],
+      "allowedChildIds": [
+        "b9bf5ef6-6d12-49f3-897f-3276a24249c1"
+      ],
+      "allowedTemplateIds": [
+        "118043cc-67e4-43e4-83ee-137c1bfee509"
+      ],
+      "defaultTemplateId": "118043cc-67e4-43e4-83ee-137c1bfee509",
+      "compositions": [],
+      "allowedChildren": [
+        "blogPost"
+      ],
+      "allowedTemplates": [
+        "blogFrontPage"
+      ],
+      "defaultTemplate": "blogFrontPage"
+    },
+    {
+      "id": "b9bf5ef6-6d12-49f3-897f-3276a24249c1",
+      "alias": "blogPost",
+      "name": "Blog Post",
+      "folder": "Pages",
+      "isElement": false,
+      "allowedAsRoot": false,
+      "icon": "icon-article",
+      "properties": [
+        {
+          "alias": "title",
+          "name": "Title",
+          "dataTypeId": "0cc0eba1-9960-42c9-bf9b-60e150b429ae",
+          "containerId": "effdc6bf-2ed2-4673-8c88-e928cebf7e83",
+          "editorAlias": "Umbraco.TextBox"
+        },
+        {
+          "alias": "publishDate",
+          "name": "Publish Date",
+          "dataTypeId": "5046194e-4237-453c-a547-15db3a07c4e1",
+          "containerId": "effdc6bf-2ed2-4673-8c88-e928cebf7e83",
+          "editorAlias": "Umbraco.DateTime"
+        },
+        {
+          "alias": "excerpt",
+          "name": "Excerpt",
+          "dataTypeId": "c6bac0dd-4ab9-45b1-8e30-e4b619ee5da3",
+          "containerId": "effdc6bf-2ed2-4673-8c88-e928cebf7e83",
+          "editorAlias": "Umbraco.TextArea"
+        },
+        {
+          "alias": "listingImage",
+          "name": "Listing Image",
+          "dataTypeId": "ad9f0cf2-bda2-45d5-9ea1-a63cfc873fd3",
+          "containerId": "effdc6bf-2ed2-4673-8c88-e928cebf7e83",
+          "editorAlias": "Umbraco.MediaPicker3"
+        },
+        {
+          "alias": "blocks",
+          "name": "Body",
+          "dataTypeId": "2c45f743-6492-4524-a1cd-8e5047ef276b",
+          "containerId": "58c6177b-db53-4dde-86fc-c267202a0d56",
+          "editorAlias": "Umbraco.BlockGrid"
+        }
+      ],
+      "containers": [
+        {
+          "id": "729e0812-9ebd-4495-a0e7-d76ac1731998",
+          "parent": null,
+          "name": "Content",
+          "type": "Tab",
+          "sortOrder": 0
+        },
+        {
+          "id": "effdc6bf-2ed2-4673-8c88-e928cebf7e83",
+          "parent": {
+            "id": "729e0812-9ebd-4495-a0e7-d76ac1731998"
+          },
+          "name": "Post",
+          "type": "Group",
+          "sortOrder": 0
+        },
+        {
+          "id": "58c6177b-db53-4dde-86fc-c267202a0d56",
+          "parent": {
+            "id": "729e0812-9ebd-4495-a0e7-d76ac1731998"
+          },
+          "name": "Body",
+          "type": "Group",
+          "sortOrder": 1
+        }
+      ],
+      "compositionIds": [],
+      "allowedChildIds": [],
+      "allowedTemplateIds": [
+        "e6a9800d-e6d6-4e88-be43-27e7a95891ee"
+      ],
+      "defaultTemplateId": "e6a9800d-e6d6-4e88-be43-27e7a95891ee",
+      "compositions": [],
+      "allowedChildren": [],
+      "allowedTemplates": [
+        "blogPost"
+      ],
+      "defaultTemplate": "blogPost"
+    },
+    {
+      "id": "0b5f1e5b-0a9a-4c4f-8e8c-1d01b2a3c4e1",
+      "alias": "siteRoot",
+      "name": "Site Root",
+      "folder": "Repositories",
+      "isElement": false,
+      "allowedAsRoot": true,
+      "icon": "icon-globe",
+      "properties": [],
+      "containers": [],
+      "compositionIds": [],
+      "allowedChildIds": [
+        "e04eb66c-fe9a-4f92-8b78-ec72664fc1aa"
+      ],
+      "allowedTemplateIds": [],
+      "defaultTemplateId": null,
+      "compositions": [],
+      "allowedChildren": [
+        "blogFrontPage"
+      ],
+      "allowedTemplates": [],
+      "defaultTemplate": null
+    }
+  ],
+  "dataTypes": [
+    {
+      "id": "2c45f743-6492-4524-a1cd-8e5047ef276b",
+      "name": "Blog Body Grid",
+      "folder": "Custom/Umbraco.BlockGrid",
+      "editorAlias": "Umbraco.BlockGrid",
+      "editorUiAlias": "Umb.PropertyEditorUi.BlockGrid",
+      "values": [
+        {
+          "alias": "blocks",
+          "value": [
+            {
+              "contentElementTypeKey": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+              "label": "Rich text",
+              "allowAtRoot": true,
+              "allowInAreas": true,
+              "columnSpanOptions": [
+                {
+                  "columnSpan": 12
+                }
+              ],
+              "areas": []
+            },
+            {
+              "contentElementTypeKey": "c91a42bc-ea3c-4fdd-b220-f82a2132d557",
+              "label": "Image: {{caption}}",
+              "allowAtRoot": true,
+              "allowInAreas": true,
+              "columnSpanOptions": [
+                {
+                  "columnSpan": 12
+                }
+              ],
+              "areas": []
+            },
+            {
+              "contentElementTypeKey": "50106d26-89da-46b1-8ff8-1f6b85637c14",
+              "label": "Quote: {{quote}}",
+              "allowAtRoot": true,
+              "allowInAreas": true,
+              "columnSpanOptions": [
+                {
+                  "columnSpan": 12
+                }
+              ],
+              "areas": []
+            }
+          ]
+        },
+        {
+          "alias": "gridColumns",
+          "value": 12
+        },
+        {
+          "alias": "validationLimit",
+          "value": {
+            "min": 0,
+            "max": null
+          }
+        },
+        {
+          "alias": "useLiveEditing",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "fd1e0da5-5606-4862-b679-5d0cf3a52a59",
+      "name": "Content Picker",
+      "folder": "Custom/Umbraco.ContentPicker",
+      "editorAlias": "Umbraco.ContentPicker",
+      "editorUiAlias": "Umb.PropertyEditorUi.DocumentPicker",
+      "values": []
+    },
+    {
+      "id": "88e8a052-30ee-4d44-a507-59f2cdfc769c",
+      "name": "Date Time Picker (with time zone)",
+      "folder": "Custom/Umbraco.DateTimeWithTimeZone",
+      "editorAlias": "Umbraco.DateTimeWithTimeZone",
+      "editorUiAlias": "Umb.PropertyEditorUi.DateTimeWithTimeZonePicker",
+      "values": [
+        {
+          "alias": "timeFormat",
+          "value": "HH:mm"
+        },
+        {
+          "alias": "timeZones",
+          "value": {
+            "mode": "all"
+          }
+        }
+      ]
+    },
+    {
+      "id": "1df9f033-e6d4-451f-b8d2-e0cbc50a836f",
+      "name": "Image Cropper",
+      "folder": "Custom/Umbraco.ImageCropper",
+      "editorAlias": "Umbraco.ImageCropper",
+      "editorUiAlias": "Umb.PropertyEditorUi.ImageCropper",
+      "values": []
+    },
+    {
+      "id": "ad9f0cf2-bda2-45d5-9ea1-a63cfc873fd3",
+      "name": "Image Media Picker",
+      "folder": "Custom/Umbraco.MediaPicker3",
+      "editorAlias": "Umbraco.MediaPicker3",
+      "editorUiAlias": "Umb.PropertyEditorUi.MediaPicker",
+      "values": [
+        {
+          "alias": "filter",
+          "value": "cc07b313-0843-4aa8-bbda-871c8da728c8"
+        },
+        {
+          "alias": "multiple",
+          "value": false
+        },
+        {
+          "alias": "validationLimit",
+          "value": {
+            "min": 0,
+            "max": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "4309a3ea-0d78-4329-a06c-c80b036af19a",
+      "name": "Media Picker",
+      "folder": "Custom/Umbraco.MediaPicker3",
+      "editorAlias": "Umbraco.MediaPicker3",
+      "editorUiAlias": "Umb.PropertyEditorUi.MediaPicker",
+      "values": [
+        {
+          "alias": "multiple",
+          "value": false
+        },
+        {
+          "alias": "validationLimit",
+          "value": {
+            "min": 0,
+            "max": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "0e63d883-b62b-4799-88c3-157f82e83ecc",
+      "name": "Multiple Image Media Picker",
+      "folder": "Custom/Umbraco.MediaPicker3",
+      "editorAlias": "Umbraco.MediaPicker3",
+      "editorUiAlias": "Umb.PropertyEditorUi.MediaPicker",
+      "values": [
+        {
+          "alias": "filter",
+          "value": "cc07b313-0843-4aa8-bbda-871c8da728c8"
+        },
+        {
+          "alias": "multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "1b661f40-2242-4b44-b9cb-3990ee2b13c0",
+      "name": "Multiple Media Picker",
+      "folder": "Custom/Umbraco.MediaPicker3",
+      "editorAlias": "Umbraco.MediaPicker3",
+      "editorUiAlias": "Umb.PropertyEditorUi.MediaPicker",
+      "values": [
+        {
+          "alias": "multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "1ea2e01f-ebd8-4ce1-8d71-6b1149e63548",
+      "name": "Member Picker",
+      "folder": "Custom/Umbraco.MemberPicker",
+      "editorAlias": "Umbraco.MemberPicker",
+      "editorUiAlias": "Umb.PropertyEditorUi.MemberPicker",
+      "values": []
+    },
+    {
+      "id": "b4e3535a-1753-47e2-8568-602cf8cfee6f",
+      "name": "Multi URL Picker",
+      "folder": "Custom/Umbraco.MultiUrlPicker",
+      "editorAlias": "Umbraco.MultiUrlPicker",
+      "editorUiAlias": "Umb.PropertyEditorUi.MultiUrlPicker",
+      "values": []
+    },
+    {
+      "id": "b6b73142-b9c1-4bf8-a16d-e1c23320b549",
+      "name": "Tags",
+      "folder": "Custom/Umbraco.Tags",
+      "editorAlias": "Umbraco.Tags",
+      "editorUiAlias": "Umb.PropertyEditorUi.Tags",
+      "values": [
+        {
+          "alias": "group",
+          "value": "default"
+        },
+        {
+          "alias": "storageType",
+          "value": "Json"
+        }
+      ]
+    },
+    {
+      "id": "fbaf13a8-4036-41f2-93a3-974f678c312a",
+      "name": "Checkbox list",
+      "folder": "Umbraco/Umbraco.CheckBoxList",
+      "editorAlias": "Umbraco.CheckBoxList",
+      "editorUiAlias": "Umb.PropertyEditorUi.CheckBoxList",
+      "values": []
+    },
+    {
+      "id": "0225af17-b302-49cb-9176-b9f35cab9c17",
+      "name": "Approved Color",
+      "folder": "Umbraco/Umbraco.ColorPicker",
+      "editorAlias": "Umbraco.ColorPicker",
+      "editorUiAlias": "Umb.PropertyEditorUi.ColorPicker",
+      "values": []
+    },
+    {
+      "id": "5046194e-4237-453c-a547-15db3a07c4e1",
+      "name": "Date Picker",
+      "folder": "Umbraco/Umbraco.DateTime",
+      "editorAlias": "Umbraco.DateTime",
+      "editorUiAlias": "Umb.PropertyEditorUi.DatePicker",
+      "values": [
+        {
+          "alias": "format",
+          "value": "YYYY-MM-DD"
+        }
+      ]
+    },
+    {
+      "id": "e4d66c0f-b935-4200-81f0-025f7256b89a",
+      "name": "Date Picker with time",
+      "folder": "Umbraco/Umbraco.DateTime",
+      "editorAlias": "Umbraco.DateTime",
+      "editorUiAlias": "Umb.PropertyEditorUi.DatePicker",
+      "values": [
+        {
+          "alias": "format",
+          "value": "YYYY-MM-DD HH:mm:ss"
+        }
+      ]
+    },
+    {
+      "id": "0b6a45e7-44ba-430d-9da5-4e46060b9e03",
+      "name": "Dropdown",
+      "folder": "Umbraco/Umbraco.DropDown.Flexible",
+      "editorAlias": "Umbraco.DropDown.Flexible",
+      "editorUiAlias": "Umb.PropertyEditorUi.Dropdown",
+      "values": [
+        {
+          "alias": "multiple",
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "f38f0ac7-1d27-439c-9f3f-089cd8825a53",
+      "name": "Dropdown multiple",
+      "folder": "Umbraco/Umbraco.DropDown.Flexible",
+      "editorAlias": "Umbraco.DropDown.Flexible",
+      "editorUiAlias": "Umb.PropertyEditorUi.Dropdown",
+      "values": [
+        {
+          "alias": "multiple",
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "2e6d3631-066e-44b8-aec4-96f09099b2b5",
+      "name": "Numeric",
+      "folder": "Umbraco/Umbraco.Integer",
+      "editorAlias": "Umbraco.Integer",
+      "editorUiAlias": "Umb.PropertyEditorUi.Integer",
+      "values": []
+    },
+    {
+      "id": "930861bf-e262-4ead-a704-f99453565708",
+      "name": "Label (bigint)",
+      "folder": "Umbraco/Umbraco.Label",
+      "editorAlias": "Umbraco.Label",
+      "editorUiAlias": "Umb.PropertyEditorUi.Label",
+      "values": [
+        {
+          "alias": "umbracoDataValueType",
+          "value": "BIGINT"
+        }
+      ]
+    },
+    {
+      "id": "ba5bdbe6-ab3e-46a8-82b3-2c45f10bc47f",
+      "name": "Label (bytes)",
+      "folder": "Umbraco/Umbraco.Label",
+      "editorAlias": "Umbraco.Label",
+      "editorUiAlias": "Umb.PropertyEditorUi.Label",
+      "values": [
+        {
+          "alias": "umbracoDataValueType",
+          "value": "BIGINT"
+        },
+        {
+          "alias": "labelTemplate",
+          "value": "{=value | bytes}"
+        }
+      ]
+    },
+    {
+      "id": "0e9794eb-f9b5-4f20-a788-93acd233a7e4",
+      "name": "Label (datetime)",
+      "folder": "Umbraco/Umbraco.Label",
+      "editorAlias": "Umbraco.Label",
+      "editorUiAlias": "Umb.PropertyEditorUi.Label",
+      "values": [
+        {
+          "alias": "umbracoDataValueType",
+          "value": "DATETIME"
+        }
+      ]
+    },
+    {
+      "id": "8f1ef1e1-9de4-40d3-a072-6673f631ca64",
+      "name": "Label (decimal)",
+      "folder": "Umbraco/Umbraco.Label",
+      "editorAlias": "Umbraco.Label",
+      "editorUiAlias": "Umb.PropertyEditorUi.Label",
+      "values": [
+        {
+          "alias": "umbracoDataValueType",
+          "value": "DECIMAL"
+        }
+      ]
+    },
+    {
+      "id": "8e7f995c-bd81-4627-9932-c40e568ec788",
+      "name": "Label (integer)",
+      "folder": "Umbraco/Umbraco.Label",
+      "editorAlias": "Umbraco.Label",
+      "editorUiAlias": "Umb.PropertyEditorUi.Label",
+      "values": [
+        {
+          "alias": "umbracoDataValueType",
+          "value": "INT"
+        }
+      ]
+    },
+    {
+      "id": "5eb57825-e15e-4fc7-8e37-fca65cdafbde",
+      "name": "Label (pixels)",
+      "folder": "Umbraco/Umbraco.Label",
+      "editorAlias": "Umbraco.Label",
+      "editorUiAlias": "Umb.PropertyEditorUi.Label",
+      "values": [
+        {
+          "alias": "umbracoDataValueType",
+          "value": "INT"
+        },
+        {
+          "alias": "labelTemplate",
+          "value": "{=value}px"
+        }
+      ]
+    },
+    {
+      "id": "f0bc4bfb-b499-40d6-ba86-058885a5178c",
+      "name": "Label (string)",
+      "folder": "Umbraco/Umbraco.Label",
+      "editorAlias": "Umbraco.Label",
+      "editorUiAlias": "Umb.PropertyEditorUi.Label",
+      "values": [
+        {
+          "alias": "umbracoDataValueType",
+          "value": "STRING"
+        }
+      ]
+    },
+    {
+      "id": "a97cec69-9b71-4c30-8b12-ec398860d7e8",
+      "name": "Label (time)",
+      "folder": "Umbraco/Umbraco.Label",
+      "editorAlias": "Umbraco.Label",
+      "editorUiAlias": "Umb.PropertyEditorUi.Label",
+      "values": [
+        {
+          "alias": "umbracoDataValueType",
+          "value": "TIME"
+        }
+      ]
+    },
+    {
+      "id": "c0808dd3-8133-4e4b-8ce8-e2bea84a96a4",
+      "name": "List View - Content",
+      "folder": "Umbraco/Umbraco.ListView",
+      "editorAlias": "Umbraco.ListView",
+      "editorUiAlias": "Umb.PropertyEditorUi.Collection",
+      "values": [
+        {
+          "alias": "pageSize",
+          "value": 100
+        },
+        {
+          "alias": "orderBy",
+          "value": "updateDate"
+        },
+        {
+          "alias": "orderDirection",
+          "value": "desc"
+        },
+        {
+          "alias": "layouts",
+          "value": [
+            {
+              "name": "Grid",
+              "collectionView": "Umb.CollectionView.Document.Grid",
+              "icon": "icon-thumbnails-small",
+              "isSystem": true,
+              "selected": true
+            },
+            {
+              "name": "List",
+              "collectionView": "Umb.CollectionView.Document.Table",
+              "icon": "icon-list",
+              "isSystem": true,
+              "selected": true
+            }
+          ]
+        },
+        {
+          "alias": "includeProperties",
+          "value": [
+            {
+              "alias": "updateDate",
+              "header": "Last edited",
+              "isSystem": true
+            },
+            {
+              "alias": "creator",
+              "header": "Updated by",
+              "isSystem": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3a0156c4-3b8c-4803-bdc1-6871faa83fff",
+      "name": "List View - Media",
+      "folder": "Umbraco/Umbraco.ListView",
+      "editorAlias": "Umbraco.ListView",
+      "editorUiAlias": "Umb.PropertyEditorUi.Collection",
+      "values": [
+        {
+          "alias": "pageSize",
+          "value": 100
+        },
+        {
+          "alias": "orderBy",
+          "value": "updateDate"
+        },
+        {
+          "alias": "orderDirection",
+          "value": "desc"
+        },
+        {
+          "alias": "layouts",
+          "value": [
+            {
+              "name": "Grid",
+              "collectionView": "Umb.CollectionView.Media.Grid",
+              "icon": "icon-thumbnails-small",
+              "isSystem": true,
+              "selected": true
+            },
+            {
+              "name": "List",
+              "collectionView": "Umb.CollectionView.Media.Table",
+              "icon": "icon-list",
+              "isSystem": true,
+              "selected": true
+            }
+          ]
+        },
+        {
+          "alias": "includeProperties",
+          "value": [
+            {
+              "alias": "updateDate",
+              "header": "Last edited",
+              "isSystem": true
+            },
+            {
+              "alias": "creator",
+              "header": "Updated by",
+              "isSystem": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bb5f57c9-ce2b-4bb9-b697-4caca783a805",
+      "name": "Radiobox",
+      "folder": "Umbraco/Umbraco.RadioButtonList",
+      "editorAlias": "Umbraco.RadioButtonList",
+      "editorUiAlias": "Umb.PropertyEditorUi.RadioButtonList",
+      "values": []
+    },
+    {
+      "id": "ca90c950-0aff-4e72-b976-a30b1ac57dad",
+      "name": "Richtext editor",
+      "folder": "Umbraco/Umbraco.RichText",
+      "editorAlias": "Umbraco.RichText",
+      "editorUiAlias": "Umb.PropertyEditorUi.Tiptap",
+      "values": [
+        {
+          "alias": "extensions",
+          "value": [
+            "Umb.Tiptap.RichTextEssentials",
+            "Umb.Tiptap.Anchor",
+            "Umb.Tiptap.Block",
+            "Umb.Tiptap.Blockquote",
+            "Umb.Tiptap.Bold",
+            "Umb.Tiptap.BulletList",
+            "Umb.Tiptap.CodeBlock",
+            "Umb.Tiptap.Embed",
+            "Umb.Tiptap.Figure",
+            "Umb.Tiptap.Heading",
+            "Umb.Tiptap.HorizontalRule",
+            "Umb.Tiptap.HtmlAttributeClass",
+            "Umb.Tiptap.HtmlAttributeDataset",
+            "Umb.Tiptap.HtmlAttributeId",
+            "Umb.Tiptap.HtmlAttributeStyle",
+            "Umb.Tiptap.HtmlTagDiv",
+            "Umb.Tiptap.HtmlTagSpan",
+            "Umb.Tiptap.Image",
+            "Umb.Tiptap.Italic",
+            "Umb.Tiptap.Link",
+            "Umb.Tiptap.MediaUpload",
+            "Umb.Tiptap.OrderedList",
+            "Umb.Tiptap.Strike",
+            "Umb.Tiptap.Subscript",
+            "Umb.Tiptap.Superscript",
+            "Umb.Tiptap.Table",
+            "Umb.Tiptap.TextAlign",
+            "Umb.Tiptap.TextDirection",
+            "Umb.Tiptap.TextIndent",
+            "Umb.Tiptap.TrailingNode",
+            "Umb.Tiptap.Underline"
+          ]
+        },
+        {
+          "alias": "maxImageSize",
+          "value": 500
+        },
+        {
+          "alias": "overlaySize",
+          "value": "medium"
+        },
+        {
+          "alias": "toolbar",
+          "value": [
+            [
+              [
+                "Umb.Tiptap.Toolbar.SourceEditor"
+              ],
+              [
+                "Umb.Tiptap.Toolbar.Bold",
+                "Umb.Tiptap.Toolbar.Italic",
+                "Umb.Tiptap.Toolbar.Underline"
+              ],
+              [
+                "Umb.Tiptap.Toolbar.TextAlignLeft",
+                "Umb.Tiptap.Toolbar.TextAlignCenter",
+                "Umb.Tiptap.Toolbar.TextAlignRight"
+              ],
+              [
+                "Umb.Tiptap.Toolbar.BulletList",
+                "Umb.Tiptap.Toolbar.OrderedList"
+              ],
+              [
+                "Umb.Tiptap.Toolbar.Blockquote",
+                "Umb.Tiptap.Toolbar.HorizontalRule"
+              ],
+              [
+                "Umb.Tiptap.Toolbar.Link",
+                "Umb.Tiptap.Toolbar.Unlink"
+              ],
+              [
+                "Umb.Tiptap.Toolbar.MediaPicker",
+                "Umb.Tiptap.Toolbar.EmbeddedMedia"
+              ]
+            ]
+          ]
+        },
+        {
+          "alias": "allowedMediaTypes",
+          "value": "cc07b313-0843-4aa8-bbda-871c8da728c8,c4b1efcf-a9d5-41c4-9621-e9d273b52a9c"
+        }
+      ]
+    },
+    {
+      "id": "c6bac0dd-4ab9-45b1-8e30-e4b619ee5da3",
+      "name": "Textarea",
+      "folder": "Umbraco/Umbraco.TextArea",
+      "editorAlias": "Umbraco.TextArea",
+      "editorUiAlias": "Umb.PropertyEditorUi.TextArea",
+      "values": []
+    },
+    {
+      "id": "0cc0eba1-9960-42c9-bf9b-60e150b429ae",
+      "name": "Textstring",
+      "folder": "Umbraco/Umbraco.TextBox",
+      "editorAlias": "Umbraco.TextBox",
+      "editorUiAlias": "Umb.PropertyEditorUi.TextBox",
+      "values": []
+    },
+    {
+      "id": "92897bc6-a5f3-4ffe-ae27-f2e7e33dda49",
+      "name": "True/false",
+      "folder": "Umbraco/Umbraco.TrueFalse",
+      "editorAlias": "Umbraco.TrueFalse",
+      "editorUiAlias": "Umb.PropertyEditorUi.Toggle",
+      "values": []
+    },
+    {
+      "id": "bc1e266c-dac4-4164-bf08-8a1ec6a7143d",
+      "name": "Upload Article",
+      "folder": "Umbraco/Umbraco.UploadField",
+      "editorAlias": "Umbraco.UploadField",
+      "editorUiAlias": "Umb.PropertyEditorUi.UploadField",
+      "values": [
+        {
+          "alias": "fileExtensions",
+          "value": [
+            "pdf",
+            "docx",
+            "doc"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "8f430dd6-4e96-447e-9dc0-cb552c8cd1f3",
+      "name": "Upload Audio",
+      "folder": "Umbraco/Umbraco.UploadField",
+      "editorAlias": "Umbraco.UploadField",
+      "editorUiAlias": "Umb.PropertyEditorUi.UploadField",
+      "values": [
+        {
+          "alias": "fileExtensions",
+          "value": [
+            "mp3",
+            "weba",
+            "oga",
+            "opus"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "84c6b441-31df-4ffe-b67e-67d5bc3ae65a",
+      "name": "Upload File",
+      "folder": "Umbraco/Umbraco.UploadField",
+      "editorAlias": "Umbraco.UploadField",
+      "editorUiAlias": "Umb.PropertyEditorUi.UploadField",
+      "values": []
+    },
+    {
+      "id": "215cb418-2153-4429-9aef-8c0f0041191b",
+      "name": "Upload Vector Graphics",
+      "folder": "Umbraco/Umbraco.UploadField",
+      "editorAlias": "Umbraco.UploadField",
+      "editorUiAlias": "Umb.PropertyEditorUi.UploadField",
+      "values": [
+        {
+          "alias": "fileExtensions",
+          "value": [
+            "svg"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "70575fe7-9812-4396-bbe1-c81a76db71b5",
+      "name": "Upload Video",
+      "folder": "Umbraco/Umbraco.UploadField",
+      "editorAlias": "Umbraco.UploadField",
+      "editorUiAlias": "Umb.PropertyEditorUi.UploadField",
+      "values": [
+        {
+          "alias": "fileExtensions",
+          "value": [
+            "mp4",
+            "webm",
+            "ogv"
+          ]
+        }
+      ]
+    }
+  ],
+  "templates": [
+    {
+      "id": "a738b514-a762-4a27-863c-4a6178044562",
+      "alias": "layout",
+      "name": "Layout",
+      "masterTemplateId": null
+    },
+    {
+      "id": "118043cc-67e4-43e4-83ee-137c1bfee509",
+      "alias": "blogFrontPage",
+      "name": "Blog Front Page",
+      "masterTemplateId": "a738b514-a762-4a27-863c-4a6178044562"
+    },
+    {
+      "id": "e6a9800d-e6d6-4e88-be43-27e7a95891ee",
+      "alias": "blogPost",
+      "name": "Blog Post",
+      "masterTemplateId": "a738b514-a762-4a27-863c-4a6178044562"
+    }
+  ],
+  "documents": [
+    {
+      "id": "ad2fb535-7ec3-4198-9b4a-5cf337ce5477",
+      "name": "WWW",
+      "path": "WWW",
+      "docTypeId": "0b5f1e5b-0a9a-4c4f-8e8c-1d01b2a3c4e1",
+      "templateId": null,
+      "state": "Published",
+      "domains": [],
+      "values": [],
+      "urls": [],
+      "docType": "siteRoot",
+      "template": null
+    },
+    {
+      "id": "78950b85-566e-4648-a5e2-f70d44a55ce8",
+      "name": "Blog",
+      "path": "WWW / Blog",
+      "docTypeId": "e04eb66c-fe9a-4f92-8b78-ec72664fc1aa",
+      "templateId": "118043cc-67e4-43e4-83ee-137c1bfee509",
+      "state": "Published",
+      "domains": [
+        {
+          "domainName": "/",
+          "isoCode": "en-US"
+        }
+      ],
+      "values": [
+        {
+          "editorAlias": "Umbraco.TextBox",
+          "culture": null,
+          "segment": null,
+          "alias": "title",
+          "value": "The MCP Blog"
+        },
+        {
+          "editorAlias": "Umbraco.BlockGrid",
+          "culture": null,
+          "segment": null,
+          "alias": "blocks",
+          "value": {
+            "layout": {
+              "Umbraco.BlockGrid": [
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "4b8c97db-3e66-48c6-8462-5099bca2608b",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "178b5ee2-8321-4c4b-b230-157cbd75c2f9",
+                  "settingsKey": null
+                }
+              ]
+            },
+            "contentData": [
+              {
+                "contentTypeKey": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+                "key": "4b8c97db-3e66-48c6-8462-5099bca2608b",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.RichText",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "text",
+                    "value": {
+                      "markup": "<p>Welcome to a small blog about the Model Context Protocol: the open standard that lets AI assistants plug into real tools, real data and real systems. Every post on this site was written and published through Umbraco's own MCP servers.</p>",
+                      "blocks": {
+                        "layout": {},
+                        "contentData": [],
+                        "settingsData": [],
+                        "expose": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "c91a42bc-ea3c-4fdd-b220-f82a2132d557",
+                "key": "178b5ee2-8321-4c4b-b230-157cbd75c2f9",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.MediaPicker3",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "image",
+                    "value": [
+                      {
+                        "key": "a9b1c3d5-e7f9-4a2b-8c4d-6e8f0a2b4c75",
+                        "mediaKey": "59422ee5-e6fc-439f-9776-d95e78030df1",
+                        "mediaTypeAlias": "Image",
+                        "crops": [],
+                        "focalPoint": null
+                      }
+                    ]
+                  },
+                  {
+                    "editorAlias": "Umbraco.TextBox",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "caption",
+                    "value": "Everything connected. Photo: Conny Schneider on Unsplash"
+                  }
+                ]
+              }
+            ],
+            "settingsData": [],
+            "expose": [
+              {
+                "contentKey": "4b8c97db-3e66-48c6-8462-5099bca2608b",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "178b5ee2-8321-4c4b-b230-157cbd75c2f9",
+                "culture": null,
+                "segment": null
+              }
+            ]
+          }
+        }
+      ],
+      "urls": [
+        "/",
+        "https://localhost:44317/"
+      ],
+      "docType": "blogFrontPage",
+      "template": "blogFrontPage"
+    },
+    {
+      "id": "6502ed03-e537-4df7-8d7f-c31f8c7d313e",
+      "name": "MCP Is the USB-C of AI",
+      "path": "WWW / Blog / MCP Is the USB-C of AI",
+      "docTypeId": "b9bf5ef6-6d12-49f3-897f-3276a24249c1",
+      "templateId": "e6a9800d-e6d6-4e88-be43-27e7a95891ee",
+      "state": "Published",
+      "domains": [],
+      "values": [
+        {
+          "editorAlias": "Umbraco.TextBox",
+          "culture": null,
+          "segment": null,
+          "alias": "title",
+          "value": "MCP Is the USB-C of AI"
+        },
+        {
+          "editorAlias": "Umbraco.DateTime",
+          "culture": null,
+          "segment": null,
+          "alias": "publishDate",
+          "value": "2026-09-22 09:00:00"
+        },
+        {
+          "editorAlias": "Umbraco.TextArea",
+          "culture": null,
+          "segment": null,
+          "alias": "excerpt",
+          "value": "One standard plug instead of a drawer full of adapters: why the Model Context Protocol makes connecting AI to your tools boring in the best possible way."
+        },
+        {
+          "editorAlias": "Umbraco.MediaPicker3",
+          "culture": null,
+          "segment": null,
+          "alias": "listingImage",
+          "value": [
+            {
+              "key": "3f1c2a8e-7b4d-4e91-a6c2-1d8e5f0b9a31",
+              "mediaKey": "897ab12e-3730-4a2d-b9e8-3e72a3bedd89",
+              "mediaTypeAlias": "Image",
+              "crops": [],
+              "focalPoint": null
+            }
+          ]
+        },
+        {
+          "editorAlias": "Umbraco.BlockGrid",
+          "culture": null,
+          "segment": null,
+          "alias": "blocks",
+          "value": {
+            "layout": {
+              "Umbraco.BlockGrid": [
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "287b0071-8223-43c4-b1af-f48507475834",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "86d67e7a-bb3e-4b2a-b5f8-34163033b8c8",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "3423157d-ab6b-40d3-9475-e13beeb9ed53",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "b8083390-9132-411b-8944-833cdfac619e",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "ddcb093b-04ea-4c46-b560-dbf4afdebdb6",
+                  "settingsKey": null
+                }
+              ]
+            },
+            "contentData": [
+              {
+                "contentTypeKey": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+                "key": "287b0071-8223-43c4-b1af-f48507475834",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.RichText",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "text",
+                    "value": {
+                      "markup": "<p>Remember the drawer? The one full of chargers, each with a slightly different plug, each fitting exactly one device you no longer own. For years, connecting an AI model to your own tools felt just like that drawer. Every assistant needed its own bespoke integration, every API needed its own glue code, and every new model meant starting over.</p><p>The Model Context Protocol (MCP) is the moment the industry agreed on a single plug. A tool author writes one MCP server, and any MCP-capable client (a chat app, an IDE, a coding agent) can use it straight away. That's the whole trick, and it turns out to be a very big trick.</p>",
+                      "blocks": {
+                        "layout": {},
+                        "contentData": [],
+                        "settingsData": [],
+                        "expose": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "c91a42bc-ea3c-4fdd-b220-f82a2132d557",
+                "key": "86d67e7a-bb3e-4b2a-b5f8-34163033b8c8",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.MediaPicker3",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "image",
+                    "value": [
+                      {
+                        "key": "c2d7e9f1-4a6b-4c3d-8e2f-5a1b9c0d7e63",
+                        "mediaKey": "9399086e-50e3-4973-b9a2-4a0ba7d330ae",
+                        "mediaTypeAlias": "Image",
+                        "crops": [],
+                        "focalPoint": null
+                      }
+                    ]
+                  },
+                  {
+                    "editorAlias": "Umbraco.TextBox",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "caption",
+                    "value": "One kind of cable, endless devices. Photo: Lucian Alexe on Unsplash"
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+                "key": "3423157d-ab6b-40d3-9475-e13beeb9ed53",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.RichText",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "text",
+                    "value": {
+                      "markup": "<h2>Write once, plug in everywhere</h2><p>Before MCP, connecting M models to N tools meant building M × N integrations. With a shared protocol it becomes M + N: each tool exposes one server, each client speaks one protocol, and they meet in the middle. Tool authors get reach, client authors get an ecosystem, and users get to pick both freely.</p><p>MCP servers describe their own capabilities: tools with typed inputs, resources to read, prompts to reuse. A client doesn't need to be taught what a CMS, a database or a ticketing system can do; it asks the server, and the server tells it in a format every client understands.</p>",
+                      "blocks": {
+                        "layout": {},
+                        "contentData": [],
+                        "settingsData": [],
+                        "expose": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "50106d26-89da-46b1-8ff8-1f6b85637c14",
+                "key": "b8083390-9132-411b-8944-833cdfac619e",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.TextArea",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "quote",
+                    "value": "A protocol is a promise: if you speak this, I'll understand you."
+                  },
+                  {
+                    "editorAlias": "Umbraco.TextBox",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "attribution",
+                    "value": "The MCP Blog"
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+                "key": "ddcb093b-04ea-4c46-b560-dbf4afdebdb6",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.RichText",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "text",
+                    "value": {
+                      "markup": "<h2>Boring, in the best way</h2><p>The highest compliment you can pay a standard is that people stop talking about it. Nobody gets excited about plugging in a USB-C cable; it just works. MCP is heading the same way: once your tools speak it, connecting a new assistant is a configuration line, not a project.</p><p>That frees everyone to focus on the interesting part: what the assistant actually does with the access it now has. Which is exactly where the fun starts.</p>",
+                      "blocks": {
+                        "layout": {},
+                        "contentData": [],
+                        "settingsData": [],
+                        "expose": []
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "settingsData": [],
+            "expose": [
+              {
+                "contentKey": "287b0071-8223-43c4-b1af-f48507475834",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "86d67e7a-bb3e-4b2a-b5f8-34163033b8c8",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "3423157d-ab6b-40d3-9475-e13beeb9ed53",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "b8083390-9132-411b-8944-833cdfac619e",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "ddcb093b-04ea-4c46-b560-dbf4afdebdb6",
+                "culture": null,
+                "segment": null
+              }
+            ]
+          }
+        }
+      ],
+      "urls": [
+        "/mcp-is-the-usb-c-of-ai/"
+      ],
+      "docType": "blogPost",
+      "template": "blogPost"
+    },
+    {
+      "id": "ec08bd7a-0c91-40fe-8bef-12f0c4e96eb5",
+      "name": "Why MCP Makes Your CMS Talk Back",
+      "path": "WWW / Blog / Why MCP Makes Your CMS Talk Back",
+      "docTypeId": "b9bf5ef6-6d12-49f3-897f-3276a24249c1",
+      "templateId": "e6a9800d-e6d6-4e88-be43-27e7a95891ee",
+      "state": "Published",
+      "domains": [],
+      "values": [
+        {
+          "editorAlias": "Umbraco.TextBox",
+          "culture": null,
+          "segment": null,
+          "alias": "title",
+          "value": "Why MCP Makes Your CMS Talk Back"
+        },
+        {
+          "editorAlias": "Umbraco.DateTime",
+          "culture": null,
+          "segment": null,
+          "alias": "publishDate",
+          "value": "2026-10-06 09:00:00"
+        },
+        {
+          "editorAlias": "Umbraco.TextArea",
+          "culture": null,
+          "segment": null,
+          "alias": "excerpt",
+          "value": "This very site was modelled, filled and published by an AI assistant talking to Umbraco over MCP. Here's what that feels like, and why it matters."
+        },
+        {
+          "editorAlias": "Umbraco.MediaPicker3",
+          "culture": null,
+          "segment": null,
+          "alias": "listingImage",
+          "value": [
+            {
+              "key": "8a4e6d21-5c3b-4f7a-9e10-2b6d7c8f4e52",
+              "mediaKey": "d99efec6-51fe-4ae6-b0f8-d0f9708f8ef9",
+              "mediaTypeAlias": "Image",
+              "crops": [],
+              "focalPoint": null
+            }
+          ]
+        },
+        {
+          "editorAlias": "Umbraco.BlockGrid",
+          "culture": null,
+          "segment": null,
+          "alias": "blocks",
+          "value": {
+            "layout": {
+              "Umbraco.BlockGrid": [
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "58ffabc3-3bc3-4067-a64d-f0fa104d601c",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "66becf49-ec10-445c-82de-6550cbb7a0a4",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "cbf35a1a-ddf0-4171-88d9-25aaae6722e9",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "90e8c5a7-4700-4b2d-9ed3-18473f9fd74b",
+                  "settingsKey": null
+                },
+                {
+                  "$type": "BlockGridLayoutItem",
+                  "columnSpan": 12,
+                  "rowSpan": 1,
+                  "areas": [],
+                  "contentKey": "1ce54ac6-7b1d-48e0-b324-e14d6c2836f8",
+                  "settingsKey": null
+                }
+              ]
+            },
+            "contentData": [
+              {
+                "contentTypeKey": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+                "key": "58ffabc3-3bc3-4067-a64d-f0fa104d601c",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.RichText",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "text",
+                    "value": {
+                      "markup": "<p>Here's a confession: nobody clicked through the Umbraco backoffice to build this blog. The document types, the block grid, the media library and the very words you're reading were all created by an AI assistant calling Umbraco's MCP servers, one well-described tool at a time.</p><p>That's not a party trick. It's a glimpse of how content management changes when your CMS can explain itself to an assistant: what types exist, what a property expects, which pages are live. The assistant stops guessing and starts asking the system directly.</p>",
+                      "blocks": {
+                        "layout": {},
+                        "contentData": [],
+                        "settingsData": [],
+                        "expose": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "50106d26-89da-46b1-8ff8-1f6b85637c14",
+                "key": "66becf49-ec10-445c-82de-6550cbb7a0a4",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.TextArea",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "quote",
+                    "value": "The best integration is the one you never had to write."
+                  },
+                  {
+                    "editorAlias": "Umbraco.TextBox",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "attribution",
+                    "value": "Every developer who has maintained a bespoke API connector"
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+                "key": "cbf35a1a-ddf0-4171-88d9-25aaae6722e9",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.RichText",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "text",
+                    "value": {
+                      "markup": "<h2>Two servers, two jobs</h2><p>This project runs two MCP servers side by side. One is for developers: it creates data types, document types, templates and media. The other is for editors: it creates pages, adds blocks and publishes. Splitting them means each assistant only sees the tools that fit its role, and an editor's assistant can't accidentally redesign the schema.</p><ul><li><strong>Self-describing:</strong> a tool can hand back the exact JSON shape a media picker expects, so nothing is guessed.</li><li><strong>Safe by default:</strong> drafts stay drafts until something explicitly publishes them.</li><li><strong>Verifiable:</strong> every write can be read straight back to confirm it landed.</li></ul>",
+                      "blocks": {
+                        "layout": {},
+                        "contentData": [],
+                        "settingsData": [],
+                        "expose": []
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "c91a42bc-ea3c-4fdd-b220-f82a2132d557",
+                "key": "90e8c5a7-4700-4b2d-9ed3-18473f9fd74b",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.MediaPicker3",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "image",
+                    "value": [
+                      {
+                        "key": "e5f8a0b2-6c7d-4e9f-a1b3-7c2d4e6f8a94",
+                        "mediaKey": "58ceb7dd-1eb8-4e92-a663-7dec9f70c894",
+                        "mediaTypeAlias": "Image",
+                        "crops": [],
+                        "focalPoint": null
+                      }
+                    ]
+                  },
+                  {
+                    "editorAlias": "Umbraco.TextBox",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "caption",
+                    "value": "Many parts, one structure. Photo: Alina Grubnyak on Unsplash"
+                  }
+                ]
+              },
+              {
+                "contentTypeKey": "e6d12f7d-9145-4a6a-bcd2-b3cea8b4e763",
+                "key": "1ce54ac6-7b1d-48e0-b324-e14d6c2836f8",
+                "values": [
+                  {
+                    "editorAlias": "Umbraco.RichText",
+                    "culture": null,
+                    "segment": null,
+                    "alias": "text",
+                    "value": {
+                      "markup": "<h2>Conventions still win</h2><p>Giving an assistant access is only half the story. This project has firm conventions: where document types live, how blocks render, how files are named. MCP doesn't replace them. Instead the assistant follows them, because the tools make the right way the easy way.</p><p>The result is a CMS you can talk to without it turning into a mess. Ask for a blog, get a blog, and still recognise the codebase the next morning. That, more than any demo, is why MCP is awesome.</p>",
+                      "blocks": {
+                        "layout": {},
+                        "contentData": [],
+                        "settingsData": [],
+                        "expose": []
+                      }
+                    }
+                  }
+                ]
+              }
+            ],
+            "settingsData": [],
+            "expose": [
+              {
+                "contentKey": "58ffabc3-3bc3-4067-a64d-f0fa104d601c",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "66becf49-ec10-445c-82de-6550cbb7a0a4",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "cbf35a1a-ddf0-4171-88d9-25aaae6722e9",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "90e8c5a7-4700-4b2d-9ed3-18473f9fd74b",
+                "culture": null,
+                "segment": null
+              },
+              {
+                "contentKey": "1ce54ac6-7b1d-48e0-b324-e14d6c2836f8",
+                "culture": null,
+                "segment": null
+              }
+            ]
+          }
+        }
+      ],
+      "urls": [
+        "/why-mcp-makes-your-cms-talk-back/"
+      ],
+      "docType": "blogPost",
+      "template": "blogPost"
+    }
+  ],
+  "media": [
+    {
+      "id": "7d081e06-8edb-402c-b778-19c4c73e3839",
+      "name": "Blog",
+      "folder": "",
+      "mediaType": "Folder",
+      "src": null
+    },
+    {
+      "id": "58ceb7dd-1eb8-4e92-a663-7dec9f70c894",
+      "name": "Connected Structure",
+      "folder": "Blog",
+      "mediaType": "Image",
+      "src": "/media/kj4jr1wr/connected-structure.jpg"
+    },
+    {
+      "id": "59422ee5-e6fc-439f-9776-d95e78030df1",
+      "name": "Network Lines and Dots",
+      "folder": "Blog",
+      "mediaType": "Image",
+      "src": "/media/nlsaj12v/network-lines-dots.jpg"
+    },
+    {
+      "id": "d99efec6-51fe-4ae6-b0f8-d0f9708f8ef9",
+      "name": "Puzzle Piece Slot",
+      "folder": "Blog",
+      "mediaType": "Image",
+      "src": "/media/je0nq12x/puzzle-piece-slot.jpg"
+    },
+    {
+      "id": "9399086e-50e3-4973-b9a2-4a0ba7d330ae",
+      "name": "Orange USB Cables",
+      "folder": "Blog",
+      "mediaType": "Image",
+      "src": "/media/2hbn4jmk/orange-usb-cables.jpg"
+    },
+    {
+      "id": "897ab12e-3730-4a2d-b9e8-3e72a3bedd89",
+      "name": "USB Cables",
+      "folder": "Blog",
+      "mediaType": "Image",
+      "src": "/media/uf3dyp0z/usb-cables.jpg"
+    }
+  ],
+  "blockGridBlockAliases": [
+    "richTextBlock",
+    "imageBlock",
+    "quoteBlock"
+  ]
+}

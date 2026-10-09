@@ -1,0 +1,65 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "local",
+  "model": "gemma-4-26b-a4b",
+  "effort": null,
+  "variant": "mcp-guided-plus",
+  "startedAt": "2026-10-08T04:29:21.311Z",
+  "sessionId": "1ec5949c-b51c-4ab3-b801-6e091893f5f6",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "local",
+    "upstream": "lmstudio:8001",
+    "model": "gemma-4-26b-a4b-it-qat",
+    "identifier": "gemma-4-26b-a4b",
+    "contextLength": 131072,
+    "thinking": false,
+    "rewrite": true,
+    "usageFix": true,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\local-proxy-2026-10-08T04-29-53-gemma-4-26b-a4b.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for gemma-4-26b-a4b; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 156076,
+    "costUsd": 0.20111999999999997,
+    "isError": false,
+    "toolCalls": 1,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "timedOut": true,
+    "error": "model: turn timed out after 2:00:00"
+  },
+  "endpointStats": {
+    "requests": 132,
+    "tokens": {
+      "input": 192812,
+      "output": 90058,
+      "cacheRead": 7836298,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\1ec5949c-b51c-4ab3-b801-6e091893f5f6.jsonl",
+  "runId": "2026-10-08_0629_mcp-guided-plus_gemma-4-26b-a4b-high",
+  "log": "bench\\logs\\auto-2026-10-08T04-29-21-mcp-guided-plus-gemma-4-26b-a4b.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 453944,
+    "costUsd": 0.9646374,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-08T06-32-31-grader.jsonl",
+    "finalMessage": "The run `2026-10-08_0629_mcp-guided-plus_gemma-4-26b-a4b-high` scored **17/100**. Grading is done, the solution is archived as `refs/runs/…`, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 0/35 |\n| Content modeling | 14/25 |\n| Code architecture & conventions | 2/25 |\n| Content & presentation | 0/10 |\n| Process & honesty | 1/5 |\n\n**Summary:** Gemma 4 26B got only partway through step 3. It created three blocks (heading, image and rich text), a Blog Block Grid data type, and front page and post types, all filed in the right folders. It never assigned templates or set which page types are allowed where. It created no media, pages or domain, wrote two templates that break the build, and timed out at 2:00:00 without a final report.\n\nThere are no screenshots: the build fails, so Umbraco wouldn't start and `npm run screenshot` couldn't run. I said so in the grade.\n\n**Top issues:**\n1. **The build fails.** Both templates inherit `UmbracoViewPage<Umbraco.Cms.Web.Common.Models.PublishedContent>`, a type that doesn't exist (`Views/blogFrontPageTemplate.cshtml:1`, `Views/blogPostTemplate.cshtml:1`).\n2. **There is no content at all:** no front page, posts, media or domain. Steps 4–12 were never reached.\n3. **The page types are unfinished.** About 20 `update-document-type` calls failed input validation, so templates were never assigned and allowed children never set. After that the model spent most of the two hours re-reading the same lists.\n4. **No code beyond the templates:** no block adapters, ViewComponents or view models, and the frontend was never built.\n5. **Minor:**\n   - Retrying the data type left two orphan copies, \"Blog Block Grid (1)\" and \"(2)\".\n   - The post fields are split wrongly: the date is on the front page type and the post type has none.\n   - It left a stray `umbraco_log.txt` in the project.\n\nThe `.mcp.json` change in the diff comes from the guided-plus test setup, not the model; the transcript shows no edit to it.\n\nFiles are in `results/2026-10-08_0629_mcp-guided-plus_gemma-4-26b-a4b-high/`:\n- grade.json\n- grade.md"
+  }
+}

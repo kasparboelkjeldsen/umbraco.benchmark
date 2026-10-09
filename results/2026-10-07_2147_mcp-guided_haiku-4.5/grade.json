@@ -1,0 +1,83 @@
+{
+  "runId": "2026-10-07_2147_mcp-guided_haiku-4.5",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-07T22:45:00Z",
+  "total": 57,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 10,
+      "max": 35,
+      "notes": "Build OK, 0 warnings (5/5). Every page returns Umbraco's 404 'Cannot render the page at URL' because the model deleted the MCP-created Views/blogFrontPage.cshtml and Views/blogPost.cshtml and rewrote the templates in Views/Templates/, where Umbraco does not look. Front page: 404, and its template has no post listing anyway, just an empty block grid (0/10). Posts: 404, no block renders (0/10). Images: the 2 provided Unsplash photos are imported into a media folder and the adapter uses GetCropUrl, but no image is ever served (1/5). Domain '/' is on the Blog page and everything is published, so URLs resolve to the right nodes; the failure is the missing template file (4/5)."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 19,
+      "max": 25,
+      "notes": "Folders: richTextBlock/imageBlock/quoteBlock elements in Blocks, blogFrontPage/blogPost in Pages, all the right kind (8/8). Block grid 'Blog Block Grid' with rich text, image (+caption), quote (+author) on both page types, but the front page's grid is empty (5/7). Structure: blogFrontPage was set allowedAsRoot=true as a workaround when create-page failed, so siteRoot is no longer the only root type. Allowed children, templates, camelCase aliases and /Custom data type are right (3/5). Hygiene: no compositions, and excerpt/listingImage are real properties, but 'date' uses the Richtext editor instead of a date picker, and a redundant 'title' duplicates the node name (3/5)."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 23,
+      "max": 25,
+      "notes": "Templates use Html.GetBlockGridHtmlAsync with no custom loops, and the blockgrid partials are unchanged (7/7). Three adapters at Views/Partials/blockgrid/Components/<alias>.cshtml take BlockGridItem<T>, map to plain models and call Component.InvokeAsync with no markup (6/6). One ViewComponent per block, rendering Views/Shared/Components/<Name>/Default.cshtml; plain models are in Models/Blocks (classes *Content in *Model.cs files) and the component views have no Umbraco dependencies (7/7). Conventions: Program.cs/appsettings untouched, no migrations, GetCropUrl used, Tailwind built. But the three ViewComponent classes sit in Services/ without the *Service suffix (3/5). The Views/Templates placement that broke rendering is counted under 'It works'."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 2,
+      "max": 10,
+      "notes": "Two posts on MCP ('Why MCP is Awesome', 'MCP Powers Your Workflow'), each with only two short, generic paragraphs plus an image and a quote. They are thin, vague (one pitches MCP as a 'content management experience'), not substantive (2/6). Nothing renders: both screenshots show Umbraco's Page Not Found page (0/4)."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 3,
+      "max": 5,
+      "notes": "Schema and content went only through the two MCP servers (54 calls). No migrations, Management API, uSync or DB use, and it stayed in the folder. It mostly followed the numbered steps, but skipped get-property-value-template before setting images (step 5), worked around a create-page error by allowing blogFrontPage at root, and at step 11 tested an http port instead of https://localhost:44317 and left the 404s unfixed (2/3). The final report honestly says pages return 404. It misdiagnoses this as a routing/domain issue and claims the schema 'follows all conventions' and the views are 'written correctly', though it deleted the template files itself and the front page has no post listing (1/2)."
+    }
+  ],
+  "summary": "Haiku 4.5 modeled a reasonable 3-block schema over MCP and wrote a convention-following block adapter/ViewComponent pipeline, but nothing renders: it deleted the MCP-created template files and rewrote them under Views/Templates/, so /, and both posts return Umbraco's 404. The front page template has no post listing, and the posts are thin, two-paragraph pieces.",
+  "strengths": [
+    "Built schema and content only through the two MCP servers, in the guided order",
+    "Block element types filed in Blocks, page types in Pages, Block Grid data type in /Custom",
+    "Clean adapter → plain model → ViewComponent → Default.cshtml pipeline with GetBlockGridHtmlAsync and GetCropUrl",
+    "Provided Unsplash photos imported into a media folder; domain '/' on the Blog page; everything published",
+    "Final report admits the pages 404"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "Every page returns 404 'Cannot render the page': the templates are in Views/Templates/blogFrontPage.cshtml and blogPost.cshtml; Umbraco expects Views/blogFrontPage.cshtml and Views/blogPost.cshtml, which the model deleted (/, /why-mcp-is-awesome/, /mcp-powers-your-workflow/)"
+    },
+    {
+      "severity": "major",
+      "text": "Front page template does not list blog posts at all, only renders an empty block grid (Views/Templates/blogFrontPage.cshtml)"
+    },
+    {
+      "severity": "major",
+      "text": "Post content is thin: two short generic paragraphs + image + quote per post"
+    },
+    {
+      "severity": "minor",
+      "text": "blogFrontPage set allowedAsRoot=true as a workaround, so siteRoot is no longer the only root type"
+    },
+    {
+      "severity": "minor",
+      "text": "blogPost 'date' property uses the Richtext editor; template outputs it via Model.Value(\"date\") (Views/Templates/blogPost.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "ViewComponent classes in Services/ without the *Service suffix (Services/ImageBlockViewComponent.cs, QuoteBlockViewComponent.cs, RichTextBlockViewComponent.cs)"
+    },
+    {
+      "severity": "minor",
+      "text": "Final report blames routing/domain configuration and claims the schema and views are fully correct"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

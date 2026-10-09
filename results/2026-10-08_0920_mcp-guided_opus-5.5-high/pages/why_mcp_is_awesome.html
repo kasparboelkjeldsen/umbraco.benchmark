@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Why MCP Is Awesome: One Plug for Every Tool</title>
+    <link rel="stylesheet" href="/dist/site.css?v=JqHbNM2ZL2XBzwidV6GugSLVHzl9-bXDZeLCom-MdE0" />
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased">
+    <header class="border-b border-slate-200 bg-white">
+        <div class="mx-auto max-w-5xl px-6 py-5">
+                <a href="/" class="text-xl font-bold tracking-tight text-slate-900">The MCP Blog</a>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-3xl px-6 py-14">
+        <article>
+            <header>
+                <time datetime="2026-10-01" class="text-sm font-semibold uppercase tracking-widest text-indigo-600">1 October 2026</time>
+                <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">Why MCP Is Awesome: One Plug for Every Tool</h1>
+                    <p class="mt-5 text-xl text-slate-600">The Model Context Protocol does for AI tools what USB did for peripherals: one standard plug instead of a drawer full of adapters.</p>
+                    <img src="/media/goeddrwx/usb-cables.jpg?rxy=0,0.5&amp;width=1200&amp;height=600&amp;v=1dd56f5b7c31dc7&amp;hmac=dd8f35b8fce5ee55a9308467bd38b57eaa3bd7c3067ffd5ccf6ae74602b04e77" alt="USB cables" class="mt-10 w-full rounded-xl object-cover shadow-md" />
+            </header>
+
+            
+<div class="umb-block-grid" data-grid-columns="12" style="--umb-block-grid--grid-columns: 12;">
+    
+<div class="umb-block-grid__layout-container">
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="eae3d3af-4972-45bc-931d-1a4481151785"
+            data-element-key="d0dd8286-ccb7-4159-b60f-642bcc52e005"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<div class="my-8 text-lg leading-relaxed text-slate-700 [&_p]:mb-5 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_strong]:font-semibold [&_strong]:text-slate-900 [&_em]:italic [&_a]:text-indigo-600 [&_a]:underline">
+    <p>Remember when every phone had its own charger? A drawer full of cables, none of which fit the device in your hand. That's roughly where AI tooling was until recently: every assistant needed a custom integration for every system it wanted to talk to, and every integration was built, maintained and broken separately.</p><p>The <strong>Model Context Protocol</strong> (MCP) fixes that the way USB did. It's an open standard that describes how an AI client discovers and calls tools exposed by a server. Write one MCP server for your system, and any MCP-capable assistant can use it, with no bespoke glue code per client.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="imageBlock"
+            data-content-element-type-key="2e2ed283-aa9c-4dc3-8724-6bf35c02de5a"
+            data-element-key="f81ec40d-8cd3-4937-8105-45afcf604c8a"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+    <figure class="my-10">
+        <img src="/media/ryhblv20/network-lines-dots.jpg?rxy=0,0.5&amp;width=1200&amp;v=1dd56f5b7ab525d&amp;hmac=0da16e0ab2cc4289d79d803bedce9c4c17d4ee0688d359e698abd0c435a8725a" alt="One protocol, many connections. Photo: Conny Schneider on Unsplash" class="w-full rounded-xl shadow-md" loading="lazy" />
+            <figcaption class="mt-3 text-center text-sm text-slate-500">One protocol, many connections. Photo: Conny Schneider on Unsplash</figcaption>
+    </figure>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="eae3d3af-4972-45bc-931d-1a4481151785"
+            data-element-key="5b195068-cef6-4f58-b7bb-2c33f9470d5d"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<div class="my-8 text-lg leading-relaxed text-slate-700 [&_p]:mb-5 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_strong]:font-semibold [&_strong]:text-slate-900 [&_em]:italic [&_a]:text-indigo-600 [&_a]:underline">
+    <h2>Tools that describe themselves</h2><p>The clever part is discovery. An MCP server doesn't just expose endpoints; it publishes a list of tools, each with a name, a plain-language description and a JSON schema for its inputs. The assistant reads that list and works out for itself which tool fits the task, the same way a person skims a menu.</p><p>That means the knowledge of <em>how</em> to use a system lives with the system, written by the people who know it best, rather than being re-learned by every client that wants to talk to it.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="quoteBlock"
+            data-content-element-type-key="4b482b93-82e2-46ae-8843-b36ca5857dc8"
+            data-element-key="f49df657-df57-46f4-b518-7c5dd8cf1bad"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<figure class="my-10 border-l-4 border-indigo-500 bg-indigo-50 px-6 py-5 rounded-r-xl">
+    <blockquote class="text-2xl font-medium leading-snug text-slate-900">&ldquo;Build the server once, and every MCP-capable assistant can use it.&rdquo;</blockquote>
+        <figcaption class="mt-3 text-sm text-slate-600">&mdash; The whole point of a protocol</figcaption>
+</figure>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="eae3d3af-4972-45bc-931d-1a4481151785"
+            data-element-key="e8f4d143-455c-4782-b8b1-4e06439e5bce"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<div class="my-8 text-lg leading-relaxed text-slate-700 [&_p]:mb-5 [&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-slate-900 [&_strong]:font-semibold [&_strong]:text-slate-900 [&_em]:italic [&_a]:text-indigo-600 [&_a]:underline">
+    <h2>Why it adds up</h2><p>Standards win by compounding. Each new MCP server makes every MCP client more useful, and each new client makes every server worth building. That's the same flywheel that turned USB from one more connector into <em>the</em> connector.</p><p>For teams, the payoff is practical: less glue code, integrations that survive switching assistants, and capabilities that are documented in the one place they can't drift out of date, the server itself.</p>
+</div>
+
+        </div>
+</div>
+
+</div>
+
+        </article>
+
+            <a href="/" class="mt-12 inline-block font-semibold text-indigo-600">&larr; Back to all posts</a>
+    </main>
+</body>
+</html>

@@ -130,8 +130,9 @@ export function scoreRuns(runs, book) {
     const { tMed, cMed } = medians[x.test];
     x.efficiency = {}; x.score = {};
     for (const k of ks) {
-      if (x.usd == null || x.honesty == null || !tMed || !cMed) { x.score[k] = null; continue; }
-      const doublings = Math.log2(x.minutes / tMed) + doublingsOf(x.usd, cMed, k, cap);
+      if (x.usd == null || x.honesty == null || !tMed || cMed == null) { x.score[k] = null; continue; }
+      // a test where every run is free (local models only) has a $0 median: cost then separates nothing
+      const doublings = Math.log2(x.minutes / tMed) + (cMed > 0 ? doublingsOf(x.usd, cMed, k, cap) : 0);
       x.efficiency[k] = Math.max(-cap, Math.min(cap, -k * doublings));
       x.score[k] = (x.quality + x.efficiency[k]) * x.honesty;
     }

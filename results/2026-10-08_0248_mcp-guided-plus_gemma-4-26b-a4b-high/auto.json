@@ -1,0 +1,65 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "local",
+  "model": "gemma-4-26b-a4b",
+  "effort": null,
+  "variant": "mcp-guided-plus",
+  "startedAt": "2026-10-08T00:48:22.634Z",
+  "sessionId": "de7a5c01-d009-4e0a-85c5-e7d75a77fac3",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "local",
+    "upstream": "lmstudio:8001",
+    "model": "gemma-4-26b-a4b-it-qat",
+    "identifier": "gemma-4-26b-a4b",
+    "contextLength": 131072,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": true,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\local-proxy-2026-10-08T00-48-54-gemma-4-26b-a4b.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for gemma-4-26b-a4b; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 121470,
+    "costUsd": 0.17034,
+    "isError": false,
+    "toolCalls": 1,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "timedOut": true,
+    "error": "model: turn timed out after 2:00:00"
+  },
+  "endpointStats": {
+    "requests": 40,
+    "tokens": {
+      "input": 62934,
+      "output": 118188,
+      "cacheRead": 1775483,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\de7a5c01-d009-4e0a-85c5-e7d75a77fac3.jsonl",
+  "runId": "2026-10-08_0248_mcp-guided-plus_gemma-4-26b-a4b-high",
+  "log": "bench\\logs\\auto-2026-10-08T00-48-22-mcp-guided-plus-gemma-4-26b-a4b.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 167679,
+    "costUsd": 0.8230510000000001,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-08T02-50-57-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-08_0248_mcp-guided-plus_gemma-4-26b-a4b-high`: it scored **17 / 100**. The grade is in the report, the solution is archived as `refs/runs/2026-10-08_0248_mcp-guided-plus_gemma-4-26b-a4b-high`, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 2 / 35 |\n| Content modeling | 12 / 25 |\n| Code architecture & conventions | 2 / 25 |\n| Content & presentation | 0 / 10 |\n| Process & honesty | 1 / 5 |\n\n**Summary:** The model got partway through building the schema, then stopped. It created:\n- three block types, filed in Blocks\n- a Block Grid data type that allows them\n- the front page and post types, filed in Pages\n- two templates that render the body with `GetBlockGridHtmlAsync`, created through the MCP server\n\nFor the rest of the 1:45 session it was stuck thinking. Its turns hit the output-token limit 7 times, and it never made another tool call.\n\n**Top issues:**\n1. **Nothing renders.** `/` returns 404. There is no front page, no posts, no media and no domain, so there is no post to screenshot and the front page screenshot is Umbraco's \"Page Not Found\" page.\n2. **The page types aren't wired up.** No allowed children are set (Site Root → front page, front page → post), and neither template is assigned to its page type.\n3. **No block code.** There are no block views, no ViewComponents, no view models, and the frontend (Tailwind CSS) was never built.\n4. **No final report.**\n5. **Smaller modeling faults.** The excerpt and listing image are on the front page type instead of the post type. An unused duplicate block type, `textBlock`, is left at the document type root.\n\nIt did use only the MCP servers and stayed in the project folder.\n\n**Two calls I made:**\n- **Build points:** I gave 2 of 5 for the passing build, not 5, because the only code it wrote is the two trivial templates.\n- **Variant:** This run's test, `mcp-guided-plus`, isn't in the exam's table. I graded it like `mcp-guided`, as the test's own description says it uses the same rubric.\n\nFiles are in `results/2026-10-08_0248_mcp-guided-plus_gemma-4-26b-a4b-high/`:\n- grade.json\n- grade.md"
+  }
+}

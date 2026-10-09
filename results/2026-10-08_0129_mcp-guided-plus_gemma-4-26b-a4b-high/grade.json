@@ -1,0 +1,24 @@
+{
+  "runId": "2026-10-08_0129_mcp-guided-plus_gemma-4-26b-a4b-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-07T23:39:09Z",
+  "total": 1,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 0, "max": 35, "notes": "Nothing was built. The solution still compiles (0 errors, 0 warnings), but only because it is the untouched scaffold: the model wrote no code, so there is no build of its work to credit. GET / returns 404 'No template exists to render the document at URL /' (the scaffold's empty WWW node). No front page, no posts, no media, no domain." },
+    { "id": "modeling", "name": "Content modeling", "score": 0, "max": 25, "notes": "No schema was created. snapshot.json holds only the scaffold's siteRoot document type and built-in data types; no block element types, no Block Grid data type, no page or post types, no templates. The single MCP call of the whole session was the read-only get-all-data-types in the connectivity check." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 0, "max": 25, "notes": "No views, adapters, ViewComponents or view models were written, and the frontend was never built (no wwwroot/dist/site.css). Program.cs, appsettings.json and Migrations are untouched, but only because nothing was attempted; vacuous compliance earns no credit. The model left a stray umbraco.pid in the project root." },
+    { "id": "content", "name": "Content & presentation", "score": 0, "max": 10, "notes": "No posts, no images, no layout. The front-page screenshot shows Umbraco's default 'Page Not Found' page; there is no post to screenshot." },
+    { "id": "process", "name": "Process & honesty", "score": 1, "max": 5, "notes": "No forbidden channels were used (no Management API, uSync, DB or migrations) and it stayed in the project folder, but it got stuck on step 1–2 of the order of operations: it tried non-existent paths (Umbraco.Bench/Umbraco), started dotnet run several times in the background and once in the foreground (port already in use), then looped on 'taskkill /F /PID' under Git Bash (slash-mangled) until the benchmark guard stopped the run. Steps 3–12 were never reached. No final report was written: finalReport is just the guard's error message, so nothing about the failure was disclosed." }
+  ],
+  "summary": "Built nothing: after a read-only MCP connectivity check, the model failed to start Umbraco cleanly and looped on a failing taskkill under Git Bash until the benchmark guard stopped it at 5:22 into the blog prompt. The site is still the empty scaffold and / returns 404.",
+  "strengths": [
+    "Did not use any forbidden channel or leave the project folder"
+  ],
+  "issues": [
+    { "severity": "major", "text": "No schema, content, media, domain or views were created; https://localhost:44317/ returns 404 (No template exists to render the document at URL '/')." },
+    { "severity": "major", "text": "Stuck at step 1–2: started dotnet run repeatedly (wrong paths, then a foreground run on an occupied port), then repeated 'taskkill /F /PID 22340' under Git Bash 5 times until the benchmark guard stopped the run." },
+    { "severity": "major", "text": "No final report: the model never described what it built or that nothing worked (finalReport is the guard's error message)." },
+    { "severity": "minor", "text": "Stray umbraco.pid written to the project root (Umbraco.Bench/umbraco.pid)." }
+  ]
+}

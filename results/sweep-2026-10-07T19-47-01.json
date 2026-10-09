@@ -1,0 +1,50 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-07T19:47:01.144Z",
+  "updatedAt": "2026-10-07T20:56:32.385Z",
+  "done": [
+    {
+      "label": "claude-haiku-4-5-20251001 · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-07_2147_mcp-guided_haiku-4.5",
+      "grade": "57/100",
+      "error": null
+    },
+    {
+      "label": "claude-haiku-4-5-20251001 · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-07_2206_mcp-guided_haiku-4.5",
+      "grade": "66/100",
+      "error": null
+    },
+    {
+      "label": "claude-haiku-5-5:high · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-07_2216_mcp-guided_haiku-5.5-high",
+      "grade": "94/100",
+      "error": null
+    },
+    {
+      "label": "claude-haiku-5-5:high · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-07_2226_mcp-guided_haiku-5.5-high",
+      "grade": "96/100",
+      "error": null
+    },
+    {
+      "label": "claude-sonnet-5-5:high · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-07_2236_mcp-guided_sonnet-5.5-high",
+      "grade": "99/100",
+      "error": null
+    },
+    {
+      "label": "claude-opus-5-5:high · MCP Guided",
+      "status": "graded",
+      "runId": "2026-10-07_2246_mcp-guided_opus-5.5-high",
+      "grade": "99/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

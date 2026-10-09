@@ -1,0 +1,26 @@
+{
+  "state": "running",
+  "startedAt": "2026-10-07T18:43:43.043Z",
+  "updatedAt": "2026-10-07T18:43:43.103Z",
+  "done": [],
+  "queued": [
+    {
+      "label": "claude-haiku-4-5-20251001 · MCP Guided",
+      "notBefore": null,
+      "infraTries": 0,
+      "limitWaits": 0
+    },
+    {
+      "label": "claude-haiku-5-5:high · MCP Guided",
+      "notBefore": null,
+      "infraTries": 0,
+      "limitWaits": 0
+    },
+    {
+      "label": "claude-haiku-5-5:high · MCP Guided",
+      "notBefore": null,
+      "infraTries": 0,
+      "limitWaits": 0
+    }
+  ]
+}
