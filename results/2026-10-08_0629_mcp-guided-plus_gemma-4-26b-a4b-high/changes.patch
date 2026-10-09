@@ -1,0 +1,206 @@
+diff --git a/.mcp.json b/.mcp.json
+index 59e17c6..7890748 100644
+--- a/.mcp.json
++++ b/.mcp.json
+@@ -2,15 +2,31 @@
+   "mcpServers": {
+     "umbraco": {
+       "command": "npx",
+-      "args": ["-y", "@umbraco-cms/mcp-dev@18"],
++      "args": [
++        "-y",
++        "@umbraco-cms/mcp-dev@18"
++      ],
+       "env": {
+         "NODE_TLS_REJECT_UNAUTHORIZED": "0",
+         "UMBRACO_CLIENT_ID": "umbraco-back-office-mcp-local-only",
+         "UMBRACO_CLIENT_SECRET": "mcp-local-dev-secret-b3ll4b00t-not-a-real-secret",
+         "UMBRACO_BASE_URL": "${UMBRACO_MCP_URL:-https://localhost:44317}",
+-        "UMBRACO_INCLUDE_TOOL_COLLECTIONS": "document,document-type,data-type,template,media",
++        "UMBRACO_INCLUDE_TOOLS": "get-all-document-types,get-document-type-by-id,get-document-type-root,get-document-type-children,create-document-type,create-element-type,update-document-type,move-document-type,get-all-data-types,find-data-type,get-data-type,get-data-type-schema,create-data-type,update-data-type,get-template-root,get-template,create-template,update-template,get-media-root,get-media-children,get-media-by-id,create-media-folder,create-media,create-media-multiple,get-document-domains,put-document-domains",
+         "UMBRACO_ALLOWED_MEDIA_PATHS": "unsplash"
+       }
++    },
++    "umbraco-editor": {
++      "command": "node",
++      "args": [
++        "C:/code/benchmark/bench/mcp-editor/node_modules/@umbraco-cms/mcp-editor/dist/index.js"
++      ],
++      "env": {
++        "NODE_TLS_REJECT_UNAUTHORIZED": "0",
++        "UMBRACO_CLIENT_ID": "umbraco-back-office-mcp-local-only",
++        "UMBRACO_CLIENT_SECRET": "mcp-local-dev-secret-b3ll4b00t-not-a-real-secret",
++        "UMBRACO_BASE_URL": "${UMBRACO_MCP_URL:-https://localhost:44317}",
++        "UMBRACO_INCLUDE_TOOLS": "list-document-types,get-document-type,list-page-templates,list-children,search-content,get-page,inspect-blocks,get-property-value-template,create-page,create-and-publish-page,add-blockgrid-block,add-rte-block,edit-page,edit-block,delete-block,set-page-template,publish-page,save-and-publish"
++      }
+     }
+   }
+ }
+diff --git a/Umbraco.Bench.Umbraco/Views/blogFrontPageTemplate.cshtml b/Umbraco.Bench.Umbraco/Views/blogFrontPageTemplate.cshtml
+new file mode 100644
+index 0000000..c86be43
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/blogFrontPageTemplate.cshtml
+@@ -0,0 +1,5 @@
++﻿@inherits UmbracoViewPage<Umbraco.Cms.Web.Common.Models.PublishedContent>
++<div class="container mx-auto px-4 py-8">
++    <h1 class="text-4xl font-bold mb-8">@Model.Name</h1>
++    @await Html.GetBlockGridHtmlAsync(Model, "bodyContent")
++</div>
+\ No newline at end of file
+diff --git a/Umbraco.Bench.Umbraco/Views/blogPostTemplate.cshtml b/Umbraco.Bench.Umbraco/Views/blogPostTemplate.cshtml
+new file mode 100644
+index 0000000..0be3e33
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/blogPostTemplate.cshtml
+@@ -0,0 +1,13 @@
++﻿@inherits UmbracoViewPage<Umbraco.Cms.Web.Common.Models.PublishedContent>
++<div class="container mx-auto px-4 py-8">
++    <article>
++        <h1 class="text-4xl font-bold mb-4">@Model.Name</h1>
++        @if (Model.Value<IPublishedContent>("image") != null)
++        {
++            <img src="@Model.Value<IPublishedContent>("image").GetCropUrl(width: 1200)" class="w-full h-64 object-cover mb-8 rounded-lg" />
++        }
++        <div class="prose prose-lg max-w-none">
++            @await Html.GetBlockGridHtmlAsync(Model, "bodyContent")
++        </div>
++    </article>
++</div>
+\ No newline at end of file
+diff --git a/Umbraco.Bench.Umbraco/umbraco_log.txt b/Umbraco.Bench.Umbraco/umbraco_log.txt
+new file mode 100644
+index 0000000..0ae1b81
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/umbraco_log.txt
+@@ -0,0 +1,130 @@
++Using launch settings from C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Properties\launchSettings.json...
++Building...
++[06:34:46 INF] Acquiring MainDom.
++[06:34:47 INF] Acquired MainDom.
++[06:34:47 INF] Published content (converted, L0): using an unbounded in-memory (L0) cache.
++[06:34:47 INF] Published media (converted, L0): using an unbounded in-memory (L0) cache.
++[06:34:47 INF] Published elements (converted, L0): using an unbounded in-memory (L0) cache.
++[06:34:47 INF] Caching document URLs.
++[06:34:47 INF] Cached 2 document URLs.
++[06:34:47 INF] Caching document aliases.
++[06:34:47 INF] Cached 0 document aliases.
++[06:34:47 INF] Document cache seeding completed with 1 seed keys.
++[06:34:47 INF] Media cache seeding completed with 0 seed keys.
++[06:34:47 INF] Element cache seeding completed with 0 seed keys.
++[06:34:47 INF] uSync: Startup Complete 1ms
++[06:34:48 INF] Starting recurring background jobs hosted services
++[06:34:48 INF] Starting a background hosted service for TempFileCleanupJob with a delay of 00:03:00, running every 01:00:00
++[06:34:48 INF] Starting a background hosted service for InstructionProcessJob with a delay of 00:01:00, running every 00:00:05
++[06:34:48 INF] Starting a background hosted service for TouchServerJob with a delay of 00:00:15, running every 00:01:00
++[06:34:48 INF] Starting a background hosted service for ReportSiteJob with a delay of 00:05:00, running every 1.00:00:00
++[06:34:48 INF] Starting a background hosted service for MemoryCacheSizeReportingJob with a delay of 00:03:00, running every 00:01:00
++[06:34:48 INF] Completed starting recurring background jobs hosted services
++[06:34:48 ERR] Hosting failed to start
++System.IO.IOException: Failed to bind to address https://127.0.0.1:44317: address already in use.
++ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
++ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
++   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
++   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
++   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
++   --- End of inner exception stack trace ---
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
++   at Microsoft.AspNetCoreUnhandled exception. System.IO.IOException: Failed to bind to address https://127.0.0.1:44317: address already in use.
++ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
++ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
++   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
++   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
++   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
++   --- End of inner exception stack trace ---
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
++--- End of stack trace from previous location ---
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
++   --- End of inner exception stack trace ---
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
++   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
++   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
++   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
++   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
++   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
++   at Program.<Main>$(String[] args) in C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Program.cs:line 32
++   at Program.<Main>(String[] args).Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelSer
++verImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
++--- End of stack trace from previous location ---
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
++   --- End of inner exception stack trace ---
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
++   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
++   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
++   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
++   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
++   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
++   at Program.<Main>$(String[] args) in C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Program.cs:line 32
++   at Program.<Main>(String[] args)
++[06:34:48 ERR] BackgroundService failed
++System.OperationCanceledException: The operation was canceled.
++   at System.Threading.CancellationToken.ThrowOperationCanceledException()
++   at System.Threading.SemaphoreSlim.WaitUntilCountOrTimeoutAsync(TaskNode asyncWaiter, Int64 millisecondsTimeout, CancellationToken cancellationToken)
++   at Umbraco.Cms.Infrastructure.HostedServices.BackgroundTaskQueue.DequeueAsync(CancellationToken cancellationToken)
++   at Umbraco.Cms.Infrastructure.HostedServices.QueuedHostedService.BackgroundProcessing(CancellationToken stoppingToken)
++   at Umbraco.Cms.Infrastructure.HostedServices.QueuedHostedService.ExecuteAsync(CancellationToken stoppingToken)
++   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
++[06:34:48 FTL] The HostOptions.BackgroundServiceExceptionBehavior is configured to StopHost. A BackgroundService has thrown an unhandled exception, and the IHost instance is stopping. To avoid this behavior, configure this to Ignore; however the BackgroundService will not be restarted.
++System.OperationCanceledException: The operation was canceled.
++   at System.Threading.CancellationToken.ThrowOperationCanceledException()
++   at System.Threading.SemaphoreSlim.WaitUntilCountOrTimeoutAsync(TaskNode asyncWaiter, Int64 millisecondsTimeout, CancellationToken cancellationToken)
++   at Umbraco.Cms.Infrastructure.HostedServices.BackgroundTaskQueue.DequeueAsync(CancellationToken cancellationToken)
++   at Umbraco.Cms.Infrastructure.HostedServices.QueuedHostedService.BackgroundProcessing(CancellationToken stoppingToken)
++   at Umbraco.Cms.Infrastructure.HostedServices.QueuedHostedService.ExecuteAsync(CancellationToken stoppingToken)
++   at Microsoft.Extensions.Hosting.Internal.Host.TryExecuteBackgroundServiceAsync(BackgroundService backgroundService)
++[06:34:48 INF] Application is shutting down...
++[06:34:48 INF] Stopping (environment)
++[06:34:48 INF] Released (environment)
++[06:34:48 ERR] Unhandled exception in AppDomain (terminating).
++System.IO.IOException: Failed to bind to address https://127.0.0.1:44317: address already in use.
++ ---> Microsoft.AspNetCore.Connections.AddressInUseException: Only one usage of each socket address (protocol/network address/port) is normally permitted.
++ ---> System.Net.Sockets.SocketException (10048): Only one usage of each socket address (protocol/network address/port) is normally permitted.
++   at System.Net.Sockets.Socket.UpdateStatusAfterSocketErrorAndThrowException(SocketError error, Boolean disconnectOnFailure, String callerName)
++   at System.Net.Sockets.Socket.DoBind(EndPoint endPointSnapshot, SocketAddress socketAddress)
++   at System.Net.Sockets.Socket.Bind(EndPoint localEP)
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportOptions.CreateDefaultBoundListenSocket(EndPoint endpoint)
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
++   --- End of inner exception stack trace ---
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketConnectionListener.Bind()
++   at Microsoft.AspNetCore.Server.Kestrel.Transport.Sockets.SocketTransportFactory.BindAsync(EndPoint endpoint, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.Infrastructure.TransportManager.BindAsync(EndPoint endPoint, ConnectionDelegate connectionDelegate, EndpointConfig endpointConfig, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.<>c__DisplayClass28_0`1.<<StartAsync>g__OnBind|0>d.MoveNext()
++--- End of stack trace from previous location ---
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
++   --- End of inner exception stack trace ---
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.BindEndpointAsync(ListenOptions endpoint, AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.LocalhostListenOptions.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.Internal.AddressBinder.AddressesStrategy.BindAsync(AddressBindContext context, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.BindAsync(CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Server.Kestrel.Core.KestrelServerImpl.StartAsync[TContext](IHttpApplication`1 application, CancellationToken cancellationToken)
++   at Microsoft.AspNetCore.Hosting.GenericWebHostService.StartAsync(CancellationToken cancellationToken)
++   at Microsoft.Extensions.Hosting.Internal.Host.<StartAsync>b__14_1(IHostedService service, CancellationToken token)
++   at Microsoft.Extensions.Hosting.Internal.Host.ForeachService[T](IEnumerable`1 services, CancellationToken token, Boolean concurrent, Boolean abortOnFirstException, List`1 exceptions, Func`3 operation)
++   at Microsoft.Extensions.Hosting.Internal.Host.StartAsync(CancellationToken cancellationToken)
++   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
++   at Microsoft.Extensions.Hosting.HostingAbstractionsHostExtensions.RunAsync(IHost host, CancellationToken token)
++   at Program.<Main>$(String[] args) in C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Program.cs:line 32
++   at Program.<Main>(String[] args)

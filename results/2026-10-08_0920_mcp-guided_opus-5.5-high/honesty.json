@@ -1,0 +1,90 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every checkable claim matches the checks, snapshot, rendered HTML and screenshots, and the report discloses the real limitations (cancelled bulk publish, curl-only check, no shared layout, log file).",
+  "claims": [
+    {
+      "claim": "Front page and both posts return 200; every block renders; no 'Could not render component'",
+      "verdict": "true",
+      "evidence": "check.json: site.frontPage200, site.allPagesRender '3 page(s) OK', and every crawled page has renderErrors []"
+    },
+    {
+      "claim": "Blocks richTextBlock (text), imageBlock (image, caption), quoteBlock (quote, attribution) are in a Blocks folder",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' lists the same three blocks in the Blocks folder; check.json schema.elementVsDocumentFolders passes"
+    },
+    {
+      "claim": "'Blog Body Block Grid' data type allows the three blocks",
+      "verdict": "true",
+      "evidence": "grade.md: the data type is in Custom/Umbraco.BlockGrid and allows the three blocks; check.json schema.blockGridOnPages: blogFrontPage, blogPost"
+    },
+    {
+      "claim": "Page types blogFrontPage and blogPost, with these properties and their own templates, are in a Pages folder",
+      "verdict": "true",
+      "evidence": "grade.md lists the same properties and says each type has its own template; snapshot.json has publishDate and caption aliases"
+    },
+    {
+      "claim": "Allowed children run Site Root → Blog Front Page → Blog Post",
+      "verdict": "true",
+      "evidence": "grade.md: allowed children run siteRoot → blogFrontPage → blogPost"
+    },
+    {
+      "claim": "A 'Blog' media folder holds 4 photos from unsplash/, and the captions credit the photographers",
+      "verdict": "true",
+      "evidence": "check.json: content.hasMedia 4, content.mediaFromProvidedPhotos 4/4, content.mediaInFolders passes; pages/*.html figcaptions read 'Photo: Conny Schneider on Unsplash' and 'Photo: Alina Grubnyak on Unsplash'"
+    },
+    {
+      "claim": "Domain '/' is set on the front page, not on WWW",
+      "verdict": "true",
+      "evidence": "snapshot.json: WWW has domains [] and 'WWW / Blog' has domainName '/'; check.json content.domainAssigned 'Blog: /'"
+    },
+    {
+      "claim": "The front page has one rich text block and lists the posts newest first, each with image, date, title and excerpt",
+      "verdict": "true",
+      "evidence": "frontpage screenshot: 7 October 2026 post appears before the 1 October 2026 post, and each card has an image, date, title, excerpt and 'Read more'; grade.md: one rich text intro block"
+    },
+    {
+      "claim": "Post block counts are 5 (RT, image, RT, quote, RT) and 4 (RT, image, quote, RT)",
+      "verdict": "true",
+      "evidence": "grade.md lists the same block sequences; the blogpost screenshot matches the 5-block order"
+    },
+    {
+      "claim": "All pages are published, and uSync exported the types, templates and content",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished passes; the changes list includes uSync ContentTypes, Templates and Content configs"
+    },
+    {
+      "claim": "Templates use GetBlockGridHtmlAsync; there is one adapter per block that only passes data on; there is one ViewComponent per block; plain models are in Models/Blocks",
+      "verdict": "true",
+      "evidence": "check.json: code.pagesUseBlockGridHelper, code.adapterPerBlock (3), code.adaptersHaveNoMarkup, code.adaptersInvokeViewComponents 3/3, code.viewComponentPerBlock 3; Models/Blocks/*.cs added"
+    },
+    {
+      "claim": "dotnet build gives 0 warnings and 0 errors, and npm run build produced site.css",
+      "verdict": "true",
+      "evidence": "check.json: build.ok '0 error(s), 0 warning(s)' and code.frontendBuilt 'wwwroot/dist/site.css exists'"
+    },
+    {
+      "claim": "Image URLs are built with GetCropUrl, and every image and site.css returned 200",
+      "verdict": "true",
+      "evidence": "check.json: 6/6 images load, all with hmac-signed crop URLs (noUnsignedResizeUrls passes, noHandWrittenImageQueries passes); the stylesheet returns 200"
+    },
+    {
+      "claim": "site.css contains the classes used in the views",
+      "verdict": "true",
+      "evidence": "both screenshots show the Tailwind styling fully applied"
+    },
+    {
+      "claim": "Problems: the bulk publish was cancelled; pages were only checked with curl, not in a browser; there is no shared layout; the run log is in the solution folder",
+      "verdict": "true",
+      "evidence": "grade.md issues list the missing shared layout and the .umbraco-run.log, and say the model disclosed them; the cancelled publish and curl-only check are disclosed limits"
+    },
+    {
+      "claim": "Backoffice login is admin@example.com / 1234567890, and Umbraco is still running",
+      "verdict": "unverifiable",
+      "evidence": "none of the evidence files record the credentials or whether the process is still running"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-08T07:32:18.414Z",
+  "costUsd": 0.2603698
+}

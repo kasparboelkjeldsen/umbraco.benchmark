@@ -1,0 +1,454 @@
+{
+  "runId": "2026-10-08_0857_mcp-guided_opus-5.5-high",
+  "variant": "mcp-guided",
+  "checkedAt": "2026-10-08T07:06:22.198Z",
+  "summary": {
+    "passed": 43,
+    "failed": 0,
+    "notApplicable": 0
+  },
+  "checks": [
+    {
+      "id": "build.ok",
+      "ok": true,
+      "detail": "0 error(s), 0 warning(s)"
+    },
+    {
+      "id": "site.boots",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "site.frontPage200",
+      "ok": true,
+      "detail": "GET / → 200"
+    },
+    {
+      "id": "site.allPagesRender",
+      "ok": true,
+      "detail": "3 page(s) OK"
+    },
+    {
+      "id": "content.twoBlogPosts",
+      "ok": true,
+      "detail": "2 document(s) with a post-like type: MCP: The USB-C Port for AI, Why MCP Makes Your CMS Smarter"
+    },
+    {
+      "id": "site.frontPageLinksPosts",
+      "ok": true,
+      "detail": "front page links 2/2 post URL(s)"
+    },
+    {
+      "id": "site.imagesLoad",
+      "ok": true,
+      "detail": "7/7 images load"
+    },
+    {
+      "id": "site.imagesFromMediaLibrary",
+      "ok": true,
+      "detail": "0 hot-linked external image(s)"
+    },
+    {
+      "id": "site.noUnsignedResizeUrls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "site.stylesheetsLoad",
+      "ok": true,
+      "detail": "/dist/site.css?v=CkYNQNEmYkZvQzfK-p5kPVlZLpFh316L7IfOwFNc8yo → 200"
+    },
+    {
+      "id": "site.usesBlockGrid",
+      "ok": true,
+      "detail": "umb-block-grid markup present on a page"
+    },
+    {
+      "id": "content.noRepeatedImages",
+      "ok": true,
+      "detail": "no page shows the same image twice"
+    },
+    {
+      "id": "schema.docTypesInFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.elementVsDocumentFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.aliasesCamelCase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.dataTypesNotAtRoot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.blockGridOnPages",
+      "ok": true,
+      "detail": "block grid on: blogFrontPage, blogPost"
+    },
+    {
+      "id": "schema.blocksNotUsedAsCompositions",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.domainAssigned",
+      "ok": true,
+      "detail": "Blog: /"
+    },
+    {
+      "id": "content.allPublished",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.mediaInFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.hasMedia",
+      "ok": true,
+      "detail": "5 media item(s)"
+    },
+    {
+      "id": "content.mediaFromProvidedPhotos",
+      "ok": true,
+      "detail": "5 of 5 media file(s) are the provided photos"
+    },
+    {
+      "id": "code.adapterFolderCasing",
+      "ok": true,
+      "detail": "folder is \"Components\""
+    },
+    {
+      "id": "code.adapterPerBlock",
+      "ok": true,
+      "detail": "3 adapter(s): imageBlock.cshtml, quoteBlock.cshtml, richTextBlock.cshtml"
+    },
+    {
+      "id": "code.programCsUnchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.appsettingsJsonUnchanged",
+      "ok": true,
+      "detail": "production settings must not be softened"
+    },
+    {
+      "id": "code.noMigrationsWritten",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "process.intendedChannel",
+      "ok": true,
+      "detail": "built through mcp-guided"
+    },
+    {
+      "id": "process.stayedInFolder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noCsInModelsRoot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.servicesNamedService",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noCustomBlockLoops",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noParallelBlockPartials",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.pagesUseBlockGridHelper",
+      "ok": true,
+      "detail": "Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml, Umbraco.Bench.Umbraco/Views/blogPost.cshtml"
+    },
+    {
+      "id": "code.adaptersHaveNoMarkup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.adaptersInvokeViewComponents",
+      "ok": true,
+      "detail": "3/3 adapters call Component.InvokeAsync"
+    },
+    {
+      "id": "code.viewComponentPerBlock",
+      "ok": true,
+      "detail": "3 view component(s): Image, Quote, RichText"
+    },
+    {
+      "id": "code.noLooseFilesInSharedComponents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.componentViewsArePlain",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noInjectedUrlServices",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noHandWrittenImageQueries",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.frontendBuilt",
+      "ok": true,
+      "detail": "wwwroot/dist/site.css exists"
+    }
+  ],
+  "build": {
+    "ok": true,
+    "exitCode": 0,
+    "warnings": 0,
+    "errors": 0,
+    "errorLines": []
+  },
+  "changes": {
+    "added": [
+      "Umbraco.Bench.Frontend/package-lock.json",
+      "Umbraco.Bench.Umbraco/Models/Blocks/ImageModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/QuoteModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/RichTextModel.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlogFrontPage.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlogPost.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/File.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Folder.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Image.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/ImageBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Member.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/QuoteBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/RichTextBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/SiteRoot.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaArticle.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaAudio.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaVectorGraphics.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaVideo.generated.cs",
+      "Umbraco.Bench.Umbraco/ViewComponents/ImageViewComponent.cs",
+      "Umbraco.Bench.Umbraco/ViewComponents/QuoteViewComponent.cs",
+      "Umbraco.Bench.Umbraco/ViewComponents/RichTextViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/quoteBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/richTextBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Image/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Quote/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/RichText/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml",
+      "Umbraco.Bench.Umbraco/Views/blogPost.cshtml",
+      "Umbraco.Bench.Umbraco/Views/layout.cshtml",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/blog.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/mcp-the-usb-c-port-for-ai.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/why-mcp-makes-your-cms-smarter.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/www.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/blogfrontpage.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/blogpost.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/imageblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/quoteblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/richtextblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/siteroot.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ApprovedColor.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/BlogBodyGrid.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/CheckboxList.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ContentPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DatePicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DatePickerWithTime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DateTimePickerWithTimeZone.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Dropdown.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DropdownMultiple.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ImageCropper.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ImageMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelBigint.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelBytes.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelDatetime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelDecimal.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelInteger.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelPixels.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelString.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelTime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ListViewContent.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ListViewMedia.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MemberPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultiURLPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultipleImageMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultipleMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Numeric.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Radiobox.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/RichtextEditor.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Tags.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Textarea.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Textstring.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Truefalse.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadArticle.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadAudio.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadFile.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadVectorGraphics.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadVideo.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Domains/1102_en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Domains/_en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Languages/en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/blog.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/connected-structure.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/laptop-desk-code.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/puzzle-hands.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/puzzle-piece-slot.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/usb-cables.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/file.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/folder.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/image.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediaarticle.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediaaudio.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediavectorgraphics.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediavideo.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MemberTypes/member.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/relateParentElementContainerOnContainerDelete.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/relateParentElementContainerOnElementDelete.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/umbElement.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/umbMember.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/blogfrontpage.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/blogpost.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/layout.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/usync.config",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/main.js",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/main.js.map",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/site.css"
+    ],
+    "modified": [
+      ".mcp.json"
+    ],
+    "deleted": []
+  },
+  "crawl": {
+    "pages": [
+      {
+        "path": "/",
+        "status": 200,
+        "file": "pages/index.html",
+        "title": "The MCP Blog",
+        "h1": "The MCP Blog",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 965,
+        "links": 3,
+        "images": 3
+      },
+      {
+        "path": "/mcp-the-usb-c-port-for-ai/",
+        "status": 200,
+        "file": "pages/mcp_the_usb_c_port_for_ai.html",
+        "title": "MCP: The USB-C Port for AI | The MCP Blog",
+        "h1": "MCP: The USB-C Port for AI",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 1760,
+        "links": 1,
+        "images": 2
+      },
+      {
+        "path": "/why-mcp-makes-your-cms-smarter/",
+        "status": 200,
+        "file": "pages/why_mcp_makes_your_cms_smarter.html",
+        "title": "Why MCP Makes Your CMS Smarter | The MCP Blog",
+        "h1": "Why MCP Makes Your CMS Smarter",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 1704,
+        "links": 1,
+        "images": 2
+      }
+    ],
+    "assets": [
+      {
+        "url": "/media/mnxeb4gp/laptop-desk-code.jpg?rxy=0,0.5&width=1200&v=1dd56f2b06ffedc&hmac=6280af06edaf5effe7a17793d97b35fe2c3986ed6efe235b7b95c441364e4c4e",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/2c1lc1e2/puzzle-piece-slot.jpg?rxy=0,0.5&width=800&height=450&v=1dd56f2b07f2764&hmac=e92b1d332e2f31be3c59fbc7ff7c8727e870dabfa1015435022fc0d6ed455a36",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/p3vpylrz/usb-cables.jpg?rxy=0,0.5&width=800&height=450&v=1dd56f2b0aef61e&hmac=ade43f0439575d994ed42bf282f2fef093d4110fc074a45e6c85e9b3f9272581",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/dist/site.css?v=CkYNQNEmYkZvQzfK-p5kPVlZLpFh316L7IfOwFNc8yo",
+        "kind": "css",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/p3vpylrz/usb-cables.jpg?rxy=0,0.5&width=1600&height=700&v=1dd56f2b0aef61e&hmac=f0fd5166a4d2adbfe5e4210eca4583cdf987452f4ef491bd115a5f534869dcff",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/sztduqac/connected-structure.jpg?rxy=0,0.5&width=1200&v=1dd56f2b0675942&hmac=bcf3431862543618f09372d9274dcd78541e58747ad9f520b67b33e702f1d834",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/2c1lc1e2/puzzle-piece-slot.jpg?rxy=0,0.5&width=1600&height=700&v=1dd56f2b07f2764&hmac=6578b8acec16d29bbb335baad3254bde2a721cf48c6c12d88a975bbacc5677b7",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/jzjji50h/puzzle-hands.jpg?rxy=0,0.5&width=1200&v=1dd56f2b097277d&hmac=75744ac5b4cc874630d7eff37c1768afab2cf7d7593ea0d37cfdb7baaf4acf08",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      }
+    ]
+  },
+  "counts": {
+    "docTypes": 6,
+    "elementTypes": 3,
+    "customDataTypes": 11,
+    "templates": 3,
+    "documents": 4,
+    "media": 5
+  }
+}

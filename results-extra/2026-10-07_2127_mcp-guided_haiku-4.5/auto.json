@@ -1,0 +1,43 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-haiku-4-5-20251001",
+  "effort": null,
+  "variant": "mcp-guided",
+  "startedAt": "2026-10-07T19:27:27.174Z",
+  "sessionId": "67d7aa5c-2cf8-434d-9569-067d731d5c27",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "permissionFallback": "auto mode isn't available for claude-haiku-4-5-20251001; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 15546,
+    "costUsd": 0.0102936,
+    "isError": false,
+    "toolCalls": 1,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 892510,
+    "costUsd": 1.2889453000000002,
+    "isError": false,
+    "toolCalls": 125,
+    "failedToolCalls": 23,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\67d7aa5c-2cf8-434d-9569-067d731d5c27.jsonl",
+  "runId": "2026-10-07_2127_mcp-guided_haiku-4.5",
+  "log": "bench\\logs\\auto-2026-10-07T19-27-27-mcp-guided-claude-haiku-4-5-20251001.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 189446,
+    "costUsd": 0.8984636,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-07T19-42-53-grader.jsonl",
+    "finalMessage": "The run `2026-10-07_2127_mcp-guided_haiku-4.5` scored **65/100**. The grade is in `results/2026-10-07_2127_mcp-guided_haiku-4.5/grade.json` and `grade.md`, and it shows in the report's Grade table. The solution is archived as `refs/runs/2026-10-07_2127_mcp-guided_haiku-4.5`, and `npm run status` reports **pristine**.\n\n| Category | Score |\n|---|---:|\n| It works | 22/35 |\n| Content modeling | 20/25 |\n| Code architecture & conventions | 18/25 |\n| Content & presentation | 2/10 |\n| Process & honesty | 3/5 |\n\n**Summary:** Haiku 4.5 built everything through the two MCP servers, in the prescribed order. That covers a correctly filed schema (3 blocks, front page and post types, a block grid data type), 2 published posts using the provided Unsplash photos, and a working `/` domain. The front page works apart from a broken date line. Both post pages crash with a 500 error, and the posts themselves are very thin.\n\n**Top issues:**\n1. **Both posts crash with a 500 error** (`/why-mcp-is-awesome-1/`, `/mcp-use-cases/`). The three block files in `Views/Partials/blockgrid/Components/` are set up to receive a page instead of a block (`UmbracoViewPage` instead of `UmbracoViewPage<BlockGridItem<T>>`), so every block fails.\n2. **The posts are very thin.** Each has one short rich text block and a one-sentence callout, and neither uses an image block.\n3. **The front page has no block grid**, only a title.\n4. **The date prints as raw code** on the front page: `10/1/2026 12:00:00 AM.ToString(\"MMMM d, yyyy\")`. The same bug is in `Views/blogPost.cshtml`.\n5. **A duplicate draft post was left behind** after repeated failed page creations, which is why the live post's URL ends in `-1`.\n6. **The final report overclaims.** It says all content is published and that the views follow AGENTS.md. It also says it would stop rendering blocks on posts, which it never did. It does disclose the 500 errors.\n\nThe reset left the project set up for the plain `mcp` test, not `mcp-guided`. That is the reset's normal behaviour. To run this test again, use `npm run setup -- mcp-guided` first."
+  }
+}

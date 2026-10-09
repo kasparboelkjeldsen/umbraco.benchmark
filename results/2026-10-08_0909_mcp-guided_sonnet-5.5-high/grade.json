@@ -1,0 +1,71 @@
+{
+  "runId": "2026-10-08_0909_mcp-guided_sonnet-5.5-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-08T07:19:00Z",
+  "total": 99,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "dotnet build: 0 errors, 0 warnings. / returns 200 through the '/' domain on the front page (not WWW) and lists both posts as cards with image, date, title and excerpt; links work. Both posts render all 5 blocks (rich text, image, rich text, quote, rich text) with no render errors. 4 of the provided Unsplash photos are in a 'Blog Images' media folder and served through signed GetCropUrl URLs (6/6 load). All pages published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 25,
+      "max": 25,
+      "notes": "richTextBlock/imageBlock/quoteBlock are element types in Blocks; blogFrontPage and blogPost are documents in Pages; siteRoot in Repositories. One 'Blog Body Block Grid' data type in Custom/Umbraco.BlockGrid allows the 3 blocks and is the body on both page types. siteRoot is the only root type, siteRoot -> blogFrontPage -> blogPost, templates assigned, camelCase aliases. Post metadata (publishDate, excerpt, listingImage) are real properties; no compositions, no duplicates or orphans."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 25,
+      "max": 25,
+      "notes": "Both templates call Html.GetBlockGridHtmlAsync(Model, \"blocks\"); scaffold blockgrid partials untouched. One markup-free adapter per block in Views/Partials/blockgrid/Components/<alias>.cshtml inheriting BlockGridItem<T>, mapping to a plain model in Models/Blocks/ and calling Component.InvokeAsync. One ViewComponent per block rendering Views/Shared/Components/<Name>/Default.cshtml with no Umbraco dependencies. Program.cs and appsettings.json untouched, no migrations, GetCropUrl and friendly extensions used, Tailwind pipeline built to wwwroot/dist/site.css. Site name and tagline are hard-coded in _Layout.cshtml (cosmetic, no deduction)."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 10,
+      "max": 10,
+      "notes": "Two on-topic, accurate posts ('Why MCP Is Awesome', 'MCP Makes Your Tools Talk to Your AI'), each 5 paragraphs (~300 words) over 3 rich text blocks plus a credited image and a pull quote, with a different hero (listing) image. Clean Tailwind layout: header, intro, two-card listing with images, readable post pages with hero image, captioned figure and styled blockquote."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 4,
+      "max": 5,
+      "notes": "Schema/media/domain through 'umbraco', pages/blocks/publishing through 'umbraco-editor'; no forbidden channels, no memory access, and the 12 steps were followed in order (no warnings). Minor: verification curl output was written to /tmp, outside the project folder (-1). It also read its own background-task output file in the Claude temp folder, which is harmless. The final report is accurate and candid about what it didn't check (Custom folder placement, uSync files, visual check)."
+    }
+  ],
+  "summary": "A complete MCP-built blog: three blocks (rich text, image, quote) in one block grid, a front page with a polished card listing and two published, well-written posts about MCP, rendered through clean adapter -> ViewComponent code with Tailwind styling. Everything works and follows the conventions; the only blemish is scratch files written to /tmp.",
+  "strengths": [
+    "All 43 automated checks pass; build has 0 warnings.",
+    "Textbook adapter -> plain model -> ViewComponent pattern with GetBlockGridHtmlAsync on both page types.",
+    "Clean schema: correct folders, allowed children, templates, and a single custom block grid data type in Custom/.",
+    "Real post metadata (publishDate, excerpt, listingImage) drives the listing cards and post headers.",
+    "Followed all 12 numbered steps in order using the right MCP server for each; honest final report."
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "text": "Verification curl output was saved to /tmp (home.html, post HTML), outside the project folder (transcript, step 11)."
+    },
+    {
+      "severity": "minor",
+      "text": "imageBlock has no alt-text property; the adapter uses the media item name as alt (Views/Partials/blockgrid/Components/imageBlock.cshtml)."
+    },
+    {
+      "severity": "minor",
+      "text": "Site name and tagline are hard-coded in Views/Shared/_Layout.cshtml instead of coming from content."
+    },
+    {
+      "severity": "minor",
+      "text": "Block grid block config is minimal (no column span options, labels or editor settings) in the 'Blog Body Block Grid' data type."
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (auto)"
+}

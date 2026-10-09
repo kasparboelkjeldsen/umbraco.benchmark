@@ -52,4 +52,4 @@ for (let i = 0; i < 5; i++) {
 }
 if (lastErr) { console.error(lastErr.message); process.exit(1); }
 clearVariantState();
-console.log("Umbraco.Bench is back to the pristine scaffold (set up for the MCP test). For another test: npm run setup -- <mcp|migrations|playwright>. Then npm run up.");
+console.log("Umbraco.Bench is back to the pristine scaffold (set up for the MCP test). For another test: npm run setup -- <mcp|mcp-guided|migrations|playwright>. Then npm run up.");

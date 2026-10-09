@@ -1,0 +1,6 @@
+Using launch settings from C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Properties\launchSettings.json...
+Building...
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Views\blogFrontPageTemplate.cshtml(1,57): error CS0234: The type or namespace name 'PublishedContent' does not exist in the namespace 'Umbraco.Cms.Web.Common.Models' (are you missing an assembly reference?) [C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj]
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Views\blogPostTemplate.cshtml(1,57): error CS0234: The type or namespace name 'PublishedContent' does not exist in the namespace 'Umbraco.Cms.Web.Common.Models' (are you missing an assembly reference?) [C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj]
+
+The build failed. Fix the build errors and run again.

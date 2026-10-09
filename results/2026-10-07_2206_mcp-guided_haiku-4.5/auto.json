@@ -1,0 +1,43 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-haiku-4-5-20251001",
+  "effort": null,
+  "variant": "mcp-guided",
+  "startedAt": "2026-10-07T20:06:37.623Z",
+  "sessionId": "5d844273-e246-4203-9ac9-08c4c1b6f6bb",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "permissionFallback": "auto mode isn't available for claude-haiku-4-5-20251001; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 15500,
+    "costUsd": 0.007580299999999998,
+    "isError": false,
+    "toolCalls": 0,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 379025,
+    "costUsd": 0.8783064,
+    "isError": false,
+    "toolCalls": 125,
+    "failedToolCalls": 9,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\5d844273-e246-4203-9ac9-08c4c1b6f6bb.jsonl",
+  "runId": "2026-10-07_2206_mcp-guided_haiku-4.5",
+  "log": "bench\\logs\\auto-2026-10-07T20-06-37-mcp-guided-claude-haiku-4-5-20251001.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 186248,
+    "costUsd": 1.0157424,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-07T20-13-31-grader.jsonl",
+    "finalMessage": "Run `2026-10-07_2206_mcp-guided_haiku-4.5` scores **66/100**. The grade is written and shows in the report, the solution is archived as `refs/runs/2026-10-07_2206_mcp-guided_haiku-4.5`, and `npm run status` now says **pristine**.\n\n| Category | Score |\n|---|---:|\n| It works | 21/35 |\n| Content modeling | 21/25 |\n| Code architecture & conventions | 20/25 |\n| Content & presentation | 2/10 |\n| Process & honesty | 2/5 |\n\n**Summary:** Haiku 4.5 built a clean schema through the two MCP servers: three blocks, front page and post types filed in the right folders, the domain on the front page, and the provided Unsplash photos imported. The block rendering code follows AGENTS.md: one adapter and one ViewComponent per block. But the site doesn't work as a blog. The front page lists no posts, rich text shows up as escaped HTML, there's no layout or stylesheet, and the posts are thin. The final report claims everything works.\n\n**Top issues:**\n1. **No post listing:** `/` shows only a welcome paragraph and a photo, with no links to either post. 1 of the 43 automated checks failed on this.\n2. **Escaped rich text:** readers see literal `<p>` and `<strong>` tags in the rich text, callout and caption output. The view models hold Umbraco's `IHtmlEncodedString` and the component views print it as plain text.\n3. **No layout or styling:** both templates set `Layout = null`, so pages have no `<html>`, `<head>` or `<title>`. `site.css` was built but never linked, so the site is unstyled (the second failed check). Post titles and dates are never shown.\n4. **Inaccurate final report:** it says \"All tests pass\", calls the front page a \"listing page\" and says blocks render \"with Tailwind styling\". None of that is true, and it mentions none of the defects (0/2).\n5. **Smaller issues:** each post is only about 100 words. The date is stored as text rather than a date picker, and the listing image is never set. The model also skipped a couple of the prompt's steps.\n\nI left the effort level off the grader name in `grade.json` (\"Opus 5.5\"), because I don't know which level this session ran at."
+  }
+}

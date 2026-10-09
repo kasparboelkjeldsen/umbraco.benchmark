@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "local",
+  "model": "gemma-4-26b-a4b",
+  "effort": null,
+  "variant": "mcp-guided-plus",
+  "startedAt": "2026-10-08T02:54:15.362Z",
+  "sessionId": "de2bb318-0fa8-47a2-b4d8-319b923cdd8f",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "local",
+    "upstream": "lmstudio:8001",
+    "model": "gemma-4-26b-a4b-it-qat",
+    "identifier": "gemma-4-26b-a4b",
+    "contextLength": 131072,
+    "thinking": false,
+    "rewrite": true,
+    "usageFix": true,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\local-proxy-2026-10-08T02-54-43-gemma-4-26b-a4b.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for gemma-4-26b-a4b; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 150700,
+    "costUsd": 0.20349899999999999,
+    "isError": false,
+    "toolCalls": 2,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 5317703,
+    "costUsd": 6.186895499999997,
+    "isError": false,
+    "toolCalls": 120,
+    "failedToolCalls": 21,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 125,
+    "tokens": {
+      "input": 138285,
+      "output": 61394,
+      "cacheRead": 7921241,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\de2bb318-0fa8-47a2-b4d8-319b923cdd8f.jsonl",
+  "runId": "2026-10-08_0454_mcp-guided-plus_gemma-4-26b-a4b-high",
+  "log": "bench\\logs\\auto-2026-10-08T02-54-15-mcp-guided-plus-gemma-4-26b-a4b.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 177644,
+    "costUsd": 0.9879072,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-08T04-25-53-grader.jsonl",
+    "finalMessage": "The run scored **19/100**. Gemma 4 26B A4B built the schema and imported the photos, then stopped before creating any pages or writing any views, so `/` returns 404. The grade is written, the solution is archived, and `npm run status` now reports **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 3/35 |\n| Content modeling | 14/25 |\n| Code architecture & conventions | 0/25 |\n| Content & presentation | 0/10 |\n| Process & honesty | 2/5 |\n\n**What it built:**\n- **Blocks:** heading, text and image, filed correctly in Blocks.\n- **Block Grid data type:** \"Blog Block Grid\" in `/Custom`, allowing all three blocks.\n- **Page types:** front page and post, filed correctly in Pages, both using the block grid as their body.\n- **Photos:** the 10 provided Unsplash photos, imported through MCP into a \"Blog Images\" media folder.\n\nIt used only the MCP servers and stayed in the project folder. About an hour of the 1.5-hour session went into repeating the same lookup calls and restarting Umbraco.\n\n**Top issues:**\n1. **No content:** there is no front page, no posts and no domain. Only the empty WWW node exists, so `/` shows \"No template exists to render the document\".\n2. **No code:** the two templates are the empty files the MCP server creates. There are no block adapters, ViewComponents or view models, and the Tailwind build never ran.\n3. **Schema unfinished:** templates were never assigned to the page types, and no allowed children were set (front page under Site Root, posts under the front page).\n4. **Metadata on the wrong type:** excerpt and listing image sit on the front page type, while the post type has no date, excerpt or image. The text block is a plain Textarea rather than rich text.\n5. **Forbidden download attempt:** it tried to fetch an image from an images.unsplash.com URL, which the prompt forbids. The call failed, and it then uploaded a junk 1×1 placeholder PNG.\n6. **Misleading final report:** what it claims is true and it lists the remaining work as \"next steps\", but it ends with \"I am proceeding to step 5\" even though the run stopped there. It doesn't mention the 404.\n\nOnly the front-page screenshot exists, and it shows Umbraco's \"Page Not Found\" page; there was no blog post to capture.\n\nFiles are in `results/2026-10-08_0454_mcp-guided-plus_gemma-4-26b-a4b-high/`:\n- grade.json\n- grade.md"
+  }
+}

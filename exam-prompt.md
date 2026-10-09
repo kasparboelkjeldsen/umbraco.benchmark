@@ -7,11 +7,11 @@ The run belongs to one of four **tests**, which differ only in how schema and co
 | `variant` | Schema and content had to be built via | Must not use |
 |---|---|---|
 | `mcp` | the Umbraco MCP server, with Razor written after a restart | migration plans |
-| `mcp-guided` | the same as `mcp`, with a shorter prompt that lists the order of operations as numbered steps | migration plans |
+| `mcp-guided` | the same as `mcp`, with a shorter prompt that lists the order of operations as numbered steps, and a slim tool kit: the dev MCP server (`umbraco`) for schema, media and the domain, Umbraco's editor MCP server (`umbraco-editor`) for pages, blocks and publishing | migration plans |
 | `migrations` | C# migration plans appended to `ProjectMigrationPlan`, which recreate the site on a fresh database | MCP, backoffice, Management API, uSync, direct DB |
 | `playwright` | the backoffice UI, driven with the Playwright browser tools, with Razor written after a restart | Management API, migration plans, uSync, direct DB |
 
-Grade `mcp-guided` exactly like `mcp`: the rubric is the same, so the scores compare. Its prompt also lists the steps it expected, so skipping a step or doing them out of order counts as not following the order of operations.
+Grade `mcp-guided` exactly like `mcp`: the rubric is the same, so the scores compare. Calls to either Umbraco MCP server count as the MCP channel. Its prompt also lists the steps it expected, so skipping a step or doing them out of order counts as not following the order of operations.
 
 Your job:
 

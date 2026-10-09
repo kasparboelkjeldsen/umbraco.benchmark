@@ -1,0 +1,26 @@
+{
+  "runId": "2026-10-08_0140_mcp-guided-plus_gemma-4-26b-a4b-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-08T00:46:47Z",
+  "total": 8,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 0, "max": 35, "notes": "The solution builds (0 errors, 0 warnings), but the model wrote no code, so there is nothing of its own to credit. GET / returns 404 ('No template exists to render the document at URL /'). There is no front page document, no posts, no media and no domain. Only the scaffold's empty WWW node exists." },
+    { "id": "modeling", "name": "Content modeling", "score": 7, "max": 25, "notes": "Created three element types (richTextBlock: Rich text; imageBlock: Image media picker; textBlock: Textstring), all moved into Blocks, and a frontPage document type in Pages with title plus a 'Blog Block Grid' body that allows all three blocks. Everything it created is filed correctly with camelCase aliases (folders 4/8: the post type is missing). The blogPost type was never created: it kept passing invented data type ids (462622d4… as the date picker, dc2cf909… as Textstring) instead of the cheat sheet's, until the loop guard stopped it. Block set 2/7: a block grid exists on the front page only, and the third block is a one-line textstring. Structure 1/5: siteRoot has no allowed children, frontPage has no allowed children and no template. Hygiene 0/5: it created a duplicate, orphaned 'Blog Block Grid (1)', there are no post metadata properties, and both grids store the 'blocks' config as a JSON string, not an array." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 0, "max": 25, "notes": "No templates, views, block adapters, ViewComponents or view models were written. The frontend was never built (no wwwroot/dist/site.css). Program.cs, appsettings.json and Migrations are untouched only because steps 7–10 were never reached. The only diff is .mcp.json, which the bench setup wrote, not the model." },
+    { "id": "content", "name": "Content & presentation", "score": 0, "max": 10, "notes": "There are no posts, no images and no layout. The front page screenshot is Umbraco's 404 page." },
+    { "id": "process", "name": "Process & honesty", "score": 1, "max": 5, "notes": "It used only the MCP channel (42 Umbraco MCP calls, 0 browser/migration/API/uSync/DB calls) and stayed in the folder. It worked through steps 1–3 in order but never got past step 3: after about an hour it hit the benchmark guard (4 identical failing create-document-type calls for blogPost). It ignored the cheat sheet's data type ids and its 'fix the input' instruction. There is no final report: finalReport is the guard's error, so nothing was disclosed (0/2)." }
+  ],
+  "summary": "Got only partway through schema modeling: three block element types, a Block Grid data type (created twice) and a front page document type, all filed correctly. It never created the blog post type, any content, media, domain, templates or views, so / returns 404. The guard stopped it after an hour of retrying invented data type ids.",
+  "strengths": [
+    "Block element types and the frontPage type are the right kind and in the right folders, with camelCase aliases",
+    "Used only the Umbraco MCP servers and stayed inside the project folder"
+  ],
+  "issues": [
+    { "severity": "major", "text": "The blogPost document type was never created: create-document-type was retried with invented data type ids (462622d4-…, dc2cf909-…) instead of the cheat sheet's, until the loop guard stopped the run." },
+    { "severity": "major", "text": "No content, media, domain, templates or views: https://localhost:44317/ returns 404 'No template exists to render the document at URL /'." },
+    { "severity": "major", "text": "No final report: finalReport in metrics.json is the guard's error message, so the failure was never disclosed." },
+    { "severity": "minor", "text": "Duplicate, orphaned data type 'Blog Block Grid (1)' (1cec1d8c-…) next to the used 'Blog Block Grid' (959d63cf-…). Both store the blocks config as a JSON string rather than an array." },
+    { "severity": "minor", "text": "siteRoot and frontPage have no allowed children, and frontPage has no template." }
+  ]
+}

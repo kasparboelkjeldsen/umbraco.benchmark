@@ -1,0 +1,63 @@
+{
+  "runId": "2026-10-08_0857_mcp-guided_opus-5.5-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-08T07:08:05Z",
+  "total": 98,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "Build OK with 0 errors and 0 warnings. / returns 200 and is the blog front page, with 2 cards (listing image, date, title, excerpt, read-more) linking to working posts. Both posts render all 4 blocks (rich text, image, quote, rich text) with no render errors. 5 provided Unsplash photos are imported into a Blog media folder and served through signed GetCropUrl URLs (7/7 load). Domain '/' is on the Blog page (not WWW), and all pages are published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 25,
+      "max": 25,
+      "notes": "richTextBlock, imageBlock and quoteBlock are element types in Blocks. blogFrontPage and blogPost are in Pages. siteRoot allows only blogFrontPage, and blogFrontPage allows only blogPost. Both pages use the 'Blog Body Grid' block grid (in Custom/Umbraco.BlockGrid) as body. Post metadata (publishDate, excerpt, listingImage) are real properties. No compositions, duplicate types or orphans. Templates are assigned and aliases are camelCase."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 25,
+      "max": 25,
+      "notes": "Templates call Html.GetBlockGridHtmlAsync(Model, \"body\"), and the scaffold blockgrid partials are untouched. There is one markup-free adapter per block at Views/Partials/blockgrid/Components/<alias>.cshtml, inheriting UmbracoViewPage<BlockGridItem<T>>, mapping to a plain model in Models/Blocks/ and calling Component.InvokeAsync. There is one ViewComponent per block, with plain Default.cshtml views. Program.cs and appsettings.json are untouched, there are no migrations, GetCropUrl and friendly extensions are used, and styling comes from the Tailwind build into dist/site.css."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 9,
+      "max": 10,
+      "notes": "Two accurate, on-topic posts: 'MCP: The USB-C Port for AI' (standard protocol, discovery/safety/portability) and 'Why MCP Makes Your CMS Smarter' (grounding the assistant in the real content model, dev vs editor servers). They are accurate but fairly short (about 5-6 paragraphs each, -1). Each has several paragraphs over 4 blocks with relevant photos and credits. The layout is clean and coherent: a gradient hero, a welcome block, a 2-column card listing, and readable post pages with a hero image, styled pull quote and list typography."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 4,
+      "max": 5,
+      "notes": "All schema and content went through the two MCP servers (65 calls, no forbidden channel), and the numbered steps were followed in order. One lapse: it wrote curl output to /tmp, outside the project folder (the stayedInFolder check missed this). It disclosed that itself and cleaned up, so -1. The final report is accurate and candid: it mentions the cancelled bulk publish, the unverified data type folder (which is correct) and the /tmp breach."
+    }
+  ],
+  "summary": "A complete, convention-perfect MCP-built blog: 3 reusable blocks, clean page and post types, 2 substantive posts with provided photos, and a polished Tailwind layout, all rendered through the adapter-to-ViewComponent pattern. The only blemish is a disclosed write to /tmp outside the project folder.",
+  "strengths": [
+    "All 43 automated checks pass, with 0 build warnings",
+    "Textbook adapter -> plain model -> ViewComponent architecture for all 3 blocks",
+    "Clean schema: correct folders, allowed children, real metadata properties, block grid data type in /Custom",
+    "Polished, coherent design and on-topic posts with credited Unsplash photos",
+    "Honest final report that discloses its own rule breach"
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "text": "Wrote page-check files to /tmp (outside the project folder) during step 11, then deleted them; disclosed in the final report"
+    },
+    {
+      "severity": "minor",
+      "text": "Posts are on the short side (4 blocks, about 5-6 paragraphs each), though they meet the brief"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (auto)"
+}

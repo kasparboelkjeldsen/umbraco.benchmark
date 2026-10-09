@@ -62,11 +62,15 @@ export function modelDisplayName(id = "", marketing) {
 // ---------------------------------------------------------------- classification
 
 const isBrowserTool = n => /^mcp__playwright__/.test(n);
+// the Umbraco MCP servers: the dev server (umbraco) and, in the MCP Guided test, Umbraco's editor server (umbraco-editor)
+const UMBRACO_MCP = /^mcp__umbraco(-editor)?__/;
+const isUmbracoMcp = n => UMBRACO_MCP.test(n);
+const isEditorMcp = n => n.startsWith("mcp__umbraco-editor__");
 
 export function toolCategory(name) {
   if (name === "Bash") return "Shell (Bash)";
   if (name === "PowerShell") return "Shell (PowerShell)";
-  if (name.startsWith("mcp__umbraco__")) return "Umbraco MCP";
+  if (isUmbracoMcp(name)) return "Umbraco MCP";
   if (isBrowserTool(name)) return "Browser (Playwright)";
   if (name.startsWith("mcp__")) return "Other MCP";
   if (["Read", "Grep", "Glob"].includes(name)) return "Read / Grep / Glob";
@@ -95,7 +99,7 @@ const RUN_CMD = /dotnet\s+(build|run|watch|restore|clean)|taskkill|Stop-Process|
 
 function activityOf(call) {
   const n = call.name, input = call.input || {};
-  if (n.startsWith("mcp__umbraco__")) return "mcp";
+  if (isUmbracoMcp(n)) return "mcp";
   if (isBrowserTool(n)) return "browser";
   if (n === "ToolSearch") {
     const q = String(input.query || "");
@@ -119,11 +123,11 @@ function activityOf(call) {
   return "other";
 }
 
-const mcpShort = n => n.replace(/^mcp__umbraco__/, "");
-const isMcpWrite = n => /^(create|update|put|delete|move|publish|unpublish|copy|sort|post|patch|restore|empty)/.test(mcpShort(n));
-const isSchemaWrite = n => n.startsWith("mcp__umbraco__") && isMcpWrite(n) && /(document-type|element-type|data-type|template)/.test(mcpShort(n));
-const isContentWrite = n => n.startsWith("mcp__umbraco__") && isMcpWrite(n) && !/document-type/.test(mcpShort(n)) && /(^|-)(document|media)(-|$)/.test(mcpShort(n));
-const isPageWrite = n => n.startsWith("mcp__umbraco__") && isMcpWrite(n) && !/document-type/.test(mcpShort(n)) && /(^|-)document(s)?(-|$)/.test(mcpShort(n));
+const mcpShort = n => n.replace(UMBRACO_MCP, "");
+const isMcpWrite = n => /^(create|update|put|delete|move|publish|unpublish|copy|sort|post|patch|restore|empty|add|edit|save|set|rename|duplicate)/.test(mcpShort(n));
+const isSchemaWrite = n => isUmbracoMcp(n) && !isEditorMcp(n) && isMcpWrite(n) && /(document-type|element-type|data-type|template)/.test(mcpShort(n));
+const isContentWrite = n => isEditorMcp(n) && isMcpWrite(n) || isUmbracoMcp(n) && isMcpWrite(n) && !/document-type/.test(mcpShort(n)) && /(^|-)(document|media)(-|$)/.test(mcpShort(n));
+const isPageWrite = n => isEditorMcp(n) && isMcpWrite(n) || isUmbracoMcp(n) && isMcpWrite(n) && !/document-type/.test(mcpShort(n)) && /(^|-)document(s)?(-|$)/.test(mcpShort(n));
 
 const HEREDOC_TARGETS = [
   /\bcat\s*>{1,2}\s*("[^"]+"|'[^']+'|[^\s<>|;&]+)\s*<</g,
@@ -387,7 +391,7 @@ export function analyzeNormalized(norm, { includeFollowups = false } = {}) {
     const a = activityById.get(c.id);
     callsByActivity[a] = (callsByActivity[a] || 0) + 1;
   }
-  const mcpCalls = calls.filter(c => c.name.startsWith("mcp__umbraco__"));
+  const mcpCalls = calls.filter(c => isUmbracoMcp(c.name));
   const shellCalls = calls.filter(c => c.name === "Bash" || c.name === "PowerShell");
   const cmd = c => String(c.input.command || "");
 
@@ -456,7 +460,7 @@ export function analyzeNormalized(norm, { includeFollowups = false } = {}) {
     ...codeWrites.filter(w => w.t >= tStart2).map(w => w.done),
     ...builds.filter(c => c.t >= tStart2).map(c => c.doneAt || c.t),
     ...starts.filter(c => c.t >= tStart2).map(c => c.doneAt || c.t),
-    ...calls2.filter(c => c.name.startsWith("mcp__umbraco__") && isMcpWrite(c.name)).map(c => c.doneAt || c.t),
+    ...calls2.filter(c => isUmbracoMcp(c.name) && isMcpWrite(c.name)).map(c => c.doneAt || c.t),
   ].filter(t => t <= tEnd);
   const tLastChange = changeDone.length ? Math.max(...changeDone) : null;
 

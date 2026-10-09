@@ -1,0 +1,67 @@
+{
+  "runId": "2026-10-07_2236_mcp-guided_sonnet-5.5-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-07T23:05:00Z",
+  "total": 99,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "dotnet build 0 errors, 0 warnings. / returns 200 through the '/' domain on the Blog page and lists both posts as cards with listing image, date, title, excerpt and link. Both posts render all 4 blocks (rich text, image, rich text, callout) with no 'Could not render component'. All 4 images are provided Unsplash photos imported via MCP into a 'Blog' media folder and served through signed GetCropUrl URLs that load. All pages are published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 25,
+      "max": 25,
+      "notes": "Blocks richTextBlock, imageBlock and calloutBlock are element types in Blocks. blogFrontPage and blogPost are documents in Pages. siteRoot (Repositories) allows only blogFrontPage, and blogFrontPage allows only blogPost. Templates are assigned as allowed and default. The single custom data type, 'Blog Body Block Grid', is filed under Custom/Umbraco.BlockGrid and is used as 'blocks' on both pages. Post metadata (title, publishDate, excerpt, listingImage) are real properties. No compositions, no duplicate or orphaned types. Nit: imageBlock has no alt-text property; the caption doubles as alt."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 25,
+      "max": 25,
+      "notes": "Both templates use Html.GetBlockGridHtmlAsync(Model, \"blocks\"), and the scaffold's blockgrid partials are untouched. Three markup-free adapters at Views/Partials/blockgrid/Components/<alias>.cshtml take BlockGridItem<T>, map to plain models in Models/Blocks and call Component.InvokeAsync. Three ViewComponents render Views/Shared/Components/<Name>/Default.cshtml, which depend only on the plain models. Program.cs and appsettings.json are unchanged, and no migrations were added. GetCropUrl and friendly extensions are used throughout. Styling uses Tailwind compiled to dist/site.css. _ViewImports swaps the unused PublishedModels namespace for the ModelsBuilder namespace, which is legitimate."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 9,
+      "max": 10,
+      "notes": "Two on-topic, accurate posts: 'One Protocol to Connect Them All' covers the integration tangle, tool discovery and schemas; 'Real Work, Not Just Chat' covers agents acting on a CMS, read-back feedback loops and guardrails. Each has 4 paragraphs over 2 rich text blocks, an image with a correct photographer credit, and a takeaway callout. They are on the short side, so -1. Presentation is clean and coherent: header and footer, a large title with intro, an indigo callout, a two-column card grid, and readable max-w-3xl post pages with a back link, date and lede."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 5,
+      "max": 5,
+      "notes": "All schema, media, content and the domain went through the two MCP servers: 58 calls, 36 writes, no Management API, uSync, DB or browser use. It followed steps 1-12 in order: start, MCP check, model (each type read back), media, content via create-page, add-blockgrid-block, publish and get-page, domain, stop/build, Razor, npm build, rebuild/restart, curl checks. No memory access, and stayedInFolder passed. The only outside writes were curl outputs to /tmp, which is harmless. The final report is accurate and discloses the initial 500 from the Layout path and that styling was not checked in a browser."
+    }
+  ],
+  "summary": "A complete, clean blog built strictly through the two MCP servers in the prescribed order: three-block grid, correctly filed types, domain on the front page, textbook adapter -> ViewComponent pipeline and a polished Tailwind design. The only weakness is that the two MCP posts are fairly short (4 paragraphs each).",
+  "strengths": [
+    "Every automated check passes (43/43), with 0 build warnings",
+    "Textbook block pipeline: GetBlockGridHtmlAsync -> markup-free adapters -> ViewComponents with plain models",
+    "Schema is correctly filed with right allowed children and templates, and the only custom data type is the block grid in /Custom",
+    "Followed the 12-step order exactly, read back each schema write and verified the pages with get-page and curl",
+    "Clean, coherent Tailwind design with a card listing, accurate photo credits and an honest final report"
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "text": "Posts are short: 4 paragraphs over 2 rich text blocks plus image and callout (/why-mcp-is-awesome-one-protocol-to-connect-them-all/, /why-mcp-is-awesome-real-work-not-just-chat/)"
+    },
+    {
+      "severity": "minor",
+      "text": "imageBlock has no alt property; the adapter uses the photo-credit caption as alt text (Views/Partials/blockgrid/Components/imageBlock.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "Site tagline 'Notes on the Model Context Protocol' is hard-coded in Views/Shared/_Layout.cshtml rather than coming from content"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (medium)"
+}

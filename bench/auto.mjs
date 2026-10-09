@@ -405,6 +405,9 @@ async function runOne({ provider, model, effort }, variant) {
       Object.assign(auto.prompt1, { mcpServers: g.servers, successfulToolCalls: g.calls });
       if (t1.isError) throw new InfraError(`Prompt 1 ended in an error: ${t1.text || JSON.stringify(t1.result)}`);
       if (!g.ok) throw new InfraError(`Prompt 1: ${g.why} (MCP servers: ${g.servers}). Not sending the blog prompt.`);
+      // a test with several servers (MCP Guided: umbraco + umbraco-editor) needs every one of them up
+      const down = v.mcpJson?.mcpServers ? Object.keys(v.mcpJson.mcpServers).filter(n => !new RegExp(`(^|, )${n}=(connected|ready)`).test(g.servers)) : [];
+      if (down.length) throw new InfraError(`Prompt 1: MCP server(s) ${down.join(", ")} not connected (MCP servers: ${g.servers}). Not sending the blog prompt.`);
       say(`  ✓ ${g.calls} successful ${prefix.slice(5, -2)} call(s); MCP servers: ${g.servers}`);
       step("Stopping Umbraco");
       bench("down.mjs");

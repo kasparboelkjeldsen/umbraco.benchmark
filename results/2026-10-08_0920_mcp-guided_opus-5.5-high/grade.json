@@ -1,0 +1,26 @@
+{
+  "runId": "2026-10-08_0920_mcp-guided_opus-5.5-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-08T07:28:21Z",
+  "total": 99,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "dotnet build 0 errors / 0 warnings. / returns 200 as the blog front page (domain '/' on the Blog page, not WWW), lists both posts newest first as cards with listing image, date, title, excerpt and 'Read more'; links work. Both posts render every block (rich text, image, quote) with no 'Could not render component'. 4 provided Unsplash photos imported into a 'Blog' media folder and served via GetCropUrl; 6/6 images load. All pages published." },
+    { "id": "modeling", "name": "Content modeling", "score": 25, "max": 25, "notes": "richTextBlock, imageBlock (image + caption), quoteBlock (quote + attribution) are elements in Blocks; blogFrontPage and blogPost are documents in Pages. 'Blog Body Block Grid' in Custom/Umbraco.BlockGrid allows the three blocks and is the body on both page types. siteRoot -> blogFrontPage -> blogPost, templates assigned, camelCase aliases. Post metadata (title, publishDate, excerpt, listingImage) are real properties; no compositions, no duplicate or orphaned types." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 24, "max": 25, "notes": "Pages use Html.GetBlockGridHtmlAsync; scaffold blockgrid partials untouched. Three adapters at Views/Partials/blockgrid/Components/<alias>.cshtml take BlockGridItem<T>, map to plain models in Models/Blocks and call Component.InvokeAsync with no markup. One ViewComponent per block, Default.cshtml views depend only on the plain model. Program.cs/appsettings.json untouched, no migrations, friendly extensions + GetCropUrl, Tailwind built to dist/site.css. -1: both templates set Layout = null and duplicate the whole HTML shell and header instead of sharing a layout (disclosed in the report)." },
+    { "id": "content", "name": "Content & presentation", "score": 10, "max": 10, "notes": "Two on-topic, accurate posts: 'Why MCP Is Awesome: One Plug for Every Tool' (5 blocks: USB analogy, self-describing tools, network effects) and 'Building a Website by Conversation with MCP' (4 blocks: this site built over two MCP servers, guardrails, error-driven retries). Relevant photos (USB cables, network, puzzle, connected structure) with photographer credits in captions. Clean, coherent Tailwind design: header, hero intro, two-column card grid, readable max-w-3xl post pages with styled quote and figure captions." },
+    { "id": "process", "name": "Process & honesty", "score": 5, "max": 5, "notes": "All schema/content via the umbraco and umbraco-editor MCP servers (59 calls, 34 writes); no Management API, uSync, DB, migrations, memory or out-of-folder access. Steps followed in order (model -> media -> content -> domain -> stop/build -> Razor -> npm build -> build/restart -> curl checks); only a trivial deviation of two read-only MCP probes before starting Umbraco. Final report is accurate and discloses the cancelled bulk publish, the curl-only verification and the duplicated header markup." }
+  ],
+  "summary": "A complete, convention-perfect MCP-built blog: three-block block grid on both page types, two substantive MCP posts with provided Unsplash photos, and a clean Tailwind design; all 43 automated checks pass. Only nit is two templates duplicating the page shell instead of sharing a layout.",
+  "strengths": [
+    "Textbook rendering pipeline: GetBlockGridHtmlAsync -> markup-free adapters -> ViewComponents with plain models",
+    "Clean content model: three sensible blocks, real post metadata properties, correct folders and allowed children",
+    "Followed the numbered steps in order and verified each structural write by reading it back",
+    "Accurate, candid final report"
+  ],
+  "issues": [
+    { "severity": "minor", "text": "Views/blogFrontPage.cshtml and Views/blogPost.cshtml both set Layout = null and repeat the full <html>/<head>/header markup; no shared layout." },
+    { "severity": "minor", "text": "Left .umbraco-run.log (dotnet run output) in the solution root (Umbraco.Bench/.umbraco-run.log)." },
+    { "severity": "minor", "text": "Two read-only MCP calls were made before starting Umbraco (step 1 said to start it first)." }
+  ]
+}

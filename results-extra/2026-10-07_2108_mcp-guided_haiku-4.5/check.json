@@ -1,0 +1,407 @@
+{
+  "runId": "2026-10-07_2108_mcp-guided_haiku-4.5",
+  "variant": "mcp-guided",
+  "checkedAt": "2026-10-07T19:19:00.883Z",
+  "summary": {
+    "passed": 38,
+    "failed": 5,
+    "notApplicable": 0
+  },
+  "checks": [
+    {
+      "id": "build.ok",
+      "ok": true,
+      "detail": "0 error(s), 0 warning(s)"
+    },
+    {
+      "id": "site.boots",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "site.frontPage200",
+      "ok": true,
+      "detail": "GET / → 200"
+    },
+    {
+      "id": "site.allPagesRender",
+      "ok": true,
+      "detail": "3 page(s) OK"
+    },
+    {
+      "id": "content.twoBlogPosts",
+      "ok": true,
+      "detail": "2 document(s) with a post-like type: Why MCP is Awesome, MCP Best Practices"
+    },
+    {
+      "id": "site.frontPageLinksPosts",
+      "ok": false,
+      "detail": "front page links 0/2 post URL(s)"
+    },
+    {
+      "id": "site.imagesLoad",
+      "ok": false,
+      "detail": "no <img> on any page"
+    },
+    {
+      "id": "site.imagesFromMediaLibrary",
+      "ok": false,
+      "detail": "0 hot-linked external image(s)"
+    },
+    {
+      "id": "site.noUnsignedResizeUrls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "site.stylesheetsLoad",
+      "ok": true,
+      "detail": "/dist/site.css?v=09dxVyiEz0UT9tF1z0FPelK6TJCGUWTkOAYcDpyEsN0 → 200"
+    },
+    {
+      "id": "site.usesBlockGrid",
+      "ok": true,
+      "detail": "umb-block-grid markup present on a page"
+    },
+    {
+      "id": "content.noRepeatedImages",
+      "ok": true,
+      "detail": "no page shows the same image twice"
+    },
+    {
+      "id": "schema.docTypesInFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.elementVsDocumentFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.aliasesCamelCase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.dataTypesNotAtRoot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.blockGridOnPages",
+      "ok": true,
+      "detail": "block grid on: blogFrontPage, blogPost"
+    },
+    {
+      "id": "schema.blocksNotUsedAsCompositions",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.domainAssigned",
+      "ok": true,
+      "detail": "Blog: /"
+    },
+    {
+      "id": "content.allPublished",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.mediaInFolders",
+      "ok": false,
+      "detail": "code-on-screen, circuit-board, connected-structure"
+    },
+    {
+      "id": "content.hasMedia",
+      "ok": true,
+      "detail": "3 media item(s)"
+    },
+    {
+      "id": "content.mediaFromProvidedPhotos",
+      "ok": true,
+      "detail": "3 of 3 media file(s) are the provided photos"
+    },
+    {
+      "id": "code.adapterFolderCasing",
+      "ok": true,
+      "detail": "folder is \"Components\""
+    },
+    {
+      "id": "code.adapterPerBlock",
+      "ok": true,
+      "detail": "3 adapter(s): imageBlock.cshtml, postListBlock.cshtml, richTextBlock.cshtml"
+    },
+    {
+      "id": "code.programCsUnchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.appsettingsJsonUnchanged",
+      "ok": true,
+      "detail": "production settings must not be softened"
+    },
+    {
+      "id": "code.noMigrationsWritten",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "process.intendedChannel",
+      "ok": false,
+      "detail": "9 shell call(s) to the Management API"
+    },
+    {
+      "id": "process.stayedInFolder",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noCsInModelsRoot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.servicesNamedService",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noCustomBlockLoops",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noParallelBlockPartials",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.pagesUseBlockGridHelper",
+      "ok": true,
+      "detail": "Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml, Umbraco.Bench.Umbraco/Views/blogPost.cshtml"
+    },
+    {
+      "id": "code.adaptersHaveNoMarkup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.adaptersInvokeViewComponents",
+      "ok": true,
+      "detail": "3/3 adapters call Component.InvokeAsync"
+    },
+    {
+      "id": "code.viewComponentPerBlock",
+      "ok": true,
+      "detail": "3 view component(s): ImageBlock, PostListBlock, RichTextBlock"
+    },
+    {
+      "id": "code.noLooseFilesInSharedComponents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.componentViewsArePlain",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noInjectedUrlServices",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noHandWrittenImageQueries",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.frontendBuilt",
+      "ok": true,
+      "detail": "wwwroot/dist/site.css exists"
+    }
+  ],
+  "build": {
+    "ok": true,
+    "exitCode": 0,
+    "warnings": 0,
+    "errors": 0,
+    "errorLines": []
+  },
+  "changes": {
+    "added": [
+      "Umbraco.Bench.Frontend/package-lock.json",
+      "Umbraco.Bench.Umbraco/Models/Blocks/ImageBlockModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/PostListBlockModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/RichTextBlockModel.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlogFrontPage.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlogPost.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/File.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Folder.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Image.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/ImageBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Member.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/PostListBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/RichTextBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/SiteRoot.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaArticle.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaAudio.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaVectorGraphics.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaVideo.generated.cs",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/postListBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/richTextBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/ImageBlock/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/ImageBlock/ImageBlockViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/PostListBlock/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/PostListBlock/PostListBlockViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/RichTextBlock/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/RichTextBlock/RichTextBlockViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml",
+      "Umbraco.Bench.Umbraco/Views/blogPost.cshtml",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/blog.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/mcp-best-practices.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/why-mcp-is-awesome.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/www.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/blogfrontpage.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/blogpost.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/imageblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/postlistblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/richtextblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/siteroot.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ApprovedColor.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/BlogBlockGrid.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/CheckboxList.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ContentPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DatePicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DatePickerWithTime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DateTimePickerWithTimeZone.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Dropdown.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DropdownMultiple.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ImageCropper.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ImageMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelBigint.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelBytes.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelDatetime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelDecimal.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelInteger.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelPixels.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelString.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelTime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ListViewContent.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ListViewMedia.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MemberPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultiURLPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultipleImageMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultipleMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Numeric.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Radiobox.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/RichtextEditor.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Tags.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Textarea.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Textstring.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Truefalse.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadArticle.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadAudio.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadFile.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadVectorGraphics.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadVideo.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Domains/1098_en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Domains/_en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Languages/en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/circuit-board.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/code-on-screen.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/connected-structure.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/file.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/folder.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/image.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediaarticle.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediaaudio.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediavectorgraphics.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediavideo.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MemberTypes/member.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/relateParentElementContainerOnContainerDelete.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/relateParentElementContainerOnElementDelete.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/umbElement.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/umbMember.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/blogfrontpage.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/blogpost.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/usync.config",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/main.js",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/main.js.map",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/site.css"
+    ],
+    "modified": [
+      ".mcp.json"
+    ],
+    "deleted": []
+  },
+  "crawl": {
+    "pages": [
+      {
+        "path": "/",
+        "status": 200,
+        "file": "pages/index.html",
+        "title": "",
+        "h1": "",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 19,
+        "links": 0,
+        "images": 0
+      },
+      {
+        "path": "/why-mcp-is-awesome/",
+        "status": 200,
+        "file": "pages/why_mcp_is_awesome.html",
+        "title": "",
+        "h1": "",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 389,
+        "links": 1,
+        "images": 0
+      },
+      {
+        "path": "/mcp-best-practices/",
+        "status": 200,
+        "file": "pages/mcp_best_practices.html",
+        "title": "",
+        "h1": "",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 399,
+        "links": 1,
+        "images": 0
+      }
+    ],
+    "assets": [
+      {
+        "url": "/dist/site.css?v=09dxVyiEz0UT9tF1z0FPelK6TJCGUWTkOAYcDpyEsN0",
+        "kind": "css",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/dist/main.js?v=Eql_sRjSyI63OesYXjABRnDumPOMgFmiH7DZUOuMbkM",
+        "kind": "js",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      }
+    ]
+  },
+  "counts": {
+    "docTypes": 6,
+    "elementTypes": 3,
+    "customDataTypes": 11,
+    "templates": 2,
+    "documents": 4,
+    "media": 3
+  }
+}

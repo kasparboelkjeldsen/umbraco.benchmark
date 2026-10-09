@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-08T02:54:15.310Z",
+  "updatedAt": "2026-10-08T04:28:51.369Z",
+  "done": [
+    {
+      "label": "gemma-4-26b-a4b · MCP Guided+",
+      "status": "graded",
+      "runId": "2026-10-08_0454_mcp-guided-plus_gemma-4-26b-a4b-high",
+      "grade": "19/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

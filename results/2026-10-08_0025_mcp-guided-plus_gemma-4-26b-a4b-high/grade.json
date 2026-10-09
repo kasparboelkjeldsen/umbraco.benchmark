@@ -1,0 +1,85 @@
+{
+  "runId": "2026-10-08_0025_mcp-guided-plus_gemma-4-26b-a4b-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-07T23:27:45Z",
+  "total": 12,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 0,
+      "max": 35,
+      "notes": "dotnet build fails (CS0234 in Views/blogFrontPageTemplate.cshtml: 'Umbraco.Cms.Web.Common.Models.PublishedContent' does not exist), so the site never boots and nothing renders. Even with a build, there is no content: no front page, no posts, no media, no domain."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 6,
+      "max": 25,
+      "notes": "Created textBlock (rich text), imageBlock (media picker), spacerBlock (integer) element types and a 'Blog Block Grid' data type (Custom/Umbraco.BlockGrid) allowing all three; blogFrontPage document type in Pages with title + bodyGrid. textBlock/imageBlock were moved to Blocks, but spacerBlock stayed at the root (misfiled). The blogPost type was never created (repeated DataTypeNotFound / malformed calls). No allowed children on siteRoot or the front page, no template assigned to blogFrontPage. Several property names are corrupted with leaked tool-call syntax (e.g. 'Body Grid\"}]}<tool_call|><|tool_call>call:...', 'Image\"}],type:'). No post metadata properties exist."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 4,
+      "max": 25,
+      "notes": "The only view is blogFrontPageTemplate.cshtml (created via MCP create-template), which calls Html.GetBlockGridHtmlAsync but inherits a non-existent type and does not compile. No block adapters, no ViewComponents, no view models, no post template. Program.cs and appsettings.json untouched, no migrations, no stray .cs files. The frontend was never built (no wwwroot/dist/site.css), so there is no styling."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 0,
+      "max": 10,
+      "notes": "No pages, posts or media were created; nothing to show. Screenshots could not be taken because the site does not build or boot."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 2,
+      "max": 5,
+      "notes": "Used only the Umbraco MCP servers for schema (48 MCP calls, no Management API, uSync, DB or migration writes), stayed in the project folder, no memory access. It followed the step order for as long as it got, but never got beyond step 3 (modeling): the benchmark guard stopped it after 4 identical malformed create-element-type calls (it tried to recreate blocks that already existed). There is no final report, only the guard's error message, so nothing about the broken state was disclosed: 0/2."
+    }
+  ],
+  "summary": "Gemma 4 26B A4B got only partway through schema modeling (3 block element types, a Block Grid data type and a front page type with garbled property names) before the loop guard stopped it after 56 minutes. No post type, content, media, domain or Razor components exist, and the one template it wrote does not compile, so the site does not build.",
+  "strengths": [
+    "Stuck to the MCP channel; no forbidden shortcuts or stray file access",
+    "Block Grid data type created correctly with rich text, image and spacer blocks and filed under Custom/",
+    "Front page type filed in Pages with the block grid as its body"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "dotnet build fails: Views/blogFrontPageTemplate.cshtml inherits UmbracoViewPage<Umbraco.Cms.Web.Common.Models.PublishedContent>, which does not exist (CS0234); the site cannot boot"
+    },
+    {
+      "severity": "major",
+      "text": "Run stopped by the benchmark loop guard during step 3 after repeated malformed create-element-type calls; steps 4-12 (media, content, domain, Razor, frontend, verification) never happened"
+    },
+    {
+      "severity": "major",
+      "text": "No blogPost document type, no pages, no posts, no media and no domain exist"
+    },
+    {
+      "severity": "major",
+      "text": "No block adapters (Views/Partials/blockgrid/Components/), ViewComponents or view models were written"
+    },
+    {
+      "severity": "major",
+      "text": "No final report; the run ended on the guard's error message"
+    },
+    {
+      "severity": "minor",
+      "text": "Property names are corrupted with leaked tool-call syntax (blogFrontPage.bodyGrid, imageBlock.image, spacerBlock.height)"
+    },
+    {
+      "severity": "minor",
+      "text": "spacerBlock was left at the document type root instead of the Blocks folder; siteRoot/blogFrontPage have no allowed children and blogFrontPage has no template assigned"
+    },
+    {
+      "severity": "minor",
+      "text": "Frontend never built: wwwroot/dist/site.css is missing"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

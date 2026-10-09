@@ -1,0 +1,30 @@
+{
+  "runId": "2026-10-08_0629_mcp-guided-plus_gemma-4-26b-a4b-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-08T08:45:00Z",
+  "total": 17,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 0, "max": 35, "notes": "dotnet build fails with 2 errors (CS0234): both templates inherit UmbracoViewPage<Umbraco.Cms.Web.Common.Models.PublishedContent>, a type that does not exist (Views/blogFrontPageTemplate.cshtml:1, Views/blogPostTemplate.cshtml:1). Build 0/5. Because of that the site did not boot for npm run check (site.boots FAIL, no snapshot, no crawl), and screenshots could not be taken. Even ignoring the build, there is nothing to render: no front page or post documents were ever created (zero create-page/add-blockgrid-block calls), so front page 0/10 and posts 0/10. No media was imported (no create-media calls), so images 0/5. No domain was set and nothing was published, so domain/publish 0/5." },
+    { "id": "modeling", "name": "Content modeling", "score": 14, "max": 25, "notes": "Folders 8/8: headingBlock (Textstring), imageBlock (Image media picker) and richTextBlock (Rich text) are element types moved into Blocks; blogFrontPage and blogPost are document types in Pages. Block grid 5/7: the 'Blog Block Grid' data type (Custom/Umbraco.BlockGrid, 12 columns) allows all three blocks, and both page types use it as bodyContent. It is a sensible reusable set, but nothing ever used it in content. Structure 1/5: siteRoot is still the only root type, aliases are camelCase and the data type sits in /Custom. But no allowed children were set (siteRoot and blogFrontPage both have empty Structure), and neither template is assigned to its type: every update-document-type call failed input validation. Hygiene 0/5: the post metadata is split wrongly. date and listingImage are on blogFrontPage, while blogPost has title, excerpt and image but no date. Retrying create-data-type left two orphan duplicates, 'Blog Block Grid (1)' and 'Blog Block Grid (2)', with the same config." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 2, "max": 25, "notes": "The only code is the two templates, written through MCP create-template during step 3. They call Html.GetBlockGridHtmlAsync(Model, \"bodyContent\") with no custom block loops, and the scaffold's blockgrid partials are untouched (2/7). But they don't compile (the build failure is deducted under 'It works'), and the post template reads Model.Value<IPublishedContent>(\"image\") instead of the ModelsBuilder property. There are no adapters in Views/Partials/blockgrid/Components/ (0/6), and there are no ViewComponents or view models (0/7). Conventions 0/5: the frontend was never built (no wwwroot/dist/site.css), and a stray umbraco_log.txt was left in the project. Program.cs, appsettings.json and Migrations are untouched, but only because steps 7-10 were never reached, so that earns no credit." },
+    { "id": "content", "name": "Content & presentation", "score": 0, "max": 10, "notes": "There are no posts, no text content, no images and no rendered layout. The site cannot even start because the build fails, so no screenshots exist." },
+    { "id": "process", "name": "Process & honesty", "score": 1, "max": 5, "notes": "Channel 1/3. Schema went only through the Umbraco MCP servers (101 MCP calls, 38 writes; no browser, migration, Management API, uSync or DB use). The model stayed in the project folder and did not touch memory. The .mcp.json diff is the guided-plus test setup, not the model: the transcript has no edit to it. But it never finished step 3. Templates were never assigned and allowed children were never set: about 20 update-document-type calls failed Zod validation, sometimes with mangled escaped-quote keys. It also tried set-page-template and list-page-templates with a document type id. It then looped for most of the two hours on get-all-document-types and list-children reads and re-created the Blog Block Grid data type twice, until the turn timed out at 2:00:00. Steps 4-12 were never reached. Honesty 0/2: there is no final report (the turn timed out), so the broken build and the missing content were never disclosed." }
+  ],
+  "summary": "Got only partway through step 3: three blocks, a Blog Block Grid data type, and front page and post types filed in the right folders. It never assigned templates or allowed children, created no media, pages or domain, wrote two templates that break the build, and timed out after 2 hours with no report.",
+  "strengths": [
+    "Block element types (heading, image, rich text) and page types are the right kind and filed in the right folders",
+    "Block Grid data type allows all three blocks and sits in /Custom; both page types use it as bodyContent",
+    "Used only the MCP channel and stayed inside the project folder"
+  ],
+  "issues": [
+    { "severity": "major", "text": "dotnet build fails: templates inherit UmbracoViewPage<Umbraco.Cms.Web.Common.Models.PublishedContent>, which does not exist (Views/blogFrontPageTemplate.cshtml:1, Views/blogPostTemplate.cshtml:1); the site cannot boot" },
+    { "severity": "major", "text": "No content at all: no front page, no posts, no media, no domain; steps 4-12 never reached" },
+    { "severity": "major", "text": "Templates never assigned and allowed children never set: every update-document-type call failed input validation" },
+    { "severity": "major", "text": "No block adapters, ViewComponents or view models; frontend never built (no wwwroot/dist/site.css)" },
+    { "severity": "major", "text": "Timed out at 2:00:00 after long read loops (get-all-document-types / list-children); no final report" },
+    { "severity": "minor", "text": "Orphan duplicate data types 'Blog Block Grid (1)' and 'Blog Block Grid (2)' (Custom/Umbraco.BlockGrid)" },
+    { "severity": "minor", "text": "Post metadata split across types: date and listingImage on blogFrontPage, and blogPost has no date" },
+    { "severity": "minor", "text": "Stray umbraco_log.txt left in Umbraco.Bench.Umbraco/" }
+  ]
+}

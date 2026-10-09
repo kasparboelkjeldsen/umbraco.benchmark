@@ -1,0 +1,82 @@
+{
+  "runId": "2026-10-07_2127_mcp-guided_haiku-4.5",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-07T19:45:09.147Z",
+  "total": 65,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 22,
+      "max": 35,
+      "notes": "Build OK, 0 warnings (5/5). / returns 200 as the blog front page, lists and links both posts, and the cards show an image and an excerpt, but the date prints literally as \"10/1/2026 12:00:00 AM.ToString(\"MMMM d, yyyy\")\" because of a Razor precedence bug in blogFrontPage.cshtml (8/10). Both posts (/why-mcp-is-awesome-1/, /mcp-use-cases/) return 500 ModelBindingException: the block adapters inherit non-generic UmbracoViewPage, so every block fails to bind. No post renders (0/10). The images are the 2 provided Unsplash photos, imported into a media folder and served through working GetCropUrl URLs (5/5). Domain \"/\" is on the Blog page, but a stray duplicate post \"Why MCP is Awesome\" is left as a draft (4/5)."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 20,
+      "max": 25,
+      "notes": "All 5 new types are in the right folder and of the right kind: 3 blocks are element types in Blocks, blogFrontPage and blogPost are in Pages (8/8). Block grid \"Blog Blocks\" (richText, image, callout) is used on blogPost only. blogFrontPage has no block grid body, only a title, and no post uses the image block (3/7). Structure is right: siteRoot is the only root type, siteRoot→blogFrontPage→blogPost, templates assigned, camelCase aliases, the data type is in /Custom (5/5). Metadata (publishDate, excerpt, featuredImage) are real properties with no compositions, but an orphaned duplicate draft post was left behind (4/5)."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 18,
+      "max": 25,
+      "notes": "blogPost.cshtml uses Html.GetBlockGridHtmlAsync(Model, \"body\"), and the scaffold blockgrid partials are unchanged (7/7). There is one adapter per exact alias in Views/Partials/blockgrid/Components with no markup, each calling Component.InvokeAsync. But they inherit plain UmbracoViewPage instead of UmbracoViewPage<BlockGridItem<T>>, cast Model to dynamic and read untyped Value<string>(\"…\") instead of the ModelsBuilder types. That broken contract is what makes every post 500 (1/6). One ViewComponent per block (Callout, Image, RichText) renders Default.cshtml with plain models, and the component views are free of Umbraco. Minor: the models in Models/ViewModels use namespace Umbraco.Bench.Umbraco.Models, which does not follow the folder, and the ViewComponent classes have no namespace (6/7). Program.cs and appsettings.json untouched, no migrations, GetCropUrl used, Tailwind built. Templates use untyped Model.Value(\"…\") with a broken date cast instead of ModelsBuilder properties (4/5)."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 2,
+      "max": 10,
+      "notes": "The posts are very thin: each has only 2 blocks, one short rich text section and a one-sentence callout. There are no inline images, and \"MCP Use Cases\" only loosely argues why MCP is awesome. Neither post renders, so a visitor sees an exception page (1/6). The front page is a plain but coherent stack of cards: oversized full-width images, a garbled date line and blue Read More buttons. Post pages are developer exception screens (1/4)."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 3,
+      "max": 5,
+      "notes": "Schema, media, content and domain were built only through the umbraco and umbraco-editor MCP servers. There is no Management API, uSync, DB, migration or memory use, and no reads outside the project. The numbered steps were broadly followed in order: model, media, content, domain, stop, Razor, npm build, restart, curl. It skipped the step-5 get-page check, though, and repeated failing create-page calls left a duplicate draft post (2/3). The final report discloses the 500s on the post pages. It also claims \"all data is published\" (one draft) and \"Razor views follow AGENTS.md conventions\" (the adapters do not take BlockGridItem<T>). It says it will \"simplify the blog post template to not render the blocks\", which it never did, and it does not mention the garbled dates (1/2)."
+    }
+  ],
+  "summary": "Haiku 4.5 built a correctly filed schema (3 blocks, a front page and post types, a block grid data type), 2 published posts with imported Unsplash photos and a working domain, all through MCP. The front page works apart from a garbled date, but both post pages crash with a 500 because the block adapters do not take BlockGridItem<T>, and the post content is very thin.",
+  "strengths": [
+    "All schema, media, content and the domain built through the two MCP servers, in the prescribed order",
+    "Document types correctly filed (Blocks/Pages) with sensible structure and allowed children",
+    "Provided Unsplash photos imported into a media folder and served through GetCropUrl",
+    "Adapter → ViewComponent → plain model → Default.cshtml layering is laid out per block",
+    "Front page lists both posts with image, excerpt and links"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "Both posts return 500 ModelBindingException: the adapters in Views/Partials/blockgrid/Components/*.cshtml inherit non-generic UmbracoViewPage instead of UmbracoViewPage<BlockGridItem<T>> (/why-mcp-is-awesome-1/, /mcp-use-cases/)"
+    },
+    {
+      "severity": "major",
+      "text": "Post content is very thin: each post has only one short rich text block and a one-line callout, with no image blocks"
+    },
+    {
+      "severity": "major",
+      "text": "Front page type has no block grid body, only a title property (blogFrontPage)"
+    },
+    {
+      "severity": "minor",
+      "text": "Date renders as literal \"10/1/2026 12:00:00 AM.ToString(\"MMMM d, yyyy\")\" because @((DateTime)date).ToString(...) ends the Razor expression early (Views/blogFrontPage.cshtml, Views/blogPost.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "Orphaned duplicate draft post \"Why MCP is Awesome\" left from failed create-page retries, which also gave the live post the URL /why-mcp-is-awesome-1/"
+    },
+    {
+      "severity": "minor",
+      "text": "Templates and adapters use untyped Value(\"alias\") and dynamic instead of ModelsBuilder models; view models use a namespace that does not follow Models/ViewModels"
+    },
+    {
+      "severity": "minor",
+      "text": "Final report overclaims: says all content is published and the views follow AGENTS.md, and says it would stop rendering blocks but did not"
+    }
+  ]
+}

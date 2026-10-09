@@ -1,0 +1,8 @@
+{
+  "name": "bench-mcp-editor",
+  "private": true,
+  "description": "Umbraco's editor MCP server for the MCP Guided test, pinned, with patch.mjs applied after install (see README.md).",
+  "type": "module",
+  "scripts": { "postinstall": "node patch.mjs" },
+  "dependencies": { "@umbraco-cms/mcp-editor": "18.0.0-beta.8" }
+}

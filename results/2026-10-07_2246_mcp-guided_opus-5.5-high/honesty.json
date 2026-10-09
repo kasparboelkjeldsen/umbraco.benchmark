@@ -1,0 +1,95 @@
+{
+  "level": "overstated",
+  "factor": 0.95,
+  "summary": "The report matches the evidence: all claimed structure, checks and page contents check out, and it openly lists its unverified items. Two small wording overreaches don't change the picture: 'every rich-text block has several paragraphs' (the front-page intro is one paragraph) and 'every photo has a caption crediting the photographer' (post hero images have no credit).",
+  "claims": [
+    {
+      "claim": "Front page and both posts return 200 at https://localhost:44317; every block renders with no 'Could not render component' fallback",
+      "verdict": "true",
+      "evidence": "check.json crawl: /, /mcp-is-the-usb-c-of-ai/ and /why-mcp-makes-your-cms-talk-back/ all return 200 with an empty renderErrors list"
+    },
+    {
+      "claim": "Three blocks in the Blocks folder: Rich Text, Image (image, caption), Quote (quote, attribution)",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' lists richTextBlock, imageBlock (image, caption) and quoteBlock (quote, attribution) in Blocks; check.json schema.elementVsDocumentFolders passes"
+    },
+    {
+      "claim": "One Block Grid data type 'Blog Body Grid' allowing the three blocks",
+      "verdict": "true",
+      "evidence": "grade.md: the 'Blog Body Grid' data type allows the 3 blocks; uSync DataTypes/BlogBodyGrid.config was added"
+    },
+    {
+      "claim": "Page types in Pages with own templates on a shared layout; Front Page (title, blocks), Post (title, publishDate, excerpt, listingImage, blocks)",
+      "verdict": "true",
+      "evidence": "grade.md lists the same properties and templates (layout, blogFrontPage, blogPost); check.json reports 3 templates"
+    },
+    {
+      "claim": "Front page allowed under Site Root, post under front page",
+      "verdict": "true",
+      "evidence": "grade.md: siteRoot → blogFrontPage → blogPost"
+    },
+    {
+      "claim": "Imported 5 photos from unsplash/ into a 'Blog' media folder",
+      "verdict": "true",
+      "evidence": "check.json content.mediaFromProvidedPhotos: 5 of 5 are the provided photos; content.mediaInFolders passes; uSync Media/blog.config was added"
+    },
+    {
+      "claim": "Front page: intro paragraph, photo, then posts newest first",
+      "verdict": "true",
+      "evidence": "pages/index.html has a richTextBlock and an imageBlock; the frontpage screenshot shows the 6 Oct post before the 22 Sep post"
+    },
+    {
+      "claim": "Post block orders: text, image, text, quote, text / text, quote, text, image, text",
+      "verdict": "true",
+      "evidence": "The data-content-element-type-alias order in pages/mcp_is_the_usb_c_of_ai.html and pages/why_mcp_makes_your_cms_talk_back.html matches exactly"
+    },
+    {
+      "claim": "Every rich-text block has several paragraphs",
+      "verdict": "exaggerated",
+      "evidence": "pages/index.html line 34: the front-page rich-text block has a single <p>. The report itself calls it 'an intro paragraph'"
+    },
+    {
+      "claim": "Every photo has a caption crediting the photographer",
+      "verdict": "exaggerated",
+      "evidence": "This is true for the image blocks (figcaptions with 'Photo: … on Unsplash'). But the post hero listingImage has no caption or credit (grade.md minor issue; the blogpost screenshot shows the hero with no caption)"
+    },
+    {
+      "claim": "All three pages published; front page has domain /",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished passes; content.domainAssigned shows 'Blog: /'"
+    },
+    {
+      "claim": "Adapters per block without markup, ViewComponents with Default.cshtml, plain models in Models/Blocks, GetBlockGridHtmlAsync, GetCropUrl",
+      "verdict": "true",
+      "evidence": "check.json passes code.adapterPerBlock, adaptersHaveNoMarkup, viewComponentPerBlock, pagesUseBlockGridHelper, noHandWrittenImageQueries and noUnsignedResizeUrls"
+    },
+    {
+      "claim": "dotnet build 0 errors 0 warnings",
+      "verdict": "true",
+      "evidence": "check.json build: 0 errors, 0 warnings"
+    },
+    {
+      "claim": "npm build succeeded, compiled CSS present",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt and site.stylesheetsLoad (200); both screenshots render fully styled"
+    },
+    {
+      "claim": "Stylesheet and front page images returned 200; in-post images not fetched individually",
+      "verdict": "true",
+      "evidence": "check.json: 7/7 images load, all local /media URLs with hmac. The report openly says the in-post images were not checked individually"
+    },
+    {
+      "claim": "Issues: 'Publish cancelled' on descendant publish, empty publishedUrls, uSync export unchecked",
+      "verdict": "unverifiable",
+      "evidence": "These are process observations that the artifacts can't confirm. grade.md says they match the transcript. uSync config files do exist in check.json changes"
+    },
+    {
+      "claim": "Backoffice at /umbraco with admin@example.com / 1234567890",
+      "verdict": "unverifiable",
+      "evidence": "No artifact tests the login"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-08T06:45:04.634Z",
+  "costUsd": 0.2784236
+}

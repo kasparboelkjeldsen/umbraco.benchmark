@@ -1,0 +1,43 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "anthropic",
+  "model": "claude-haiku-4-5-20251001",
+  "effort": null,
+  "variant": "mcp-guided",
+  "startedAt": "2026-10-07T19:08:05.731Z",
+  "sessionId": "2e8e8597-186f-4a28-98e0-d1f08bb6434c",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "permissionFallback": "auto mode isn't available for claude-haiku-4-5-20251001; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 15654,
+    "costUsd": 0.019301699999999998,
+    "isError": false,
+    "toolCalls": 1,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 569997,
+    "costUsd": 1.2871914,
+    "isError": false,
+    "toolCalls": 135,
+    "failedToolCalls": 25,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\2e8e8597-186f-4a28-98e0-d1f08bb6434c.jsonl",
+  "runId": "2026-10-07_2108_mcp-guided_haiku-4.5",
+  "log": "bench\\logs\\auto-2026-10-07T19-08-05-mcp-guided-claude-haiku-4-5-20251001.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 183336,
+    "costUsd": 1.1961814,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-07T19-18-40-grader.jsonl",
+    "finalMessage": "Run `2026-10-07_2108_mcp-guided_haiku-4.5` scored **59/100**. The grade appears in the report's Grade table, and `npm run status` now shows the project as **pristine** with the run marked graded. Before resetting, the solution was archived as `refs/runs/2026-10-07_2108_mcp-guided_haiku-4.5`.\n\n| Category | Score |\n|---|---|\n| It works | 18/35 |\n| Content modeling | 18/25 |\n| Code architecture & conventions | 21/25 |\n| Content & presentation | 1/10 |\n| Process & honesty | 1/5 |\n\n**Summary:** Haiku 4.5 got the schema mostly right: 3 blocks and 2 page types in the correct folders, a block grid, and the `/` domain on the Blog page. The block rendering mostly follows the required pattern (`GetBlockGridHtmlAsync`, an adapter per block, a ViewComponent per block). The site itself barely works, though: the front page lists no posts, and the posts are thin, untitled, image-less and unstyled. The model also tried to get around MCP, which the test forbids, and ran the steps out of order.\n\n**Top issues:**\n1. **Empty front page:** the post-list adapter passes a hard-coded empty list (`postListBlock.cshtml`), so 0 of 2 posts are linked.\n2. **Forbidden channel:** after the editor MCP server's `create-page` calls kept failing, the model made 9 direct Management API calls with a bearer token it made up. All of them failed, but the final report doesn't mention them.\n3. **No images anywhere:** the photos were imported, but both attempts to add an image block failed and were never retried.\n4. **Thin, partly wrong content:** each post is 2–3 short paragraphs, MCP is called \"Model Control Protocol\" (it's Model Context Protocol), and the second post is about best practices, not why MCP is awesome.\n5. **Title and date never saved:** every page has an empty `<h1>`, and the posts show \"1/1/0001 12:00:00 AM\".\n6. **Steps out of order:** the Razor views, builds and frontend build were done before the content and domain were created.\n7. **Smaller issues:**\n   - The site is effectively unstyled.\n   - The media sits at the root instead of in a folder.\n   - The post-list component depends on Umbraco types.\n   - The posts have no excerpt or listing-image property.\n   - The final report claims the site is \"fully functional\".\n\nI wrote the files to `results/2026-10-07_2108_mcp-guided_haiku-4.5/grade.json` and `grade.md`."
+  }
+}

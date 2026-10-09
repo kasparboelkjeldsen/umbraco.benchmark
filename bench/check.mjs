@@ -201,7 +201,7 @@ if (booted) {
   const compsInBlocks = snapshot.docTypes.filter(d => usedComps.has(d.id) && top(d) === "Blocks");
   add("schema.blocksNotUsedAsCompositions", compsInBlocks.length === 0, compsInBlocks.map(d => d.alias).join(", "));
 
-  const gridBlockAliases = [...new Set(gridTypes.flatMap(g => (g.values.find(v => v.alias === "blocks")?.value || []).map(b => snapshot.docTypes.find(d => d.id === b.contentElementTypeKey)?.alias).filter(Boolean)))];
+  const gridBlockAliases = [...new Set(gridTypes.flatMap(g => [].concat((v => { try { return typeof v === "string" ? JSON.parse(v) : v; } catch { return []; } })(g.values.find(v => v.alias === "blocks")?.value) || []).map(b => snapshot.docTypes.find(d => d.id === b.contentElementTypeKey)?.alias).filter(Boolean)))];
   snapshot.blockGridBlockAliases = gridBlockAliases;
 
   const withDomain = snapshot.documents.filter(d => d.domains.length);
