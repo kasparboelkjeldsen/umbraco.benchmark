@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MCP in Practice: Building This Blog</title>
+    <link rel="stylesheet" href="/dist/site.css?v=eQTA3ohGv4wKVGeUgo1n5rFVev3vqsV-g8vsbxd8Hcs" />
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-900 antialiased">
+    <header class="border-b border-slate-200 bg-white">
+        <div class="mx-auto max-w-3xl px-6 py-14">
+            <a href="/" class="text-sm font-medium text-indigo-600 hover:text-indigo-800">← Back to the blog</a>
+            <h1 class="mt-4 text-4xl font-bold tracking-tight text-slate-900">MCP in Practice: Building This Blog</h1>
+            <time class="mt-3 block text-sm font-medium text-slate-500" datetime="2026-10-05">5 October 2026</time>
+        </div>
+    </header>
+
+    <main class="mx-auto max-w-3xl px-6 py-12">
+        
+<div class="umb-block-grid" data-grid-columns="12" style="--umb-block-grid--grid-columns: 12;">
+    
+<div class="umb-block-grid__layout-container">
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="371f4a13-744a-40ef-8918-8b610ab75129"
+            data-element-key="6f7cdb47-dd68-48fb-b15c-bd4004b32a32"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<div class="space-y-4 text-lg leading-relaxed text-slate-700 [&_p]:m-0">
+    <p>This blog is itself a case study. Every document type on this site — the front page, the posts, the three block types you are reading right now — was created over MCP, with no manual clicking in a backoffice and no hand-written database scripts. The schema was modelled in a handful of calls, the media was uploaded the same way, and the words you are reading were placed into blocks one tool call at a time.</p><p>That is the quiet promise of the protocol: if you can describe a capability, an agent can use it. Not just toy capabilities — real ones, like editing a production CMS.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="imageBlock"
+            data-content-element-type-key="d0de7e94-a06e-4aa9-9a17-8ad89046c4a8"
+            data-element-key="088c851b-06a0-44e4-9848-a4425c02dca2"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<figure class="my-2 overflow-hidden rounded-xl bg-slate-100 shadow-sm">
+    <img src="/media/3wmerfu4/puzzle-piece-slot.jpg?rxy=0,0.5&amp;width=1200&amp;v=1dd587356a4c130&amp;hmac=b80c2ebaed8f90f7e533c43edb7711d136c538640d99bd66fa399f6906f94d24" alt="Every piece had to find its slot &#x2014; over MCP. Photo: Edge2Edge Media / Unsplash." class="aspect-[3/2] w-full object-cover" />
+        <figcaption class="px-4 py-3 text-sm text-slate-500">Every piece had to find its slot &#x2014; over MCP. Photo: Edge2Edge Media / Unsplash.</figcaption>
+</figure>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="371f4a13-744a-40ef-8918-8b610ab75129"
+            data-element-key="c5187d31-f375-4064-b6e2-d1fd8f30d727"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<div class="space-y-4 text-lg leading-relaxed text-slate-700 [&_p]:m-0">
+    <p>The block you are reading is a rich text block inside a block grid property. The grid itself was configured over MCP with a single data type call listing three element types; the paragraphs above were inserted with one call per block. When a call failed, its error message said exactly what to fix — the protocol turns an API surface into a conversation.</p><p>That feedback loop is what separates a demo from a workflow. Schema, content and media were built by the same loop, end to end, on this very project.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="quoteBlock"
+            data-content-element-type-key="1ba5a9d9-1658-4f06-bc8c-1f2fd9b40dc9"
+            data-element-key="4b9cd708-1401-4680-bc3d-7cf6ce1f18d3"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<blockquote class="my-2 border-l-4 border-indigo-500 bg-indigo-50 px-6 py-5">
+    <p class="text-xl font-medium leading-relaxed text-indigo-950">“No clicks, no scripts, no migrations &#x2014; just protocol calls, and a site that builds itself.”</p>
+        <footer class="mt-3 text-sm font-medium text-indigo-700">— This blog&#x27;s entire build log</footer>
+</blockquote>
+
+        </div>
+</div>
+
+</div>
+
+    </main>
+
+    <footer class="border-t border-slate-200 bg-white py-8 text-center text-sm text-slate-500">
+        Built with Umbraco and MCP.
+    </footer>
+</body>
+</html>

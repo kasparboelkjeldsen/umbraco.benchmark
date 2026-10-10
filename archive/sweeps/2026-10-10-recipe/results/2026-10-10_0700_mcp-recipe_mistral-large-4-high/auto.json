@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/mistral-large-4-0",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-10T05:00:05.645Z",
+  "sessionId": "dcf9a2e8-d451-4eff-b1d4-50a4edeb3045",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/mistral-large-4-0",
+    "identifier": "mistralai/mistral-large-4-0",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-10T05-00-22-mistralai-mistral-large-4-0.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/mistral-large-4-0; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 18972,
+    "costUsd": 0.219898,
+    "isError": false,
+    "toolCalls": 2,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 1597952,
+    "costUsd": 7.184169999999996,
+    "isError": false,
+    "toolCalls": 122,
+    "failedToolCalls": 2,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 63,
+    "tokens": {
+      "input": 642426,
+      "output": 58962,
+      "cacheRead": 4995980,
+      "cacheWrite": 0
+    },
+    "usd": 0.9098,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\dcf9a2e8-d451-4eff-b1d4-50a4edeb3045.jsonl",
+  "runId": "2026-10-10_0700_mcp-recipe_mistral-large-4-high",
+  "log": "bench\\logs\\auto-2026-10-10T05-00-05-mcp-recipe-mistralai-mistral-large-4-0.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 166190,
+    "costUsd": 1.0721076,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-10T05-27-50-grader.jsonl",
+    "finalMessage": "Run `2026-10-10_0700_mcp-recipe_mistral-large-4-high` scored **98.5 / 100**.\n\n| Category | Score |\n|---|---:|\n| It works | 35 / 35 |\n| Content modeling | 25 / 25 |\n| Code architecture & conventions | 24.5 / 25 |\n| Content & presentation | 9 / 10 |\n| Process & honesty | 5 / 5 |\n\n**Summary:** The model built a blog through MCP that works fully. It has three blocks (rich text, image and quote) in one custom block grid. The front page and post types are filed in the right folders and allowed under the right parents. Both posts render all four of their blocks through the adapter → ViewComponent pipeline the project requires, and the Tailwind design is tidy. All 43 automated checks passed. The build has 0 errors, and its 10 warnings come from the scaffold's ImageSharp package, not the model. The model used only the MCP servers, did the steps in the required order, and its final report was accurate. It lost a few minutes at the start by booting the site on the wrong port, then restarted it correctly.\n\n**Top issues (all minor):**\n- Both page views (`Views/blogFrontPage.cshtml`, `Views/blogPost.cshtml`) set `Layout = null` and repeat the whole HTML page structure instead of sharing a layout. Post pages also lack the front page's header and footer.\n- The posts are short, about 400 words each. They mostly describe this site being built over MCP rather than making a broader case for MCP.\n- On post pages the excerpt has no bottom margin, so it runs straight into the first paragraph.\n\n`grade.json` and `grade.md` are in the run folder, with both screenshots embedded in `grade.md`. `npm run report` shows the grade in the Grade table. `npm run reset` archived the solution as `refs/runs/2026-10-10_0700_mcp-recipe_mistral-large-4-high`, and `npm run status` now reports the project as **pristine**, set up for the plain MCP test."
+  }
+}

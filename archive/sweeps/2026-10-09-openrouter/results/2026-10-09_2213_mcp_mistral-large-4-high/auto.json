@@ -1,0 +1,65 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/mistral-large-4-0",
+  "effort": null,
+  "variant": "mcp",
+  "startedAt": "2026-10-09T20:13:32.565Z",
+  "sessionId": "6ca1d433-7084-426c-af56-39d320b3044e",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/mistral-large-4-0",
+    "identifier": "mistralai/mistral-large-4-0",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-09T20-13-49-mistralai-mistral-large-4-0.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/mistral-large-4-0; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 20531,
+    "costUsd": 0.378919,
+    "isError": false,
+    "toolCalls": 2,
+    "mcpServers": "umbraco=connected",
+    "successfulToolCalls": 2
+  },
+  "prompt2": {
+    "timedOut": true,
+    "error": "model: turn timed out after 1:00:00"
+  },
+  "endpointStats": {
+    "requests": 123,
+    "tokens": {
+      "input": 1577297,
+      "output": 260878,
+      "cacheRead": 12852684,
+      "cacheWrite": 0
+    },
+    "usd": 2.5175,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\6ca1d433-7084-426c-af56-39d320b3044e.jsonl",
+  "runId": "2026-10-09_2213_mcp_mistral-large-4-high",
+  "log": "bench\\logs\\auto-2026-10-09T20-13-32-mcp-mistralai-mistral-large-4-0.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 179847,
+    "costUsd": 1.2180676000000001,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-09T21-14-11-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-09_2213_mcp_mistral-large-4-high` at **30 / 100**. The grade is in the run folder (`grade.json` and `grade.md`) and shows in `npm run report`. The solution is archived as `refs/runs/2026-10-09_2213_mcp_mistral-large-4-high`, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 6 / 35 |\n| Content modeling | 22 / 25 |\n| Code architecture & conventions | 0 / 25 |\n| Content & presentation | 1 / 10 |\n| Process & honesty | 1 / 5 |\n\n**Summary:** Mistral Large 4 built a clean schema over MCP:\n- four block types (hero, rich text, image, quote) and two page types, all filed in the right folders;\n- a custom block grid data type;\n- the domain `/` on the site page;\n- two short posts about MCP, using the provided Unsplash photos imported into the media library.\n\nIt then spent its last ~30 minutes working out why the front page's blocks weren't being saved. It ran out its one-hour time limit without writing any Razor, so every page returns 200 with an empty body. Both screenshots are blank white pages.\n\n**Top issues:**\n1. **No views:** `BlogFrontPage.cshtml` and `BlogPost.cshtml` are the one-line placeholders that Umbraco's MCP server creates with each template, so `/` and both post URLs render nothing.\n2. **No rendering code at all:** there are no block adapters, ViewComponents or view models, and nothing calls `GetBlockGridHtmlAsync`.\n3. **Timed out with no final report**, after spending its last half hour reading Umbraco's source code and the MCP package's internals.\n4. **Small detours outside the MCP channel while debugging:** two direct Management API reads with curl, and a read-only database query script it wrote but never ran. It also downloaded files to the temp folder and parsed its own session transcript. It never looked at earlier runs' solutions.\n5. **Unfinished content:**\n   - The front page's block grid is empty because those saves were silently dropped.\n   - A duplicate draft \"Blog (1)\" is left under WWW.\n   - One post has unpublished changes.\n\nThe build has 10 warnings, but they are package security advisories that come with the scaffold, not anything the model added. Its build score is 2 / 5 anyway: the only views it produced are those placeholders, which is how earlier placeholder-only runs were scored."
+  }
+}

@@ -2,18 +2,19 @@
 
 You are grading one benchmark run. A model was given a scaffolded Umbraco site (`Umbraco.Bench` in this folder, rules in its `AGENTS.md` and `UMBRACO-RULES.md`) and asked to build a small blog: a front page listing blog posts and 2 posts about why MCP is awesome. Everything had to be built with the block grid, and the Razor views written as code.
 
-The run belongs to one of six **tests**, which differ only in how schema and content had to be built, and in how much the prompt spelled out. `metrics.json` names it in `variant`, and the prompt the model got is in `prompts.prompt2`:
+The run belongs to one of seven **tests**, which differ only in how schema and content had to be built, and in how much the prompt spelled out. `metrics.json` names it in `variant`, and the prompt the model got is in `prompts.prompt2`:
 
 | `variant` | Schema and content had to be built via | Must not use |
 |---|---|---|
 | `mcp` | the Umbraco MCP server, with Razor written after a restart | migration plans |
 | `mcp-guided` | the same as `mcp`, with a shorter prompt that lists the order of operations as numbered steps, and a slim tool kit: the dev MCP server (`umbraco`) for schema, media and the domain, Umbraco's editor MCP server (`umbraco-editor`) for pages, blocks and publishing | migration plans |
 | `mcp-guided-plus` | the same as `mcp-guided`, plus a cheat sheet of the project's fixed ids and the fields of the schema calls (for local models) | migration plans |
+| `mcp-recipe` | the same as `mcp-guided`, with a verified recipe: fixed ids, every call's fields, the Razor details, and a ban on decompiling, database, web and Management API use | migration plans |
 | `guided` | the same as `mcp`, through two trimmed Umbraco MCP servers (`umbraco` for schema, media and domains; `umbraco-editor` for pages, blocks and publishing), with a step-by-step prompt that also warns about earlier runs' traps | migration plans |
 | `migrations` | C# migration plans appended to `ProjectMigrationPlan`, which recreate the site on a fresh database | MCP, backoffice, Management API, uSync, direct DB |
 | `playwright` | the backoffice UI, driven with the Playwright browser tools, with Razor written after a restart | Management API, migration plans, uSync, direct DB |
 
-Grade `mcp-guided`, `mcp-guided-plus` and `guided` exactly like `mcp`: the rubric is the same, so the scores compare. Calls to either Umbraco MCP server count as the MCP channel. Their prompts also list the steps they expected, so skipping a step or doing them out of order counts as not following the order of operations.
+Grade `mcp-guided`, `mcp-guided-plus`, `mcp-recipe` and `guided` exactly like `mcp`: the rubric is the same, so the scores compare. Calls to either Umbraco MCP server count as the MCP channel. Their prompts also list the steps they expected, so skipping a step or doing them out of order counts as not following the order of operations.
 
 Your job:
 
@@ -100,7 +101,7 @@ Score each category from 0 to its maximum. Partial credit is expected; the guida
 | 7 | Pages render blocks with `Html.GetBlockGridHtmlAsync` (or the list variant). There are no custom block loops, renderers, wrapper models or parallel partial folders, and the scaffold's `Views/Partials/blockgrid/*.cshtml` are unchanged or only their markup changed. |
 | 6 | One adapter per block at `Views/Partials/blockgrid/Components/<exactAlias>.cshtml`. Each receives `BlockGridItem<T>`, maps to a plain model and calls `Component.InvokeAsync`, with no markup. |
 | 7 | One ViewComponent per block, rendering `Views/Shared/Components/<Name>/Default.cshtml`. Plain view models live in `Models/<Folder>/`, and component views have no Umbraco dependencies. |
-| 5 | Conventions: `Program.cs` and `appsettings.json` untouched. Migrations are right for the test: none in `mcp`/`mcp-guided`/`mcp-guided-plus`/`guided`/`playwright`; in `migrations`, appended steps only, shipped steps untouched, and steps that are safe to re-run and create schema before content. `Services/` classes are named `*Service`. No `.cs` directly in `Models/`. Friendly extensions and `GetCropUrl` are used, with no injected URL/image services. Styling goes through the Tailwind pipeline (`wwwroot/dist/site.css`), or the site is at least styled. |
+| 5 | Conventions: `Program.cs` and `appsettings.json` untouched. Migrations are right for the test: none in `mcp`/`mcp-guided`/`mcp-guided-plus`/`mcp-recipe`/`guided`/`playwright`; in `migrations`, appended steps only, shipped steps untouched, and steps that are safe to re-run and create schema before content. `Services/` classes are named `*Service`. No `.cs` directly in `Models/`. Friendly extensions and `GetCropUrl` are used, with no injected URL/image services. Styling goes through the Tailwind pipeline (`wwwroot/dist/site.css`), or the site is at least styled. |
 
 ### Content and presentation (10)
 

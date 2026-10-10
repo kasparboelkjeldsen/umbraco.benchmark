@@ -1,0 +1,77 @@
+{
+  "runId": "2026-10-10_0952_mcp-recipe_gemma-4-26b-a4b-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T08:19:44Z",
+  "total": 22,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 5,
+      "max": 35,
+      "notes": "dotnet build succeeds. Its 10 warnings are the scaffold's ImageSharp NU190x advisories, so none were introduced by the model (5/5). / returns 404 'No template exists to render the document at URL /', and there are no blog pages or posts (0/10, 0/10). No media was imported and no <img> appears anywhere (0/5). There is no domain on any document, and only the scaffold's WWW node exists (0/5)."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 14,
+      "max": 25,
+      "notes": "Folders: richTextBlock, imageBlock and quoteBlock are elements and blogFrontPage and blogPost are documents, all the right kind. quoteBlock sits at the document-type root instead of Blocks (6/8). Block set: 'Blog Block Grid' (Custom/) offers rich text, image (MediaPicker3 + caption) and quote (text + attribution), and both page types have a body block grid. That is a sensible set, but no content ever exercised it (4/7). Structure: no allowed children anywhere, so siteRoot -> front page -> posts is impossible (the model was looping on this update when it was stopped). Templates were created but not assigned. Aliases are camelCase and the data type is in /Custom (1/5). Hygiene: publishDate, excerpt and listingImage are real properties, there are no compositions and no duplicate data types. But nothing is wired up (3/5)."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 1,
+      "max": 25,
+      "notes": "No Razor was written. Views/blogFrontPage.cshtml and blogPost.cshtml are empty create-template stubs with Layout = null. There are no GetBlockGridHtmlAsync calls, adapters, ViewComponents or view models (0/7, 0/6, 0/7). Program.cs and appsettings.json are untouched and there are no migrations, but only because no code was written. The site is not styled (1/5)."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 0,
+      "max": 10,
+      "notes": "There are no posts and no content. The front-page screenshot is Umbraco's 'Page Not Found' screen, and there is no blog post to screenshot."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 2,
+      "max": 5,
+      "notes": "Schema was built only through the umbraco MCP server (45 MCP calls; the only shell commands were dotnet run and curl /health). The model stayed in the project folder and never touched memory. It followed the recipe's order as far as it got, but stopped at the schema step: media, pages, publishing, domain and Razor were never done (2/3). The benchmark guard stopped the run after the model sent the same malformed update-document-type call 4 times (an invalid GUID with an escaped quote, a missing id). There is no final report, only the guard's error message (0/2)."
+    }
+  ],
+  "summary": "The run was stopped by the benchmark guard after 24 minutes, while looping on malformed update-document-type calls (13 failed calls). It left a partial schema: three block element types with sensible properties, a block grid data type, and two page types with metadata and body properties, but no allowed children and no assigned templates. There is no content, media, domain or Razor, and / returns 404.",
+  "strengths": [
+    "Block element types have sensible properties (rich text, image + caption, quote + attribution) in a /Custom 'Blog Block Grid' data type",
+    "blogPost has real metadata properties (publishDate, excerpt, listingImage) and both page types use the block grid",
+    "Worked only through the MCP channel and stayed in the project folder"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "/ returns 404 'No template exists to render the document at URL /'. There is no blog front page and there are no posts. snapshot.json holds only the scaffold's WWW node."
+    },
+    {
+      "severity": "major",
+      "text": "No Razor was written. Views/blogFrontPage.cshtml and Views/blogPost.cshtml are empty create-template stubs, and there are no adapters, ViewComponents or view models."
+    },
+    {
+      "severity": "major",
+      "text": "Schema left unwired: no allowed children on siteRoot, blogFrontPage or blogPost, and templates not assigned to the page types."
+    },
+    {
+      "severity": "major",
+      "text": "The benchmark guard stopped the run after 4 identical malformed update-document-type calls. There is no final report."
+    },
+    {
+      "severity": "major",
+      "text": "No media imported and no domain on any document."
+    },
+    {
+      "severity": "minor",
+      "text": "quoteBlock is filed at the document-type root instead of the Blocks folder."
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

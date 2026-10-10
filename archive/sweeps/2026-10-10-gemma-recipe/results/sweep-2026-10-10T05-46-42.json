@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-10T05:46:42.569Z",
+  "updatedAt": "2026-10-10T07:51:33.801Z",
+  "done": [
+    {
+      "label": "gemma-4-26b-a4b · MCP Recipe",
+      "status": "graded",
+      "runId": "2026-10-10_0747_mcp-recipe_gemma-4-26b-a4b-high",
+      "grade": "12/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

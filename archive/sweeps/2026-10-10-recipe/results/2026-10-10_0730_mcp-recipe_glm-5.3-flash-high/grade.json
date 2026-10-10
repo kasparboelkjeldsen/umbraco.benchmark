@@ -1,0 +1,27 @@
+{
+  "runId": "2026-10-10_0730_mcp-recipe_glm-5.3-flash-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T08:00:00Z",
+  "total": 98.5,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "Build OK (0 errors; the 10 warnings are the scaffold's ImageSharp NU190x advisories, not model-introduced). / returns 200 as the blog front page and lists both posts as cards with a cropped listing image, title, date and excerpt; links work. Both posts render all 4 blocks (rich text, image with credit caption, rich text, quote) with no 'Could not render component'. Images are the provided Unsplash photos imported into a Blog media folder and served via signed GetCropUrl URLs (4/4 load). Domain '/' sits on the front page (not WWW); all pages published." },
+    { "id": "modeling", "name": "Content modeling", "score": 25, "max": 25, "notes": "richTextBlock, imageBlock, quoteBlock are elements in Blocks; blogFrontPage and blogPost are documents in Pages. One custom 'Blog Block Grid' (12 columns, all three blocks) used as body on both page types. siteRoot -> blogFrontPage -> blogPost allowed children are tight, templates assigned as default, camelCase aliases. Post metadata (publishDate, excerpt, listingImage) are real properties. No compositions, no duplicate or orphaned types/data types (one imported photo, circuit-board, is unused, which is harmless)." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 25, "max": 25, "notes": "Both page views render with Html.GetBlockGridHtmlAsync(Model, \"body\"); scaffold blockgrid partials untouched. Three alias-named adapters in Views/Partials/blockgrid/Components/ take BlockGridItem<T>, map to records in Models/Blocks/ and call Component.InvokeAsync with no markup. Three *ViewComponent classes with plain Views/Shared/Components/{RichText,Image,Quote}/Default.cshtml. Program.cs/appsettings.json untouched, no migrations, GetCropUrl and Url() used, Tailwind built to wwwroot/dist/site.css. Full HTML shell in each view with Layout = null is what the prompt prescribed (no shared layout in scaffold). Trivial: the post's back link is hard-coded to '/'." },
+    { "id": "content", "name": "Content & presentation", "score": 9, "max": 10, "notes": "Two on-topic, accurate posts ('MCP Turns Tools Into Teammates', 'One Protocol, Every Assistant') covering the integration tax, the tools/resources/prompts contract, JSON-RPC over stdio/HTTP, capability negotiation and the N×M problem, each spread over 4 blocks with relevant abstract network photos and pull quotes. They are on the short side (about 4 paragraphs, ~220 words each), and part of post 1 is about building this site. Presentation is clean: dark header, two-column card grid with images, readable max-w-3xl post column with spaced paragraphs, rounded image with caption and an indigo pull quote." },
+    { "id": "process", "name": "Process & honesty", "score": 4.5, "max": 5, "notes": "All schema/content via the two Umbraco MCP servers (48 MCP calls, no Management API/DB/browser/migration/uSync use, no memory or out-of-folder access). Followed the step order, except it skipped the recipe's 'siteRoot allows blogFrontPage' update in step 3 and only made it after create-page failed (-0.5). publish-page with includeDescendants was cancelled by the tool, so it published the pages one by one; that was a reasonable workaround and it disclosed it. The final report is accurate and discloses both problems and the ViewComponent naming fix." }
+  ],
+  "summary": "A clean, fully working MCP-built blog: three well-formed blocks on one custom block grid, a front page of image/date/excerpt cards and two published posts, rendered through the prescribed adapter -> plain model -> ViewComponent pipeline with polished Tailwind styling. The only blemishes are fairly short posts and a skipped siteRoot allowed-children step that it fixed reactively.",
+  "strengths": [
+    "All 43 automated checks pass; build clean apart from the scaffold's package advisories.",
+    "Textbook block pipeline: alias-named adapters, records in Models/Blocks, one ViewComponent per block, GetBlockGridHtmlAsync on both pages.",
+    "Correct, tight schema: right folders, allowed children, real post metadata, one custom block grid.",
+    "Provided Unsplash photos imported to a Blog media folder, served via signed GetCropUrl, with photographer credits as captions.",
+    "Polished, readable design; fast (4:12) run with an honest report."
+  ],
+  "issues": [
+    { "severity": "minor", "text": "Posts are short (~4 paragraphs, ~220 words each); part of /mcp-turns-tools-into-teammates/ is about building this site rather than MCP in general." },
+    { "severity": "minor", "text": "Skipped the recipe's siteRoot -> blogFrontPage allowed-children update in step 3; only fixed it after create-page failed with 'Operation not permitted' (disclosed in the report)." },
+    { "severity": "minor", "text": "Views/blogPost.cshtml hard-codes the back link to '/' instead of linking to the parent page's Url()." }
+  ]
+}

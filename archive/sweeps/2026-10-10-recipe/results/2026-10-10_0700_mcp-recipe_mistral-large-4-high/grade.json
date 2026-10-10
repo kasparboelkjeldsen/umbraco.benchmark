@@ -1,0 +1,26 @@
+{
+  "runId": "2026-10-10_0700_mcp-recipe_mistral-large-4-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T08:00:00Z",
+  "total": 98.5,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "dotnet build succeeds with 0 errors; the 10 warnings are the scaffold's NU190x ImageSharp advisories, none introduced by the model. / returns 200 and is the Blog front page through the '/' domain on the Blog page. It lists both posts newest-first, each with a cropped listing image, date, linked title and excerpt; links work. Both posts render all 4 blocks (rich text, image with caption, rich text, quote) with no 'Could not render component' or exception text. All 4 shown images are provided Unsplash photos imported into a 'Blog' media folder and served through signed GetCropUrl URLs that load (5 imported, 1 unused spare). All content published." },
+    { "id": "modeling", "name": "Content modeling", "score": 25, "max": 25, "notes": "richTextBlock, imageBlock and quoteBlock are element types in Blocks; blogFrontPage and blogPost are document types in Pages; siteRoot stays the only root type and allows only blogFrontPage, which allows only blogPost. Templates created and assigned (allowed + default). One custom 'Blog Block Grid' data type (12 columns, three blocks, verified by read-back) sits in Custom/Umbraco.BlockGrid and is the 'body' property on both page types. Post metadata (title, publishDate, excerpt, listingImage) are real properties; no compositions; no duplicated or orphaned types. Aliases are English camelCase." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 24.5, "max": 25, "notes": "Both page views call Html.GetBlockGridHtmlAsync(Model, \"body\"); scaffold blockgrid partials untouched; no custom loops or parallel partials. Three adapters at Views/Partials/blockgrid/Components/<alias>.cshtml take BlockGridItem<T>, map to plain models in Models/Blocks/ (RichTextModel, ImageModel, QuoteModel) and call Component.InvokeAsync with no markup. Three one-line ViewComponents render Views/Shared/Components/<Name>/Default.cshtml, which depend only on the plain models. Program.cs/appsettings.json untouched, no migrations, friendly Children<T>/AncestorOrSelf<T>/Url()/GetCropUrl, Tailwind built into wwwroot/dist/site.css. Small deduction: both page views set Layout = null and duplicate the whole HTML shell instead of sharing a layout (and the post page drops the header/footer the front page has)." },
+    { "id": "content", "name": "Content & presentation", "score": 9, "max": 10, "notes": "Two on-topic posts ('tools that actually fit the job' and 'one protocol, every model'), ~400 words each over 4 blocks (2 rich-text blocks of two paragraphs, a captioned image, a pull quote), with relevant network/circuit/code imagery credited correctly. Accurate, but short and heavily self-referential (mostly 'this site was built over MCP') rather than a broader case for MCP: -0.5. Presentation is clean and coherent: header with intro, a proper listing with thumbnail/date/title/excerpt, a readable narrow post column with styled figure and blockquote. Minor polish issue: on the post page the excerpt sits flush against the first paragraph (no spacing), and posts have no site header/footer: -0.5." },
+    { "id": "process", "name": "Process & honesty", "score": 5, "max": 5, "notes": "Schema, media, content, publishing and the domain all went through the two MCP servers (57 MCP calls, 0 Management API/DB/browser/uSync/migration use); no memory access, no reads outside the project. Order followed: schema -> media -> content -> publish -> domain -> stop, build, restart -> Razor. It lost a few minutes after first booting on port 5000 in Production mode, then restarted correctly. Final report is accurate: it describes what was built, the publish-with-descendants workaround and the unused spare image." }
+  ],
+  "summary": "A clean, fully working MCP-built blog: three well-formed blocks in one custom block grid, front page and post types correctly filed and wired, both posts rendering every block through the textbook adapter -> ViewComponent pipeline, and a tidy Tailwind design. Only nits: duplicated HTML shells per page and short, self-referential posts.",
+  "strengths": [
+    "Textbook block pipeline: GetBlockGridHtmlAsync -> markup-free adapters -> one ViewComponent per block with plain models in Models/Blocks/",
+    "Clean schema: correct folders, siteRoot -> blogFrontPage -> blogPost, templates assigned, single custom block grid in /Custom",
+    "Real post metadata (publishDate, excerpt, listingImage) drives a proper listing with signed crop URLs",
+    "Followed the MCP channel and order of operations exactly; honest, accurate final report"
+  ],
+  "issues": [
+    { "severity": "minor", "text": "Both page views set Layout = null and duplicate the full HTML shell; post pages lack the front page's header/footer (Views/blogFrontPage.cshtml, Views/blogPost.cshtml)" },
+    { "severity": "minor", "text": "Posts are ~400 words each and mostly describe this site being built over MCP rather than making a broader case (/why-mcp-is-awesome-*/)" },
+    { "severity": "minor", "text": "Post excerpt has no bottom margin, so it runs straight into the first body paragraph (Views/blogPost.cshtml)" }
+  ]
+}

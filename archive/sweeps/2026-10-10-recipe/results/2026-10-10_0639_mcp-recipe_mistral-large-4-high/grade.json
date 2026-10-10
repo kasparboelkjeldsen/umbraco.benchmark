@@ -1,0 +1,67 @@
+{
+  "runId": "2026-10-10_0639_mcp-recipe_mistral-large-4-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T05:05:00Z",
+  "total": 99,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "dotnet build succeeds with 0 errors; the 10 warnings are the scaffold's NU190x ImageSharp advisories, none introduced by the model. / returns 200 and is the blog front page via the '/' domain on the Blog page; it lists both posts newest-first as cards with cropped listing image, date, title, excerpt and 'Read post' link. Both posts render all 4 blocks (rich text, image with caption, rich text, quote) with no render errors. All 4 images are provided Unsplash photos imported into a 'Blog Images' media folder and served through signed GetCropUrl URLs that load. All content published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 25,
+      "max": 25,
+      "notes": "richTextBlock, imageBlock, quoteBlock are elements in Blocks; blogFrontPage and blogPost are documents in Pages; siteRoot stays the only root type and allows only blogFrontPage, which allows only blogPost. Templates assigned (default + allowed). One custom 'Blog Block Grid' data type (12 columns, the three blocks) filed under Custom/Umbraco.BlockGrid and used as 'body' on both page types. Post metadata (title, publishDate, excerpt, listingImage) are real properties; no compositions, no duplicate or orphaned types. Aliases camelCase."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 24.5,
+      "max": 25,
+      "notes": "Both page views call Html.GetBlockGridHtmlAsync(Model, \"body\"); scaffold blockgrid partials untouched; no custom loops. Three adapters at Views/Partials/blockgrid/Components/<alias>.cshtml take BlockGridItem<T>, map to plain models in Models/Blocks/ and call Component.InvokeAsync with no markup (a using alias resolves the clash with Umbraco's own RichTextBlockModel). Three one-line ViewComponents render Views/Shared/Components/<Name>/Default.cshtml, which depend only on the plain models. Program.cs/appsettings.json untouched, no migrations, friendly Children<T>/Url()/GetCropUrl, Tailwind built into wwwroot/dist/site.css. Small deduction: both page views carry a full duplicated HTML shell (Layout = null, same head/footer) and the post's 'All posts' link is hard-coded to '/' rather than the parent's Url()."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 9.5,
+      "max": 10,
+      "notes": "Two on-topic posts ('One Protocol, Every Tool' and 'Editors Get Superpowers Too'), ~370-400 words each over 6 paragraphs and 4 blocks, with relevant network/code imagery and credited captions. The writing is accurate in general, but it's on the short side, and post 2 says 'The front page you are reading' and 'not through hand-edited files' (the Razor was hand-written), so −0.5. Presentation is clean and coherent: a header with intro, a two-column card grid, a readable narrow post column with styled figure and blockquote, and a consistent footer."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 5,
+      "max": 5,
+      "notes": "53 MCP calls across umbraco (schema, media, domain) and umbraco-editor (pages, blocks, publish); no Management API, DB, uSync writes, browser or migrations. Followed the order: model → content → stop/build → Razor → restart. Stayed in the project folder, no memory access, and removed its scratch HTML files. The final report is accurate: it describes what was built, the RichTextBlockModel ambiguity fix and the publish-order hiccup, and claims nothing untrue."
+    }
+  ],
+  "summary": "A clean, fully working MCP-built blog: three well-formed blocks (rich text, image, quote) on a shared block grid, front page with image/date/excerpt cards and two published posts, rendered through the exact adapter → ViewComponent pipeline with Tailwind styling. Only nitpicks: duplicated page shells, a hard-coded back link, and slightly short posts with one inaccurate line.",
+  "strengths": [
+    "Every automated check passes (43/43); build clean apart from scaffold package warnings",
+    "Textbook block pipeline: alias-named adapters, plain models in Models/Blocks, one ViewComponent per block, GetBlockGridHtmlAsync on both pages",
+    "Correct schema: types in the right folders, tight allowed children, real post metadata, one custom block grid in /Custom",
+    "Provided Unsplash photos imported into a media folder and served via GetCropUrl, with no repeats",
+    "Accurate, candid final report"
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "text": "Views/blogFrontPage.cshtml and Views/blogPost.cshtml each set Layout = null and duplicate the full HTML head/footer shell"
+    },
+    {
+      "severity": "minor",
+      "text": "Views/blogPost.cshtml hard-codes the 'All posts' link to '/' instead of using the parent page's Url()"
+    },
+    {
+      "severity": "minor",
+      "text": "/why-mcp-is-awesome-editors-get-superpowers-too/ says 'The front page you are reading' and claims nothing was hand-edited; both posts are fairly short (~400 words)"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

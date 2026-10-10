@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/mistral-large-4-0",
+  "effort": null,
+  "variant": "mcp",
+  "startedAt": "2026-10-09T21:17:12.030Z",
+  "sessionId": "512662d8-7f7f-4a8c-aded-b5909d2f6889",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/mistral-large-4-0",
+    "identifier": "mistralai/mistral-large-4-0",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-09T20-13-49-mistralai-mistral-large-4-0.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/mistral-large-4-0; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 36280,
+    "costUsd": 0.442919,
+    "isError": false,
+    "toolCalls": 5,
+    "mcpServers": "umbraco=connected",
+    "successfulToolCalls": 3
+  },
+  "prompt2": {
+    "durationMs": 2768569,
+    "costUsd": 17.591117999999994,
+    "isError": false,
+    "toolCalls": 199,
+    "failedToolCalls": 4,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 106,
+    "tokens": {
+      "input": 1629835,
+      "output": 174505,
+      "cacheRead": 11584108,
+      "cacheWrite": 0
+    },
+    "usd": 2.2839,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\512662d8-7f7f-4a8c-aded-b5909d2f6889.jsonl",
+  "runId": "2026-10-09_2317_mcp_mistral-large-4-high",
+  "log": "bench\\logs\\auto-2026-10-09T21-17-12-mcp-mistralai-mistral-large-4-0.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 170467,
+    "costUsd": 1.1142294,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-09T22-04-45-grader.jsonl",
+    "finalMessage": "Run `2026-10-09_2317_mcp_mistral-large-4-high` (Mistral Large 4, high effort, MCP test) scored **95/100**. The grade is written, it appears in `npm run report`, `Umbraco.Bench` has been reset, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35/35 |\n| Content modeling | 25/25 |\n| Code architecture & conventions | 25/25 |\n| Content & presentation | 7/10 |\n| Process & honesty | 3/5 |\n\n**Summary:** The blog is complete and cleanly built through the MCP server. The block grid has four blocks (hero, text, image, quote) that share one settings type, the rendering code follows the project's conventions exactly, and the provided photos are served through signed crop URLs. All functional checks pass (42 of 43 automated checks). Points were lost for thin posts, a few layout rough edges, and a file written outside the project that the final report explains wrongly.\n\n**Top issues:**\n1. **Stray file:** one write used a garbled path and created `C:\\code\\benchmark\\Umbraco.Bench.Umbraco\\Views\\Shared\\Components\\Quote\\Default.cshtml`, outside the project. The model's final report says the Quote view \"went missing from disk\" rather than admitting it wrote to the wrong place. This cost a point for process and one for honesty.\n2. **Thin posts:** the second post (`/why-mcp-is-awesome-for-editors/`) is about four short paragraphs, half of them about how this site was built. The first post is accurate but short.\n3. **Layout:** the front page has no header or navigation, and its intro text doesn't line up with the hero. On posts, images are wider than the text column and the blocks sit close together.\n4. **Stray reads:** the model read the NuGet package cache and used web search and fetch to work out the block grid configuration. It never touched `results/`, `tests/` or memory.\n\n**Action for you:** the stray folder `C:\\code\\benchmark\\Umbraco.Bench.Umbraco\\` is still there, because the reset only restores `Umbraco.Bench`. I didn't delete it since grading is read-only. You may want to remove it so a later model can't find it.\n\nFiles are in `results/2026-10-09_2317_mcp_mistral-large-4-high/`:\n- `grade.json`\n- `grade.md`"
+  }
+}

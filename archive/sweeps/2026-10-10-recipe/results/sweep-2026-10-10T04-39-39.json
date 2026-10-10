@@ -1,0 +1,36 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-10T04:39:39.338Z",
+  "updatedAt": "2026-10-10T05:38:51.448Z",
+  "done": [
+    {
+      "label": "mistralai/mistral-large-4-0 · MCP Recipe",
+      "status": "graded",
+      "runId": "2026-10-10_0639_mcp-recipe_mistral-large-4-high",
+      "grade": "99/100",
+      "error": null
+    },
+    {
+      "label": "z-ai/glm-5.3-flash · MCP Recipe",
+      "status": "graded",
+      "runId": "2026-10-10_0652_mcp-recipe_glm-5.3-flash-high",
+      "grade": "97.5/100",
+      "error": null
+    },
+    {
+      "label": "mistralai/mistral-large-4-0 · MCP Recipe",
+      "status": "graded",
+      "runId": "2026-10-10_0700_mcp-recipe_mistral-large-4-high",
+      "grade": "98.5/100",
+      "error": null
+    },
+    {
+      "label": "z-ai/glm-5.3-flash · MCP Recipe",
+      "status": "graded",
+      "runId": "2026-10-10_0730_mcp-recipe_glm-5.3-flash-high",
+      "grade": "98.5/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

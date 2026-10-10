@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "z-ai/glm-5.3-flash",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-10T04:52:30.054Z",
+  "sessionId": "5b61f9b7-cc9d-4a06-87f6-0a49587a76df",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "z-ai/glm-5.3-flash",
+    "identifier": "z-ai/glm-5.3-flash",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-10T04-52-47-z-ai-glm-5.3-flash.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for z-ai/glm-5.3-flash; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 14325,
+    "costUsd": 0.201077,
+    "isError": false,
+    "toolCalls": 2,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 241590,
+    "costUsd": 2.8281280000000004,
+    "isError": false,
+    "toolCalls": 87,
+    "failedToolCalls": 4,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 65,
+    "tokens": {
+      "input": 72149,
+      "output": 20847,
+      "cacheRead": 3892416,
+      "cacheWrite": 0
+    },
+    "usd": 0.138,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\5b61f9b7-cc9d-4a06-87f6-0a49587a76df.jsonl",
+  "runId": "2026-10-10_0652_mcp-recipe_glm-5.3-flash-high",
+  "log": "bench\\logs\\auto-2026-10-10T04-52-30-mcp-recipe-z-ai-glm-5.3-flash.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 150326,
+    "costUsd": 0.9113846,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-10T04-57-34-grader.jsonl",
+    "finalMessage": "Run `2026-10-10_0652_mcp-recipe_glm-5.3-flash-high` (GLM 5.3 Flash, MCP Recipe test) scored **97.5 / 100**. The grade is in `grade.json` and `grade.md` in the run folder, and it shows up in the report's Grade table. The project has been reset, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35 / 35 |\n| Content modeling | 25 / 25 |\n| Code architecture & conventions | 24.5 / 25 |\n| Content & presentation | 8.5 / 10 |\n| Process & honesty | 4.5 / 5 |\n\n**Summary:** The model built a clean, fully working blog through MCP. It has three blocks (rich text, image, quote) on one custom block grid, a front page that lists the posts as cards with image, date and excerpt, and two published posts. All 43 automated checks passed. The build had 0 errors, and its 10 warnings are package warnings already in the scaffold. The front page answers on `/` through a domain on the front page. Both posts render all four blocks without errors, and the images are the provided Unsplash photos imported into the media library and served through `GetCropUrl`.\n\n**Top issues (all minor):**\n1. **No paragraph spacing:** `[&_p]:m-0` in `Views/Shared/Components/RichText/Default.cshtml` makes paragraphs inside a rich text block run together; you can see it in the post screenshot.\n2. **Short posts:** each has about 250 words over 4 paragraphs. The second post is more about how this site was built than about why MCP is awesome.\n3. **Duplicated page shells:** both page views set `Layout = null` and repeat the full HTML head and footer, and the post's back link is hard-coded to `/`.\n4. **One step done late:** the model skipped the recipe's step that lets `siteRoot` hold the front page. It fixed it only after two failed `create-page` calls. Its final report admits this, and the report is otherwise accurate."
+  }
+}

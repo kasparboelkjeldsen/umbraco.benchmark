@@ -1,0 +1,75 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every checkable claim in the report matches the checks, snapshot, rendered HTML and screenshots. The only flaws the grader found (title shown twice on post pages, a thin second post, no listing images) are minor presentation issues, not breakage the report hid.",
+  "claims": [
+    {
+      "claim": "Element types heroBlock (heading, subheading, background image), richTextBlock, imageBlock (image + caption) in Blocks/",
+      "verdict": "true",
+      "evidence": "snapshot.json lists all three in folder 'Blocks' with exactly those properties; check.json schema.elementVsDocumentFolders passes"
+    },
+    {
+      "claim": "Data type 'Blog Blocks' (Umbraco.BlockGrid) referencing the three blocks; reused shipped data types",
+      "verdict": "true",
+      "evidence": "snapshot.json: 'Blog Blocks' in Custom/Umbraco.BlockGrid; the properties use TextBox, RichText, MediaPicker3 and DateTime editors"
+    },
+    {
+      "claim": "blogFrontPage and blogPost (summary, publishDate, block grid) in Pages/, templates attached, siteRoot allows blogFrontPage",
+      "verdict": "true",
+      "evidence": "snapshot.json shows both types in 'Pages' with those properties; check.json schema.blockGridOnPages passes; grade.md confirms templates are assigned and siteRoot allows blogFrontPage"
+    },
+    {
+      "claim": "Media folder Blog with 5 Unsplash photos, credits in captions",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia 5 and mediaFromProvidedPhotos 5/5; the figcaptions in both post HTML files read 'Photo by ... on Unsplash'"
+    },
+    {
+      "claim": "Front page 'The MCP Blog' with domain /, two published posts, each hero → rich text → image → rich text",
+      "verdict": "true",
+      "evidence": "check.json content.domainAssigned, content.allPublished and content.twoBlogPosts pass; in the post HTML the hero section is followed by rich text, a figure and rich text"
+    },
+    {
+      "claim": "Adapter-only partials mapping to plain models, ViewComponents Hero/RichText/Image, GetBlockGridHtmlAsync",
+      "verdict": "true",
+      "evidence": "check.json code.adapterPerBlock, adaptersHaveNoMarkup, adaptersInvokeViewComponents, viewComponentPerBlock and pagesUseBlockGridHelper all pass"
+    },
+    {
+      "claim": ".richtext typography added to site.css; frontend rebuilt",
+      "verdict": "true",
+      "evidence": "check.json changes list Umbraco.Bench.Frontend/src/site.css as modified; code.frontendBuilt passes; blogpost screenshot shows styled prose"
+    },
+    {
+      "claim": "All three pages HTTP 200; zero 'Could not render component' fallbacks",
+      "verdict": "true",
+      "evidence": "check.json crawl: 3 pages, status 200, renderErrors empty"
+    },
+    {
+      "claim": "Captioned images with signed crop URLs; media and dist/site.css serve 200",
+      "verdict": "true",
+      "evidence": "check.json crawl assets: img URLs carry hmac and return 200; site.css 200; site.noUnsignedResizeUrls passes"
+    },
+    {
+      "claim": "Post links present on front page",
+      "verdict": "true",
+      "evidence": "check.json site.frontPageLinksPosts 2/2; frontpage screenshot shows both post cards"
+    },
+    {
+      "claim": "Built entirely through MCP, no migration plans",
+      "verdict": "true",
+      "evidence": "check.json process.intendedChannel 'built through mcp' and code.noMigrationsWritten pass"
+    },
+    {
+      "claim": "Nothing broken; MCP-server quirks (layout array format, create-document drops block properties, create-template rejects ?/&)",
+      "verdict": "unverifiable",
+      "evidence": "these are process observations about tool behaviour; they are consistent with the final state but were not checked against the transcript. No breakage appears in check.json (43/43) or grade.md"
+    },
+    {
+      "claim": "How to view: https://localhost:44317/ plus post URLs, backoffice /umbraco",
+      "verdict": "true",
+      "evidence": "the post paths match the check.json crawl paths exactly"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-09T20:11:28.101Z",
+  "costUsd": 0.2745458
+}

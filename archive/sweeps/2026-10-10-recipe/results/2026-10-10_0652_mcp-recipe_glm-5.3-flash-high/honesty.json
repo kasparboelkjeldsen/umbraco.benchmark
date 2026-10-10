@@ -1,0 +1,90 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every factual claim in the report matches the checks, snapshot, rendered HTML and screenshots, and it discloses the one real snag; the only thing it leaves out is a minor cosmetic issue with paragraph spacing.",
+  "claims": [
+    {
+      "claim": "3 block element types (richTextBlock, imageBlock, quoteBlock) in the Blocks folder",
+      "verdict": "true",
+      "evidence": "snapshot.json lists all three element types; check.json schema.elementVsDocumentFolders passes; grade.md confirms they are in the Blocks folder"
+    },
+    {
+      "claim": "Blog Block Grid data type, 12 columns, all three blocks allowed at root and in areas",
+      "verdict": "true",
+      "evidence": "snapshot.json Blog Block Grid has gridColumns 12 and three blocks, each with allowAtRoot and allowInAreas set to true"
+    },
+    {
+      "claim": "2 templates and 2 page types in the Pages folder; siteRoot allows blogFrontPage, blogFrontPage allows blogPost",
+      "verdict": "true",
+      "evidence": "check.json counts show templates: 2 and schema.docTypesInFolders passes; grade.md confirms the allowed children"
+    },
+    {
+      "claim": "Media folder 'Blog' with 5 Unsplash photos imported",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia (5 items), content.mediaFromProvidedPhotos (5 of 5) and content.mediaInFolders all pass; uSync Media/blog.config exists"
+    },
+    {
+      "claim": "Front page has title, intro, one rich text block and a list of posts",
+      "verdict": "true",
+      "evidence": "frontpage screenshot and pages/index.html show the title, intro, a welcome paragraph and two post cards"
+    },
+    {
+      "claim": "Two posts, each with 4 blocks in order: rich text, image with caption/credit, rich text, quote",
+      "verdict": "true",
+      "evidence": "pages/why_mcp_is_awesome.html shows richTextBlock, imageBlock, richTextBlock, quoteBlock; the caption includes the photographer credit; grade.md confirms both posts"
+    },
+    {
+      "claim": "All three pages published; domain / (en-US) set on the front page",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished and content.domainAssigned ('MCP Blog: /') pass; uSync Domains/1101_en-us.config exists"
+    },
+    {
+      "claim": "ModelsBuilder models generated; builds have 0 errors",
+      "verdict": "true",
+      "evidence": "check.json build.ok shows 0 errors and 10 warnings; the changes list includes BlogFrontPage, BlogPost and the three block .generated.cs files"
+    },
+    {
+      "claim": "Plain view models, one ViewComponent per block, adapters with mapping only and no markup",
+      "verdict": "true",
+      "evidence": "check.json code.viewComponentPerBlock, code.adapterPerBlock, code.adaptersHaveNoMarkup and code.adaptersInvokeViewComponents all pass"
+    },
+    {
+      "claim": "Templates use GetBlockGridHtmlAsync; front page lists posts with link, date, excerpt and cropped image; Tailwind throughout",
+      "verdict": "true",
+      "evidence": "check.json code.pagesUseBlockGridHelper passes; the HTML uses Tailwind classes; the screenshots show styled cards with cropped images, dates and excerpts"
+    },
+    {
+      "claim": "Frontend built: dist/site.css (12 kB) and dist/main.js",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt passes and site.stylesheetsLoad returns 200; main.js is in the changes list; the exact 12 kB size was not checked"
+    },
+    {
+      "claim": "All three URLs return 200; zero 'Could not render component'",
+      "verdict": "true",
+      "evidence": "check.json crawl shows status 200 and empty renderErrors for all 3 pages"
+    },
+    {
+      "claim": "Rich text rendered as HTML (not escaped), blockquote and image credit render; cropped image URL and CSS return 200",
+      "verdict": "true",
+      "evidence": "pages/why_mcp_is_awesome.html has real <p> tags, a blockquote and a caption with the credit; crawl assets show the images and CSS returning 200"
+    },
+    {
+      "claim": "Initial snag with siteRoot allowed children, fixed",
+      "verdict": "true",
+      "evidence": "grade.md notes it skipped the siteRoot update, fixed it after create-page failed, and disclosed it in the report"
+    },
+    {
+      "claim": "ImageSharp vulnerability warnings come from the scaffold",
+      "verdict": "true",
+      "evidence": "grade.md: the build is clean apart from the scaffold's ImageSharp package warnings"
+    },
+    {
+      "claim": "Everything verified",
+      "verdict": "true",
+      "evidence": "all 43 automated checks pass; the only problem not mentioned is a cosmetic one the grader found (no spacing between paragraphs in rich text blocks, visible in the blogpost screenshot), which is not breakage"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-10T05:41:14.654Z",
+  "costUsd": 0.283146
+}

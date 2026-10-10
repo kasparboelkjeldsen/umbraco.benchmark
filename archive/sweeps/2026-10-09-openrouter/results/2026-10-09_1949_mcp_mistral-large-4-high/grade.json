@@ -1,0 +1,82 @@
+{
+  "runId": "2026-10-09_1949_mcp_mistral-large-4-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-09T21:30:00Z",
+  "total": 71,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 21,
+      "max": 35,
+      "notes": "dotnet build: 0 errors, 10 warnings, all NU1902/NU1903 ImageSharp advisories from package restore; the model changed no packages, so none are its own (5/5). / returns 200 and is the Blog Front Page. 'Latest posts' lists both posts as cards with a GetCropUrl image, date, title and summary, and both links return 200. The front page's own block grid (hero and intro rich text) renders nothing (8/10). Posts: GetBlockGridHtmlAsync outputs nothing on either post, so each page shows only 'Published October 9, 2026' and a back link, with no title, no body, no image and no quote. All four block types are effectively missing (0/10). Root cause: the 'Block Grid' data type was created with values [] (no allowed blocks), so the stored block content never converts. Five provided Unsplash photos are imported into a 'Blog' media folder, and the two card images load through GetCropUrl. The hero and image-block photos are never served (3/5). Domain '/' is on Home (blogFrontPage), not on the WWW root, and all content is published (5/5)."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 20,
+      "max": 25,
+      "notes": "Four element types (heroBlock, imageBlock, quoteBlock, richTextBlock) are in Blocks, blogFrontPage and blogPost in Pages, and siteRoot in Repositories, all the right kind (8/8). Both pages use a 'blocks' block grid property, and the block set (hero, rich text, image with caption, quote) is sensible. But the Block Grid data type has no blocks configured, which is a broken data type and the reason nothing renders (3/7). Only siteRoot is allowed at root, the children are siteRoot→blogFrontPage→blogPost, templates are assigned, aliases are camelCase, and the data type is in Custom/ (5/5). Summary, featured image and publish date are real properties, with no compositions and no duplicates. Each post's hero block repeats the post name and summary as heading and lede (4/5)."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 23,
+      "max": 25,
+      "notes": "Both page views use Html.GetBlockGridHtmlAsync(Model, \"blocks\"), and there are no custom loops or renderers. The blockgrid partials are untouched (7/7). There are four camelCase adapters in blockgrid/Components that map BlockGridItem<T> to a plain model and call Component.InvokeAsync, with no markup (6/6). There are four ViewComponents (Hero, ImageBlock, Quote, RichText) with Default.cshtml views, and the models are in Models/Blocks. RichTextModel.Body is Umbraco's IHtmlEncodedString, so the RichText model and view depend on Umbraco (6/7). Program.cs and appsettings.json are unchanged, there are no migrations, friendly GetCropUrl and Ancestor<T>() are used, and styling goes through Tailwind into dist/site.css. Five reflection scratch scripts were left in Umbraco.Bench/.scratch/*.fsx (4/5)."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 4,
+      "max": 10,
+      "notes": "The stored posts are on topic: one on MCP as the fix for the N×M integration problem, one on an agent building this blog over MCP. Each has five blocks (hero, 2 rich text, image with Unsplash credit, quote). But they are short, about 170 words of body each, and none of it reaches a reader: the post pages are blank apart from date and back link (2/6). The front page is a clean Tailwind card listing with images, dates and excerpts. The post pages have no title and no content (2/4)."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 3,
+      "max": 5,
+      "notes": "Schema, media, content, domain and publishing were all done through the Umbraco MCP server (64 calls, 29 writes), and Razor was written after the stop. There was no Management API, uSync, database or browser use, and there are no metrics warnings. Outside reads were limited to ~/.nuget package XML docs, its own background-task output, and WebFetch of Umbraco's GitHub source, all for documentation lookups. Nothing from results/ or tests/ was read (3/3). There is no final report: the session hit the one-hour limit while still debugging the empty block grid with reflection scripts, so it never reported or disclosed that the posts render blank (0/2)."
+    }
+  ],
+  "summary": "Mistral Large 4 built a clean, convention-following Umbraco blog over MCP: four blocks with adapter→ViewComponent rendering, good doc type structure, and a nice Tailwind front page listing with images, dates and excerpts. But the Block Grid data type was created with no allowed blocks, so no block renders anywhere. Both post pages are blank apart from date and back link, and the session timed out debugging this with no final report.",
+  "strengths": [
+    "Textbook rendering architecture: GetBlockGridHtmlAsync, camelCase markup-free adapters, one ViewComponent per block, plain models in Models/Blocks",
+    "Correct doc type folders and kinds, siteRoot→blogFrontPage→blogPost hierarchy, domain on the front page, all published",
+    "Front page listing uses real summary/featuredImage/publishDate properties with GetCropUrl images from the provided Unsplash photos",
+    "Built everything through MCP with Razor after the restart; no forbidden channels"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "The 'Block Grid' data type (Custom/Umbraco.BlockGrid, id 08c232f2…) was created with values [] (no allowed blocks), so GetBlockGridHtmlAsync renders nothing on /, /mcp-is-awesome-one-protocol-every-tool/ or /mcp-is-awesome-content-at-the-speed-of-thought/"
+    },
+    {
+      "severity": "major",
+      "text": "Post pages are blank apart from date and back link: no title, body, image or quote is visible, because the title lives only in the hero block (Views/blogPost.cshtml)"
+    },
+    {
+      "severity": "major",
+      "text": "No final report: the session ended at the one-hour mark while debugging, and the broken posts were never disclosed"
+    },
+    {
+      "severity": "minor",
+      "text": "Posts are short (~170 words of body each) for 'substantive' posts"
+    },
+    {
+      "severity": "minor",
+      "text": "Reflection scratch scripts were left in the solution at Umbraco.Bench/.scratch/reflect*.fsx"
+    },
+    {
+      "severity": "minor",
+      "text": "RichTextModel exposes Umbraco's IHtmlEncodedString, so the RichText component model is not Umbraco-free (Models/Blocks/RichTextModel.cs)"
+    },
+    {
+      "severity": "minor",
+      "text": "The post hero block repeats the post name and summary instead of the template rendering the page's own title"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

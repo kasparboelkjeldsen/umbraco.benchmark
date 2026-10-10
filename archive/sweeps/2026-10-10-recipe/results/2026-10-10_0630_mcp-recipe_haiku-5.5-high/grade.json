@@ -1,0 +1,30 @@
+{
+  "runId": "2026-10-10_0630_mcp-recipe_haiku-5.5-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T12:00:00Z",
+  "total": 94.5,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "Build succeeds with 0 errors; the 10 warnings are all NU1902/NU1903 advisories on the scaffold's SixLabors.ImageSharp package, not introduced by the model. / returns 200 via the '/' domain on the Blog page and lists both posts with listing image, date, title and excerpt; links work. Both posts render all four blocks (richText, image, richText, quote) with no render errors. Images are the provided Unsplash photos, imported into a 'Blog Images' media folder and served through GetCropUrl (4/4 load). All content published." },
+    { "id": "modeling", "name": "Content modeling", "score": 24, "max": 25, "notes": "blogFrontPage and blogPost in Pages; richTextBlock, imageBlock, quoteBlock as elements in Blocks; siteRoot the only root type, siteRoot→blogFrontPage→blogPost. Templates assigned, aliases camelCase, the single custom data type (Blog Block Grid) in Custom/Umbraco.BlockGrid. Post metadata (publishDate, excerpt, listingImage) are real properties; no compositions, no duplicates. Block set is the bare minimum (rich text, image, quote) with no settings; -1 for a thin model. One imported photo goes unused." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 24.5, "max": 25, "notes": "Both page views use Html.GetBlockGridHtmlAsync; scaffold blockgrid partials untouched. Three markup-free adapters at Views/Partials/blockgrid/Components/<alias>.cshtml map BlockGridItem<T> to plain view models in Models/Blocks/ and call Component.InvokeAsync; three ViewComponents with plain Default.cshtml views. Friendly Children<T>/Ancestor<T>/Url()/GetCropUrl used, no injected services. Program.cs/appsettings.json untouched, no migrations, Tailwind pipeline built. -0.5: both templates duplicate the whole HTML shell (head, stylesheet link) with Layout = null instead of sharing a layout." },
+    { "id": "content", "name": "Content & presentation", "score": 6.5, "max": 10, "notes": "Content 3/6: both posts are on topic and spread over four blocks with relevant images, but they are thin (about four short paragraphs each). 'Three reasons MCP is worth the fuss' only gives two ('First… Second…'), and claims MCP tools 'ask for confirmation before anything is published or deleted', which is not a property of the protocol. Presentation 3.5/4: clean, readable Tailwind layout with a proper card listing and good post typography; minimal (no site header/nav or footer on posts, image alt text is the photo credit)." },
+    { "id": "process", "name": "Process & honesty", "score": 4.5, "max": 5, "notes": "Schema and content built only through the two Umbraco MCP servers (59 calls, no Management API/DB/browser/migrations), order of operations followed (no warnings). -0.5: one curl wrote a response body to /tmp/x outside the project; the model noticed, deleted it, and disclosed it. Final report is accurate and discloses the publish-cancelled workaround, build fixes and what it did not verify (2/2)." }
+  ],
+  "summary": "A complete, working MCP-built blog: front page with a styled card listing and two block-grid posts, with schema, block pipeline and conventions done by the book. The main weakness is the content itself, which is short, and the 'three reasons' post only gives two.",
+  "strengths": [
+    "All 43 automated checks pass; build, routing, domain, publishing and images all correct",
+    "Textbook block pipeline: GetBlockGridHtmlAsync, markup-free adapters, ViewComponents with plain models in Models/Blocks/",
+    "Correct schema: right folders and kinds, real post metadata properties, custom data type in /Custom",
+    "Clean Tailwind layout with listing images, dates and excerpts",
+    "Honest final report that discloses its stray /tmp write and what it did not check"
+  ],
+  "issues": [
+    { "severity": "minor", "text": "Post content is thin: about four short paragraphs per post (/why-mcp-makes-working-with-umbraco-a-joy/, /three-reasons-mcp-is-worth-the-fuss/)" },
+    { "severity": "minor", "text": "/three-reasons-mcp-is-worth-the-fuss/ promises three reasons but lists only two, and claims MCP tools always ask for confirmation before publishing or deleting" },
+    { "severity": "minor", "text": "Views/blogFrontPage.cshtml and Views/blogPost.cshtml each duplicate the full HTML shell with Layout = null; no shared layout, and no header/nav on post pages" },
+    { "severity": "minor", "text": "Image block uses the caption (a photo credit) as alt text (Views/Shared/Components/ImageBlock/Default.cshtml)" },
+    { "severity": "minor", "text": "A curl command wrote /tmp/x outside the project folder (deleted and disclosed)" },
+    { "severity": "minor", "text": "Minimal block set (rich text, image, quote) with no block settings; one of five imported photos is unused" }
+  ]
+}

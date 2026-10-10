@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/mistral-large-4-0",
+  "effort": null,
+  "variant": "mcp",
+  "startedAt": "2026-10-09T18:55:23.447Z",
+  "sessionId": "d98d4de8-4ea3-4484-b4fb-48b58e284d42",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/mistral-large-4-0",
+    "identifier": "mistralai/mistral-large-4-0",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-09T18-55-41-mistralai-mistral-large-4-0.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/mistral-large-4-0; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 47515,
+    "costUsd": 0.43465699999999996,
+    "isError": false,
+    "toolCalls": 5,
+    "mcpServers": "umbraco=connected",
+    "successfulToolCalls": 4
+  },
+  "prompt2": {
+    "durationMs": 1499922,
+    "costUsd": 8.290283999999996,
+    "isError": false,
+    "toolCalls": 109,
+    "failedToolCalls": 5,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 55,
+    "tokens": {
+      "input": 568906,
+      "output": 86430,
+      "cacheRead": 6570008,
+      "cacheWrite": 0
+    },
+    "usd": 1.0274,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\d98d4de8-4ea3-4484-b4fb-48b58e284d42.jsonl",
+  "runId": "2026-10-09_2055_mcp_mistral-large-4-high",
+  "log": "bench\\logs\\auto-2026-10-09T18-55-23-mcp-mistralai-mistral-large-4-0.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 127638,
+    "costUsd": 0.7009295999999999,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-09T19-21-59-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-09_2055_mcp_mistral-large-4-high` (Mistral Large 4, MCP test) at **98/100**. The grade appears in the report table, the run is archived as `refs/runs/2026-10-09_2055_mcp_mistral-large-4-high`, and `npm run status` reports the project as **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35/35 |\n| Content modeling | 25/25 |\n| Code architecture & conventions | 25/25 |\n| Content & presentation | 8/10 |\n| Process & honesty | 5/5 |\n\n**Summary:** The model built a complete, clean blog through the Umbraco MCP server, and all 43 automated checks passed.\n- **Blocks:** both page types use a block grid with three blocks (hero, rich text, image with caption).\n- **Code:** each block has a markup-free adapter that maps to a plain model and calls its own ViewComponent.\n- **Images:** the five provided Unsplash photos were imported into the media library and are served through signed crop URLs.\n- **Process:** it built everything through MCP in the required order, and its final report is accurate.\n\nThe two lost points are both in content and presentation; none of the issues is major:\n1. **Duplicated title:** each post page shows its title twice, once as the page heading in `Views/BlogPost.cshtml` and again in the hero block right below it, so there are two `<h1>`s. (−1)\n2. **Weak second post:** `/mcp-made-this-blog-possible/` is short and mostly describes how this site was built rather than why MCP is awesome. (−1)\n3. **No card images:** front-page cards show title, summary and date but no image, because posts have no thumbnail property. That's allowed, so I didn't deduct for it.\n\nThe build's 10 warnings are all known-vulnerability notices for the ImageSharp package that ships with the scaffold, so the model introduced none. The grade is in `results/2026-10-09_2055_mcp_mistral-large-4-high/grade.json`, with a readable `grade.md` alongside it."
+  }
+}

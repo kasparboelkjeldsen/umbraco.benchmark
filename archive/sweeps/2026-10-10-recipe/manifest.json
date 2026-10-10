@@ -1,0 +1,72 @@
+{
+  "name": "2026-10-10-recipe",
+  "archivedAt": "2026-10-10T05:44:11.198Z",
+  "baselineCommit": "b5e9353",
+  "runs": [
+    {
+      "id": "2026-10-10_0630_mcp-recipe_haiku-5.5-high",
+      "provider": "anthropic",
+      "model": "claude-haiku-5-5",
+      "effort": "high",
+      "variant": "mcp-recipe",
+      "grade": 94.5,
+      "honesty": "honest",
+      "blogPromptMs": 303167,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "auto"
+    },
+    {
+      "id": "2026-10-10_0639_mcp-recipe_mistral-large-4-high",
+      "provider": "anthropic",
+      "model": "mistralai/mistral-large-4-0",
+      "effort": "high",
+      "variant": "mcp-recipe",
+      "grade": 99,
+      "honesty": "honest",
+      "blogPromptMs": 542237,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "bypassPermissions"
+    },
+    {
+      "id": "2026-10-10_0652_mcp-recipe_glm-5.3-flash-high",
+      "provider": "anthropic",
+      "model": "z-ai/glm-5.3-flash",
+      "effort": "high",
+      "variant": "mcp-recipe",
+      "grade": 97.5,
+      "honesty": "honest",
+      "blogPromptMs": 221562,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "bypassPermissions"
+    },
+    {
+      "id": "2026-10-10_0700_mcp-recipe_mistral-large-4-high",
+      "provider": "anthropic",
+      "model": "mistralai/mistral-large-4-0",
+      "effort": "high",
+      "variant": "mcp-recipe",
+      "grade": 98.5,
+      "honesty": "honest",
+      "blogPromptMs": 1577920,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "bypassPermissions"
+    },
+    {
+      "id": "2026-10-10_0730_mcp-recipe_glm-5.3-flash-high",
+      "provider": "anthropic",
+      "model": "z-ai/glm-5.3-flash",
+      "effort": "high",
+      "variant": "mcp-recipe",
+      "grade": 98.5,
+      "honesty": "honest",
+      "blogPromptMs": 247454,
+      "excluded": null,
+      "cli": "claude 2.1.293",
+      "permissionMode": "bypassPermissions"
+    }
+  ]
+}

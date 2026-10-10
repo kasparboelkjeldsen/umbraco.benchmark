@@ -1,0 +1,65 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/mistral-large-4-0",
+  "effort": null,
+  "variant": "mcp",
+  "startedAt": "2026-10-09T17:49:30.593Z",
+  "sessionId": "34337c44-d02e-46bc-961a-eb627ffa4e74",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/mistral-large-4-0",
+    "identifier": "mistralai/mistral-large-4-0",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-09T17-49-48-mistralai-mistral-large-4-0.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/mistral-large-4-0; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 21661,
+    "costUsd": 0.38116900000000004,
+    "isError": false,
+    "toolCalls": 4,
+    "mcpServers": "umbraco=connected",
+    "successfulToolCalls": 4
+  },
+  "prompt2": {
+    "timedOut": true,
+    "error": "model: turn timed out after 1:00:00"
+  },
+  "endpointStats": {
+    "requests": 127,
+    "tokens": {
+      "input": 3536218,
+      "output": 135390,
+      "cacheRead": 10631276,
+      "cacheWrite": 0
+    },
+    "usd": 3.4318,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\34337c44-d02e-46bc-961a-eb627ffa4e74.jsonl",
+  "runId": "2026-10-09_1949_mcp_mistral-large-4-high",
+  "log": "bench\\logs\\auto-2026-10-09T17-49-30-mcp-mistralai-mistral-large-4-0.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 183597,
+    "costUsd": 1.0396104000000002,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-09T18-50-11-grader.jsonl",
+    "finalMessage": "Run `2026-10-09_1949_mcp_mistral-large-4-high` (Mistral Large 4, MCP test) scores **71/100**. The grade is in `grade.json` and `grade.md` in its results folder and shows in the report. The solution is archived as `refs/runs/2026-10-09_1949_mcp_mistral-large-4-high`, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 21/35 |\n| Content modeling | 20/25 |\n| Code architecture & conventions | 23/25 |\n| Content & presentation | 4/10 |\n| Process & honesty | 3/5 |\n\n**Summary:** The code and structure follow the project's rules closely:\n- The page views use Umbraco's block grid helper (`GetBlockGridHtmlAsync`), and each block has an adapter that hands a plain model to its own view component.\n- The four blocks are hero, rich text, image and quote.\n- Document types are in the right folders, and the content tree runs `siteRoot` → front page → posts.\n- Everything was built through MCP.\n- The front page is a clean listing: each card shows an image, date and excerpt.\n\nBut no block renders anywhere on the site, so both post pages are blank apart from the date and a back link.\n\n**Top issues:**\n1. **Block grid has no blocks configured (major).** The model created the Block Grid data type with an empty configuration (`values: []`), so the stored post content never renders. It also hides the front page's hero and intro.\n2. **Blank post pages (major).** Neither post shows a title, text, image or quote. The title only exists inside the hero block.\n3. **No final report (major).** The session hit the one-hour limit while the model was still debugging the empty grid, so it never reported or disclosed the broken posts.\n4. **Minor:**\n   - The posts are short, about 170 words of body each.\n   - Five scratch scripts were left in `Umbraco.Bench/.scratch/` (`reflect*.fsx`).\n   - The rich text model uses an Umbraco type (`IHtmlEncodedString`), so that component isn't Umbraco-free.\n   - Each post's hero block repeats the post's title and summary.\n\nThe build's 10 warnings are package security advisories for ImageSharp. The model didn't change any packages, so I didn't deduct for them. The grader field says \"Opus 5.5 (low)\", because this session ran at low effort, not the high effort the runner suggests."
+  }
+}

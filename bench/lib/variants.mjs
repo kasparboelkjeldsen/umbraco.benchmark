@@ -95,6 +95,9 @@ export const VARIANTS = {
     prepare: ensureEditorMcp,
   },
   // MCP Guided with a cheat sheet of fixed ids and call shapes (for local models): same kit, checks and rubric, own table
+  // MCP Guided as a verified recipe (2026-10-10): fixed ids, every call's fields, the Razor details and a ban on
+  // forensics, from what the failed runs got stuck on. Same kit, checks and rubric, own table
+  "mcp-recipe": { name: "MCP Recipe", promptFile: "tests/mcp-recipe.md", hasPrompt1: true, mcpJson: null, channel: "mcp", servers: ["umbraco", "umbraco-editor"], prepare: ensureEditorMcp },
   "mcp-guided-plus": { name: "MCP Guided+", promptFile: "tests/mcp-guided-plus.md", hasPrompt1: true, mcpJson: null, channel: "mcp", servers: ["umbraco", "umbraco-editor"], prepare: ensureEditorMcp },
   migrations: {
     name: "Migrations",
@@ -139,6 +142,7 @@ export const channelOf = variant => VARIANTS[variant]?.channel ?? variant;
 // Which test a blog prompt belongs to. Order matters: the MCP prompts mention migration plans (to forbid them).
 export function detectVariant(prompt2) {
   if (/playwright/i.test(prompt2)) return "playwright";
+  if (/this route has been run end to end/i.test(prompt2)) return "mcp-recipe";
   if (/^cheat sheet/im.test(prompt2)) return "mcp-guided-plus";
   // MCP Guided (this machine) and guided (the work machine) both name umbraco-editor and number their steps; only MCP Guided has a Rules: list
   if (/^Rules:$/m.test(prompt2) && /follow these steps in order/i.test(prompt2)) return "mcp-guided";
@@ -160,6 +164,7 @@ export function readPrompts(variant) {
 }
 
 VARIANTS["mcp-guided-plus"].mcpJson = VARIANTS["mcp-guided"].mcpJson;
+VARIANTS["mcp-recipe"].mcpJson = VARIANTS["mcp-guided"].mcpJson;
 
 const STATE = path.join(ROOT, "bench", ".variant.json");
 export const readVariantState = () => readJson(STATE, { variant: "mcp" });

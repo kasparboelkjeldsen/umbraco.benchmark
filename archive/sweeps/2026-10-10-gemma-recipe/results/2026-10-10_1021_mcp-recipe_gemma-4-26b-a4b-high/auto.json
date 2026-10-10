@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "local",
+  "model": "gemma-4-26b-a4b",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-10T08:21:05.748Z",
+  "sessionId": "c2f46225-390c-45a1-8369-ceaba4a10b40",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "local",
+    "upstream": "lmstudio:8001",
+    "model": "gemma-4-26b-a4b-it-qat",
+    "identifier": "gemma-4-26b-a4b",
+    "contextLength": 131072,
+    "thinking": false,
+    "rewrite": true,
+    "usageFix": true,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\local-proxy-2026-10-10T08-21-32-gemma-4-26b-a4b.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for gemma-4-26b-a4b; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 131139,
+    "costUsd": 0.20155,
+    "isError": false,
+    "toolCalls": 1,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 2003206,
+    "costUsd": 3.266752500000001,
+    "isError": false,
+    "toolCalls": 78,
+    "failedToolCalls": 22,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 81,
+    "tokens": {
+      "input": 67336,
+      "output": 30085,
+      "cacheRead": 4355895,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\c2f46225-390c-45a1-8369-ceaba4a10b40.jsonl",
+  "runId": "2026-10-10_1021_mcp-recipe_gemma-4-26b-a4b-high",
+  "log": "bench\\logs\\auto-2026-10-10T08-21-05-mcp-recipe-gemma-4-26b-a4b.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 166003,
+    "costUsd": 0.8722882000000001,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-10T08-57-08-grader.jsonl",
+    "finalMessage": "**Run `2026-10-10_1021_mcp-recipe_gemma-4-26b-a4b-high` scores 20/100.** I graded it, `npm run report` shows the grade, and after the reset `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---:|\n| It works | 5/35 |\n| Content modeling | 13/25 |\n| Code architecture & conventions | 1/25 |\n| Content & presentation | 0/10 |\n| Process & honesty | 1/5 |\n\n**Summary:** The model built part of the schema through the Umbraco MCP servers before the session ended after 35 minutes:\n- three blocks: rich text, image with a caption, and a quote with an attribution\n- a \"Blog Block Grid\" data type in `/Custom`\n- `blogFrontPage` and `blogPost` page types, with the post's date, excerpt and listing image as real properties\n\nNone of it is connected. No page type has allowed children or an assigned template, so creating the front page failed with \"Operation not permitted\". There is no real content, media, domain or Razor, and `/` returns 404 (\"No template exists to render the document at URL /\").\n\n**Top issues:**\n1. **Site doesn't work:** there is no front page, no posts, no media and no domain. The front-page screenshot is Umbraco's \"Page Not Found\" screen, and with no post there was nothing to screenshot.\n2. **No code:** no Razor was written. `Views/blogFrontPage.cshtml` and `Views/blogPost.cshtml` are only the empty stubs Umbraco created with the templates. There are no block adapters, view components, view models or styling.\n3. **Schema not wired up:** the call that sets allowed children and templates (`update-document-type`) failed twice on garbled arguments, and the model moved on without fixing it.\n4. **No final report:** the last message was \"I will attempt to start it again now\". It mentions none of the failures.\n5. **Junk content and order of steps:** the model tried to create pages before the schema was finished. That left three draft nodes at the content root, one with leaked tool-call tokens in its name.\n6. **Misfiled block:** `quoteBlock` sits at the document-type root instead of the Blocks folder.\n\nThe build passes with 10 warnings, all package advisories that come with the scaffold. The run stayed in the project folder and used only the MCP servers, so there were no forbidden shortcuts.\n\nI wrote the grader as \"Opus 5.5 (low)\" in `grade.json`, matching the effort this session ran at. Scoring follows the earlier, near-identical run of the same model (`0952`, 22/100). This one lost a further 2 points for the junk content nodes and for working out of order.\n\nFiles are in `results/2026-10-10_1021_mcp-recipe_gemma-4-26b-a4b-high/`:\n- grade.json\n- grade.md"
+  }
+}

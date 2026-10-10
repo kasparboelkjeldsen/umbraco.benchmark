@@ -1,0 +1,486 @@
+{
+  "runId": "2026-10-09_2317_mcp_mistral-large-4-high",
+  "variant": "mcp",
+  "checkedAt": "2026-10-09T22:05:06.826Z",
+  "summary": {
+    "passed": 42,
+    "failed": 1,
+    "notApplicable": 0
+  },
+  "checks": [
+    {
+      "id": "build.ok",
+      "ok": true,
+      "detail": "0 error(s), 10 warning(s)"
+    },
+    {
+      "id": "site.boots",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "site.frontPage200",
+      "ok": true,
+      "detail": "GET / → 200"
+    },
+    {
+      "id": "site.allPagesRender",
+      "ok": true,
+      "detail": "3 page(s) OK"
+    },
+    {
+      "id": "content.twoBlogPosts",
+      "ok": true,
+      "detail": "2 document(s) with a post-like type: Why MCP Is Awesome, Why MCP Is Awesome for Editors"
+    },
+    {
+      "id": "site.frontPageLinksPosts",
+      "ok": true,
+      "detail": "front page links 2/2 post URL(s)"
+    },
+    {
+      "id": "site.imagesLoad",
+      "ok": true,
+      "detail": "9/9 images load"
+    },
+    {
+      "id": "site.imagesFromMediaLibrary",
+      "ok": true,
+      "detail": "0 hot-linked external image(s)"
+    },
+    {
+      "id": "site.noUnsignedResizeUrls",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "site.stylesheetsLoad",
+      "ok": true,
+      "detail": "/dist/site.css?v=dUvC2NQlx1q_emfNwr3AxrZPRXPCAsHlFxdDtmMeq04 → 200"
+    },
+    {
+      "id": "site.usesBlockGrid",
+      "ok": true,
+      "detail": "umb-block-grid markup present on a page"
+    },
+    {
+      "id": "content.noRepeatedImages",
+      "ok": true,
+      "detail": "no page shows the same image twice"
+    },
+    {
+      "id": "schema.docTypesInFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.elementVsDocumentFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.aliasesCamelCase",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.dataTypesNotAtRoot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "schema.blockGridOnPages",
+      "ok": true,
+      "detail": "block grid on: blogFrontPage, blogPost"
+    },
+    {
+      "id": "schema.blocksNotUsedAsCompositions",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.domainAssigned",
+      "ok": true,
+      "detail": "Blog: /"
+    },
+    {
+      "id": "content.allPublished",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.mediaInFolders",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "content.hasMedia",
+      "ok": true,
+      "detail": "7 media item(s)"
+    },
+    {
+      "id": "content.mediaFromProvidedPhotos",
+      "ok": true,
+      "detail": "7 of 7 media file(s) are the provided photos"
+    },
+    {
+      "id": "code.adapterFolderCasing",
+      "ok": true,
+      "detail": "folder is \"Components\""
+    },
+    {
+      "id": "code.adapterPerBlock",
+      "ok": true,
+      "detail": "4 adapter(s): heroBlock.cshtml, imageBlock.cshtml, quoteBlock.cshtml, textBlock.cshtml"
+    },
+    {
+      "id": "code.programCsUnchanged",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.appsettingsJsonUnchanged",
+      "ok": true,
+      "detail": "production settings must not be softened"
+    },
+    {
+      "id": "code.noMigrationsWritten",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "process.intendedChannel",
+      "ok": true,
+      "detail": "built through mcp"
+    },
+    {
+      "id": "process.stayedInFolder",
+      "ok": false,
+      "detail": "outside the project: c:/code/benchmark/umbraco.bench.umbraco/views/shared/components/quote/default.cshtml"
+    },
+    {
+      "id": "code.noCsInModelsRoot",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.servicesNamedService",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noCustomBlockLoops",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noParallelBlockPartials",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.pagesUseBlockGridHelper",
+      "ok": true,
+      "detail": "Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml, Umbraco.Bench.Umbraco/Views/blogPost.cshtml"
+    },
+    {
+      "id": "code.adaptersHaveNoMarkup",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.adaptersInvokeViewComponents",
+      "ok": true,
+      "detail": "4/4 adapters call Component.InvokeAsync"
+    },
+    {
+      "id": "code.viewComponentPerBlock",
+      "ok": true,
+      "detail": "4 view component(s): Hero, Image, Quote, Text"
+    },
+    {
+      "id": "code.noLooseFilesInSharedComponents",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.componentViewsArePlain",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noInjectedUrlServices",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.noHandWrittenImageQueries",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "id": "code.frontendBuilt",
+      "ok": true,
+      "detail": "wwwroot/dist/site.css exists"
+    }
+  ],
+  "build": {
+    "ok": true,
+    "exitCode": 0,
+    "warnings": 10,
+    "errors": 0,
+    "errorLines": []
+  },
+  "changes": {
+    "added": [
+      "Umbraco.Bench.Frontend/package-lock.json",
+      "Umbraco.Bench.Umbraco/Components/HeroViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Components/ImageViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Components/QuoteViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Components/TextViewComponent.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/BlockModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/HeroModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/ImageModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/QuoteModel.cs",
+      "Umbraco.Bench.Umbraco/Models/Blocks/TextModel.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlockSettings.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlogFrontPage.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/BlogPost.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/File.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Folder.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/HeroBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Image.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/ImageBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/Member.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/QuoteBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/SiteRoot.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/TextBlock.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaArticle.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaAudio.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaVectorGraphics.generated.cs",
+      "Umbraco.Bench.Umbraco/Models/ModelsBuilder/UmbracoMediaVideo.generated.cs",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/quoteBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/textBlock.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Image/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Quote/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/Shared/Components/Text/Default.cshtml",
+      "Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml",
+      "Umbraco.Bench.Umbraco/Views/blogPost.cshtml",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/blog.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/why-mcp-is-awesome-for-editors.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/why-mcp-is-awesome.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Content/www.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/blocksettings.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/blogfrontpage.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/blogpost.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/heroblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/imageblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/quoteblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/siteroot.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/ContentTypes/textblock.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ApprovedColor.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/BlockBackground.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/BlockSpacing.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/BodyBlocks.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/CheckboxList.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ContentPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DatePicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DatePickerWithTime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DateTimePickerWithTimeZone.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Dropdown.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/DropdownMultiple.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ImageCropper.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ImageMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelBigint.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelBytes.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelDatetime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelDecimal.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelInteger.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelPixels.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelString.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/LabelTime.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ListViewContent.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/ListViewMedia.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MemberPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultiURLPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultipleImageMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/MultipleMediaPicker.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Numeric.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Radiobox.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/RichtextEditor.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Tags.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Textarea.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Textstring.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/Truefalse.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadArticle.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadAudio.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadFile.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadVectorGraphics.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/DataTypes/UploadVideo.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Domains/1108_en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Domains/_en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Languages/en-us.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/blog.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/connected-metal-structure-seen-from-below.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/four-usb-cable-plugs-on-a-grey-background.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/laptop-with-code-on-a-busy-desk.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/macro-shot-of-a-black-circuit-board.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/network-lines-and-dots.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/screen-full-of-colourful-source-code.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Media/two-hands-fitting-puzzle-pieces-together.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/file.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/folder.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/image.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediaarticle.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediaaudio.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediavectorgraphics.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MediaTypes/umbracomediavideo.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/MemberTypes/member.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/relateParentElementContainerOnContainerDelete.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/relateParentElementContainerOnElementDelete.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/umbElement.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/RelationTypes/umbMember.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/blogfrontpage.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/Templates/blogpost.config",
+      "Umbraco.Bench.Umbraco/uSync/v18/usync.config",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/main.js",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/main.js.map",
+      "Umbraco.Bench.Umbraco/wwwroot/dist/site.css"
+    ],
+    "modified": [
+      "Umbraco.Bench.Frontend/src/site.css"
+    ],
+    "deleted": []
+  },
+  "crawl": {
+    "pages": [
+      {
+        "path": "/",
+        "status": 200,
+        "file": "pages/index.html",
+        "title": "The Umbraco.Bench Blog",
+        "h1": "Why MCP is awesome",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 857,
+        "links": 2,
+        "images": 3
+      },
+      {
+        "path": "/why-mcp-is-awesome/",
+        "status": 200,
+        "file": "pages/why_mcp_is_awesome.html",
+        "title": "Why MCP Is Awesome — The Umbraco.Bench Blog",
+        "h1": "Why MCP Is Awesome",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 1613,
+        "links": 1,
+        "images": 3
+      },
+      {
+        "path": "/why-mcp-is-awesome-for-editors/",
+        "status": 200,
+        "file": "pages/why_mcp_is_awesome_for_editors.html",
+        "title": "Why MCP Is Awesome for Editors — The Umbraco.Bench Blog",
+        "h1": "Why MCP Is Awesome for Editors",
+        "renderErrors": [],
+        "usesBlockGridMarkup": true,
+        "textLength": 1210,
+        "links": 1,
+        "images": 3
+      }
+    ],
+    "assets": [
+      {
+        "url": "/media/f5cdd5k3/network-lines-dots.jpg?rxy=0,0.5&width=1600&height=900&v=1dd583639181a84&hmac=e480b4ed6aadb18b0795ff71454d824ed2226beea4ab7a3d77afbeac53ce4f52",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/1pepxpv4/connected-structure.jpg?rxy=0,0.5&width=800&height=450&v=1dd5836393375ad&hmac=4751f563df2399f8447f12ee13aa182667fbc65b621f17e022cabfef25473835",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/ng5a41kd/laptop-desk-code.jpg?rxy=0,0.5&width=800&height=450&v=1dd5836392241fc&hmac=7f6d787f699e7d83afcce26de9e42bfe0ff46f03f567d4101d3fcdc1c568e3f5",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/dist/site.css?v=dUvC2NQlx1q_emfNwr3AxrZPRXPCAsHlFxdDtmMeq04",
+        "kind": "css",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/dist/main.js?v=Eql_sRjSyI63OesYXjABRnDumPOMgFmiH7DZUOuMbkM",
+        "kind": "js",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/ng5a41kd/laptop-desk-code.jpg?rxy=0,0.5&width=1600&height=900&v=1dd5836392241fc&hmac=f48e873d77cbc6ff2c9783b5cef05ede77e4dd0bcfd07a0dbb64186ebcc2da2b",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/0l0purar/code-on-screen.jpg?rxy=0,0.5&width=1600&height=900&v=1dd5836392842ba&hmac=8bf2ee5de16ec55ecdf1e05d0a9db48e398cceaa3822d0719b278bdc774385d2",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/0qnbekv5/usb-cables.jpg?rxy=0,0.5&width=1600&height=900&v=1dd5836392c5c00&hmac=e608edb4c73bcfce71d0026cfcbf595255e5c8a515ad5f101f173cd68c87cdc1",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/1pepxpv4/connected-structure.jpg?rxy=0,0.5&width=1600&height=900&v=1dd5836393375ad&hmac=15630d16b19f93dd8dad7592747b602b872ec765fb8f514e3e214d0d909a6fe5",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/zhvhhzik/puzzle-hands.jpg?rxy=0,0.5&width=1600&height=900&v=1dd583639382f7b&hmac=ab449238a0ed6022e93626cb041320cdd59c25a46ae8a373673e73031ae6a244",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      },
+      {
+        "url": "/media/nkefisum/circuit-board.jpg?rxy=0,0.5&width=1600&height=900&v=1dd5836393e4682&hmac=6eca82029fc3effb3181d2deb73afced5c1be8db45c048a1fd79b1050f276b1c",
+        "kind": "img",
+        "external": false,
+        "status": 200,
+        "unsignedResize": false
+      }
+    ]
+  },
+  "counts": {
+    "docTypes": 8,
+    "elementTypes": 5,
+    "customDataTypes": 13,
+    "templates": 2,
+    "documents": 4,
+    "media": 7
+  }
+}

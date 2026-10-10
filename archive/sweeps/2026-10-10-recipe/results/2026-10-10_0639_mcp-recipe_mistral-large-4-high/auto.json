@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/mistral-large-4-0",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-10T04:39:39.399Z",
+  "sessionId": "a59fb1b2-45ff-4083-9267-5d11213802e2",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/mistral-large-4-0",
+    "identifier": "mistralai/mistral-large-4-0",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-10T04-39-56-mistralai-mistral-large-4-0.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/mistral-large-4-0; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 17410,
+    "costUsd": 0.221513,
+    "isError": false,
+    "toolCalls": 2,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 562267,
+    "costUsd": 4.662256999999999,
+    "isError": false,
+    "toolCalls": 117,
+    "failedToolCalls": 4,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 65,
+    "tokens": {
+      "input": 249603,
+      "output": 42520,
+      "cacheRead": 4702484,
+      "cacheWrite": 0
+    },
+    "usd": 0.5878,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\a59fb1b2-45ff-4083-9267-5d11213802e2.jsonl",
+  "runId": "2026-10-10_0639_mcp-recipe_mistral-large-4-high",
+  "log": "bench\\logs\\auto-2026-10-10T04-39-39-mcp-recipe-mistralai-mistral-large-4-0.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 142244,
+    "costUsd": 0.9341212000000001,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-10T04-50-07-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-10_0639_mcp-recipe_mistral-large-4-high` (Mistral Large 4, MCP Recipe test) at **99 / 100**. The grade appears in the `npm run report` table. Reset has archived the solution as `refs/runs/2026-10-10_0639_mcp-recipe_mistral-large-4-high`, and `npm run status` reports **pristine**.\n\n| Category | Score |\n|---|---:|\n| It works | 35 / 35 |\n| Content modeling | 25 / 25 |\n| Code architecture & conventions | 24.5 / 25 |\n| Content & presentation | 9.5 / 10 |\n| Process & honesty | 5 / 5 |\n\n**Summary:** The model built a clean, fully working blog through the two MCP servers. It has three blocks (rich text, image, quote) on one shared block grid. The front page shows a card per post with a cropped image, date and excerpt, and both posts are published. Every block renders through the convention the rules require, styled with Tailwind. All 43 automated checks pass. The build's 10 warnings come from a package in the original scaffold, not from the model. The model stayed in the MCP channel, did the steps in the right order, and its final report is accurate.\n\n**Top issues (all minor):**\n1. `Views/blogFrontPage.cshtml` and `Views/blogPost.cshtml` each turn off the shared layout and repeat the full HTML page frame (head and footer).\n2. The \"All posts\" link in `Views/blogPost.cshtml` is hard-coded to `/` instead of pointing at the front page's URL.\n3. The posts are fairly short (about 400 words each). The second post contains two false lines: it says \"The front page you are reading\" although it is a post page, and it claims nothing was hand-edited although the Razor views were written by hand.\n\nThe grade files are `results/2026-10-10_0639_mcp-recipe_mistral-large-4-high/grade.json` and `grade.md`. The screenshots are in `screenshots/mistral-large-4-high-2026-10-10_0639-*.png`. I'm recorded as grader at \"Opus 5.5 (low)\" because this session ran at low effort; the earlier Haiku run was graded at high effort."
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every checkable claim matches the checks, crawl, HTML and screenshots, the workarounds are disclosed, and the only issues the grader found are minor cosmetic nits that the report does not contradict.",
+  "claims": [
+    {
+      "claim": "Three block element types (richTextBlock, imageBlock, quoteBlock) in the Blocks folder",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' lists the three elements in Blocks; check.json schema.elementVsDocumentFolders and schema.docTypesInFolders pass"
+    },
+    {
+      "claim": "Blog Block Grid data type, 12 columns, all three blocks",
+      "verdict": "true",
+      "evidence": "grade.md: 'Blog Block Grid (12 columns, the three blocks)'; the pages show data-grid-columns=\"12\""
+    },
+    {
+      "claim": "blogFrontPage and blogPost in Pages with templates; siteRoot → blogFrontPage → blogPost",
+      "verdict": "true",
+      "evidence": "grade.md describes the same structure; check.json counts 2 templates; schema.blockGridOnPages lists blogFrontPage and blogPost"
+    },
+    {
+      "claim": "Blog media folder with 5 Unsplash photos, 4 used, credits in captions",
+      "verdict": "true",
+      "evidence": "check.json: content.hasMedia 5, mediaFromProvidedPhotos 5/5, 4 distinct images in the crawl; captions in the post HTML and screenshot include 'Photo: … on Unsplash'"
+    },
+    {
+      "claim": "Two published posts (1 Oct and 8 Oct 2026), each with excerpt, listing image and 4-block body (rich text → image → rich text → quote)",
+      "verdict": "true",
+      "evidence": "the post HTML shows richText, image, richText, quote in that order; the front-page screenshot shows the dates 1 and 8 October 2026; check.json content.allPublished passes"
+    },
+    {
+      "claim": "Domain / assigned to the front page, not WWW",
+      "verdict": "true",
+      "evidence": "check.json content.domainAssigned: 'Blog: /'"
+    },
+    {
+      "claim": "Rendering via GetBlockGridHtmlAsync, one adapter per block, plain models, ViewComponents",
+      "verdict": "true",
+      "evidence": "check.json: code.pagesUseBlockGridHelper, adapterPerBlock (3), viewComponentPerBlock (3), adaptersInvokeViewComponents 3/3 all pass"
+    },
+    {
+      "claim": "npm run build produced wwwroot/dist/site.css + main.js; Tailwind styling",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt and stylesheetsLoad 200; changes list main.js and site.css; the screenshots show a styled site"
+    },
+    {
+      "claim": "uSync exported content types, data type, templates, content, media",
+      "verdict": "true",
+      "evidence": "check.json changes.added contains the uSync ContentTypes, DataTypes, Templates, Content and Media configs"
+    },
+    {
+      "claim": "All three pages return 200; front page shows its block and both posts",
+      "verdict": "true",
+      "evidence": "check.json crawl: 3 pages with status 200, frontPageLinksPosts 2/2; the front-page screenshot shows the welcome block and both posts"
+    },
+    {
+      "claim": "Rich text renders as real HTML; no 'Could not render component'; signed image URL returns 200",
+      "verdict": "true",
+      "evidence": "the page HTML has real <p> tags; crawl renderErrors are empty; all img assets have an hmac and return 200, and noUnsignedResizeUrls passes"
+    },
+    {
+      "claim": "dotnet build passes with 0 errors",
+      "verdict": "true",
+      "evidence": "check.json build: 0 errors, 10 warnings"
+    },
+    {
+      "claim": "Nothing is broken; workarounds noted (port/env, includeDescendants publish cancelled)",
+      "verdict": "true",
+      "evidence": "check.json: 43/43 pass; the grader's issues are only minor design and content nits (no header/footer on posts, missing margin under the excerpt), which are not breakage; the workaround notes cannot be checked from the artifacts but match the outcome"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-10T05:41:44.792Z",
+  "costUsd": 0.22691399999999998
+}

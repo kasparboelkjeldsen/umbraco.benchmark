@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "z-ai/glm-5.3-flash",
+  "effort": null,
+  "variant": "mcp",
+  "startedAt": "2026-10-09T19:57:35.898Z",
+  "sessionId": "77f2d207-d2ae-4e02-a724-39f87ed6d0e9",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "z-ai/glm-5.3-flash",
+    "identifier": "z-ai/glm-5.3-flash",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-09T19-24-25-z-ai-glm-5.3-flash.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for z-ai/glm-5.3-flash; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 14400,
+    "costUsd": 0.318415,
+    "isError": false,
+    "toolCalls": 1,
+    "mcpServers": "umbraco=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 513000,
+    "costUsd": 4.202549,
+    "isError": false,
+    "toolCalls": 86,
+    "failedToolCalls": 2,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 56,
+    "tokens": {
+      "input": 224797,
+      "output": 25316,
+      "cacheRead": 4891328,
+      "cacheWrite": 0
+    },
+    "usd": 0.1931,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\77f2d207-d2ae-4e02-a724-39f87ed6d0e9.jsonl",
+  "runId": "2026-10-09_2157_mcp_glm-5.3-flash-high",
+  "log": "bench\\logs\\auto-2026-10-09T19-57-35-mcp-z-ai-glm-5.3-flash.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 192155,
+    "costUsd": 1.1594334,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-09T20-07-12-grader.jsonl",
+    "finalMessage": "Run `2026-10-09_2157_mcp_glm-5.3-flash-high` (GLM 5.3 Flash, MCP test) scores **86/100**. The grade is written to `grade.json` and `grade.md` in the run folder and appears in the Grade table of `npm run report`. The project has been reset and archived as `refs/runs/2026-10-09_2157_mcp_glm-5.3-flash-high`, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 31/35 |\n| Content modeling | 25/25 |\n| Code architecture & conventions | 24/25 |\n| Content & presentation | 4/10 |\n| Process & honesty | 2/5 |\n\n**Summary:** The schema is correct and built entirely over MCP: hero, rich text and image blocks, with front page and post types in the right folders. The `/` domain is assigned, the provided Unsplash photos are imported into the media library, and blocks render through the standard adapter → ViewComponent pipeline. All 43 automated checks pass, but the screenshots show the site looks broken: escaped HTML in the text and every block squeezed into a narrow strip.\n\n**Top issues:**\n1. **Rich text shows raw HTML tags on every page.** `<p>`, `<strong>` and `<em>` appear as literal text. The stored content is fine; the cause is `Views/Shared/Components/RichText/Default.cshtml`, which outputs `@Model.Html` without `Html.Raw`.\n2. **The block grid layout collapses.** The model's CSS in `Umbraco.Bench.Frontend/src/site.css` makes both `.umb-block-grid` and its inner layout container 12-column grids. The inner container ends up in a single column, so every block is squeezed into a strip about 260px wide. Post text is a long, thin column, and the image is a thumbnail with its caption wrapping one word per line.\n3. **The final report overclaims.** It says \"Everything is built, published, and verified end to end\" and mentions neither visible problem. Its check only fetched the pages and searched the HTML; it never looked at how they render. I gave 0 of 2 for the report.\n4. **Minor:**\n   - Both posts are short, about 200 words each, and the second is mostly about how this site was built.\n   - The rich text view model uses an Umbraco type, so that component view isn't Umbraco-free.\n   - Post pages show the title twice."
+  }
+}

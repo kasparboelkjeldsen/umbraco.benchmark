@@ -76,7 +76,8 @@
   "openrouter": {
     "sweep": false,
     "models": [
-      "mistralai/mistral-large-4-0"
+      "mistralai/mistral-large-4-0",
+      "z-ai/glm-5.3-flash"
     ],
     "baseUrl": "https://openrouter.ai/api",
     "apiKeyEnv": "OPENROUTER_API_KEY",
@@ -226,12 +227,17 @@
       "source": "Fill in per million tokens (input, output, cacheRead) from the provider's price list before scoring; without a price the run is collected and graded but not scored, and maxUsd can't apply."
     },
     "openrouter": {
-      "source": "https://openrouter.ai/api/v1/models, fetched 2026-10-09 (per million tokens; OpenRouter passes the provider's price through)",
+      "source": "https://openrouter.ai/api/v1/models, fetched 2026-10-09 (GLM 5.3 Flash added the same day) (per million tokens; OpenRouter passes the provider's price through)",
       "fetched": "2026-10-09",
       "mistralai/mistral-large-4-0": {
         "input": 0.68,
         "output": 2.09,
         "cacheRead": 0.07
+      },
+      "z-ai/glm-5.3-flash": {
+        "input": 0.15,
+        "output": 0.5,
+        "cacheRead": 0.03
       }
     }
   }

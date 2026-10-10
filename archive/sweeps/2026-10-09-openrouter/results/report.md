@@ -1,0 +1,91 @@
+# Umbraco benchmark — model comparison
+
+Generated 10/10/2026, 06:26:49
+
+## Test: MCP
+
+### Time
+
+| Phase | Glm 5.3 Flash | Mistral Large 4 | Difference |
+| --- | ---: | ---: | ---: |
+| Prompt 1: verify MCP | 0:07 | 0:24 | +0:17 |
+| Boot, read rules, plan → first type created | 1:33 | 14:54 | +13:21 |
+| Content modeling | 1:29 | 2:39 | +1:11 |
+| Content: media, pages, publish | 2:58 | 16:08 | +13:10 |
+| Stop, build, Razor, restart | 1:37 | 8:31 | +6:54 |
+| Checking the result and final report | 0:36 | 3:36 | +3:00 |
+| Total from first prompt | 8:20 | 46:13 | +37:53 (+454.7%) |
+| Blog prompt only | 8:13 | 45:49 | +37:36 (+457.5%) |
+
+### Tokens
+
+| Tokens | Glm 5.3 Flash | Mistral Large 4 | Difference | Change |
+| --- | ---: | ---: | ---: | ---: |
+| API requests | 56 | 100 | +44 | +78.6% |
+| Fresh input | 224,797 | 1,347,760 | +1,122,963 | +499.5% |
+| Cache creation | 0 | 0 | 0 | — |
+| Cache read | 4,891,328 | 11,154,188 | +6,262,860 | +128.0% |
+| Output | 25,316 | 130,524 | +105,208 | +415.6% |
+| &nbsp;&nbsp;of which thinking | 9,774 | 102,288 | +92,514 | +946.5% |
+| Total | 5,141,441 | 12,632,472 | +7,491,031 | +145.7% |
+| Total excluding cache reads | 250,113 | 1,478,284 | +1,228,171 | +491.0% |
+
+### Tokens by activity
+
+| Activity | Glm 5.3 Flash | Mistral Large 4 | Difference |
+| --- | ---: | ---: | ---: |
+| Umbraco MCP | 702,785 (14%) | 2,817,121 (22%) | +2,114,336 |
+| Coding: migrations | 0 (0%) | 307,898 (2%) | +307,898 |
+| Coding: site (views, components, models) | 529,917 (10%) | 5,740,045 (45%) | +5,210,128 |
+| Build, run & verify | 197,214 (4%) | 642,935 (5%) | +445,721 |
+| Web research | 0 (0%) | 131,413 (1%) | +131,413 |
+| Base context & reasoning | 3,711,524 (72%) | 2,993,061 (24%) | −718,463 |
+
+### Tokens by activity, excluding cache reads
+
+| Activity | Glm 5.3 Flash | Mistral Large 4 | Difference |
+| --- | ---: | ---: | ---: |
+| Umbraco MCP | 43,558 (17%) | 341,215 (23%) | +297,657 |
+| Coding: migrations | 0 (0%) | 38,846 (3%) | +38,846 |
+| Coding: site (views, components, models) | 34,270 (14%) | 651,485 (44%) | +617,215 |
+| Build, run & verify | 53,067 (21%) | 205,691 (14%) | +152,624 |
+| Web research | 0 (0%) | 17,530 (1%) | +17,530 |
+| Base context & reasoning | 119,217 (48%) | 223,517 (15%) | +104,300 |
+
+### Tool calls
+
+| Tool | Glm 5.3 Flash | Mistral Large 4 | Difference |
+| --- | ---: | ---: | ---: |
+| Shell (Bash) | 17 | 50 | +33 |
+| Umbraco MCP | 40 | 80 | +40 |
+| Read / Grep / Glob | 10 | 45 | +35 |
+| Edit / Write | 19 | 21 | +2 |
+| Background task control | 1 | 2 | +1 |
+| Web | 0 | 6 | +6 |
+| &nbsp;&nbsp;Umbraco MCP reads / writes | 18 / 22 | 29 / 51 |  |
+| Total tool calls | 87 | 204 | +117 |
+| Tool calls per API request | 1.55 | 2.04 |  |
+| Failed tool calls | 2 | 4 | +2 |
+| Files written with heredocs | 0 | 0 |  |
+| dotnet build (failed) | 2 (1) | 2 (0) |  |
+| Context compactions | 0 | 4 | +4 |
+
+### Grade
+
+| Category | Glm 5.3 Flash | Mistral Large 4 | Difference |
+| --- | ---: | ---: | ---: |
+| It works (/35) | 31 | 35 | +4 |
+| Content modeling (/25) | 25 | 25 | 0 |
+| Code architecture & conventions (/25) | 24 | 25 | +1 |
+| Content & presentation (/10) | 4 | 7 | +3 |
+| Process & honesty (/5) | 2 | 3 | +1 |
+| Total | 86/100 | 95/100 | +9 |
+| Automated checks passed | 43/43 | 42/43 |  |
+| Graded by | Opus 5.5 (high) | Opus 5.5 (high) |  |
+
+#### Runs
+
+- **Glm 5.3 Flash** — `2026-10-09_2157_mcp_glm-5.3-flash-high`, model `z-ai/glm-5.3-flash`, effort high, Claude Code 2.1.293, headless (npm run auto, bypassPermissions)
+  - A correctly modeled MCP-built blog: 3 blocks, front page and post types filed right, '/' domain, Unsplash media, and a textbook adapter -> ViewComponent pipeline. But the rich text component prints its HTML escaped on every page, and the model's custom block-grid CSS squeezes every block into a ~260px column, so the site looks broken, and the final report claimed it was verified end to end.
+- **Mistral Large 4** — `2026-10-09_2317_mcp_mistral-large-4-high`, model `mistralai/mistral-large-4-0`, effort high, Claude Code 2.1.293, headless (npm run auto, bypassPermissions)
+  - A complete, cleanly built MCP blog: four-block block grid (hero, text, image, quote) with a shared settings element, textbook adapter -> plain model -> ViewComponent rendering, provided photos through signed crop URLs, and every functional check passing. Points are lost for thin post content (especially the meta second post), some layout rough edges, and a stray file written outside the project that the final report misexplains.

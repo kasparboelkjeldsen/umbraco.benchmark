@@ -1,0 +1,29 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-09T18:55:23.380Z",
+  "updatedAt": "2026-10-09T20:10:24.866Z",
+  "done": [
+    {
+      "label": "mistralai/mistral-large-4-0 · MCP",
+      "status": "graded",
+      "runId": "2026-10-09_2055_mcp_mistral-large-4-high",
+      "grade": "98/100",
+      "error": null
+    },
+    {
+      "label": "z-ai/glm-5.3-flash · MCP",
+      "status": "graded",
+      "runId": "2026-10-09_2124_mcp_glm-5.3-flash-high",
+      "grade": "57/100",
+      "error": null
+    },
+    {
+      "label": "z-ai/glm-5.3-flash · MCP",
+      "status": "graded",
+      "runId": "2026-10-09_2157_mcp_glm-5.3-flash-high",
+      "grade": "86/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

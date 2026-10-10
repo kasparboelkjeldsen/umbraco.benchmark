@@ -1,0 +1,27 @@
+{
+  "runId": "2026-10-09_2055_mcp_mistral-large-4-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-09T19:23:26Z",
+  "total": 98,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "Build succeeds; the only warnings are the scaffold's 10 ImageSharp NuGet advisories, none introduced. / returns 200 via the '/' domain on the published 'The MCP Blog' blogFrontPage, lists both posts as cards with title, summary and date, and the links work. Both posts render every block (hero, rich text, image, rich text) with no render errors. All 5 media items are the provided Unsplash photos, imported into a Blog media folder and served through signed GetCropUrl URLs. All content is published." },
+    { "id": "modeling", "name": "Content modeling", "score": 25, "max": 25, "notes": "heroBlock, richTextBlock and imageBlock are element types in Blocks/; blogFrontPage and blogPost are document types in Pages/. One 'Blog Blocks' block grid in Custom/Umbraco.BlockGrid is used on both page types, with a sensible reusable set (hero, rich text, image + caption). siteRoot is the only type allowed at root, siteRoot -> blogFrontPage -> blogPost, templates are assigned, and aliases are camelCase. summary and publishDate are real properties on blogPost. No compositions, duplicates or orphans. There is no listing-image property, which is optional." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 25, "max": 25, "notes": "Both page views use Html.GetBlockGridHtmlAsync and the scaffold blockgrid partials are untouched. There are three markup-free adapters at Views/Partials/blockgrid/Components/<alias>.cshtml that map BlockGridItem<T> to plain models in Models/Blocks/ and call Component.InvokeAsync. Each block has one ViewComponent (Hero, Image, RichText) with a plain Default.cshtml. Uses Children<T>(), Url() and GetCropUrl. Program.cs, appsettings.json and the migrations are untouched. Styling goes through the Tailwind pipeline: richtext typography was added to src/site.css and the frontend was rebuilt." },
+    { "id": "content", "name": "Content & presentation", "score": 8, "max": 10, "notes": "Post 1 ('Why the Model Context Protocol Is Awesome') is substantive and accurate: one standard, tools/resources/prompts, user control, transport-agnostic. Post 2 ('MCP Made This Blog Possible') is shorter and mostly meta, about how this site was built, so it argues for MCP less directly (-1). Images are relevant. The layout is clean and readable: front-page hero, card listing, and a post column with good typography. On posts, the title appears twice: the page h1 sits right above a hero block whose h1 repeats the same title (two h1s, -1)." },
+    { "id": "process", "name": "Process & honesty", "score": 5, "max": 5, "notes": "Schema, media and content were built through the Umbraco MCP server only (52 calls, no Management API, DB, uSync or migration writes). Order followed: schema, then content, then stop/build, Razor, restart, with no warnings. It stayed in the project folder apart from curl scratch output in /tmp, and did not touch results/, tests/ or memory. The final report is accurate and documents the MCP quirks it hit." }
+  ],
+  "summary": "A complete, clean MCP-built blog: three-block block grid (hero, rich text, image) on both page types, textbook adapter -> ViewComponent architecture, provided photos via signed crop URLs, and all checks passing. The only flaws are presentational: a duplicated title on post pages and a second post that is thin and self-referential.",
+  "strengths": [
+    "All 43 automated checks pass; build clean with no introduced warnings",
+    "Correct schema: elements in Blocks/, pages in Pages/, block grid data type in Custom/, right allowed children and templates",
+    "Exact adapter -> plain model -> ViewComponent pattern with no Umbraco dependencies in component views",
+    "Provided Unsplash photos imported to a media folder with credits in captions",
+    "Accurate final report that documents the MCP-server quirks it worked around"
+  ],
+  "issues": [
+    { "severity": "minor", "text": "Post pages show the title twice: the page h1 in Views/BlogPost.cshtml plus a hero block h1 with the same text (two h1 elements), e.g. /why-the-model-context-protocol-is-awesome/" },
+    { "severity": "minor", "text": "The second post (/mcp-made-this-blog-possible/) is short and mostly describes how this site was built rather than why MCP is awesome" },
+    { "severity": "minor", "text": "Front-page cards have no listing image (blogPost has no thumbnail property); cards show title, summary and date only" }
+  ]
+}

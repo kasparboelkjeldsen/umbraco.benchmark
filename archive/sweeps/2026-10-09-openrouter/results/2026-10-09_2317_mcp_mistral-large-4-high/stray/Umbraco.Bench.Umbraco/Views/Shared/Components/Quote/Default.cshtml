@@ -1,0 +1,11 @@
+@model Umbraco.Bench.Umbraco.Models.Blocks.QuoteModel
+
+<blockquote id="@Model.Anchor" class="@Model.BackgroundClass @Model.SpacingClass">
+    <div class="mx-auto max-w-3xl border-l-4 border-indigo-400 px-6">
+        <p class="text-2xl font-medium leading-snug">&ldquo;@Model.Quote&rdquo;</p>
+        @if (!string.IsNullOrWhiteSpace(Model.Attribution))
+        {
+            <footer class="mt-3 text-sm font-semibold uppercase tracking-widest opacity-70">@Model.Attribution</footer>
+        }
+    </div>
+</blockquote>

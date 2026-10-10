@@ -1,0 +1,77 @@
+{
+  "runId": "2026-10-10_1021_mcp-recipe_gemma-4-26b-a4b-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T12:00:00Z",
+  "total": 20,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 5,
+      "max": 35,
+      "notes": "dotnet build succeeds with 0 errors. Its 10 warnings are the scaffold's NU1902/NU1903 package-audit advisories, so the model introduced none (5/5). / returns 404 'No template exists to render the document at URL /' because only the scaffold's WWW siteRoot node is published. There is no blog front page and there are no posts (0/10, 0/10). No media was imported and no <img> appears on any page (0/5). No document has a domain. The three nodes the model created are unpublished drafts (0/5)."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 13,
+      "max": 25,
+      "notes": "Folders: blogFrontPage and blogPost are documents in Pages. richTextBlock and imageBlock are elements in Blocks. quoteBlock is an element but was left at the document-type root (6/8). Block set: the 'Blog Block Grid' data type (Custom/Umbraco.BlockGrid) offers rich text (text), image (MediaPicker3 image + caption) and quote (quote + attribution), and both page types have a body block grid. It is a sensible set, but no content ever used it (4/7). Structure: no type has allowed children. update-document-type failed twice on garbled arguments, so siteRoot -> blogFrontPage -> blogPost cannot be built, and create-page answered 'Operation not permitted'. Templates were created but never assigned. Aliases are camelCase and the custom data type is in /Custom (1/5). Hygiene: publishDate, excerpt and listingImage are real properties, there are no compositions and no duplicate types. But the content root now holds three stray draft siteRoot nodes: 'Site Root Page', 'Blog Front Page Type', and one whose name contains leaked tool-call tokens (2/5)."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 1,
+      "max": 25,
+      "notes": "The model wrote no Razor or C#. Views/blogFrontPage.cshtml and blogPost.cshtml are the empty stubs that create-template generated (Layout = null, no markup). There are no GetBlockGridHtmlAsync calls, adapters, ViewComponents or view models (0/7, 0/6, 0/7). Program.cs and appsettings.json are untouched and there are no migrations, but only because no code was written. The frontend was never built and the site is unstyled (1/5)."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 0,
+      "max": 10,
+      "notes": "There are no posts and no content. The front-page screenshot shows Umbraco's 'Page Not Found' screen. No blog post exists, so there was no post to screenshot."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 1,
+      "max": 5,
+      "notes": "Channel: all 77 tool calls went to the Umbraco MCP servers. The only shell commands were dotnet run and curl /healthz. It stayed in the project folder and never accessed memory. Order: the model tried to create pages (step 5) before step 3 was finished. It created siteRoot-typed drafts named 'Blog Front Page Type' before the blogFrontPage type existed, and it never finished templates and allowed children. It never reached media, domain, build, Razor or verification (steps 4 and 6-11). It ended the session on its own after Umbraco's background process timed out (1/3). There is no final report: the last message is 'The background process for starting Umbraco was stopped... I will attempt to start it again now.' It discloses none of the failures (0/2)."
+    }
+  ],
+  "summary": "The model left a partial schema built over MCP: three block element types, a Blog Block Grid data type, and blog front page and post types with sensible metadata properties. Allowed children and templates are not wired up, there is no real content (only three junk draft nodes), and there is no media, domain or Razor, so / returns 404. The session ended after 35 minutes without a report.",
+  "strengths": [
+    "Sensible block set (rich text, image with caption, quote with attribution) in a Blog Block Grid under /Custom",
+    "Post metadata (publishDate, excerpt, listingImage) modeled as real properties",
+    "Used only the MCP channel and stayed in the project folder"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "/ returns 404 'No template exists to render the document at URL /'. No front page, posts, media or domain exist."
+    },
+    {
+      "severity": "major",
+      "text": "No Razor was written: Views/blogFrontPage.cshtml and Views/blogPost.cshtml are empty create-template stubs, and there are no adapters, ViewComponents or view models."
+    },
+    {
+      "severity": "major",
+      "text": "No document type has allowed children or assigned templates. update-document-type failed on garbled arguments, so create-page returned 'Operation not permitted'."
+    },
+    {
+      "severity": "major",
+      "text": "There is no final report. The session ended with 'I will attempt to start it again now' and disclosed none of the failures."
+    },
+    {
+      "severity": "minor",
+      "text": "Three stray draft siteRoot nodes sit at the content root, one named with leaked tool-call tokens ('Blog Front Page Type\"}<tool_call|>...')."
+    },
+    {
+      "severity": "minor",
+      "text": "quoteBlock sits at the document-type root instead of the Blocks folder."
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

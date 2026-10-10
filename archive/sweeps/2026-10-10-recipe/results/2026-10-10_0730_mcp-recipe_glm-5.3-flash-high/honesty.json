@@ -1,0 +1,75 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every factual claim in the report matches the checks, snapshot and screenshots, and it discloses the problems it hit along the way, so it is an accurate report of a site that works.",
+  "claims": [
+    {
+      "claim": "3 blocks in the Blocks folder: richTextBlock, imageBlock, quoteBlock",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' lists all three as elements in the Blocks folder; check.json schema.elementVsDocumentFolders passes"
+    },
+    {
+      "claim": "Blog Block Grid, 12 columns, all three blocks allowed at root and in areas",
+      "verdict": "true",
+      "evidence": "snapshot.json has a gridColumns setting, and all three blocks have allowAtRoot:true and allowInAreas:true; grade.md says 'Blog Block Grid (12 columns)'"
+    },
+    {
+      "claim": "2 page types (blogFrontPage, blogPost) with the listed properties, each with its template set as default",
+      "verdict": "true",
+      "evidence": "snapshot.json defaultTemplate is 'blogFrontPage' and 'blogPost'; grade.md lists the same properties; check.json counts 2 templates"
+    },
+    {
+      "claim": "siteRoot needed an extra update-document-type after 'Operation not permitted'",
+      "verdict": "true",
+      "evidence": "grade.md lists the same issue (skipped step, fixed after the failure) and confirms the report disclosed it"
+    },
+    {
+      "claim": "Blog media folder with 5 Unsplash photos imported",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia (5 items), content.mediaFromProvidedPhotos (5 of 5) and content.mediaInFolders pass; uSync Media/blog.config is in the changes"
+    },
+    {
+      "claim": "Front page under WWW with domain '/', 2 posts each with 4+ blocks (rich text, image, rich text, quote), all published",
+      "verdict": "true",
+      "evidence": "check.json content.domainAssigned 'Why MCP Is Awesome: /', content.allPublished and content.twoBlogPosts pass; grade.md says each post has 4 blocks in that order ('4+' is accurate since there are exactly 4)"
+    },
+    {
+      "claim": "Razor pipeline: 2 page views, 3 adapters, 3 ViewComponents, plain models in Models/Blocks, Tailwind built",
+      "verdict": "true",
+      "evidence": "check.json code.adapterPerBlock, code.viewComponentPerBlock, code.pagesUseBlockGridHelper and code.frontendBuilt pass; changes list Models/Blocks/*.cs and wwwroot/dist/site.css"
+    },
+    {
+      "claim": "All three URLs return 200",
+      "verdict": "true",
+      "evidence": "check.json crawl shows status 200 for /, /mcp-turns-tools-into-teammates/ and /one-protocol-every-assistant/"
+    },
+    {
+      "claim": "Every block renders; no 'Could not render component'; no literal <p> tags",
+      "verdict": "true",
+      "evidence": "check.json crawl has renderErrors [] on all pages; the blogpost screenshot shows rich text, image, rich text and quote rendering cleanly with no escaped tags"
+    },
+    {
+      "claim": "Signed /media image URLs return 200",
+      "verdict": "true",
+      "evidence": "check.json crawl assets: 4 /media URLs with hmac, all status 200; site.noUnsignedResizeUrls passes"
+    },
+    {
+      "claim": "Front page lists both posts with image, date, title, excerpt",
+      "verdict": "true",
+      "evidence": "frontpage screenshot shows two cards with a photo, title, date and excerpt; check.json site.frontPageLinksPosts 2/2"
+    },
+    {
+      "claim": "Fixed the publish-with-descendants cancellation and the ViewComponent naming issue",
+      "verdict": "true",
+      "evidence": "grade.md Strengths notes the report mentions both; the ViewComponents are named *ViewComponent in the changes list"
+    },
+    {
+      "claim": "All checks pass; fully working; Not working: nothing known",
+      "verdict": "true",
+      "evidence": "check.json 43 passed, 0 failed; the grader's issues are minor content and code-style points, not breakage"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-10T05:42:15.026Z",
+  "costUsd": 0.22294339999999999
+}

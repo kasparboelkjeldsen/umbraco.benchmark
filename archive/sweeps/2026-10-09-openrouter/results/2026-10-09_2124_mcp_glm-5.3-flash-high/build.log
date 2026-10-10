@@ -1,0 +1,31 @@
+  Determining projects to restore...
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-gwg2-r3hj-4w44
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j3p4-wp97-rph4
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j9gm-c75j-xc9q
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-jjfr-hcj7-qf5w
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wmxv-xphr-5c9g
+  All projects are up-to-date for restore.
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-gwg2-r3hj-4w44
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j3p4-wp97-rph4
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j9gm-c75j-xc9q
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-jjfr-hcj7-qf5w
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wmxv-xphr-5c9g
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\wwwroot\Views\blogFrontPage.cshtml(3,11): error CS0246: The type or namespace name 'UmbracoViewPage<>' could not be found (are you missing a using directive or an assembly reference?) [C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj]
+
+Build FAILED.
+
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-gwg2-r3hj-4w44
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j3p4-wp97-rph4
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j9gm-c75j-xc9q
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-jjfr-hcj7-qf5w
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wmxv-xphr-5c9g
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-gwg2-r3hj-4w44
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j3p4-wp97-rph4
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j9gm-c75j-xc9q
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-jjfr-hcj7-qf5w
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wmxv-xphr-5c9g
+C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\wwwroot\Views\blogFrontPage.cshtml(3,11): error CS0246: The type or namespace name 'UmbracoViewPage<>' could not be found (are you missing a using directive or an assembly reference?) [C:\code\benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj]
+    10 Warning(s)
+    1 Error(s)
+
+Time Elapsed 00:00:02.35

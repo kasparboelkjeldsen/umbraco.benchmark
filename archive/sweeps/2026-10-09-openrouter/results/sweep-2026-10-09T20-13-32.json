@@ -1,0 +1,22 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-09T20:13:32.501Z",
+  "updatedAt": "2026-10-09T22:07:36.584Z",
+  "done": [
+    {
+      "label": "mistralai/mistral-large-4-0 · MCP",
+      "status": "graded",
+      "runId": "2026-10-09_2213_mcp_mistral-large-4-high",
+      "grade": "30/100",
+      "error": null
+    },
+    {
+      "label": "mistralai/mistral-large-4-0 · MCP",
+      "status": "graded",
+      "runId": "2026-10-09_2317_mcp_mistral-large-4-high",
+      "grade": "95/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

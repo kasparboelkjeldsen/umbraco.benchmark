@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "local",
+  "model": "gemma-4-26b-a4b",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-10T07:52:03.646Z",
+  "sessionId": "be42f8f6-0c84-46ab-8436-b24015fe75b8",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "local",
+    "upstream": "lmstudio:8001",
+    "model": "gemma-4-26b-a4b-it-qat",
+    "identifier": "gemma-4-26b-a4b",
+    "contextLength": 131072,
+    "thinking": false,
+    "rewrite": true,
+    "usageFix": true,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\local-proxy-2026-10-10T07-52-33-gemma-4-26b-a4b.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for gemma-4-26b-a4b; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 99374,
+    "costUsd": 0.168095,
+    "isError": false,
+    "toolCalls": 1,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 1398919,
+    "costUsd": 1.9198369999999998,
+    "isError": true,
+    "toolCalls": 46,
+    "failedToolCalls": 13,
+    "results": 1,
+    "terminalReason": "api_error"
+  },
+  "endpointStats": {
+    "requests": 48,
+    "tokens": {
+      "input": 56596,
+      "output": 22856,
+      "cacheRead": 2130914,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": "loop: 4x the same failing call: mcp__umbraco__update-document-type {\"data\":{\"allowedDocumentTypes\":[{\"documentType\":{\"id\":\"4bd9e232-482c-4588-bd1d-b2f53d5a8002\\\"},sortOrder:0}],allowedTemplates:[],compositions:[],cleanup:{keepAllVer"
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\be42f8f6-0c84-46ab-8436-b24015fe75b8.jsonl",
+  "runId": "2026-10-10_0952_mcp-recipe_gemma-4-26b-a4b-high",
+  "log": "bench\\logs\\auto-2026-10-10T07-52-03-mcp-recipe-gemma-4-26b-a4b.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 152144,
+    "costUsd": 0.7491168,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-10T08-18-03-grader.jsonl",
+    "finalMessage": "The run `2026-10-10_0952_mcp-recipe_gemma-4-26b-a4b-high` (Gemma 4 26B A4B, MCP Recipe test) scored **22/100**. The grade is written, it shows up in `npm run report`, the solution is archived as `refs/runs/2026-10-10_0952_mcp-recipe_gemma-4-26b-a4b-high`, and `npm run status` says **pristine**.\n\n| Category | Score | Max |\n|---|---:|---:|\n| It works | 5 | 35 |\n| Content modeling | 14 | 25 |\n| Code architecture & conventions | 1 | 25 |\n| Content & presentation | 0 | 10 |\n| Process & honesty | 2 | 5 |\n\n**Summary:** After 24 minutes, the benchmark guard stopped the run because the model kept repeating the same broken `update-document-type` call (13 tool calls failed in total). It left only part of a schema:\n- three block types with sensible fields: rich text, image with caption, and quote with attribution;\n- a \"Blog Block Grid\" data type in `/Custom`;\n- `blogFrontPage` and `blogPost` page types, with real date, excerpt, listing image and block grid body fields.\n\nIt never got to content, media, a domain or Razor views, so `/` returns 404.\n\n**Top issues:**\n1. `/` returns 404 (\"No template exists to render the document at URL '/'\"). There is no front page and there are no posts, and the front-page screenshot is Umbraco's Page Not Found screen.\n2. No Razor was written. `Views/blogFrontPage.cshtml` and `Views/blogPost.cshtml` are empty stubs that the MCP template tool created, and there are no adapters, ViewComponents or view models.\n3. The page types aren't connected: none allows child pages, and neither has its template assigned. Setting allowed children was the call it was looping on when it was stopped.\n4. There is no final report, only the guard's stop message, so that part of \"Process & honesty\" scored 0.\n5. No media was imported and no page has a domain. `quoteBlock` is also filed at the document-type root instead of the Blocks folder.\n\nOn the positive side, it used only the MCP server for schema work and stayed inside the project folder. The 10 build warnings come from the scaffold's ImageSharp package, not from the model, so the build kept its full 5 points.\n\nI graded at low effort and labelled the grade \"Opus 5.5 (low)\". The exam prompt suggests a high-effort grader, so you may want this run regraded at high effort.\n\nFiles are in `results/2026-10-10_0952_mcp-recipe_gemma-4-26b-a4b-high/`:\n- grade.json\n- grade.md"
+  }
+}
