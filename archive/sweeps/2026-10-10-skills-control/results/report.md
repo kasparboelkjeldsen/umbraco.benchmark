@@ -1,0 +1,83 @@
+# Umbraco benchmark — model comparison
+
+Generated 10/10/2026, 18:40:51
+
+## Test: MCP Skills control
+
+### Time
+
+| Phase | Glm 5.3 Flash |
+| --- | ---: |
+| Prompt 1: verify MCP | 0:06 |
+| Boot, read rules, plan → first type created | 0:43 |
+| Content modeling | 0:58 |
+| Content: media, pages, publish | 0:58 |
+| Stop, build, Razor, restart | 1:52 |
+| Checking the result and final report | 0:28 |
+| Total from first prompt | 5:06 |
+| Blog prompt only | 5:00 |
+
+### Tokens
+
+| Tokens | Glm 5.3 Flash |
+| --- | ---: |
+| API requests | 81 |
+| Fresh input | 93,821 |
+| Cache creation | 0 |
+| Cache read | 4,759,552 |
+| Output | 21,652 |
+| &nbsp;&nbsp;of which thinking | 8,632 |
+| Total | 4,875,025 |
+| Total excluding cache reads | 115,473 |
+
+### Tokens by activity
+
+| Activity | Glm 5.3 Flash |
+| --- | ---: |
+| Umbraco MCP | 1,544,325 (32%) |
+| Coding: site (views, components, models) | 580,083 (12%) |
+| Build, run & verify | 176,155 (4%) |
+| Base context & reasoning | 2,574,463 (53%) |
+
+### Tokens by activity, excluding cache reads
+
+| Activity | Glm 5.3 Flash |
+| --- | ---: |
+| Umbraco MCP | 40,060 (35%) |
+| Coding: site (views, components, models) | 26,309 (23%) |
+| Build, run & verify | 8,958 (8%) |
+| Base context & reasoning | 40,146 (35%) |
+
+### Tool calls
+
+| Tool | Glm 5.3 Flash |
+| --- | ---: |
+| Shell (Bash) | 21 |
+| Umbraco MCP | 47 |
+| Read / Grep / Glob | 4 |
+| Edit / Write | 16 |
+| Background task control | 1 |
+| &nbsp;&nbsp;Umbraco MCP reads / writes | 13 / 34 |
+| Total tool calls | 89 |
+| Tool calls per API request | 1.10 |
+| Failed tool calls | 3 |
+| Files written with heredocs | 0 |
+| dotnet build (failed) | 2 (0) |
+
+### Grade
+
+| Category | Glm 5.3 Flash |
+| --- | ---: |
+| It works (/35) | 35 |
+| Content modeling (/25) | 22 |
+| Code architecture & conventions (/25) | 23 |
+| Content & presentation (/10) | 6 |
+| Process & honesty (/5) | 4 |
+| Total | 90/100 |
+| Automated checks passed | 43/43 |
+| Graded by | Opus 5.5 (high) |
+
+#### Runs
+
+- **Glm 5.3 Flash** — `2026-10-10_1831_mcp-skills-control_glm-5.3-flash-high`, model `z-ai/glm-5.3-flash`, effort high, Claude Code 2.1.293, headless (npm run auto, bypassPermissions)
+  - A clean MCP-built blog that follows the block grid adapter→ViewComponent pipeline exactly: a Blog front page with a hero block and post listing, and two published MCP posts made of hero/text/imageText blocks with imported Unsplash photos. It is let down by a Tailwind build that ran before the views existed, which leaves the site unstyled (not disclosed in the report), and by a thin post model (no date or listing image).

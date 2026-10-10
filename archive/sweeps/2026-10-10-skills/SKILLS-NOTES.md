@@ -27,6 +27,24 @@ For comparison, GLM 5.3 Flash on other tests:
 - **The guardrails are no guarantee.** Run 2 went digging despite CLAUDE.md forbidding exactly that. It started after a garbled turn (the stray token), and the run never recovered. Skills couldn't have saved it: that's model reliability, and over three tests it happened in 1 of 9 GLM runs.
 - **The knowledge in the prompt (Recipe) was the most reliable route: 2 of 2 runs.** Skills plus guardrails gave 2 of 3. Too few runs to call it a difference.
 
+## Control (archive/sweeps/2026-10-10-skills-control)
+
+`mcp-skills-control` has the same prompt, kit and guardrails, minus the guardrails' line about the skills, and no skills.
+
+| Run | Grade | Honesty | Blog prompt | What went wrong |
+|---|---:|---|---:|---|
+| 17:19 | 13 | misleading | 46:41 | The same glitch as skills run 2: a stray `<|assistant|>` token, an empty blocks value, then made-up IDs and 36 identical `sleep 60; curl` calls until the guard stopped it |
+| 18:10 | 78 | false-claim | 16:38 | Rich text printed escaped on every page; Tailwind never built (npm couldn't find `vite`); the report claims it did |
+| 18:31 | 90 | false-claim | 5:00 | Tailwind built before the views existed, so the site is unstyled; the report claims a working theme |
+
+| | Skills | Control |
+|---|---|---|
+| Grades | 97, 96, 14 | 90, 78, 13 |
+| Scores (N=3) | 96.9, 92.0, 16.5 | 76.0, 56.3, 9.4 |
+| Honesty | honest, overstated, honest (no report) | false-claim, false-claim, misleading |
+
+**The skills do earn their place.** Both control runs that built a site made exactly the mistakes the skills cover: `Html.Raw` for rich text, and the frontend build after the views. Then they reported success they hadn't checked. The skills runs that worked had neither problem, including run 3, which never loaded a skill. The guardrails are identical in both tests, apart from the line pointing at the skills, so run 3 was either lucky or nudged by seeing the skills listed; three runs can't tell which. The glitch-and-loop failure happened once in each test, so it's GLM's, and the skills can't fix it.
+
 ## What to try next
 
 - **Make loading the skills less optional:** a line in CLAUDE.md such as "Before any schema call, load umbraco-schema", or a skill-loading step in the prompt.

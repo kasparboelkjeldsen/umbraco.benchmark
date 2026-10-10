@@ -1,0 +1,547 @@
+diff --git a/.mcp.json b/.mcp.json
+index 59e17c6..7890748 100644
+--- a/.mcp.json
++++ b/.mcp.json
+@@ -2,15 +2,31 @@
+   "mcpServers": {
+     "umbraco": {
+       "command": "npx",
+-      "args": ["-y", "@umbraco-cms/mcp-dev@18"],
++      "args": [
++        "-y",
++        "@umbraco-cms/mcp-dev@18"
++      ],
+       "env": {
+         "NODE_TLS_REJECT_UNAUTHORIZED": "0",
+         "UMBRACO_CLIENT_ID": "umbraco-back-office-mcp-local-only",
+         "UMBRACO_CLIENT_SECRET": "mcp-local-dev-secret-b3ll4b00t-not-a-real-secret",
+         "UMBRACO_BASE_URL": "${UMBRACO_MCP_URL:-https://localhost:44317}",
+-        "UMBRACO_INCLUDE_TOOL_COLLECTIONS": "document,document-type,data-type,template,media",
++        "UMBRACO_INCLUDE_TOOLS": "get-all-document-types,get-document-type-by-id,get-document-type-root,get-document-type-children,create-document-type,create-element-type,update-document-type,move-document-type,get-all-data-types,find-data-type,get-data-type,get-data-type-schema,create-data-type,update-data-type,get-template-root,get-template,create-template,update-template,get-media-root,get-media-children,get-media-by-id,create-media-folder,create-media,create-media-multiple,get-document-domains,put-document-domains",
+         "UMBRACO_ALLOWED_MEDIA_PATHS": "unsplash"
+       }
++    },
++    "umbraco-editor": {
++      "command": "node",
++      "args": [
++        "C:/code/benchmark/bench/mcp-editor/node_modules/@umbraco-cms/mcp-editor/dist/index.js"
++      ],
++      "env": {
++        "NODE_TLS_REJECT_UNAUTHORIZED": "0",
++        "UMBRACO_CLIENT_ID": "umbraco-back-office-mcp-local-only",
++        "UMBRACO_CLIENT_SECRET": "mcp-local-dev-secret-b3ll4b00t-not-a-real-secret",
++        "UMBRACO_BASE_URL": "${UMBRACO_MCP_URL:-https://localhost:44317}",
++        "UMBRACO_INCLUDE_TOOLS": "list-document-types,get-document-type,list-page-templates,list-children,search-content,get-page,inspect-blocks,get-property-value-template,create-page,create-and-publish-page,add-blockgrid-block,add-rte-block,edit-page,edit-block,delete-block,set-page-template,publish-page,save-and-publish"
++      }
+     }
+   }
+ }
+diff --git a/Umbraco.Bench.Umbraco/Models/Blocks/BlockPresentation.cs b/Umbraco.Bench.Umbraco/Models/Blocks/BlockPresentation.cs
+new file mode 100644
+index 0000000..3406bfa
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Models/Blocks/BlockPresentation.cs
+@@ -0,0 +1,12 @@
++namespace Umbraco.Bench.Umbraco.Models.Blocks;
++
++/// <summary>
++/// Presentation settings shared by every block (background, spacing, anchor).
++/// </summary>
++public sealed record BlockPresentation(string? BackgroundColor, int? Spacing, string? AnchorId)
++{
++    public static BlockPresentation From(BlockSettings? settings) => new(
++        settings?.BackgroundColor?.Color,
++        settings?.Spacing is > 0 ? settings.Spacing : null,
++        string.IsNullOrWhiteSpace(settings?.AnchorId) ? null : settings.AnchorId);
++}
+diff --git a/Umbraco.Bench.Umbraco/Models/Blocks/HeroModel.cs b/Umbraco.Bench.Umbraco/Models/Blocks/HeroModel.cs
+new file mode 100644
+index 0000000..56de898
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Models/Blocks/HeroModel.cs
+@@ -0,0 +1,5 @@
++namespace Umbraco.Bench.Umbraco.Models.Blocks;
++
++public sealed record HeroModel(string Heading, string? IntroText, string? ImageUrl, string? ImageAlt, CtaLinkModel? Cta, BlockPresentation Presentation);
++
++public sealed record CtaLinkModel(string Url, string Text);
+diff --git a/Umbraco.Bench.Umbraco/Models/Blocks/SimpleModels.cs b/Umbraco.Bench.Umbraco/Models/Blocks/SimpleModels.cs
+new file mode 100644
+index 0000000..f772fb2
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Models/Blocks/SimpleModels.cs
+@@ -0,0 +1,16 @@
++using Microsoft.AspNetCore.Html;
++using Umbraco.Cms.Core.Strings;
++
++namespace Umbraco.Bench.Umbraco.Models.Blocks;
++
++public sealed record HeadingModel(string? Heading, BlockPresentation Presentation);
++
++public sealed record RichTextModel(IHtmlEncodedString? Text, BlockPresentation Presentation);
++
++public sealed record ImageModel(string? ImageUrl, string? Alt, string? Caption, BlockPresentation Presentation);
++
++public sealed record QuoteModel(string? Quote, string? Attribution, BlockPresentation Presentation);
++
++public sealed record PostListItem(string Url, string Title, string? Excerpt);
++
++public sealed record PostListModel(string? Heading, IReadOnlyList<PostListItem> Posts, BlockPresentation Presentation);
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/HeadingViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/HeadingViewComponent.cs
+new file mode 100644
+index 0000000..2476b6a
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/HeadingViewComponent.cs
+@@ -0,0 +1,9 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models.Blocks;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class HeadingViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(HeadingModel model) => View(model);
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs
+new file mode 100644
+index 0000000..7a97230
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs
+@@ -0,0 +1,9 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models.Blocks;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class HeroViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(HeroModel model) => View(model);
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/ImageViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/ImageViewComponent.cs
+new file mode 100644
+index 0000000..5476186
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/ImageViewComponent.cs
+@@ -0,0 +1,9 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models.Blocks;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class ImageViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(ImageModel model) => View(model);
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/PostListViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/PostListViewComponent.cs
+new file mode 100644
+index 0000000..aa655f5
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/PostListViewComponent.cs
+@@ -0,0 +1,9 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models.Blocks;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class PostListViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(PostListModel model) => View(model);
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/QuoteViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/QuoteViewComponent.cs
+new file mode 100644
+index 0000000..d70ac8e
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/QuoteViewComponent.cs
+@@ -0,0 +1,9 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models.Blocks;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class QuoteViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(QuoteModel model) => View(model);
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/RichTextViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/RichTextViewComponent.cs
+new file mode 100644
+index 0000000..8d88b2f
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/RichTextViewComponent.cs
+@@ -0,0 +1,9 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models.Blocks;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class RichTextViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(RichTextModel model) => View(model);
++}
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/headingBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/headingBlock.cshtml
+new file mode 100644
+index 0000000..a088291
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/headingBlock.cshtml
+@@ -0,0 +1,10 @@
++@inherits UmbracoViewPage<BlockGridItem<HeadingBlock>>
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@using Umbraco.Bench.Umbraco.Models.Blocks
++@{
++    var model = new HeadingModel(
++        Model.Content.Heading,
++        BlockPresentation.From(Model.Settings as BlockSettings));
++}
++@await Component.InvokeAsync("Heading", new { model })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml
+new file mode 100644
+index 0000000..887ea40
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml
+@@ -0,0 +1,15 @@
++@inherits UmbracoViewPage<BlockGridItem<HeroBlock>>
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@using Umbraco.Bench.Umbraco.Models.Blocks
++@{
++    var cta = Model.Content.CtaLink?.FirstOrDefault();
++    var model = new HeroModel(
++        Model.Content.Heading ?? "",
++        Model.Content.IntroText,
++        Model.Content.BackgroundImage?.GetCropUrl(width: 1600),
++        Model.Content.BackgroundImage?.Name,
++        cta is null ? null : new CtaLinkModel(cta.Url, cta.Name),
++        BlockPresentation.From(Model.Settings as BlockSettings));
++}
++@await Component.InvokeAsync("Hero", new { model })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml
+new file mode 100644
+index 0000000..fe1958c
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/imageBlock.cshtml
+@@ -0,0 +1,12 @@
++@inherits UmbracoViewPage<BlockGridItem<ImageBlock>>
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@using Umbraco.Bench.Umbraco.Models.Blocks
++@{
++    var model = new ImageModel(
++        Model.Content.Image?.GetCropUrl(width: 1200),
++        Model.Content.Image?.Name,
++        Model.Content.Caption,
++        BlockPresentation.From(Model.Settings as BlockSettings));
++}
++@await Component.InvokeAsync("Image", new { model })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/postListBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/postListBlock.cshtml
+new file mode 100644
+index 0000000..8311026
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/postListBlock.cshtml
+@@ -0,0 +1,16 @@
++@inherits UmbracoViewPage<BlockGridItem<PostListBlock>>
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@using Umbraco.Bench.Umbraco.Models.Blocks
++@{
++    var posts = Umbraco.AssignedContentItem?
++        .AncestorOrSelf<BlogFrontPage>()
++        ?.Children<BlogPost>()
++        .OrderByDescending(p => p.CreateDate)
++        .ToList() ?? [];
++    var listModel = new PostListModel(
++        Model.Content.Heading,
++        posts.Select(p => new PostListItem(p.Url(), p.Name(), p.Excerpt)).ToList(),
++        BlockPresentation.From(Model.Settings as BlockSettings));
++}
++@await Component.InvokeAsync("PostList", new { model = listModel })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/quoteBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/quoteBlock.cshtml
+new file mode 100644
+index 0000000..66a0a8a
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/quoteBlock.cshtml
+@@ -0,0 +1,11 @@
++@inherits UmbracoViewPage<BlockGridItem<QuoteBlock>>
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@using Umbraco.Bench.Umbraco.Models.Blocks
++@{
++    var model = new QuoteModel(
++        Model.Content.Quote,
++        Model.Content.Attribution,
++        BlockPresentation.From(Model.Settings as BlockSettings));
++}
++@await Component.InvokeAsync("Quote", new { model })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/richTextBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/richTextBlock.cshtml
+new file mode 100644
+index 0000000..e584f72
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/richTextBlock.cshtml
+@@ -0,0 +1,10 @@
++@inherits UmbracoViewPage<BlockGridItem<RichTextBlock>>
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@using Umbraco.Bench.Umbraco.Models.Blocks
++@{
++    var model = new RichTextModel(
++        Model.Content.Text,
++        BlockPresentation.From(Model.Settings as BlockSettings));
++}
++@await Component.InvokeAsync("RichText", new { model })
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/Heading/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/Heading/Default.cshtml
+new file mode 100644
+index 0000000..d3f77b5
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/Heading/Default.cshtml
+@@ -0,0 +1,13 @@
++@model Umbraco.Bench.Umbraco.Models.Blocks.HeadingModel
++@if (string.IsNullOrWhiteSpace(Model.Heading)) { return; }
++@{
++    var style = Model.Presentation.BackgroundColor is { } bg ? $"background-color:{bg};" : "";
++    var pad = Model.Presentation.Spacing is { } s ? $"padding:{s}px;" : "";
++}
++<div style="@style@pad">
++    @if (Model.Presentation.AnchorId is { } anchor)
++    {
++        <span id="@anchor"></span>
++    }
++    <h2 class="max-w-6xl mx-auto px-6 pt-12 pb-2 text-2xl md:text-3xl font-bold tracking-tight">@Model.Heading</h2>
++</div>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml
+new file mode 100644
+index 0000000..fb1b820
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml
+@@ -0,0 +1,28 @@
++@model Umbraco.Bench.Umbraco.Models.Blocks.HeroModel
++@using Microsoft.AspNetCore.Html
++@{
++    var style = Model.Presentation.BackgroundColor is { } bg ? $"background-color:{bg};" : "";
++    var pad = Model.Presentation.Spacing is { } s ? $"padding:{s}px;" : "";
++}
++<section class="relative overflow-hidden text-white" style="@style">
++    @if (Model.ImageUrl is { } imageUrl)
++    {
++        <img src="@imageUrl" alt="@Model.ImageAlt" class="absolute inset-0 h-full w-full object-cover" />
++        <div class="absolute inset-0 bg-slate-950/60"></div>
++    }
++    <div class="relative max-w-6xl mx-auto px-6 py-24" style="@pad">
++        @if (Model.Presentation.AnchorId is { } anchor)
++        {
++            <span id="@anchor"></span>
++        }
++        <h1 class="text-4xl md:text-5xl font-bold tracking-tight max-w-3xl drop-shadow-sm">@Model.Heading</h1>
++        @if (Model.IntroText is { } intro)
++        {
++            <p class="mt-4 text-lg md:text-xl text-slate-100 max-w-2xl">@intro</p>
++        }
++        @if (Model.Cta is { } cta)
++        {
++            <a href="@cta.Url" class="inline-block mt-8 rounded-full bg-white px-6 py-3 text-sm font-semibold text-slate-900 hover:bg-slate-200 transition">@cta.Text</a>
++        }
++    </div>
++</section>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/Image/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/Image/Default.cshtml
+new file mode 100644
+index 0000000..022d11e
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/Image/Default.cshtml
+@@ -0,0 +1,17 @@
++@model Umbraco.Bench.Umbraco.Models.Blocks.ImageModel
++@if (Model.ImageUrl is not { } imageUrl) { return; }
++@{
++    var style = Model.Presentation.BackgroundColor is { } bg ? $"background-color:{bg};" : "";
++    var pad = Model.Presentation.Spacing is { } s ? $"padding:{s}px;" : "";
++}
++<figure class="max-w-6xl mx-auto px-6" style="@style@pad">
++    @if (Model.Presentation.AnchorId is { } anchor)
++    {
++        <span id="@anchor"></span>
++    }
++    <img src="@imageUrl" alt="@Model.Alt" class="w-full rounded-2xl shadow-lg" />
++    @if (Model.Caption is { } caption)
++    {
++        <figcaption class="mt-2 text-sm text-slate-500 text-center">@caption</figcaption>
++    }
++</figure>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/PostList/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/PostList/Default.cshtml
+new file mode 100644
+index 0000000..8a28b1d
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/PostList/Default.cshtml
+@@ -0,0 +1,37 @@
++@model Umbraco.Bench.Umbraco.Models.Blocks.PostListModel
++@{
++    var style = Model.Presentation.BackgroundColor is { } bg ? $"background-color:{bg};" : "";
++    var pad = Model.Presentation.Spacing is { } s ? $"padding:{s}px;" : "";
++}
++<div class="max-w-6xl mx-auto px-6" style="@style@pad">
++    @if (Model.Presentation.AnchorId is { } anchor)
++    {
++        <span id="@anchor"></span>
++    }
++    @if (Model.Posts.Count == 0)
++    {
++        if (!string.IsNullOrWhiteSpace(Model.Heading))
++        {
++            <h2 class="text-2xl md:text-3xl font-bold tracking-tight py-6">@Model.Heading</h2>
++        }
++        <p class="text-slate-500 py-4">No posts yet — check back soon.</p>
++        return;
++    }
++    <div class="grid gap-6 py-6 sm:grid-cols-2">
++        @foreach (var post in Model.Posts)
++        {
++            <a href="@post.Url" class="group block rounded-2xl border border-slate-200 bg-white p-6 shadow-sm hover:shadow-md transition">
++                @if (!string.IsNullOrWhiteSpace(Model.Heading))
++                {
++                    <p class="text-xs font-semibold uppercase tracking-wider text-sky-600">@Model.Heading</p>
++                }
++                <h3 class="mt-1 text-xl font-bold tracking-tight text-slate-900 group-hover:text-sky-700 transition">@post.Title</h3>
++                @if (post.Excerpt is { } excerpt)
++                {
++                    <p class="mt-2 text-sm text-slate-600 line-clamp-3">@excerpt</p>
++                }
++                <p class="mt-4 text-sm font-semibold text-sky-600">Read post →</p>
++            </a>
++        }
++    </div>
++</div>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/Quote/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/Quote/Default.cshtml
+new file mode 100644
+index 0000000..8466d55
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/Quote/Default.cshtml
+@@ -0,0 +1,17 @@
++@model Umbraco.Bench.Umbraco.Models.Blocks.QuoteModel
++@if (string.IsNullOrWhiteSpace(Model.Quote)) { return; }
++@{
++    var style = Model.Presentation.BackgroundColor is { } bg ? $"background-color:{bg};" : "";
++    var pad = Model.Presentation.Spacing is { } s ? $"padding:{s}px;" : "";
++}
++<blockquote class="max-w-3xl mx-auto px-6 py-8" style="@style@pad">
++    @if (Model.Presentation.AnchorId is { } anchor)
++    {
++        <span id="@anchor"></span>
++    }
++    <p class="text-xl md:text-2xl font-medium italic text-slate-800">“@Model.Quote”</p>
++    @if (Model.Attribution is { } attribution)
++    {
++        <footer class="mt-3 text-sm font-medium text-slate-500">— @attribution</footer>
++    }
++</blockquote>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/RichText/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/RichText/Default.cshtml
+new file mode 100644
+index 0000000..d98abb2
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/RichText/Default.cshtml
+@@ -0,0 +1,15 @@
++@model Umbraco.Bench.Umbraco.Models.Blocks.RichTextModel
++@if (Model.Text is not { } text || string.IsNullOrWhiteSpace(text.ToHtmlString())) { return; }
++@{
++    var style = Model.Presentation.BackgroundColor is { } bg ? $"background-color:{bg};" : "";
++    var pad = Model.Presentation.Spacing is { } s ? $"padding:{s}px;" : "";
++}
++<div class="max-w-6xl mx-auto px-6" style="@style@pad">
++    @if (Model.Presentation.AnchorId is { } anchor)
++    {
++        <span id="@anchor"></span>
++    }
++    <div class="prose prose-slate max-w-none py-4 [&_a]:text-sky-600 [&_a]:font-medium [&_strong]:text-slate-900">
++        @text
++    </div>
++</div>
+diff --git a/Umbraco.Bench.Umbraco/Views/_ViewImports.cshtml b/Umbraco.Bench.Umbraco/Views/_ViewImports.cshtml
+index 6e4cdfe..dcc5169 100644
+--- a/Umbraco.Bench.Umbraco/Views/_ViewImports.cshtml
++++ b/Umbraco.Bench.Umbraco/Views/_ViewImports.cshtml
+@@ -1,6 +1,7 @@
+-@using Umbraco.Extensions
+-@using Umbraco.Cms.Web.Common.PublishedModels
+-@using Umbraco.Cms.Web.Common.Views
+-@using Umbraco.Cms.Core.Models.PublishedContent
+-@using Microsoft.AspNetCore.Html
++@using Umbraco.Extensions
++@using Umbraco.Cms.Web.Common.PublishedModels
++@using Umbraco.Bench.Umbraco.Models
++@using Umbraco.Cms.Web.Common.Views
++@using Umbraco.Cms.Core.Models.PublishedContent
++@using Microsoft.AspNetCore.Html
+ @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+\ No newline at end of file
+diff --git a/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml b/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml
+new file mode 100644
+index 0000000..ba05689
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml
+@@ -0,0 +1,5 @@
++@inherits UmbracoViewPage<BlogFrontPage>
++@{
++    Layout = "siteLayout.cshtml";
++}
++@await Html.GetBlockGridHtmlAsync(Model, "blocks")
+\ No newline at end of file
+diff --git a/Umbraco.Bench.Umbraco/Views/blogPost.cshtml b/Umbraco.Bench.Umbraco/Views/blogPost.cshtml
+new file mode 100644
+index 0000000..2c6a1a2
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/blogPost.cshtml
+@@ -0,0 +1,21 @@
++@inherits UmbracoViewPage<BlogPost>
++@{
++    Layout = "siteLayout.cshtml";
++    var parent = Model.Ancestor<BlogFrontPage>();
++}
++<article>
++    <div class="max-w-3xl mx-auto px-6 pt-10 pb-4">
++        @if (parent is not null)
++        {
++            <p class="text-sm font-medium text-sky-600"><a href="@parent.Url()">@parent.Name()</a></p>
++        }
++        <h1 class="text-4xl font-bold tracking-tight mt-2">@Model.Name()</h1>
++        @if (Model.Excerpt is { } excerpt)
++        {
++            <p class="text-lg text-slate-600 mt-3">@excerpt</p>
++        }
++    </div>
++    <div class="max-w-3xl mx-auto px-6 pb-16">
++        @await Html.GetBlockGridHtmlAsync(Model, "blocks")
++    </div>
++</article>
+\ No newline at end of file
+diff --git a/Umbraco.Bench.Umbraco/Views/siteLayout.cshtml b/Umbraco.Bench.Umbraco/Views/siteLayout.cshtml
+new file mode 100644
+index 0000000..6c5f940
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/siteLayout.cshtml
+@@ -0,0 +1,30 @@
++@inherits UmbracoViewPage
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="utf-8" />
++    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
++    <title>@Model.Name() — MCP Matters</title>
++    <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
++    <script type="module" src="~/dist/main.js" asp-append-version="true"></script>
++</head>
++<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col antialiased">
++    <header class="bg-white border-b border-slate-200">
++        <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
++            <a href="/" class="text-lg font-bold tracking-tight">MCP Matters</a>
++            <nav class="flex items-center gap-6 text-sm font-medium text-slate-600">
++                <a href="/" class="hover:text-slate-900">Home</a>
++            </nav>
++        </div>
++    </header>
++    <main class="flex-1">
++        @RenderBody()
++    </main>
++    <footer class="bg-slate-900 text-slate-400">
++        <div class="max-w-6xl mx-auto px-6 py-8 text-sm flex flex-wrap items-center justify-between gap-2">
++            <p>MCP Matters — a tiny blog built to demo the Umbraco MCP servers.</p>
++            <p>Umbraco 18 + Claude Code, October 2026</p>
++        </div>
++    </footer>
++</body>
++</html>
+\ No newline at end of file
