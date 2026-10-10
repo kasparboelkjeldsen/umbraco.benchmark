@@ -27,6 +27,11 @@ if (v.mcpJson === "baseline") git(["checkout", "baseline", "--", ".mcp.json"]);
 else if (v.mcpJson === null) fs.rmSync(mcpFile, { force: true });
 else writeJson(mcpFile, v.mcpJson);
 v.prepare?.();
+// a test's project kit (MCP Skills: skills + CLAUDE.md) lives in .claude/, which runs never diff: clear it for every
+// test, then copy this test's in
+const claudeDir = path.join(PROJECT, ".claude");
+for (const e of ["skills", "CLAUDE.md"]) fs.rmSync(path.join(claudeDir, e), { recursive: true, force: true });
+if (v.kit) fs.cpSync(v.kit, claudeDir, { recursive: true });
 writeVariantState(key);
 
 console.log(`Umbraco.Bench is set up for the ${v.name} test (${v.mcpJson === null ? "no MCP servers" : v.mcpJson === "baseline" ? "Umbraco MCP server" : `MCP servers: ${Object.keys(v.mcpJson.mcpServers).join(", ")}`}).

@@ -1,0 +1,29 @@
+{
+  "runId": "2026-10-10_1540_mcp-skills_glm-5.3-flash-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T16:30:00Z",
+  "total": 96,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "Build succeeds with 0 errors; the 10 warnings are the scaffold's pre-existing ImageSharp NU1902/NU1903 advisories. / returns 200 through the '/' domain on 'The MCP Blog' (blogSite) and lists both posts via a postListBlock as cards with title link, post date and excerpt; links work. Both posts render every block (heroBlock, richTextBlock, imageBlock, quoteBlock) with no 'Could not render component'. 5 provided Unsplash photos imported into a 'Blog' media folder and served through signed GetCropUrl URLs (5/5 load). All content published." },
+    { "id": "modeling", "name": "Content modeling", "score": 25, "max": 25, "notes": "Folders 8/8: heroBlock, richTextBlock, imageBlock, quoteBlock, postListBlock are elements in Blocks; pageSeo (metaTitle/metaDescription) is an element in Compositions; blogSite/blogPost are documents in Pages; siteRoot untouched in Repositories. Block grid 7/7: one 'Blog Block Grid' with five sensible blocks, used on both page types; posts are split over 4-5 blocks. Structure 5/5: siteRoot is the only root type and allows blogSite, blogSite allows only blogPost, default templates assigned, camelCase aliases, data type filed in Custom/Umbraco.BlockGrid. Hygiene 5/5: the composition holds only SEO meta; excerpt and postDate are real properties used by the listing; no duplicates or orphans." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 25, "max": 25, "notes": "blogSiteTemplate.cshtml and blogPostTemplate.cshtml render with Html.GetBlockGridHtmlAsync(Model, \"blocks\"); scaffold blockgrid partials unchanged. Five adapters in Views/Partials/blockgrid/Components/<alias>.cshtml take BlockGridItem<T>, map to plain models in Models/Blocks/BlockModels.cs (postListBlock queries the site's BlogPost children with friendly AncestorOrSelf/Children/Url) and call Component.InvokeAsync with no markup. Five ViewComponents (Hero, RichText, ImageBlock, Quote, PostList) render Views/Shared/Components/<Name>/Default.cshtml with plain-model-only views. Program.cs/appsettings.json untouched, no migrations, GetCropUrl throughout, Tailwind built into wwwroot/dist/site.css. (Header/footer markup is duplicated across two Layout=null templates rather than a shared layout; not a rubric item.)" },
+    { "id": "content", "name": "Content & presentation", "score": 7, "max": 10, "notes": "Writing 4/6: both posts are on topic and accurate (N×M integration problem, the USB-C analogy, composability, explicit security boundaries, ecosystem, small spec), use relevant credited photos and are spread over 4-5 blocks. But they are short (~200-280 words each): post 2's body is one intro sentence plus five one-line numbered reasons. Presentation 3/4: a coherent dark-header Tailwind design with hero, card listing, readable max-w-3xl column, styled quote and footer. But post pages show the title twice (template h1 + hero h1 with the same text), rich text paragraphs run together because the 'prose' classes do nothing (no typography plugin in site.css), and listing cards have no images." },
+    { "id": "process", "name": "Process & honesty", "score": 4, "max": 5, "notes": "Schema, media and the domain went through the umbraco (dev) MCP server; pages, blocks and publishing through umbraco-editor. No Management API, DB, uSync or migration use, no memory or out-of-folder access, no warnings. One order deviation: all Razor views, models and ViewComponents were written while the site was still running, before the stop/dotnet build step the prescribed order puts first (-1); two compile fixes followed. The umbraco-* skills were never invoked. The final report is accurate (it names its own http://localhost:41576 port, the two compile iterations, and claims nothing false)." }
+  ],
+  "summary": "A clean, convention-perfect MCP-built blog: five block types rendered through adapters and ViewComponents, a block-grid front page with a dynamic post list, and two published posts with real date/excerpt properties and provided Unsplash photos. Lost points only on thin post copy, small presentation flaws (duplicated post title, unspaced paragraphs) and writing views before the stop/build step.",
+  "strengths": [
+    "All 43 automated checks pass; build clean apart from scaffold warnings",
+    "Textbook block pipeline: GetBlockGridHtmlAsync → alias adapters → plain models → ViewComponents",
+    "Tidy schema: five reusable blocks, an SEO-only composition, real excerpt/postDate properties, correct folders and allowed children",
+    "Front page post list is a block that queries real blogPost children, with date and excerpt",
+    "Provided photos imported into a media folder and served through signed GetCropUrl URLs with credited captions"
+  ],
+  "issues": [
+    { "severity": "minor", "text": "Posts are thin (~200-280 words); /mcp-in-practice-five-reasons-agents-love-it/ is an intro sentence plus five one-line reasons" },
+    { "severity": "minor", "text": "Post pages show the title twice: blogPostTemplate.cshtml renders an h1 and the hero block repeats the same heading in another h1" },
+    { "severity": "minor", "text": "Rich text paragraphs have no spacing: Views/Shared/Components/RichText/Default.cshtml relies on 'prose' classes, but the Tailwind typography plugin isn't installed, so site.css has no .prose rules" },
+    { "severity": "minor", "text": "Order of operations: Razor views were written before stopping Umbraco and running dotnet build (step 3 before step 2)" },
+    { "severity": "minor", "text": "Front page listing cards have no image (date and excerpt only)" }
+  ]
+}

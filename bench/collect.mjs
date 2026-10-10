@@ -24,11 +24,13 @@ const d = new Date(m.startedAt);
 const p = n => String(n).padStart(2, "0");
 const slug = `${m.model.name}${m.effort ? "-" + m.effort : ""}`.toLowerCase().replace(/[^a-z0-9.]+/g, "-").replace(/^-|-$/g, "");
 const existing = listRuns().find(r => r.metrics?.sessionId === m.sessionId);
+// the project is set up per test (npm run setup) — flag a prompt/setup mismatch
+// (a re-collect after reset keeps the setup recorded the first time). Tests that share a prompt (MCP Skills and its
+// control) can't be told apart by it, so the setup decides.
+m.setupVariant = existing?.metrics?.setupVariant ?? readVariantState().variant;
+if (m.setupVariant !== m.variant && VARIANTS[m.setupVariant]?.promptFile === VARIANTS[m.variant]?.promptFile) m.variant = m.setupVariant;
 const runId = existing?.id || `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}_${p(d.getHours())}${p(d.getMinutes())}_${m.variant}_${slug}`;
 
-// the project is set up per test (npm run setup) — flag a prompt/setup mismatch
-// (a re-collect after reset keeps the setup recorded the first time)
-m.setupVariant = existing?.metrics?.setupVariant ?? readVariantState().variant;
 if (m.setupVariant !== m.variant) m.warnings.push(`The prompt is the ${VARIANTS[m.variant].name} test but Umbraco.Bench was set up for ${VARIANTS[m.setupVariant]?.name ?? m.setupVariant} (npm run setup).`);
 const dir = path.join(RESULTS, runId);
 

@@ -1,0 +1,85 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every checkable claim in the report matches the checks, snapshot, rendered HTML and screenshots, and 'nothing outstanding' fits a run with 43/43 checks passed and only minor content-level issues from the grader.",
+  "claims": [
+    {
+      "claim": "Built entirely through the two Umbraco MCP servers",
+      "verdict": "true",
+      "evidence": "check.json: process.intendedChannel ok, 'built through mcp-skills'; code.noMigrationsWritten ok"
+    },
+    {
+      "claim": "4 block element types in Blocks/: heroBlock, richTextBlock, imageBlock, quoteBlock with listed properties",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' and snapshot.json list these four elements in Blocks with the same properties"
+    },
+    {
+      "claim": "Blog Block Grid data type, 12 columns, allowing all four blocks",
+      "verdict": "true",
+      "evidence": "grade.md: 'Blog Block Grid (12 columns, all four blocks)'; pages show data-grid-columns=\"12\""
+    },
+    {
+      "claim": "blogFrontPage (title/intro/blocks, allows blogPost) and blogPost (title/excerpt/hero image/blocks) in Pages/; siteRoot allows front page",
+      "verdict": "true",
+      "evidence": "grade.md and snapshot.json allowedChildren entries; check.json schema.blockGridOnPages: blogFrontPage, blogPost"
+    },
+    {
+      "claim": "3 templates: master, blogFrontPage, blogPost",
+      "verdict": "true",
+      "evidence": "check.json counts.templates 3; changes list the three views"
+    },
+    {
+      "claim": "Media folder Blog with 4 Unsplash photos imported from unsplash/",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia 4, content.mediaFromProvidedPhotos 4 of 4, content.mediaInFolders ok"
+    },
+    {
+      "claim": "Blog front page with domain /, hero + rich text block, Latest posts listing",
+      "verdict": "true",
+      "evidence": "check.json content.domainAssigned 'Blog: /'; frontpage screenshot shows hero, welcome text, 'Latest posts' cards"
+    },
+    {
+      "claim": "Post 1: rich text ×2, quote block, hero image; Post 2: rich text ×2, image block with credited caption, hero image",
+      "verdict": "true",
+      "evidence": "grade.md content breakdown; composable page HTML has a figcaption with 'Photo: Shubham Dhage, Unsplash'; blogpost screenshot shows hero image, paragraphs, quote"
+    },
+    {
+      "claim": "Templates use GetBlockGridHtmlAsync, no custom renderers or block loops; adapters → records → ViewComponents",
+      "verdict": "true",
+      "evidence": "check.json code.pagesUseBlockGridHelper, noCustomBlockLoops, adapterPerBlock, adaptersInvokeViewComponents 4/4, viewComponentPerBlock 4 all ok"
+    },
+    {
+      "claim": "Tailwind built with npm run build to wwwroot/dist/site.css",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt ok, site.stylesheetsLoad 200; screenshots show styled dark Tailwind design"
+    },
+    {
+      "claim": "All three pages return 200",
+      "verdict": "true",
+      "evidence": "check.json crawl: /, both post URLs status 200; site.allPagesRender '3 page(s) OK'"
+    },
+    {
+      "claim": "Block grid markup, blockquote, figure and signed GetCropUrl media URLs render; images return 200",
+      "verdict": "true",
+      "evidence": "pages/*.html contain umb-block-grid, blockquote and figcaption; check.json images 6/6 load, noUnsignedResizeUrls ok, all media URLs carry hmac"
+    },
+    {
+      "claim": "No 'Could not render component' fallbacks anywhere",
+      "verdict": "true",
+      "evidence": "grep of pages/ finds no such text; crawl renderErrors empty on all pages"
+    },
+    {
+      "claim": "Not working: nothing outstanding",
+      "verdict": "true",
+      "evidence": "check.json 43 passed / 0 failed; grade.md finds only minor content issues (thin posts, no publish-date property, intro field not rendered) and no breakage"
+    },
+    {
+      "claim": "Two scaffold warnings (ImageSharp advisory, app URL auto-detection) are pre-existing",
+      "verdict": "unverifiable",
+      "evidence": "check.json reports 10 build warnings, 0 errors; whether these existed before the run isn't shown in the provided evidence"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-10T13:51:46.173Z",
+  "costUsd": 0.2692784
+}

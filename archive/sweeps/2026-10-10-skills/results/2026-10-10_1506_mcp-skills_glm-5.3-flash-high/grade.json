@@ -1,0 +1,67 @@
+{
+  "runId": "2026-10-10_1506_mcp-skills_glm-5.3-flash-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T13:40:00Z",
+  "total": 97,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "Build succeeds with 0 errors; all 10 warnings are the scaffold's pre-existing ImageSharp NU1902/NU1903 advisories. / returns 200 via the '/' domain on the Blog page and lists both posts as cards with hero image, date, title and excerpt; links work. Both posts render every block (richTextBlock, quoteBlock, imageBlock; heroBlock on the front page) with no fallbacks. 4 provided Unsplash photos imported into a media folder and served through signed GetCropUrl URLs (6/6 load). All content published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 24,
+      "max": 25,
+      "notes": "Folders 8/8: 4 element blocks in Blocks, blogFrontPage/blogPost in Pages, siteRoot untouched in Repositories. Block grid 7/7: one 'Blog Block Grid' (Custom/Umbraco.BlockGrid) with hero, rich text, image (with caption) and quote blocks, used on both page types; posts are split over 3-4 blocks. Structure 5/5: siteRoot only at root and allows blogFrontPage, blogFrontPage allows only blogPost, default templates assigned, camelCase aliases. Hygiene 4/5: no compositions and excerpt/heroImage are real properties, but there is no publish-date property (the listing shows UpdateDate), and blogFrontPage's 'intro' property is filled but never rendered."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 25,
+      "max": 25,
+      "notes": "blogFrontPage.cshtml and blogPost.cshtml render blocks with Html.GetBlockGridHtmlAsync(Model, \"blocks\"); scaffold blockgrid partials unchanged. One adapter per alias in Views/Partials/blockgrid/Components/ (heroBlock, richTextBlock, imageBlock, quoteBlock), each taking BlockGridItem<T>, mapping to a record in Models/Blocks/ and calling Component.InvokeAsync with no markup. One ViewComponent each (Hero, RichText, Image, Quote) rendering Views/Shared/Components/<Name>/Default.cshtml with plain-model-only views. Program.cs/appsettings.json untouched, no migrations, friendly Children<T>/Url()/GetCropUrl, Tailwind built into wwwroot/dist/site.css."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 8,
+      "max": 10,
+      "notes": "Writing 4/6: both posts are on topic and accurate (n×m→n+m integration problem, runtime capability discovery, MCP across IDEs/agents/CI; composable block-based pages built over MCP), with relevant photos and a credited caption. But they are short: post 1 has four paragraphs and a quote, and post 2 has only two paragraphs around one image. Presentation 4/4: a coherent dark Tailwind design with a header, a hero, a two-column card listing, a readable max-w-3xl article column, a styled blockquote and a footer."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 5,
+      "max": 5,
+      "notes": "Schema went through umbraco (dev MCP) and pages/blocks/publishing through umbraco-editor, in the prescribed order: model → content → stop/build/restart → Razor. No Management API, DB, uSync or migration use; no memory or out-of-folder access; no warnings. The final report is accurate: it lists what was built, the URLs (it ran on its own http port 41576) and pre-existing warnings, and it claims nothing false."
+    }
+  ],
+  "summary": "A clean, fully working MCP-built blog: 4 reusable blocks (hero, rich text, image, quote) on a shared block grid, a front page with image/date/excerpt cards, and two posts, rendered through a textbook adapter → ViewComponent pipeline with a polished dark Tailwind design. The only weaknesses are short posts (the second has just two paragraphs) and no real publish-date property.",
+  "strengths": [
+    "Every automated check passes (43/43); build, routing, domain, media and publishing all correct",
+    "Textbook rendering pipeline: GetBlockGridHtmlAsync, markup-free adapters, plain records in Models/Blocks, one ViewComponent per block",
+    "Clean schema: correct folders, a single custom block grid in /Custom, right allowed children and templates",
+    "Polished, coherent dark design with a real card listing and readable article pages",
+    "Followed the MCP channel and order of operations exactly; honest final report"
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "text": "Posts are thin: 'Composable websites: MCP meets the block grid' (/composable-websites-mcp-meets-the-block-grid/) has only two short paragraphs plus an image"
+    },
+    {
+      "severity": "minor",
+      "text": "blogPost has no publish-date property; the front-page cards show post.UpdateDate (Views/blogFrontPage.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "blogFrontPage's 'intro' property is populated but never rendered, and its 'title' only feeds <title>; both duplicate the hero block"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

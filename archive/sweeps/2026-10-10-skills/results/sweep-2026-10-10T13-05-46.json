@@ -1,0 +1,29 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-10T13:05:46.374Z",
+  "updatedAt": "2026-10-10T13:50:42.815Z",
+  "done": [
+    {
+      "label": "z-ai/glm-5.3-flash · MCP Skills",
+      "status": "graded",
+      "runId": "2026-10-10_1506_mcp-skills_glm-5.3-flash-high",
+      "grade": "97/100",
+      "error": null
+    },
+    {
+      "label": "z-ai/glm-5.3-flash · MCP Skills",
+      "status": "graded",
+      "runId": "2026-10-10_1518_mcp-skills_glm-5.3-flash-high",
+      "grade": "14/100",
+      "error": null
+    },
+    {
+      "label": "z-ai/glm-5.3-flash · MCP Skills",
+      "status": "graded",
+      "runId": "2026-10-10_1540_mcp-skills_glm-5.3-flash-high",
+      "grade": "96/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}
