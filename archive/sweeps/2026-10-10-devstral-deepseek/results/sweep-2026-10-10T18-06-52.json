@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-10T18:06:52.853Z",
+  "updatedAt": "2026-10-10T18:20:13.076Z",
+  "done": [
+    {
+      "label": "mistralai/devstral-2512 · MCP",
+      "status": "graded",
+      "runId": "2026-10-10_2007_mcp_devstral-2-high",
+      "grade": "44/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

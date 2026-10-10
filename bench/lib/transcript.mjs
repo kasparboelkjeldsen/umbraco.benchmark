@@ -57,6 +57,8 @@ export function modelDisplayName(id = "", marketing) {
   // deepseek-v4-flash → DeepSeek V4 Flash; DeepSeek-V4-Flash-DSpark → DeepSeek V4 Flash DSpark (a deployment's own suffix kept)
   const d = id.match(/^(?:[a-z0-9-]+\/)?deepseek-v(\d+(?:\.\d+)?)-([a-z]+)(?:-(.+))?$/i);
   if (d) return `DeepSeek V${d[1]} ${d[2][0].toUpperCase()}${d[2].slice(1).toLowerCase()}${d[3] ? " " + d[3] : ""}`;
+  // mistralai/devstral-2512 → Devstral 2 (Mistral's agentic coding model; the id carries its release month)
+  if (/^(?:[a-z0-9-]+\/)?devstral-2512$/i.test(id)) return "Devstral 2";
   // mistralai/mistral-large-4-0 → Mistral Large 4.0 (OpenRouter ids are "vendor/model")
   const mi = id.match(/^(?:[a-z0-9-]+\/)?(?:mistral|magistral|devstral|codestral)-([a-z]+)-(\d+)(?:-(\d{1,2}))?(?:-\d{6,})?$/i);
   if (mi) return `${id.replace(/^[a-z0-9-]+\//i, "").split("-")[0].replace(/^./, c => c.toUpperCase())} ${mi[1][0].toUpperCase()}${mi[1].slice(1)} ${mi[2]}${mi[3] && mi[3] !== "0" ? "." + mi[3] : ""}`;

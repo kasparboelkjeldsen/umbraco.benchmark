@@ -1,0 +1,93 @@
+{
+  "runId": "2026-10-10_2007_mcp_devstral-2-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T22:30:00Z",
+  "total": 44,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 7,
+      "max": 35,
+      "notes": "Build OK (5/5). The 10 warnings are the scaffold's NuGet ImageSharp advisories, not the model's. Every page returns 404 'No template exists to render the document': / (domain '/' was put on the non-rendering WWW siteRoot), /blog/ and both posts. Templates were assigned through update-document after publishing and never republished, so the published versions have no template. Front page 0/10, posts 0/10. The three provided Unsplash photos were imported into the media library, but no page serves them and no document references them (1/5). Domain: '/' sits on WWW and a path-only '/blog' on the Blog page, so nothing answers on /. Everything shows Published, but with empty values (1/5)."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 15,
+      "max": 25,
+      "notes": "Folders and kinds are right: heroBlock, richTextBlock, imageBlock and blogPostCardBlock are elements in Blocks; blogFrontPage and blogPost are pages in Pages; siteRoot is in Repositories (8/8). Both pages have a 'blocks' Block Grid property, and the planned block set (hero, rich text, image, card) is sensible. But the model-created 'Block Grid' data type has no blocks configured (values: []), and every document's block value is empty, so the grid holds nothing (2/7). Structure: siteRoot is the only root type, siteRoot→blogFrontPage→blogPost, templates assigned on the types, camelCase aliases, data types under /Custom. Media is at the media root, not in folders (4/5). Hygiene: blogPost has no date, excerpt or listing image properties. The card's title, excerpt and image are meant to be retyped into a hand-filled blogPostCardBlock. An unused 'Block List' data type was created and left orphaned (1/5)."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 20,
+      "max": 25,
+      "notes": "Page views call Html.GetBlockGridHtmlAsync(Model, \"blocks\"), with no custom loops, and the scaffold blockgrid partials are untouched. However, there are two parallel sets of page views: BlogFrontPage.cshtml/BlogPost.cshtml with a layout (unused), and blogFrontPageTemplate.cshtml/blogPostTemplate.cshtml (the assigned templates, with no layout) (6/7). Adapters sit at Views/Partials/blockgrid/Components/<alias>.cshtml, receive BlockGridItem<T>, map to a plain model with friendly GetCropUrl/Url() and call Component.InvokeAsync, with no markup (6/6). One ViewComponent per block, rendering Views/Shared/Components/<Name>/Default.cshtml with plain models, but the view models are declared inside Components/*ViewComponent.cs rather than Models/<Folder>/ (5/7). Conventions: Program.cs and appsettings.json untouched, no migrations, no injected URL services. Styling bypasses the pipeline: _Layout links ~/dist/site.css, which was never built, plus the Tailwind CDN script, and the assigned templates don't use the layout at all (3/5)."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 0,
+      "max": 10,
+      "notes": "The model drafted a hero plus one rich text block per post, about MCP. The block JSON used non-GUID keys ('hero-1') for an unconfigured grid, and a later update-document with values:[] cleared everything. Both posts have no stored content, and nothing is visible. Both screenshots show Umbraco's 'Page Not Found' page (0/6, 0/4)."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 2,
+      "max": 5,
+      "notes": "Schema and content went only through the Umbraco MCP server (91 calls). No migrations, Management API, DB or uSync writes, and no access outside the project. Order mostly followed (model → content → build → Razor), but templates, template assignment, the domain and document updates were done after the Razor step, while chasing 404s (2/3). No final report: the run was stopped by the benchmark's 20M-token guard mid-debugging, so nothing was disclosed about the broken site (0/2)."
+    }
+  ],
+  "summary": "Devstral 2 set up a correctly-foldered schema (4 block elements, front page and post page types) and a convention-following adapter → ViewComponent pipeline. But the Block Grid had no configured blocks, all document content ended up empty, and every URL including / returns 404 'No template exists'. The run hit the token budget before it could fix this or report.",
+  "strengths": [
+    "Document types in the right folders and of the right kind; siteRoot→blogFrontPage→blogPost structure correct",
+    "Block adapters at Views/Partials/blockgrid/Components/<alias>.cshtml take BlockGridItem<T>, use GetCropUrl and call Component.InvokeAsync, with no markup",
+    "One ViewComponent per block with plain Default.cshtml views; Program.cs/appsettings untouched; MCP-only channel"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "Every page returns 404 'No template exists to render the document': /, /blog/, /blog/why-mcp-is-awesome-part-1/, /blog/why-mcp-is-awesome-part-2/"
+    },
+    {
+      "severity": "major",
+      "text": "Domain '/' assigned to the WWW siteRoot (never renders) and a path-only '/blog' domain on the Blog page; nothing answers on /"
+    },
+    {
+      "severity": "major",
+      "text": "All documents have empty values: the block grid JSON used non-GUID keys, and later update-document calls sent values:[]; no post content or front-page listing exists"
+    },
+    {
+      "severity": "major",
+      "text": "The 'Block Grid' data type (Custom/Umbraco.BlockGrid) has no blocks configured, so no element type can be placed in the grid"
+    },
+    {
+      "severity": "major",
+      "text": "No final report: the run was stopped by the 20M token guard, so the broken site was never disclosed"
+    },
+    {
+      "severity": "minor",
+      "text": "blogPost has no date/excerpt/listing image properties; card data is meant to be retyped into blogPostCardBlock"
+    },
+    {
+      "severity": "minor",
+      "text": "Duplicate page views: Views/BlogFrontPage.cshtml + BlogPost.cshtml (unused) vs Views/blogFrontPageTemplate.cshtml + blogPostTemplate.cshtml (assigned, no layout)"
+    },
+    {
+      "severity": "minor",
+      "text": "View models declared inside Components/*ViewComponent.cs instead of Models/<Folder>/"
+    },
+    {
+      "severity": "minor",
+      "text": "Views/_Layout.cshtml loads the Tailwind CDN script and links an unbuilt ~/dist/site.css"
+    },
+    {
+      "severity": "minor",
+      "text": "Orphaned 'Block List' data type; media items not in a media folder"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

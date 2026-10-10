@@ -1,0 +1,137 @@
+All tests side by side (token split excludes cache reads)
+	Devstral 2 · MCP	DeepSeek V4 Flash 0731 · MCP	Devstral 2 · MCP Recipe
+Blog prompt time	8:44	9:27	6:41
+API requests	177	89	84
+Total tokens	20,138,318	10,877,896	5,909,606
+Total excluding cache reads	186,958	207,816	297,830
+  Umbraco MCP	53,605 (29%)	61,861 (30%)	34,858 (12%)
+  Coding: migrations	239 (0%)	3,177 (2%)	0 (0%)
+  Coding: site (views, components, models)	45,967 (25%)	53,435 (26%)	24,493 (8%)
+  Build, run & verify	15,598 (8%)	24,015 (12%)	157,414 (53%)
+Tool calls	189	150	110
+Grade	44/100	94/100	96/100
+
+MCP — Time
+Phase	Devstral 2	DeepSeek V4 Flash 0731	Difference
+Prompt 1: verify MCP	0:24	0:09	−0:14
+Boot, read rules, plan → first type created	1:00	2:13	+1:13
+Content modeling	0:56	0:54	−0:02
+Content: media, pages, publish	1:13	1:25	+0:12
+Stop, build, Razor, restart	5:35	3:56	−1:38
+Checking the result and final report	0:00	0:58	+0:58
+Total from first prompt	9:08	9:36	+0:28 (+5.1%)
+Blog prompt only	8:44	9:27	+0:42 (+8.1%)
+
+MCP — Tokens
+Tokens	Devstral 2	DeepSeek V4 Flash 0731	Difference	Change
+API requests	177	89	−88	−49.7%
+Fresh input	162,292	142,418	−19,874	−12.2%
+Cache creation	0	0	0	—
+Cache read	19,951,360	10,670,080	−9,281,280	−46.5%
+Output	24,666	65,398	+40,732	+165.1%
+  of which thinking	0	37,949	+37,949	—
+Total	20,138,318	10,877,896	−9,260,422	−46.0%
+Total excluding cache reads	186,958	207,816	+20,858	+11.2%
+Est. API-equivalent cost (USD)	—	$7.68		
+
+MCP — Tokens by activity
+Activity	Devstral 2	DeepSeek V4 Flash 0731	Difference
+Umbraco MCP	4,460,354 (22%)	2,226,738 (20%)	−2,233,616
+Coding: migrations	26,519 (0%)	224,825 (2%)	+198,306
+Coding: site (views, components, models)	3,364,619 (17%)	1,740,705 (16%)	−1,623,914
+Build, run & verify	778,086 (4%)	396,942 (4%)	−381,144
+Base context & reasoning	11,508,741 (57%)	6,288,686 (58%)	−5,220,055
+
+MCP — Tokens by activity, excluding cache reads
+Activity	Devstral 2	DeepSeek V4 Flash 0731	Difference
+Umbraco MCP	53,605 (29%)	61,861 (30%)	+8,256
+Coding: migrations	239 (0%)	3,177 (2%)	+2,938
+Coding: site (views, components, models)	45,967 (25%)	53,435 (26%)	+7,468
+Build, run & verify	15,598 (8%)	24,015 (12%)	+8,417
+Base context & reasoning	71,549 (38%)	65,329 (31%)	−6,220
+
+MCP — Tool calls
+Tool	Devstral 2	DeepSeek V4 Flash 0731	Difference
+Shell (Bash)	39	52	+13
+Umbraco MCP	91	67	−24
+Read / Grep / Glob	15	12	−3
+Edit / Write	41	19	−22
+Background task control	3	0	−3
+  Umbraco MCP reads / writes	49 / 42	29 / 38	
+Total tool calls	189	150	−39
+Tool calls per API request	1.07	1.69	
+Failed tool calls	9	6	−3
+Files written with heredocs	0	0	
+dotnet build (failed)	7 (3)	2 (0)	
+
+MCP — Grade
+Category	Devstral 2	DeepSeek V4 Flash 0731	Difference
+It works (/35)	7	35	+28
+Content modeling (/25)	15	23	+8
+Code architecture & conventions (/25)	20	25	+5
+Content & presentation (/10)	0	6	+6
+Process & honesty (/5)	2	5	+3
+Total	44/100	94/100	+50
+Automated checks passed	34/42	43/43	
+Graded by	Opus 5.5 (high)	Opus 5.5 (high)	
+
+MCP Recipe — Time
+Phase	Devstral 2
+Prompt 1: verify MCP	0:09
+Boot, read rules, plan → first type created	1:51
+Content modeling	0:52
+Content: media, pages, publish	0:45
+Stop, build, Razor, restart	1:14
+Checking the result and final report	1:59
+Total from first prompt	6:50
+Blog prompt only	6:41
+
+MCP Recipe — Tokens
+Tokens	Devstral 2
+API requests	84
+Fresh input	279,578
+Cache creation	0
+Cache read	5,611,776
+Output	18,252
+  of which thinking	0
+Total	5,909,606
+Total excluding cache reads	297,830
+Est. API-equivalent cost (USD)	$4.66
+
+MCP Recipe — Tokens by activity
+Activity	Devstral 2
+Umbraco MCP	1,101,789 (19%)
+Coding: site (views, components, models)	842,364 (14%)
+Build, run & verify	812,982 (14%)
+Base context & reasoning	3,152,470 (53%)
+
+MCP Recipe — Tokens by activity, excluding cache reads
+Activity	Devstral 2
+Umbraco MCP	34,858 (12%)
+Coding: site (views, components, models)	24,493 (8%)
+Build, run & verify	157,414 (53%)
+Base context & reasoning	81,064 (27%)
+
+MCP Recipe — Tool calls
+Tool	Devstral 2
+Shell (Bash)	32
+Umbraco MCP	51
+Read / Grep / Glob	11
+Edit / Write	16
+  Umbraco MCP reads / writes	15 / 36
+Total tool calls	110
+Tool calls per API request	1.31
+Failed tool calls	6
+Files written with heredocs	0
+dotnet build (failed)	3 (1)
+
+MCP Recipe — Grade
+Category	Devstral 2
+It works (/35)	35
+Content modeling (/25)	25
+Code architecture & conventions (/25)	25
+Content & presentation (/10)	6
+Process & honesty (/5)	5
+Total	96/100
+Automated checks passed	43/43
+Graded by	Opus 5.5 (high)

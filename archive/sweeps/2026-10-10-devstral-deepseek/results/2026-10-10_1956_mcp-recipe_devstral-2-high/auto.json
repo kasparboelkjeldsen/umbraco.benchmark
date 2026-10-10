@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/devstral-2512",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-10T17:56:37.246Z",
+  "sessionId": "b8637743-5ed5-4903-bd9f-4f882c566823",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/devstral-2512",
+    "identifier": "mistralai/devstral-2512",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-10T17-56-54-mistralai-devstral-2512.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/devstral-2512; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 16677,
+    "costUsd": 0.18688,
+    "isError": false,
+    "toolCalls": 0,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 374814,
+    "costUsd": 6.414329,
+    "isError": false,
+    "toolCalls": 100,
+    "failedToolCalls": 3,
+    "results": 2,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 74,
+    "tokens": {
+      "input": 91808,
+      "output": 15765,
+      "cacheRead": 4756736,
+      "cacheWrite": 0
+    },
+    "usd": 0.2585,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\b8637743-5ed5-4903-bd9f-4f882c566823.jsonl",
+  "runId": "2026-10-10_1956_mcp-recipe_devstral-2-high",
+  "log": "bench\\logs\\auto-2026-10-10T17-56-37-mcp-recipe-mistralai-devstral-2512.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 174891,
+    "costUsd": 0.9160061999999999,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-10T18-03-27-grader.jsonl",
+    "finalMessage": "The run **2026-10-10_1956_mcp-recipe_devstral-2-high** (Devstral 2, high effort, MCP Recipe test) scored **94/100**. The grade is written and shows in the report. The solution is archived as `refs/runs/2026-10-10_1956_mcp-recipe_devstral-2-high`, and `npm run status` says **pristine**.\n\n| Category | Score |\n|---|---:|\n| It works | 35/35 |\n| Content modeling | 24/25 |\n| Code architecture & conventions | 24/25 |\n| Content & presentation | 6/10 |\n| Process & honesty | 5/5 |\n\n**Summary:** The blog works fully and was built only through the two Umbraco MCP servers. The front page uses the block grid and lists 2 posts as image cards. Each post has 4 blocks: rich text, image, rich text and a quote. Blocks render the way the project requires: through Umbraco's block grid helper, then a markup-free adapter per block, then a ViewComponent, with signed crop URLs for the provided Unsplash photos. All 43 automated checks passed. The steps were done in the recipe's order, and the model's final report is accurate.\n\n**Top issues:**\n1. **Major: thin content.** Each post is only about 110–150 words. The writing is generic and mostly about Claude Code with Umbraco, not a real case for why MCP is awesome. This is where most of the lost points went.\n2. **Minor: rich text paragraphs have no spacing.** The rich text view uses Tailwind's `prose` class, but the typography plugin isn't installed, so the class does nothing.\n3. **Minor: both page views copy the whole HTML page.** The header, footer and `<head>` are duplicated in each template instead of a shared layout, and the post page's back link is hard-coded to `/`.\n4. **Minor: small modeling extras.** Both page types have a `title` property that repeats the page name, and the front page's body block is filler text that repeats the intro. One imported photo is never used.\n\nThe 10 build warnings are the scaffold's own package security warnings, so none count against the model.\n\nFiles are in `results/2026-10-10_1956_mcp-recipe_devstral-2-high/`:\n- grade.json\n- grade.md"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/devstral-2512",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-10T18:20:43.011Z",
+  "sessionId": "f2ee9df7-8f8c-4669-806b-ea63665d04a1",
+  "claudeCli": "C:\\Users\\kaspa\\.local\\bin\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/devstral-2512",
+    "identifier": "mistralai/devstral-2512",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-10T18-21-00-mistralai-devstral-2512.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/devstral-2512; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 16161,
+    "costUsd": 0.18692999999999999,
+    "isError": false,
+    "toolCalls": 0,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 421030,
+    "costUsd": 9.263920000000002,
+    "isError": false,
+    "toolCalls": 110,
+    "failedToolCalls": 6,
+    "results": 2,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 84,
+    "tokens": {
+      "input": 279578,
+      "output": 18252,
+      "cacheRead": 5611776,
+      "cacheWrite": 0
+    },
+    "usd": 0.3728,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaspa\\.claude\\projects\\C--code-benchmark-Umbraco-Bench\\f2ee9df7-8f8c-4669-806b-ea63665d04a1.jsonl",
+  "runId": "2026-10-10_2021_mcp-recipe_devstral-2-high",
+  "log": "bench\\logs\\auto-2026-10-10T18-20-43-mcp-recipe-mistralai-devstral-2512.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 203878,
+    "costUsd": 0.937734,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-10T18-28-18-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-10_2021_mcp-recipe_devstral-2-high` (Devstral 2, high effort, MCP Recipe test): **96/100**. The project has been reset, and `npm run status` reports **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35/35 |\n| Content modeling | 25/25 |\n| Code architecture & conventions | 25/25 |\n| Content & presentation | 6/10 |\n| Process & honesty | 5/5 |\n\n**Summary:** The model built a complete blog using only the two Umbraco MCP servers, and did the steps in the order the recipe gave. All 43 automated checks pass and the build has no errors; its 10 warnings come from the scaffold's ImageSharp package, not from the model's code. The front page lists both posts as cards with an image, date and excerpt, the domain `/` is on the front page, and four of the provided Unsplash photos are served through `GetCropUrl`. The schema is filed correctly: three blocks (rich text, image, quote) in Blocks, the Block Grid data type in Custom, and the two page types in Pages. Every block is rendered through a markup-free adapter and its own ViewComponent. The final report is accurate.\n\n**Top issues (all minor, all in Content & presentation):**\n1. **Thin posts:** each has about 3–4 short paragraphs, and post 2 (`/building-a-blog-with-mcp-and-umbraco/`) mostly describes how this site was built rather than why MCP is awesome.\n2. **Made-up quotes:** the quote blocks are attributed to \"Umbraco Core Team\" and \"Claude Code Developer\".\n3. **Unstyled rich text:** the views use the `prose` class, but the Tailwind typography plugin isn't in the compiled CSS. Paragraphs run together and lists show without bullets or numbers.\n\n`grade.json` and `grade.md` (with both screenshots embedded) are in `results/2026-10-10_2021_mcp-recipe_devstral-2-high/`, and the grade appears in the `npm run report` Grade table. The solution is archived as `refs/runs/2026-10-10_2021_mcp-recipe_devstral-2-high`."
+  }
+}

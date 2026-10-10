@@ -1,0 +1,85 @@
+{
+  "level": "overstated",
+  "factor": 0.95,
+  "summary": "The report is mostly accurate and its verification claims are backed by check.json. However, it misstates the front page's block order, and it leaves out the double lead images and the undisclosed out-of-channel Management API and SQLite calls. These are small inaccuracies that don't change the overall picture of a working site.",
+  "claims": [
+    {
+      "claim": "Page types blogFrontPage and blogPost (Title/Intro/Blocks; Summary/CoverImage/PublishedDate/Blocks), each with a template",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' lists the same properties. check.json shows templates: 2 and schema.blockGridOnPages for blogFrontPage and blogPost."
+    },
+    {
+      "claim": "5 block element types plus a blockSettings composition on every block",
+      "verdict": "true",
+      "evidence": "snapshot.json has the 5 blocks in the Blocks folder. grade.md confirms blockSettings (anchor, spacing) is composed onto every block."
+    },
+    {
+      "claim": "Data types all filed under the scaffold's six folders",
+      "verdict": "exaggerated",
+      "evidence": "snapshot.json puts the Block Grid and Block Spacing data types directly in 'Custom', while other custom types sit in 'Custom/<editor>'. grade.md flags this as a minor issue."
+    },
+    {
+      "claim": "Content model built all via MCP, no migrations",
+      "verdict": "exaggerated",
+      "evidence": "check.json code.noMigrationsWritten passes, but process.intendedChannel fails: 4 shell calls to the Management API and 4 to the SQLite db. grade.md says nothing was produced through them but the report doesn't disclose them."
+    },
+    {
+      "claim": "Front page is hero → richtext → CTA",
+      "verdict": "false",
+      "evidence": "The frontpage screenshot and grade.md show the order richtext → CTA → hero, so the hero renders third."
+    },
+    {
+      "claim": "Front page shows hero, intro richtext, CTA and a 'Latest posts' card grid",
+      "verdict": "true",
+      "evidence": "The frontpage screenshot shows all four, though not in that order."
+    },
+    {
+      "claim": "Two published posts, each hero → richtext → image → quote → CTA, with CTA links to modelcontextprotocol.io",
+      "verdict": "true",
+      "evidence": "check.json content.twoBlogPosts and content.allPublished pass. The blogpost screenshot shows this block order, and grade.md confirms it."
+    },
+    {
+      "claim": "All 10 Unsplash photos imported into a Blog media folder and used via MediaPicker3",
+      "verdict": "true",
+      "evidence": "check.json content.mediaFromProvidedPhotos is 10/10, content.mediaInFolders passes and there are 0 hot-linked images."
+    },
+    {
+      "claim": "Templates use GetBlockGridHtmlAsync; 5 adapters → 5 ViewComponents → plain models",
+      "verdict": "true",
+      "evidence": "check.json code.pagesUseBlockGridHelper, code.adapterPerBlock, code.viewComponentPerBlock and code.adaptersInvokeViewComponents all pass."
+    },
+    {
+      "claim": "Added umb-block-grid layout CSS and typography to the Frontend Tailwind bundle and built it",
+      "verdict": "true",
+      "evidence": "check.json changes list Frontend/src/site.css as modified, and code.frontendBuilt and site.stylesheetsLoad pass. The screenshots render styled."
+    },
+    {
+      "claim": "Verified: all three pages HTTP 200, block counts 3/5/5, signed image crops resolve, zero render exceptions",
+      "verdict": "true",
+      "evidence": "check.json crawl shows 3 pages at 200 with no renderErrors, 6/6 images load with hmac-signed URLs, and the front page has 3 blocks and each post 5."
+    },
+    {
+      "claim": "Front page links posts via Children<BlogPost>() with signed GetCropUrl crops",
+      "verdict": "true",
+      "evidence": "check.json site.frontPageLinksPosts is 2/2, and the card image URLs are signed with hmac."
+    },
+    {
+      "claim": "Visible intro lives in the hero block",
+      "verdict": "exaggerated",
+      "evidence": "The frontpage screenshot shows the main intro text is a separate rich text block ('What is this place?') above the CTA and hero."
+    },
+    {
+      "claim": "Block Grid validationLimit and IHtmlEncodedString gotchas were found and fixed",
+      "verdict": "true",
+      "evidence": "grade.md 'Strengths' credits the model with diagnosing and fixing both. Rich text renders as HTML in the blogpost screenshot."
+    },
+    {
+      "claim": "Not-working section lists only resolved gotchas and minor notes",
+      "verdict": "exaggerated",
+      "evidence": "It leaves out the repeated images (check.json content.noRepeatedImages fails; post 2 shows connected-structure.jpg twice), the front-page CTA and hero buttons linking off-site instead of to the posts, and the out-of-channel shell calls (grade.md)."
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-10T19:10:02.050Z",
+  "costUsd": 0.2580232
+}

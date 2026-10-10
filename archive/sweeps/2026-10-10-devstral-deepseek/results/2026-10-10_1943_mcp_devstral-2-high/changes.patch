@@ -1,0 +1,332 @@
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/BlogPostCardViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/BlogPostCardViewComponent.cs
+new file mode 100644
+index 0000000..9794f70
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/BlogPostCardViewComponent.cs
+@@ -0,0 +1,16 @@
++using Microsoft.AspNetCore.Mvc;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class BlogPostCardViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(BlogPostCardModel model) => View(model);
++}
++
++public sealed class BlogPostCardModel
++{
++    public string Title { get; set; } = string.Empty;
++    public string? Url { get; set; }
++    public string Excerpt { get; set; } = string.Empty;
++    public string? ImageUrl { get; set; }
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs
+new file mode 100644
+index 0000000..6541d4b
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/HeroViewComponent.cs
+@@ -0,0 +1,16 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Bench.Umbraco.Models;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class HeroViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(HeroModel model) => View(model);
++}
++
++public sealed class HeroModel
++{
++    public string Heading { get; set; } = string.Empty;
++    public string Subheading { get; set; } = string.Empty;
++    public string? ImageUrl { get; set; }
++}
+diff --git a/Umbraco.Bench.Umbraco/ViewComponents/RichTextViewComponent.cs b/Umbraco.Bench.Umbraco/ViewComponents/RichTextViewComponent.cs
+new file mode 100644
+index 0000000..ccae5b3
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/ViewComponents/RichTextViewComponent.cs
+@@ -0,0 +1,14 @@
++using Microsoft.AspNetCore.Mvc;
++using Umbraco.Cms.Core.Strings;
++
++namespace Umbraco.Bench.Umbraco.ViewComponents;
++
++public sealed class RichTextViewComponent : ViewComponent
++{
++    public IViewComponentResult Invoke(RichTextModel model) => View(model);
++}
++
++public sealed class RichTextModel
++{
++    public IHtmlEncodedString? Text { get; set; }
++}
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/blogPostCardBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/blogPostCardBlock.cshtml
+new file mode 100644
+index 0000000..6fae98f
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/blogPostCardBlock.cshtml
+@@ -0,0 +1,16 @@
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@using Umbraco.Cms.Core.Models.PublishedContent
++@using Umbraco.Cms.Core.Models
++@inherits UmbracoViewPage<BlockGridItem<BlogPostCardBlock>>
++@{
++    var blogPost = Model.Content.BlogPost;
++    var model = new Umbraco.Bench.Umbraco.ViewComponents.BlogPostCardModel
++    {
++        Title = blogPost?.Name ?? "",
++        Url = blogPost?.Url(),
++        Excerpt = blogPost?.Value<string>("excerpt") ?? "",
++        ImageUrl = blogPost?.Value<MediaWithCrops>("featuredImage")?.GetCropUrl(width: 400, height: 250)
++    };
++}
++@await Component.InvokeAsync("BlogPostCard", new { model })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml
+new file mode 100644
+index 0000000..5ed5914
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/heroBlock.cshtml
+@@ -0,0 +1,12 @@
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@inherits UmbracoViewPage<BlockGridItem<HeroBlock>>
++@{
++    var model = new Umbraco.Bench.Umbraco.ViewComponents.HeroModel
++    {
++        Heading = Model.Content.Heading ?? "",
++        Subheading = Model.Content.Subheading ?? "",
++        ImageUrl = Model.Content.BackgroundImage?.GetCropUrl(width: 1600)
++    };
++}
++@await Component.InvokeAsync("Hero", new { model })
+diff --git a/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/richTextBlock.cshtml b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/richTextBlock.cshtml
+new file mode 100644
+index 0000000..51d0836
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Partials/blockgrid/Components/richTextBlock.cshtml
+@@ -0,0 +1,10 @@
++@using Umbraco.Cms.Core.Models.Blocks
++@using Umbraco.Bench.Umbraco.Models
++@inherits UmbracoViewPage<BlockGridItem<RichTextBlock>>
++@{
++    var model = new Umbraco.Bench.Umbraco.ViewComponents.RichTextModel
++    {
++        Text = Model.Content.Text
++    };
++}
++@await Component.InvokeAsync("RichText", new { model })
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/BlogPostCard/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/BlogPostCard/Default.cshtml
+new file mode 100644
+index 0000000..e22b4d1
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/BlogPostCard/Default.cshtml
+@@ -0,0 +1,15 @@
++@model Umbraco.Bench.Umbraco.ViewComponents.BlogPostCardModel
++
++<article class="bg-white rounded-lg shadow-md overflow-hidden mb-8">
++    @if (Model.ImageUrl != null)
++    {
++        <img src="@Model.ImageUrl" alt="@Model.Title" class="w-full h-48 object-cover">
++    }
++    <div class="p-6">
++        <h2 class="text-2xl font-bold mb-2">
++            <a href="@Model.Url" class="text-blue-600 hover:text-blue-800">@Model.Title</a>
++        </h2>
++        <p class="text-gray-600 mb-4">@Model.Excerpt</p>
++        <a href="@Model.Url" class="text-blue-600 hover:text-blue-800 font-medium">Read more &raquo;</a>
++    </div>
++</article>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml
+new file mode 100644
+index 0000000..71c2a6c
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/Hero/Default.cshtml
+@@ -0,0 +1,16 @@
++@model Umbraco.Bench.Umbraco.ViewComponents.HeroModel
++
++<section class="relative bg-gray-900 text-white py-20">
++    @if (Model.ImageUrl != null)
++    {
++        <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('@Model.ImageUrl');"></div>
++        <div class="absolute inset-0 bg-gradient-to-r from-gray-900 to-transparent"></div>
++    }
++    <div class="relative container mx-auto px-4 text-center">
++        <h1 class="text-5xl font-bold mb-4">@Model.Heading</h1>
++        @if (!string.IsNullOrEmpty(Model.Subheading))
++        {
++            <p class="text-xl text-gray-300">@Model.Subheading</p>
++        }
++    </div>
++</section>
+diff --git a/Umbraco.Bench.Umbraco/Views/Shared/Components/RichText/Default.cshtml b/Umbraco.Bench.Umbraco/Views/Shared/Components/RichText/Default.cshtml
+new file mode 100644
+index 0000000..f990080
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/Shared/Components/RichText/Default.cshtml
+@@ -0,0 +1,8 @@
++@model Umbraco.Bench.Umbraco.ViewComponents.RichTextModel
++
++<div class="prose max-w-none">
++    @if (Model.Text != null)
++    {
++        @Html.Raw(Model.Text)
++    }
++</div>
+diff --git a/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml b/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml
+new file mode 100644
+index 0000000..a8d6640
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/blogFrontPage.cshtml
+@@ -0,0 +1,78 @@
++@using Umbraco.Bench.Umbraco.Models
++@inherits UmbracoViewPage<BlogFrontPage>
++@{
++    Layout = null;
++    var blogPosts = Model.Children<BlogPost>().ToList();
++}
++
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="utf-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>@Model.Title - MCP Blog</title>
++    <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
++</head>
++<body class="bg-gray-50">
++    <header class="bg-white shadow-sm">
++        <div class="container mx-auto px-4 py-6">
++            <h1 class="text-3xl font-bold text-gray-900">
++                <a href="/">@Model.Title</a>
++            </h1>
++            <nav class="mt-4">
++                <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
++            </nav>
++        </div>
++    </header>
++
++    <main class="container mx-auto px-4 py-8">
++        @if (Model.Blocks != null && Model.Blocks.Any())
++        {
++            @await Html.GetBlockGridHtmlAsync(Model, "blocks")
++        }
++
++        <section class="mt-12">
++            <h2 class="text-2xl font-bold text-gray-900 mb-6">Latest Posts</h2>
++
++            @if (blogPosts.Any())
++            {
++                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
++                    @foreach (var post in blogPosts)
++                    {
++                        <article class="bg-white rounded-lg shadow-md overflow-hidden">
++                            @if (post.FeaturedImage != null)
++                            {
++                                <img src="@post.FeaturedImage.GetCropUrl(width: 400, height: 250)"
++                                     alt="@post.Title"
++                                     class="w-full h-48 object-cover">
++                            }
++                            <div class="p-6">
++                                <h3 class="text-xl font-bold mb-2">
++                                    <a href="@post.Url()" class="text-blue-600 hover:text-blue-800">@post.Title</a>
++                                </h3>
++                                <p class="text-gray-600 text-sm mb-2">
++                                    Published: @post.PublishDate.ToString("MMMM dd, yyyy")
++                                </p>
++                                <p class="text-gray-600 mb-4">@post.Excerpt</p>
++                                <a href="@post.Url()" class="text-blue-600 hover:text-blue-800 font-medium">
++                                    Read more &raquo;
++                                </a>
++                            </div>
++                        </article>
++                    }
++                </div>
++            }
++            else
++            {
++                <p class="text-gray-500">No blog posts yet.</p>
++            }
++        </section>
++    </main>
++
++    <footer class="bg-gray-900 text-white py-8 mt-12">
++        <div class="container mx-auto px-4 text-center">
++            <p>&copy; @DateTime.Now.Year - MCP Blog Demo</p>
++        </div>
++    </footer>
++</body>
++</html>
+diff --git a/Umbraco.Bench.Umbraco/Views/blogPost.cshtml b/Umbraco.Bench.Umbraco/Views/blogPost.cshtml
+new file mode 100644
+index 0000000..9da473c
+--- /dev/null
++++ b/Umbraco.Bench.Umbraco/Views/blogPost.cshtml
+@@ -0,0 +1,65 @@
++@using Umbraco.Bench.Umbraco.Models
++@inherits UmbracoViewPage<BlogPost>
++@{
++    Layout = null;
++}
++
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="utf-8">
++    <meta name="viewport" content="width=device-width, initial-scale=1.0">
++    <title>@Model.Title - MCP Blog</title>
++    <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
++</head>
++<body class="bg-gray-50">
++    <header class="bg-white shadow-sm">
++        <div class="container mx-auto px-4 py-6">
++            <h1 class="text-3xl font-bold text-gray-900">
++                <a href="/">MCP Blog</a>
++            </h1>
++            <nav class="mt-4">
++                <a href="/" class="text-gray-600 hover:text-gray-900">Home</a>
++            </nav>
++        </div>
++    </header>
++
++    <main class="container mx-auto px-4 py-8">
++        <article class="max-w-4xl mx-auto bg-white rounded-lg shadow-md p-8">
++            <header class="mb-8">
++                <h1 class="text-4xl font-bold text-gray-900 mb-4">@Model.Title</h1>
++                <div class="flex items-center text-gray-500 text-sm">
++                    <span>Published: @Model.PublishDate.ToString("MMMM dd, yyyy")</span>
++                </div>
++            </header>
++
++            @if (Model.FeaturedImage != null)
++            {
++                <img src="@Model.FeaturedImage.GetCropUrl(width: 1200, height: 400)"
++                     alt="@Model.Title"
++                     class="w-full rounded-lg mb-8">
++            }
++
++            <div class="prose max-w-none">
++                @if (Model.Content != null)
++                {
++                    @Html.Raw(Model.Content)
++                }
++            </div>
++
++            @if (Model.Blocks != null && Model.Blocks.Any())
++            {
++                <div class="mt-12">
++                    @await Html.GetBlockGridHtmlAsync(Model, "blocks")
++                </div>
++            }
++        </article>
++    </main>
++
++    <footer class="bg-gray-900 text-white py-8 mt-12">
++        <div class="container mx-auto px-4 text-center">
++            <p>&copy; @DateTime.Now.Year - MCP Blog Demo</p>
++        </div>
++    </footer>
++</body>
++</html>

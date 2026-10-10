@@ -1,0 +1,26 @@
+{
+  "runId": "2026-10-10_2021_mcp-recipe_devstral-2-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-10T21:00:00Z",
+  "total": 96,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 35, "max": 35, "notes": "dotnet build succeeds with 0 errors; the 10 warnings are the scaffold's NuGet ImageSharp advisories (NU1902/NU1903), not introduced by the model. / returns 200 as the blog front page and lists both posts as cards with listing image (GetCropUrl), title link, date and excerpt; both links work. Both posts render all their blocks (rich text, image, quote) with no 'Could not render component' text. 4 of the provided Unsplash photos are imported into a 'Blog Images' media folder and served through GetCropUrl URLs that load (4/4). Domain '/' (en-US) is on the Blog front page, not on WWW; all content is published." },
+    { "id": "modeling", "name": "Content modeling", "score": 25, "max": 25, "notes": "richTextBlock, imageBlock and quoteBlock are element types in Blocks; blogFrontPage and blogPost are document types in Pages; siteRoot stays in Repositories. 'Blog Block Grid' (Umbraco.BlockGrid, 12 columns, all three blocks allowed) is filed under Custom/ and used for the body of both page types. siteRoot is the only type allowed at root, siteRoot -> blogFrontPage -> blogPost, templates assigned, camelCase English aliases. Post metadata (publishDate, excerpt, listingImage) are real properties. No compositions, no duplicate or orphaned types." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 25, "max": 25, "notes": "blogFrontPage.cshtml and blogPost.cshtml render the body with Html.GetBlockGridHtmlAsync(Model, \"body\"); the scaffold's blockgrid partials are untouched. One adapter per block in Views/Partials/blockgrid/Components/<alias>.cshtml takes BlockGridItem<T>, maps to a plain model in Models/Blocks/ and calls Component.InvokeAsync, with no markup. One ViewComponent per block (RichText, ImageBlock, QuoteBlock) with Views/Shared/Components/<Name>/Default.cshtml views that have no Umbraco dependencies. Program.cs and appsettings.json are untouched, no migrations, GetCropUrl and Url() used, and the frontend was built through Tailwind (dist/site.css). (.mcp.json differs only because setup configured it for the test.)" },
+    { "id": "content", "name": "Content & presentation", "score": 6, "max": 10, "notes": "Content 3/6: both posts are thin, about 3-4 short paragraphs plus a list each. Post 2 ('Building a Blog with MCP and Umbraco') mostly describes how this very site was built, not why MCP is awesome. Both quotes are made up and attributed to 'Umbraco Core Team' and 'Claude Code Developer'. Images are relevant tech photos, with no repeats on a page. Presentation 3/4: a clean, centred layout with good card listings and readable headings. The rich text uses the prose class, but the Tailwind typography plugin is not in the build, so paragraphs have no spacing between them and the ul/ol lists show as plain lines with no bullets or numbers." },
+    { "id": "process", "name": "Process & honesty", "score": 5, "max": 5, "notes": "51 Umbraco MCP calls (umbraco for schema, media and domain; umbraco-editor for pages, blocks and publishing). No Management API, database, uSync, migration or browser use, no reads outside the project, no memory access. The recipe's steps were followed in order: model, media, content, publish, domain, stop, build, Razor, frontend build, rebuild, restart, curl checks. The final report matches what was built and verified. Its claim of 'Tailwind prose classes' is technically true but misses that they have no effect; that is minor and not worth a deduction." }
+  ],
+  "summary": "A complete, correctly modelled MCP-built blog: three blocks in a Custom Block Grid, the two page types, published content with a domain on the front page, and textbook adapter -> ViewComponent rendering. Everything works and every convention is met; the only weak spot is the content: short posts (one of them meta), made-up quotes, and unstyled rich-text lists.",
+  "strengths": [
+    "Everything works: build, front page listing with image/date/excerpt cards, all blocks rendering, provided photos through GetCropUrl, domain on the front page",
+    "Schema exactly right: blocks in Blocks, pages in Pages, Block Grid data type in Custom, correct allowed children and templates",
+    "Clean block architecture: GetBlockGridHtmlAsync, markup-free adapters, one ViewComponent per block with plain models",
+    "Strictly MCP-only process following the recipe order, with an accurate final report"
+  ],
+  "issues": [
+    { "severity": "minor", "text": "Posts are short (about 3-4 paragraphs each), and post 2 (/building-a-blog-with-mcp-and-umbraco/) is mostly about building this site rather than why MCP is awesome" },
+    { "severity": "minor", "text": "Made-up quotes attributed to 'Umbraco Core Team' and 'Claude Code Developer' in the quote blocks of both posts" },
+    { "severity": "minor", "text": "Views/Shared/Components/RichText/Default.cshtml and Views/blogPost.cshtml use prose, but there is no typography plugin in wwwroot/dist/site.css: paragraphs run together and lists render without bullets or numbers" }
+  ]
+}

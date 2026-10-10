@@ -1,0 +1,90 @@
+{
+  "level": "overstated",
+  "factor": 0.95,
+  "summary": "The report is accurate on almost every point and the evidence backs its checks, but it calls the image 'half-width' when it renders full width (no block grid layout CSS), says 'five URLs' while listing four (one of them the uncrawled backoffice), and does not mention the coverImage that is never rendered.",
+  "claims": [
+    {
+      "claim": "Built entirely through the Umbraco MCP server",
+      "verdict": "true",
+      "evidence": "check.json process.intendedChannel 'built through mcp', process.stayedInFolder ok; grade.md confirms MCP only"
+    },
+    {
+      "claim": "blogHome and blogPost document types in Pages; siteRoot updated to allow blogHome",
+      "verdict": "true",
+      "evidence": "snapshot.json has blogHome, blogPost and siteRoot; grade.md 'What it built' confirms the folders and allowed child"
+    },
+    {
+      "claim": "Block element types heroBlock, richTextBlock, imageBlock, quoteBlock in Blocks",
+      "verdict": "true",
+      "evidence": "snapshot.json lists all four element types; check.json schema.elementVsDocumentFolders ok"
+    },
+    {
+      "claim": "Custom 'Blog Block Grid' data type, 12 columns, all four blocks allowed, under /Custom/Umbraco.BlockGrid/",
+      "verdict": "true",
+      "evidence": "snapshot.json has 'Blog Block Grid' with gridColumns; grade.md confirms all four blocks are allowed and the /Custom/Umbraco.BlockGrid location; rendered pages show data-grid-columns=\"12\""
+    },
+    {
+      "claim": "Templates blogHome and blogPost, with Razor files written to disk",
+      "verdict": "true",
+      "evidence": "check.json changes list Views/blogHome.cshtml and Views/blogPost.cshtml plus template uSync configs; counts.templates = 2"
+    },
+    {
+      "claim": "6 Unsplash photos imported into a Blog media folder",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia '6 media item(s)', content.mediaFromProvidedPhotos '6 of 6', content.mediaInFolders ok; uSync Media/blog.config exists"
+    },
+    {
+      "claim": "Blog under WWW with domain / and 2 published posts",
+      "verdict": "true",
+      "evidence": "check.json content.domainAssigned 'Blog: /', content.twoBlogPosts, content.allPublished ok"
+    },
+    {
+      "claim": "Each post has a 4-block grid: rich text + half-width image + quote + rich text",
+      "verdict": "exaggerated",
+      "evidence": "pages/*.html show those four blocks in that order, and the image block has data-col-span=6. But the blogpost screenshot and grade.md (minor issue) show the image rendering full width because no block grid layout CSS is included, so it is not half-width on the page"
+    },
+    {
+      "claim": "Adapters in Views/Partials/blockgrid/Components call Component.InvokeAsync; ViewComponents, plain models and Default.cshtml views",
+      "verdict": "true",
+      "evidence": "check.json code.adapterPerBlock, code.adaptersInvokeViewComponents 4/4, code.viewComponentPerBlock, code.adaptersHaveNoMarkup all ok"
+    },
+    {
+      "claim": "Page templates use GetBlockGridHtmlAsync; home lists posts via Children<BlogPost>()",
+      "verdict": "true",
+      "evidence": "check.json code.pagesUseBlockGridHelper lists both views; pages/index.html shows the 'Latest posts' list linking both posts"
+    },
+    {
+      "claim": "Tailwind built to wwwroot/dist/site.css",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt and site.stylesheetsLoad 200; screenshots show the Tailwind styling applied"
+    },
+    {
+      "claim": "Photo credits appear in the image-block captions",
+      "verdict": "true",
+      "evidence": "the post HTML figcaptions read 'Photo by Christopher Gower on Unsplash' and 'Photo by Alina Grubnyak on Unsplash'"
+    },
+    {
+      "claim": "All five URLs return HTTP 200; block markup, media (signed GetCropUrl URLs → 200) and the stylesheet all verify",
+      "verdict": "exaggerated",
+      "evidence": "check.json shows 3 pages at 200, 3/3 images at 200 with hmac-signed URLs, and CSS at 200. Only four URLs are listed, though (3 pages plus the backoffice), and the backoffice is not in the crawl, so the 'five' count is off and the backoffice 200 is unverified"
+    },
+    {
+      "claim": "Order-of-operations issue with empty templates is now resolved and the current build is correct",
+      "verdict": "true",
+      "evidence": "check.json build.ok with 0 errors; all pages render with content and no renderErrors"
+    },
+    {
+      "claim": "The warnings are the pre-existing SixLabors.ImageSharp NuGet vulnerability advisories",
+      "verdict": "true",
+      "evidence": "check.json build has 10 warnings; grade.md says they are the scaffold's NuGet advisories"
+    },
+    {
+      "claim": "No migration plan written; schema lives in uSync/v18",
+      "verdict": "true",
+      "evidence": "check.json code.noMigrationsWritten ok; changes list many uSync/v18 configs"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-10T19:10:54.237Z",
+  "costUsd": 0.32981560000000004
+}

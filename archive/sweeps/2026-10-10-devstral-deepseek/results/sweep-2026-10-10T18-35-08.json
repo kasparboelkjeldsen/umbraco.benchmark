@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-10T18:35:08.032Z",
+  "updatedAt": "2026-10-10T18:54:44.823Z",
+  "done": [
+    {
+      "label": "deepseek/deepseek-v4-flash-0731 · MCP",
+      "status": "graded",
+      "runId": "2026-10-10_2035_mcp_deepseek-v4-flash-0731-high",
+      "grade": "92/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

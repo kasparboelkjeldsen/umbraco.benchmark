@@ -1,0 +1,85 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every factual claim in the report matches check.json, snapshot.json, the rendered pages and the screenshots, and the run had no breakage to disclose beyond small cosmetic issues (paragraph spacing, one unused photo).",
+  "claims": [
+    {
+      "claim": "Created 3 block element types richTextBlock, imageBlock, quoteBlock (moved to Blocks folder)",
+      "verdict": "true",
+      "evidence": "snapshot.json lists imageBlock, quoteBlock and richTextBlock. check.json schema.elementVsDocumentFolders and schema.docTypesInFolders pass. metrics.json shows 3 create-element-type and 3 move-document-type calls."
+    },
+    {
+      "claim": "Created Blog Block Grid data type with all 3 blocks configured",
+      "verdict": "true",
+      "evidence": "snapshot.json has the 'Blog Block Grid' data type with a blocks value. grade.md says all three blocks are allowed at root."
+    },
+    {
+      "claim": "2 templates; blogFrontPage (title, intro, body) and blogPost (title, publishDate, excerpt, listingImage, body); siteRoot → blogFrontPage → blogPost",
+      "verdict": "true",
+      "evidence": "snapshot.json shows these exact property aliases. grade.md 'What it built' confirms the hierarchy. check.json counts show 2 templates."
+    },
+    {
+      "claim": "Created 'Blog Images' media folder and imported 5 photos from unsplash/",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia shows 5 items and content.mediaFromProvidedPhotos shows 5 of 5. uSync Media/blog-images.config exists. grade.md says 5 photos are in a 'Blog Images' folder."
+    },
+    {
+      "claim": "Front page with intro and one rich text block; 2 posts each with 4 blocks (rich text, image, rich text, quote)",
+      "verdict": "true",
+      "evidence": "metrics.json shows 9 add-blockgrid-block calls (1 + 4 + 4). grade.md confirms 4 blocks per post. The blogpost screenshot shows rich text, image, rich text and quote."
+    },
+    {
+      "claim": "Published all pages; assigned domain / to the front page",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished passes and content.domainAssigned shows 'Blog: /'."
+    },
+    {
+      "claim": "Created view models, ViewComponents, adapter partials and component views; filled in both templates",
+      "verdict": "true",
+      "evidence": "check.json code.adapterPerBlock, code.viewComponentPerBlock, code.adaptersInvokeViewComponents and code.pagesUseBlockGridHelper all pass. metrics.json filesWritten lists all 14 files."
+    },
+    {
+      "claim": "Ran npm install and npm run build; Tailwind CSS classes applied throughout",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt passes and site.stylesheetsLoad gets 200 for site.css. Both screenshots show a styled Tailwind layout."
+    },
+    {
+      "claim": "How to view: dotnet run, then https://localhost:44317/ and the two post URLs",
+      "verdict": "true",
+      "evidence": "check.json crawl shows /, /why-mcp-servers-are-awesome/ and /mcp-and-umbraco-a-perfect-match/ all returning 200."
+    },
+    {
+      "claim": "All 3 pages return HTTP 200; domain routing works on /",
+      "verdict": "true",
+      "evidence": "check.json site.frontPage200 and site.allPagesRender pass ('3 page(s) OK')."
+    },
+    {
+      "claim": "All blocks render correctly (rich text, images, quotes)",
+      "verdict": "true",
+      "evidence": "The blogpost screenshot shows every block rendered and check.json shows 4/4 images loading. The only flaw is cosmetic: grade.md notes paragraphs inside rich text have no spacing because the prose class has no typography plugin."
+    },
+    {
+      "claim": "No literal <p> tags; no 'Could not render component' errors",
+      "verdict": "true",
+      "evidence": "A grep of pages/ finds neither '&lt;p&gt;' nor 'Could not render', and every renderErrors list in check.json is empty."
+    },
+    {
+      "claim": "Front page lists both posts with titles, dates, excerpts and listing images",
+      "verdict": "true",
+      "evidence": "check.json site.frontPageLinksPosts shows 2/2. The frontpage screenshot shows two cards, each with an image, title, date, excerpt and 'Read more'."
+    },
+    {
+      "claim": "Built following all the rules from AGENTS.md and UMBRACO-RULES.md",
+      "verdict": "true",
+      "evidence": "check.json passes 43/43 convention and process checks. grade.md lists only minor style issues: duplicated HTML shells, a redundant title property and one unused media item."
+    },
+    {
+      "claim": "The blog site is fully functional and ready to use",
+      "verdict": "true",
+      "evidence": "check.json passes 43, fails 0. grade.md scores 'It works' 35/35."
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-10T18:33:22.758Z",
+  "costUsd": 0.3186656
+}
