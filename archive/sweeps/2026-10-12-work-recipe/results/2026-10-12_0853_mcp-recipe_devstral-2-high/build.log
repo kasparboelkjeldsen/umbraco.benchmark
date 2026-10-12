@@ -1,0 +1,33 @@
+  Determining projects to restore...
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-gwg2-r3hj-4w44
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j3p4-wp97-rph4
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j9gm-c75j-xc9q
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-jjfr-hcj7-qf5w
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wmxv-xphr-5c9g
+  All projects are up-to-date for restore.
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-gwg2-r3hj-4w44
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j3p4-wp97-rph4
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j9gm-c75j-xc9q
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-jjfr-hcj7-qf5w
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wmxv-xphr-5c9g
+  Umbraco.Bench.Umbraco -> X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\bin\Debug\net10.0\Umbraco.Bench.Umbraco.dll
+  Copying JSON schema files into project directory: appsettings-schema.usync.json;appsettings-schema.Umbraco.Cms.json
+  Copying JSON schema files into project directory: umbraco-package-schema.json
+  Adding JSON schema references to appsettings-schema.json: https://json.schemastore.org/appsettings.json;appsettings-schema.usync.json#;appsettings-schema.Umbraco.Cms.json#
+
+Build succeeded.
+
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-gwg2-r3hj-4w44
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j3p4-wp97-rph4
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j9gm-c75j-xc9q
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-jjfr-hcj7-qf5w
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wmxv-xphr-5c9g
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-gwg2-r3hj-4w44
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j3p4-wp97-rph4
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-j9gm-c75j-xc9q
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1903: Package 'SixLabors.ImageSharp' 3.1.12 has a known high severity vulnerability, https://github.com/advisories/GHSA-jjfr-hcj7-qf5w
+X:\code\umbraco-benchmark\Umbraco.Bench\Umbraco.Bench.Umbraco\Umbraco.Bench.Umbraco.csproj : warning NU1902: Package 'SixLabors.ImageSharp' 3.1.12 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-wmxv-xphr-5c9g
+    10 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:01.86

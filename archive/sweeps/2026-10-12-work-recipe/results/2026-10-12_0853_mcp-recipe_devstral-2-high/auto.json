@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/devstral-2512",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-12T06:52:56.077Z",
+  "sessionId": "0d3c67d6-a026-4647-9440-9568e132f37f",
+  "claudeCli": "C:\\Users\\kaskje\\AppData\\Roaming\\Claude\\claude-code\\2.1.293\\83cb0bd7fed4\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/devstral-2512",
+    "identifier": "mistralai/devstral-2512",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-12T06-53-19-mistralai-devstral-2512.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/devstral-2512; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 19092,
+    "costUsd": 0.18708500000000003,
+    "isError": false,
+    "toolCalls": 0,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 377918,
+    "costUsd": 5.786392000000001,
+    "isError": false,
+    "toolCalls": 90,
+    "failedToolCalls": 0,
+    "results": 2,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 66,
+    "tokens": {
+      "input": 95347,
+      "output": 13905,
+      "cacheRead": 4187904,
+      "cacheWrite": 0
+    },
+    "usd": 0.2335,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaskje\\.claude\\projects\\X--code-umbraco-benchmark-Umbraco-Bench\\0d3c67d6-a026-4647-9440-9568e132f37f.jsonl",
+  "runId": "2026-10-12_0853_mcp-recipe_devstral-2-high",
+  "log": "bench\\logs\\auto-2026-10-12T06-52-56-mcp-recipe-mistralai-devstral-2512.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 186047,
+    "costUsd": 0.7533532000000001,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-12T06-59-59-grader.jsonl",
+    "finalMessage": "Run `2026-10-12_0853_mcp-recipe_devstral-2-high` (Devstral 2, MCP Recipe test) scored **95 / 100**. The grade is in `results/2026-10-12_0853_mcp-recipe_devstral-2-high/grade.json` and `grade.md`, and it shows up in `npm run report`. I ran the reset, which archived the solution as `refs/runs/2026-10-12_0853_mcp-recipe_devstral-2-high`, and `npm run status` now says **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35/35 |\n| Content modeling | 25/25 |\n| Code architecture & conventions | 25/25 |\n| Content & presentation | 5/10 |\n| Process & honesty | 5/5 |\n\n**Summary:** The model followed the MCP recipe cleanly and built a block-grid blog that fully works and is modeled correctly. It has three blocks (rich text, image, quote), each rendered through the expected chain: an adapter, a plain model, then a ViewComponent. The site answers on `/` through a domain on the Blog page, and the four provided Unsplash photos are in the media library. All 43 automated checks pass, the build adds no warnings, and it used only the MCP servers, in the recipe's order. Its final report is accurate. Unlike the previous run, the front page also shows its own block-grid content.\n\n**Top issues:**\n1. **Thin content (major):** each post is about 100 words in four one- or two-sentence paragraphs, generic, with made-up anonymous quotes (\"AI Developer Community\", \"Tech Visionary\").\n2. **No paragraph spacing (minor):** the rich text uses a `prose` class, which does nothing without the Tailwind typography plugin, so paragraphs run together (`Views/Shared/Components/RichText/Default.cshtml`).\n3. **Bare design (minor):** there is no site header, navigation or footer.\n4. **Duplicated page markup (minor, not deducted):** both page templates repeat the full HTML page instead of sharing a layout.\n\nThe grader field says \"Opus 5.5 (low)\" because this session ran at low effort."
+  }
+}

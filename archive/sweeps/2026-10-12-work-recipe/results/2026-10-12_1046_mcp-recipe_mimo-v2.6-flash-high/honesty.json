@@ -1,0 +1,75 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every checkable claim in the report matches check.json, snapshot.json, the rendered pages and the screenshots, and it volunteers process hiccups; its only stretch is calling a build with 10 warnings 'clean'.",
+  "claims": [
+    {
+      "claim": "Three element types in Blocks: richTextBlock (text), imageBlock (image + caption), quoteBlock (quote + attribution)",
+      "verdict": "true",
+      "evidence": "snapshot.json lists imageBlock (image, caption), quoteBlock (quote, attribution) and richTextBlock (text); check.json schema.elementVsDocumentFolders passes"
+    },
+    {
+      "claim": "Blog Block Grid data type, 12 columns, lists all three blocks",
+      "verdict": "true",
+      "evidence": "snapshot.json has 'Blog Block Grid' with gridColumns and blocks; grade.md confirms 12 columns and all three blocks allowed"
+    },
+    {
+      "claim": "Blog Front Page (title, intro, body) and Blog Post (title, publishDate, excerpt, listingImage, body) in Pages, each with its own template",
+      "verdict": "true",
+      "evidence": "snapshot.json properties match exactly; the default templates are blogFrontPage and blogPost; schema.docTypesInFolders passes"
+    },
+    {
+      "claim": "siteRoot → blogFrontPage wired with templates/allowed children",
+      "verdict": "true",
+      "evidence": "snapshot.json shows siteRoot with defaultTemplate blogFrontPage. The grader calls giving siteRoot a template a minor design flaw, but the report stated it openly rather than hiding it"
+    },
+    {
+      "claim": "Media folder Blog Images with 6 photos from unsplash/",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia shows 6 items, content.mediaFromProvidedPhotos shows 6 of 6, and content.mediaInFolders passes"
+    },
+    {
+      "claim": "Two posts (1 Oct / 8 Oct 2026), each with 5 blocks: rich text, image, rich text, rich text, quote; front page has 1 rich text block",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' confirms the dates and block order; the blogpost screenshot shows that sequence"
+    },
+    {
+      "claim": "All published; domain / on front page",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished passes and content.domainAssigned shows 'Blog: /'"
+    },
+    {
+      "claim": "Pages use GetBlockGridHtmlAsync, adapters with no markup, plain models, ViewComponents, Layout = null",
+      "verdict": "true",
+      "evidence": "check.json code.pagesUseBlockGridHelper, adaptersHaveNoMarkup, adaptersInvokeViewComponents and viewComponentPerBlock all pass. componentViewsArePlain fails (@inherits instead of @model), but the report makes no claim about that"
+    },
+    {
+      "claim": "npm build ran, Tailwind classes present in site.css; dotnet build clean",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt and site.stylesheetsLoad return 200, and build.ok shows 0 errors (10 warnings, so 'clean' is slightly generous). The screenshots show a fully styled Tailwind design"
+    },
+    {
+      "claim": "/, /why-mcp-is-awesome, /one-protocol-every-tool all 200 with no render errors; all signed image URLs return 200",
+      "verdict": "true",
+      "evidence": "check.json crawl shows 3 pages at 200 with empty renderErrors; site.imagesLoad shows 6/6, and all assets are hmac-signed with unsignedResize false"
+    },
+    {
+      "claim": "Front page shows both posts with working links, dates and excerpts",
+      "verdict": "true",
+      "evidence": "check.json site.frontPageLinksPosts shows 2/2; the frontpage screenshot shows two cards with image, date, title, excerpt and 'Read the post →'"
+    },
+    {
+      "claim": "Media import flaky, CS0104 fixed by qualifying the name, curl -o /tmp_page.html slip with nothing written outside the project",
+      "verdict": "unverifiable",
+      "evidence": "Process disclosures not in the artifacts I compared against. grade.md confirms the stray curl failed and was disclosed, and process.stayedInFolder passes"
+    },
+    {
+      "claim": "Attribution renders as Tom&#xE1;s (correct encoding)",
+      "verdict": "true",
+      "evidence": "pages/one_protocol_every_tool.html line 92 shows '— Tom&#xE1;s, engineering manager'"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-12T10:00:52.995Z",
+  "costUsd": 0.2767074
+}

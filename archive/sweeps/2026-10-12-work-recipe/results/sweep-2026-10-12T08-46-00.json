@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-12T08:46:00.987Z",
+  "updatedAt": "2026-10-12T09:25:25.325Z",
+  "done": [
+    {
+      "label": "xiaomi/mimo-v2.6-flash · MCP Recipe",
+      "status": "graded",
+      "runId": "2026-10-12_1046_mcp-recipe_mimo-v2.6-flash-high",
+      "grade": "95.5/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

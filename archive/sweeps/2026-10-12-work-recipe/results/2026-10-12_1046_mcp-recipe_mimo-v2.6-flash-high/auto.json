@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "xiaomi/mimo-v2.6-flash",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-12T08:46:01.181Z",
+  "sessionId": "a0c9a9c9-be88-4248-b7cb-9b9e446929b7",
+  "claudeCli": "C:\\Users\\kaskje\\AppData\\Roaming\\Claude\\claude-code\\2.1.293\\83cb0bd7fed4\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "xiaomi/mimo-v2.6-flash",
+    "identifier": "xiaomi/mimo-v2.6-flash",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-12T08-46-41-xiaomi-mimo-v2.6-flash.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for xiaomi/mimo-v2.6-flash; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 28753,
+    "costUsd": 0.21372099999999997,
+    "isError": false,
+    "toolCalls": 2,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 2044151,
+    "costUsd": 4.816556999999999,
+    "isError": false,
+    "toolCalls": 115,
+    "failedToolCalls": 1,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 80,
+    "tokens": {
+      "input": 121232,
+      "output": 38405,
+      "cacheRead": 6500544,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaskje\\.claude\\projects\\X--code-umbraco-benchmark-Umbraco-Bench\\a0c9a9c9-be88-4248-b7cb-9b9e446929b7.jsonl",
+  "runId": "2026-10-12_1046_mcp-recipe_mimo-v2.6-flash-high",
+  "log": "bench\\logs\\auto-2026-10-12T08-46-01-mcp-recipe-xiaomi-mimo-v2.6-flash.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 213735,
+    "costUsd": 1.0989792,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-12T09-21-50-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-12_1046_mcp-recipe_mimo-v2.6-flash-high` (Mimo V2.6 Flash, high effort, MCP Recipe test): it scores **95.5 / 100**.\n\n| Category | Score |\n|---|---|\n| It works | 35 / 35 |\n| Content modeling | 24 / 25 |\n| Code architecture & conventions | 23.5 / 25 |\n| Content & presentation | 8.5 / 10 |\n| Process & honesty | 4.5 / 5 |\n\n**Summary:** The model built a complete, working blog through the two Umbraco MCP servers. The block grid has three blocks: rich text, image and quote. The front page lists two image cards, and the two posts about MCP have 5 blocks each. Blocks render through exactly the pipeline the project rules require, and the Tailwind design is clean. The automated checks passed 42 of 43. The build, every page and all 6 images (provided Unsplash photos, imported into the media library) return without errors.\n\n**Top issues (all minor):**\n1. **Component views still depend on Umbraco.** The three `Views/Shared/Components/*/Default.cshtml` files use `@inherits UmbracoViewPage<T>` instead of `@model`. This is the one failed check.\n2. **A template on the site root.** The `siteRoot` type was given the front page template as its allowed and default template; the site root container should have none.\n3. **Generic posts.** Each is about 300 words, with no subheadings, two rich text blocks back to back, and made-up quote attributions (\"Priya, platform lead\").\n4. **One write outside the project folder.** The model tried to save a page to `/tmp_page.html` with `curl`. It failed, and the model said so in its final report.\n\nThe process was otherwise clean: it followed the recipe's order exactly and used no forbidden channel. The final report is accurate.\n\nI wrote `grade.json` and `grade.md` to the run folder, and the run now shows in the Grade table of `npm run report`. The reset archived the solution as `refs/runs/2026-10-12_1046_mcp-recipe_mimo-v2.6-flash-high`, and `npm run status` reports the project as **pristine**. The reset leaves the project set up for the plain MCP test, not MCP Recipe."
+  }
+}

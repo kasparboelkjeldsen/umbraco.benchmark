@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-12T06:52:55.980Z",
+  "updatedAt": "2026-10-12T07:03:06.532Z",
+  "done": [
+    {
+      "label": "mistralai/devstral-2512 · MCP Recipe",
+      "status": "graded",
+      "runId": "2026-10-12_0853_mcp-recipe_devstral-2-high",
+      "grade": "95/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

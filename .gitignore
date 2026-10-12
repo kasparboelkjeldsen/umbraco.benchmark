@@ -1,6 +1,7 @@
 # .gitignore for the umbraco.benchmark repo (tools/Push-Benchmark.ps1 puts it there).
 # Machine state, recreated per machine: the baseline repo (npm run baseline), settings for one machine only
 bench/.baseline-git/
+bench/.tripwire/
 run-book.local.json
 # The runner's raw per-run streams: every run folder keeps its own copy
 bench/logs/auto-*.jsonl

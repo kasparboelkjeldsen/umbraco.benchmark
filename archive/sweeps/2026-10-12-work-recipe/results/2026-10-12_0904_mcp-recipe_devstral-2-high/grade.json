@@ -1,0 +1,74 @@
+{
+  "runId": "2026-10-12_0904_mcp-recipe_devstral-2-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-12T09:40:00Z",
+  "total": 93.5,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "Build OK with 0 errors and 10 warnings, all the scaffold's ImageSharp advisories, so none added by the model. / returns 200 through the '/' domain on Blog and lists both posts as cards with a cropped listing image, date, excerpt and a 'Read more' link. Both posts render every block (rich text, image, quote) with no errors. All 4 media items are the provided Unsplash photos, imported into a 'Blog Images' folder and served via signed GetCropUrl URLs (6/6 load). All content is published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 25,
+      "max": 25,
+      "notes": "richTextBlock, imageBlock and quoteBlock are element types in Blocks. blogFrontPage and blogPost are document types in Pages, and siteRoot is in Repositories. The 'Blog Block Grid' data type is in Custom/ and is used for body on both pages. siteRoot is the only type allowed at root, the allowed children are siteRoot→blogFrontPage→blogPost, and templates are assigned. publishDate, excerpt and listingImage are real properties. There are no compositions and no duplicate or orphaned types."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 24,
+      "max": 25,
+      "notes": "Both templates use Html.GetBlockGridHtmlAsync, and the scaffold's blockgrid partials are untouched. Each block has one adapter that maps BlockGridItem<T> to a plain model in Models/Blocks and calls Component.InvokeAsync. The RichText/Image/Quote ViewComponents render Umbraco-free Default.cshtml views. GetCropUrl is used, and Program.cs and appsettings are untouched. -1: the richTextBlock adapter first used the typed Model.Content.Text, then swapped it for an untyped Value(\"text\") with a Newtonsoft JObject / IHtmlEncodedString / ToString() fallback chain. That bypasses the ModelsBuilder property. Minor: both templates duplicate the full HTML shell (Layout = null)."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 5,
+      "max": 10,
+      "notes": "Content 2/6: both posts are on topic but very thin, about 75-85 words each across 2-3 short paragraphs. The quotes are invented and attributed to 'Claude Code Team' and 'Umbraco Team'. Each post uses 4 blocks and relevant photos. Presentation 3/4: clean Tailwind layout with title, card listing, back link, footer and captioned images. However, `prose` does nothing without the typography plugin, so rich-text paragraphs run together with no spacing."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 4.5,
+      "max": 5,
+      "notes": "Channel 3/3: 42 MCP calls (35 writes), with no Management API, database, migration or browser use, and the recipe's order was followed (no warnings). The process.stayedInFolder FAIL is a false positive: every listed path is a project file under the /x/ drive prefix, and the only other reads are the harness's own background-task outputs. Report 1.5/2: accurate overall and verified with curl, but it says post 1 is 'rich text, image, rich text, quote', while the real order is rich text, rich text, quote, image (one image add failed and was re-added at the end). The report is also printed twice."
+    }
+  ],
+  "summary": "Devstral 2 followed the MCP recipe cleanly and built a fully working, correctly modeled block-grid blog: 3 blocks, the adapter → plain model → ViewComponent pipeline, a '/' domain and imported Unsplash media. 42/43 checks pass; the one FAIL is a false positive. The weak spots are very thin posts (~80 words each, invented quotes), a hacky untyped rich-text adapter, and rich text without paragraph spacing.",
+  "strengths": [
+    "Build is clean apart from the scaffold's own warnings, all pages return 200, and every block renders",
+    "Textbook adapter → plain model → ViewComponent pipeline with GetCropUrl and Umbraco-free component views",
+    "Schema modeled correctly: folders, element vs document, Custom/ block grid data type, allowed children, templates, real metadata properties",
+    "MCP-only process that followed the recipe's order and verified the output with curl"
+  ],
+  "issues": [
+    {
+      "severity": "major",
+      "text": "Posts are very thin: about 75-85 words each in 2-3 short paragraphs, with invented quotes attributed to 'Claude Code Team' / 'Umbraco Team' (/why-mcp-servers-are-awesome/, /mcp-and-umbraco-integration/)"
+    },
+    {
+      "severity": "minor",
+      "text": "The richTextBlock adapter reads Value(\"text\") untyped and parses it as a Newtonsoft JObject, with fallbacks, instead of using the typed Model.Content.Text (Views/Partials/blockgrid/Components/richTextBlock.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "`prose` has no effect without @tailwindcss/typography, so rich-text paragraphs have no spacing between them (Views/blogPost.cshtml, Views/Shared/Components/RichText/Default.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "Final report misstates post 1's block order and is printed twice"
+    },
+    {
+      "severity": "minor",
+      "text": "Both templates duplicate the full HTML shell with Layout = null instead of sharing a layout (Views/blogFrontPage.cshtml, Views/blogPost.cshtml)"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

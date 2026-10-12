@@ -20,13 +20,15 @@ import { resolveClaudeBin, claudeVersion, authStatus, ClaudeSession, killTree } 
 import { resolveLms, ensureServer, loadModel, unloadAll, startProxy, endpointSessionEnv, endpointSettings, endpointApiKey, endpointKeySource, endpointProviderOf, REMOTE_LIKE } from "./lib/local.mjs";
 import { resolveCodexBin, codexVersion, codexAuth, codexRateLimits, isUsageLimitError, CodexSession, mcpServerArgs, userMcpServerOffArgs, findRollout, DISABLED_FEATURES } from "./lib/codex.mjs";
 import { park, unpark, parkedRuns } from "./lib/park.mjs";
+import { DEFAULT_POLICY, hookSettings } from "./lib/tripwire.mjs";
 
 const args = parseArgs();
 const usage = `Usage: npm run auto                      (the sweep in run-book.json)
        npm run auto -- --model <alias|id>[:effort][,…] [--effort high] [--test mcp[,migrations,playwright]]
        npm run auto -- --grade-only [--run <id>]   (without --run: every parked run, else the newest ungraded one)
 Options: --runbook <file> (run-book.json)  --grader <model> (opus)  --grader-effort <level> (high)  --no-grade
-         --airgapped (no internet: npm from its cache only, and each run is parked ungraded for --grade-only later)
+         --airgapped (no internet: npm from its cache only, and each run is parked ungraded for --grade-only later; turns the tripwire on)
+         --tripwire on|log|off (refuse and stop on installs, machine-wide kills, drive sweeps, system changes, DB writes; default: on when --airgapped)
          --permission-mode <mode> (auto)  --budget <usd per session>  --timeout <minutes for the blog prompt> (90)
          --codex-max-used <percent of the 5-hour window before a Codex run won't start> (75)
          --claude <path to Claude CLI>  --codex <path to Codex CLI>  --quiet  --dry-run
@@ -48,6 +50,14 @@ const opt = (flag, value, fallback) => (args[flag] !== undefined && args[flag] !
 const AIRGAPPED = !!args.airgapped;
 const AIRGAP_ENV = AIRGAPPED ? { npm_config_offline: "true", npm_config_audit: "false", npm_config_fund: "false", npm_config_update_notifier: "false" } : {};
 const PARK = AIRGAPPED && !args["grade-only"];
+// The tripwire (bench/lib/tripwire.mjs): a PreToolUse hook in the model's session, outside the project, that refuses
+// installs, machine-wide process kills, drive sweeps, system changes and database writes and stops the run ("on"), or
+// only records what it sees ("log"). On by default for --airgapped runs, where nobody is around to stop a model.
+// run-book options.tripwire sets the default for other runs; options.tripwirePolicy overrides categories ({ "git": "deny" }).
+const TRIPWIRE = String(args.tripwire ?? (AIRGAPPED ? "on" : book.options?.tripwire ?? "off"));
+if (!["on", "log", "off"].includes(TRIPWIRE)) die(`--tripwire must be on, log or off (got ${TRIPWIRE})`);
+const TRIPWIRE_POLICY = TRIPWIRE === "log" ? Object.fromEntries(Object.keys(DEFAULT_POLICY).map(k => [k, "log"])) : { ...DEFAULT_POLICY, ...(book.options?.tripwirePolicy || {}) };
+const TRIPWIRE_DIR = path.join(ROOT, "bench", ".tripwire");
 const PERMISSION_MODE = opt("permission-mode", book.options?.permissionMode, "auto");
 const GRADER = opt("grader", book.grader?.model, "opus");
 const GRADER_EFFORT = opt("grader-effort", book.grader?.effort, "high");
@@ -336,9 +346,49 @@ function claudeDriver({ model, effort }, label, logFile, auto, local = null) {
       guard: local.guard, proxyLog: local.proxyLog } } : {}),
     ...(mode !== PERMISSION_MODE ? { permissionFallback: `${PERMISSION_MODE} mode isn't available for ${model}; ran with ${mode}` } : {}) });
   if (mode !== PERMISSION_MODE) say(`  ⚠ ${PERMISSION_MODE} mode isn't available for ${model}: running with ${mode}`);
-  const s = session({ label: "model", cwd: PROJECT, cliArgs, logFile, env: { ...(local?.env ?? {}), ...AIRGAP_ENV } });
+  // the tripwire hook comes in through --settings from bench/.tripwire (outside the project: the model can't see or change
+  // it, and --setting-sources doesn't filter it); it writes every hit to the trip file, which is watched here
+  let tripEnv = {}, tripFile = null, tripWatch = null, tripped = null;
+  if (TRIPWIRE !== "off") {
+    fs.mkdirSync(TRIPWIRE_DIR, { recursive: true });
+    const settingsFile = path.join(TRIPWIRE_DIR, `${sessionId}.settings.json`);
+    tripFile = path.join(TRIPWIRE_DIR, `${sessionId}.jsonl`);
+    writeJson(settingsFile, hookSettings({ node: process.execPath, hookScript: path.join(ROOT, "bench", "lib", "tripwire-hook.mjs") }));
+    cliArgs.push("--settings", settingsFile);
+    tripEnv = { BENCH_TRIPWIRE_FILE: tripFile, BENCH_TRIPWIRE_POLICY: JSON.stringify(TRIPWIRE_POLICY), BENCH_PROJECT: PROJECT };
+    auto.tripwire = { mode: TRIPWIRE, policy: TRIPWIRE_POLICY };
+  }
+  const s = session({ label: "model", cwd: PROJECT, cliArgs, logFile, env: { ...(local?.env ?? {}), ...AIRGAP_ENV, ...tripEnv } });
+  if (tripFile) {
+    let seen = 0;
+    tripWatch = setInterval(() => {
+      if (tripped || !fs.existsSync(tripFile)) return;
+      const lines = fs.readFileSync(tripFile, "utf8").split("\n").filter(Boolean);
+      for (const l of lines.slice(seen)) {
+        let e; try { e = JSON.parse(l); } catch { continue; }
+        if (e.action === "kill") {
+          tripped = e;
+          say(`\n  ⛔ tripwire (${e.categories.join(", ")}): ${e.tool} ${String(e.detail).replace(/\s+/g, " ").slice(0, 140)} — stopping the session`);
+          s.kill();
+          break;
+        }
+        if (e.action === "deny") say(`  ⚠ tripwire refused (${e.categories.join(", ")}): ${String(e.detail).replace(/\s+/g, " ").slice(0, 140)}`);
+      }
+      seen = lines.length;
+    }, 1000);
+  }
   return {
     s, sessionId,
+    tripped: () => tripped,
+    // stops watching and returns what the hook recorded (copied into the run folder by the caller)
+    tripReport: () => {
+      clearInterval(tripWatch);
+      if (!tripFile) return null;
+      const events = fs.existsSync(tripFile) ? fs.readFileSync(tripFile, "utf8").split("\n").filter(Boolean).map(l => { try { return JSON.parse(l); } catch { return null; } }).filter(Boolean) : [];
+      const counts = {};
+      for (const e of events) { const k = `${e.action}:${e.categories[0]}`; counts[k] = (counts[k] || 0) + 1; }
+      return { file: tripFile, events, counts, tripped };
+    },
     send: (text, o) => s.send(text, o),
     limit: turn => claudeLimit(turn) ? Date.now() + LIMIT_POLL_MS : null,
     // prompt 1 must have reached the test's tools, or the blog prompt would be a wasted run: a successful call, or the
@@ -441,6 +491,10 @@ async function runOne({ provider, model, effort }, variant) {
     }
   } catch (e) {
     if (d) { await d.s.close().catch(() => {}); active = null; }
+    // a trip during prompt 1 ends the attempt like any other prompt-1 failure (discarded, retried once), but says why
+    const trip = d?.tripped?.();
+    d?.tripReport?.();
+    if (trip) e = new InfraError(`the tripwire stopped prompt 1 (${trip.categories.join(", ")}): ${trip.tool} ${String(trip.detail).slice(0, 160)}`);
     // started in another permission mode than asked: the retry uses the fallback
     if (provider !== "openai" && /permission mode "default", not "auto"/.test(e.message) && !PERMISSION_FALLBACK.has(model)) PERMISSION_FALLBACK.set(model, "bypassPermissions");
     throw e instanceof LimitError || e instanceof InfraError ? e : new InfraError(e.message);
@@ -453,9 +507,16 @@ async function runOne({ provider, model, effort }, variant) {
     try {
       t2 = await d.send(prompt2, { timeoutMs: timeoutFor(provider, model), settleMs: 20_000 });
     } catch (e) {
-      if (!/timed out/i.test(e.message)) throw new InfraError(`the session broke during the blog prompt: ${e.message}`);
-      auto.prompt2 = { timedOut: true, error: e.message };
-      say(`\n  ✗ ${e.message} — collecting and grading what it built`);
+      // the tripwire stopped the session: like a timeout, the run is collected and graded as it stands
+      const trip = d.tripped?.();
+      if (trip) {
+        auto.prompt2 = { tripped: true, trip: { tool: trip.tool, categories: trip.categories, detail: trip.detail, at: trip.at } };
+        say(`\n  ⛔ stopped by the tripwire (${trip.categories.join(", ")}) — collecting and grading what it built`);
+      } else {
+        if (!/timed out/i.test(e.message)) throw new InfraError(`the session broke during the blog prompt: ${e.message}`);
+        auto.prompt2 = { timedOut: true, error: e.message };
+        say(`\n  ✗ ${e.message} — collecting and grading what it built`);
+      }
     }
     if (t2) {
       const limitedUntil = await d.limit(t2);
@@ -485,6 +546,13 @@ async function runOne({ provider, model, effort }, variant) {
   fs.copyFileSync(logFile, path.join(run.dir, provider === "openai" ? "codex-stream.jsonl" : "claude-stream.jsonl"));
   auto.runId = run.id;
   auto.log = path.relative(ROOT, logFile);
+  // what the tripwire saw: counts in auto.json, every hit in the run folder
+  const trips = d.tripReport?.();
+  if (trips) {
+    Object.assign(auto.tripwire, { counts: trips.counts, ...(trips.tripped ? { tripped: trips.tripped } : {}) });
+    if (trips.events.length) fs.copyFileSync(trips.file, path.join(run.dir, "tripwire.jsonl"));
+    if (Object.keys(trips.counts).length) say(`  tripwire: ${Object.entries(trips.counts).map(([k, v]) => `${k} ×${v}`).join(", ")}`);
+  }
   writeJson(path.join(run.dir, "auto.json"), auto);
 
   if (PARK) {
@@ -533,6 +601,7 @@ const IN_PROJECT = args["grade-only"] && !args.run && PARKED_NOW.length && proje
 if (args["grade-only"]) say(`Plan        grade ${args.run ? args.run : PARKED_NOW.length ? [IN_PROJECT && `${IN_PROJECT.id} (in the project)`, `the ${PARKED_NOW.length} parked run(s): ${PARKED_NOW.map(p => p.id).join(", ")}`].filter(Boolean).join(", then ") : "the newest run"} with ${GRADER} (${GRADER_EFFORT})`);
 else {
   say(`Plan        ${matrix.length} run(s), one after another, permission mode ${PERMISSION_MODE}, ${PARK ? "AIRGAPPED: npm offline, each run parked for grading later" : args["no-grade"] ? "no grading" : `graded by ${GRADER} (${GRADER_EFFORT})`}`);
+  if (TRIPWIRE !== "off") say(`Tripwire    ${TRIPWIRE === "on" ? `on: stops the run on ${Object.entries(TRIPWIRE_POLICY).filter(([, a]) => a === "kill").map(([c]) => c).join(", ")}; refuses ${Object.entries(TRIPWIRE_POLICY).filter(([, a]) => a === "deny").map(([c]) => c).join(", ") || "nothing else"}` : "log only"} (Claude Code runs; not Codex)`);
   for (const { m, t } of matrix) {
     say(`              ${m.model}${m.effort ? ":" + m.effort : ""} · ${VARIANTS[t].name} · ${HARNESS[m.provider]}`);
     if (REMOTE_LIKE.includes(m.provider)) {

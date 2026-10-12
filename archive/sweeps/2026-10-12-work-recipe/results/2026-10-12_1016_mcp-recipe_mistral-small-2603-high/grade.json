@@ -1,0 +1,30 @@
+{
+  "runId": "2026-10-12_1016_mcp-recipe_mistral-small-2603-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-12T08:22:20Z",
+  "total": 27,
+  "max": 100,
+  "categories": [
+    { "id": "works", "name": "It works", "score": 6, "max": 35, "notes": "Build 5/5: 0 errors; the 10 warnings are the scaffold's NU190x ImageSharp advisories, not the model's. Front page 0/10: / returns 404 'No template exists to render the document at URL /' (the scaffold's WWW siteRoot, which has no template). No front page or post documents exist. Posts 0/10: none were created. Images 1/5: the 4 provided Unsplash photos are imported into a 'Blog Photos' media folder, but no page shows them and no GetCropUrl code exists. Domain/published 0/5: no domain on any document, and a stray 'Site Home' siteRoot is left as a draft." },
+    { "id": "modeling", "name": "Content modeling", "score": 16, "max": 25, "notes": "Folders 8/8: richTextBlock/imageBlock/quoteBlock are elements in Blocks, the page types are documents in Pages. Block grid 5/7: a Blog Block Grid (/Custom/Umbraco.BlockGrid) with rich text, image (+caption) and quote (+attribution) is on blogFrontPage.body and blogPost.body. That is a sensible set, but no page body was ever built with it. Structure 1/5: siteRoot is still the only type allowed at root and the aliases are camelCase, but no allowed children were set (siteRoot→blogFrontPage and blogFrontPage→blogPost are both missing), blogPost has no template, and a second siteRoot document ('Site Home') was created at root. Hygiene 2/5: no compositions, and post metadata are real properties (publishDate, excerpt, listingImage). But the workaround types blogFront and blogPostDoc (empty, no properties) are orphaned duplicates, with their own orphan templates/views." },
+    { "id": "architecture", "name": "Code architecture & conventions", "score": 2, "max": 25, "notes": "The model wrote no code. The 4 views in Views/ (blogFront, blogFrontPage, blogPost, blogPostDoc) are the empty stubs that create-template generates (Layout = null, no markup). There are no GetBlockGridHtmlAsync calls, no adapters, no ViewComponents and no view models: 0/7, 0/6, 0/7. Conventions 2/5: Program.cs and appsettings.json untouched, no migrations, no stray .cs files. But the frontend was never built (no wwwroot/dist/site.css) and nothing is styled. The .mcp.json diff comes from test setup, not the model." },
+    { "id": "content", "name": "Content & presentation", "score": 0, "max": 10, "notes": "No posts and no front page exist, so there is no MCP content and nothing to present. The only page is Umbraco's 404 screen. The blog post screenshot could not be taken (no post in snapshot.json)." },
+    { "id": "process", "name": "Process & honesty", "score": 3, "max": 5, "notes": "Channel/order 1.5/3: schema, media and content went only through the two MCP servers; no Management API, DB or migrations, and it stayed in the folder. But it abandoned the recipe after step 5: no content, no publish, no domain (step 6), and no build, Razor, frontend build, restart or curl checks (steps 7–11). Instead it improvised a duplicate siteRoot and duplicate page types. Report 1.5/2: it clearly says no pages, blocks, publishing, domain or Razor were done. But it lists 'schema modeling completed successfully' (blogPost has no template and no allowed children are set), and it blames 'document type configuration in the Umbraco instance itself, not ... the modeling approach'. The actual cause was its own malformed update-document-type calls (missing cleanup/compositions/properties/collection fields) and the missing siteRoot→blogFrontPage permission the recipe spells out." }
+  ],
+  "summary": "Mistral Small built the three blocks, the Blog Block Grid, two page types and the media import over MCP. Then its update-document-type calls kept failing validation, so siteRoot never allowed blogFrontPage and every create-page returned 'Operation not permitted'. It gave up with no pages, no domain and no Razor, so / is a 404 and the site is empty.",
+  "strengths": [
+    "Correct block set (rich text, image+caption, quote+attribution) as elements in Blocks, wired into a /Custom block grid on both page types",
+    "Post metadata modelled as real properties (publishDate, excerpt, listingImage)",
+    "Provided Unsplash photos imported into a media folder",
+    "Stayed strictly on the MCP channel and in the project folder",
+    "Final report openly says no pages, publishing, domain or Razor were done"
+  ],
+  "issues": [
+    { "severity": "major", "text": "https://localhost:44317/ returns 404 'No template exists to render the document at URL /'. No front page or blog post documents were created (snapshot.json has only WWW and a draft 'Site Home')." },
+    { "severity": "major", "text": "The update-document-type calls kept failing schema validation (partial objects, missing cleanup/compositions/properties/collection). So siteRoot never allowed blogFrontPage, blogFrontPage never allowed blogPost, and blogPost has no template. All 12 create-page attempts failed with NotAllowed, ParentNotFound or PropertyTypeNotFound." },
+    { "severity": "major", "text": "The model wrote no Razor or C#. Views/blogFrontPage.cshtml, blogPost.cshtml, blogFront.cshtml and blogPostDoc.cshtml are empty create-template stubs. There are no block adapters, ViewComponents, models or frontend build." },
+    { "severity": "major", "text": "Recipe steps 6–11 were abandoned: no domain, no publishing, no dotnet build, no Razor, no npm build, no restart and no curl verification." },
+    { "severity": "minor", "text": "Workaround leftovers: duplicate empty page types blogFront and blogPostDoc with their own templates (Views/blogFront.cshtml, Views/blogPostDoc.cshtml), and a second siteRoot document 'Site Home' left as a draft at root." },
+    { "severity": "minor", "text": "The final report says schema modeling was 'completed successfully' and blames the Umbraco instance's configuration. The cause was the model's own malformed update-document-type calls." }
+  ]
+}

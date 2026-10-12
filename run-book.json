@@ -79,7 +79,9 @@
       "mistralai/mistral-large-4-0",
       "z-ai/glm-5.3-flash",
       "mistralai/devstral-2512",
-      "deepseek/deepseek-v4-flash-0731"
+      "deepseek/deepseek-v4-flash-0731",
+      "mistralai/mistral-medium-3-5",
+      "mistralai/mistral-small-2603"
     ],
     "baseUrl": "https://openrouter.ai/api",
     "apiKeyEnv": "OPENROUTER_API_KEY",
@@ -91,7 +93,18 @@
     "maxTokens": 20000000,
     "maxUsd": 15,
     "maxOutputTokens": 16000,
-    "timeoutMinutes": 60
+    "timeoutMinutes": 60,
+    "extraBody": {
+      "mistralai/mistral-small-2603": {
+        "provider": {
+          "order": [
+            "mistral/eu",
+            "mistral/us"
+          ],
+          "allow_fallbacks": false
+        }
+      }
+    }
   },
   "grader": {
     "model": "claude-opus-5-5",
@@ -229,7 +242,7 @@
       "source": "Fill in per million tokens (input, output, cacheRead) from the provider's price list before scoring; without a price the run is collected and graded but not scored, and maxUsd can't apply."
     },
     "openrouter": {
-      "source": "https://openrouter.ai/api/v1/models, fetched 2026-10-09 (GLM 5.3 Flash added the same day, Devstral 2 and DeepSeek V4 Flash 0731 on 2026-10-10) (per million tokens; OpenRouter passes the provider's price through)",
+      "source": "https://openrouter.ai/api/v1/models, fetched 2026-10-09 (GLM 5.3 Flash added the same day, Devstral 2 and DeepSeek V4 Flash 0731 on 2026-10-10) (per million tokens; OpenRouter passes the provider's price through); Mistral Medium 3.5 and Small 4 fetched 2026-10-12 (Medium 3.5 has no prompt caching on OpenRouter, so cache reads are priced as input); Mistral Small 4 pinned to Mistral's EU/US endpoints (the default pool was rate-limited 2026-10-12), priced at the EU rate; MiMo V2.6 Flash and Hy3 fetched 2026-10-12",
       "fetched": "2026-10-09",
       "mistralai/mistral-large-4-0": {
         "input": 0.68,
@@ -243,13 +256,33 @@
       },
       "mistralai/devstral-2512": {
         "input": 0.4,
-        "output": 2.0,
+        "output": 2,
         "cacheRead": 0.04
       },
       "deepseek/deepseek-v4-flash-0731": {
         "input": 0.02,
         "output": 1.28,
         "cacheRead": 0.018
+      },
+      "mistralai/mistral-medium-3-5": {
+        "input": 1.5,
+        "output": 7.5,
+        "cacheRead": 1.5
+      },
+      "mistralai/mistral-small-2603": {
+        "input": 0.165,
+        "output": 0.66,
+        "cacheRead": 0.0165
+      },
+      "xiaomi/mimo-v2.6-flash": {
+        "input": 0.14,
+        "output": 0.28,
+        "cacheRead": 0.003
+      },
+      "tencent/hy3": {
+        "input": 0.13,
+        "output": 0.53,
+        "cacheRead": 0.033
       }
     }
   }

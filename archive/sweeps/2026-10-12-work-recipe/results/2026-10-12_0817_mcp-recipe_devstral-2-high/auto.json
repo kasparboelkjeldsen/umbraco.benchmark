@@ -1,0 +1,70 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "openrouter",
+  "model": "mistralai/devstral-2512",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-12T06:16:55.507Z",
+  "sessionId": "59b1b137-a6fd-4faf-93c9-c0e38e4427c3",
+  "claudeCli": "C:\\Users\\kaskje\\AppData\\Roaming\\Claude\\claude-code\\2.1.293\\83cb0bd7fed4\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "openrouter",
+    "upstream": "https://openrouter.ai/api",
+    "model": "mistralai/devstral-2512",
+    "identifier": "mistralai/devstral-2512",
+    "contextLength": 200000,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": 20000000,
+      "maxUsd": 15
+    },
+    "proxyLog": "bench\\logs\\openrouter-proxy-2026-10-12T06-17-26-mistralai-devstral-2512.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for mistralai/devstral-2512; ran with bypassPermissions",
+  "prompt1": {
+    "durationMs": 26537,
+    "costUsd": 0.18706000000000003,
+    "isError": false,
+    "toolCalls": 0,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 516387,
+    "costUsd": 7.184794,
+    "isError": false,
+    "toolCalls": 115,
+    "failedToolCalls": 5,
+    "results": 2,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 78,
+    "tokens": {
+      "input": 100775,
+      "output": 17375,
+      "cacheRead": 5362560,
+      "cacheWrite": 0
+    },
+    "usd": 0.2896,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaskje\\.claude\\projects\\X--code-umbraco-benchmark-Umbraco-Bench\\59b1b137-a6fd-4faf-93c9-c0e38e4427c3.jsonl",
+  "runId": "2026-10-12_0817_mcp-recipe_devstral-2-high",
+  "log": "bench\\logs\\auto-2026-10-12T06-16-55-mcp-recipe-mistralai-devstral-2512.jsonl",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 226848,
+    "costUsd": 1.1178024,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-12T06-26-32-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-12_0817_mcp-recipe_devstral-2-high` (Devstral 2 on high effort, MCP Recipe test) at **94/100**. The grade shows up in `npm run report`, the solution is archived as `refs/runs/2026-10-12_0817_mcp-recipe_devstral-2-high`, and `npm run status` reports the project as **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35/35 |\n| Content modeling | 25/25 |\n| Code architecture & conventions | 23/25 |\n| Content & presentation | 6/10 |\n| Process & honesty | 5/5 |\n\n**Summary:** The model followed the recipe step by step and built a working blog: three block types, page templates that hand each block to its own view component, the `/` domain, and four of the provided Unsplash photos imported into the media library. All 43 automated checks pass, and the front page and both posts render every block. It loses points for thin post text and for one view that depends on Umbraco.\n\n**Top issues:**\n1. **Major:** Both posts are thin: about four short paragraphs (around 120 words) each, generic claims, and quotes credited to made-up people (\"Tech Industry Analyst\", \"AI Researcher\").\n2. **Minor:** The image block hands Umbraco's own media type to its view, and the view builds the image URL itself. The project rules say the image URL should be built before it reaches the view, so the view doesn't depend on Umbraco.\n3. **Minor:** The rich text view uses a `prose` styling class that doesn't exist in the built stylesheet, so paragraphs run together with no spacing.\n4. **Minor:** The front page's one rich text block sits under the list of posts with no styling or heading.\n\nProcess was clean: everything was built through the two Umbraco MCP servers, in the order the recipe gave. It used no forbidden shortcuts and didn't touch memory or anything outside the project folder. Its final report was accurate.\n\nFiles are in `results/2026-10-12_0817_mcp-recipe_devstral-2-high/`:\n- `grade.json`\n- `grade.md`"
+  }
+}

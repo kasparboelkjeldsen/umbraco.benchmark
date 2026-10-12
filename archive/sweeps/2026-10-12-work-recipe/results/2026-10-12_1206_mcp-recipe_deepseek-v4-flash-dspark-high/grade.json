@@ -1,0 +1,75 @@
+{
+  "runId": "2026-10-12_1206_mcp-recipe_deepseek-v4-flash-dspark-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-12T10:25:55Z",
+  "total": 95.5,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "Build 5/5: 0 errors; the 10 warnings are the scaffold's ImageSharp NuGet advisories, none introduced. Front page 10/10: / returns 200 and is the 'Why MCP is Awesome' blog front page with an intro, one rich text block and a 'Latest Posts' grid of two cards (GetCropUrl image, date, linked title, excerpt, 'Read more'); both links work. Posts 10/10: both posts render all 4 blocks (rich text, image, rich text, quote) with no render errors. Images 5/5: 4 of the provided Unsplash photos imported into a 'Blog Photos' media folder, served through signed GetCropUrl URLs, 4/4 load. Domain/publish 5/5: domain '/' on the Blog front page (not WWW), all content published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 24,
+      "max": 25,
+      "notes": "Folders 8/8: richTextBlock, imageBlock and quoteBlock are element types in Blocks; blogFrontPage and blogPost are document types in Pages; siteRoot stays in Repositories. Block grid 7/7: 'Blog Block Grid' (Custom/Umbraco.BlockGrid) allows the three blocks and is the body on both page types; block properties make sense (text; image + caption; quote + attribution), and both front page and posts use it. Structure 4/5: siteRoot→blogFrontPage→blogPost, templates assigned, camelCase aliases, the only custom data type is in Custom/. But blogFrontPage was created with allowedAsRoot: true and never reverted, so siteRoot is not the only type allowed at root. Hygiene 5/5: no compositions; publishDate, excerpt and listingImage are real properties; no duplicated or orphaned types or data types."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 25,
+      "max": 25,
+      "notes": "Pipeline 7/7: both templates call Html.GetBlockGridHtmlAsync(Model, \"body\"), no custom loops, scaffold blockgrid partials unchanged. Adapters 6/6: imageBlock/quoteBlock/richTextBlock.cshtml in blockgrid/Components, each BlockGridItem<T> → plain view model (image URL via GetCropUrl(width: 1200), rich text via ToHtmlString) → Component.InvokeAsync, no markup. ViewComponents 7/7: ImageBlock, QuoteBlock, RichText, each rendering Shared/Components/<Name>/Default.cshtml with '@model' of a plain POCO in Models/Blocks/ (named *ViewModel to avoid clashing with ModelsBuilder types); no Umbraco dependencies in component views. Conventions 5/5: Program.cs and appsettings.json untouched (.mcp.json change is the test setup), no migrations, no .cs in Models/ root, friendly extensions (Children<T>, Url(), GetCropUrl), no injected services, Tailwind built to wwwroot/dist/site.css."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 7,
+      "max": 10,
+      "notes": "Posts 4/6: 'MCP: A New Protocol for AI Tool Integration' and 'Building with MCP: A Developer's Perspective' are on topic and mostly accurate (USB-C analogy, tools/resources/prompts, JSON-RPC over stdio or HTTP, write-once servers, discoverability). Each is 4 paragraphs (~200-250 words) over 4 blocks with relevant photos. But they are short and generic, have no subheadings, describe the HTTP transport as SSE (superseded by Streamable HTTP), and the quotes carry invented attributions ('AI Developer Community, 2026', 'Senior Developer, Platform Engineering') that render with a double dash ('— — …') because the content and the view both add one. Looks 3/4: a clean, coherent Tailwind layout with a centred header, intro and an image-card listing; post pages have a back link, title, date, captioned image and a styled blockquote. But the rich text has no prose/paragraph spacing, so paragraphs within a block run together, and the post pages have no hero image or footer."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 4.5,
+      "max": 5,
+      "notes": "Channel/order 2.5/3: schema, media and domain went through the umbraco MCP server, pages, blocks and publishing through umbraco-editor (46 MCP calls); no DB, Management API, uSync, browser or memory use, no reads of results/ or tests/. The recipe's order was followed exactly: model → media → content → publish → domain → stop/build → Razor → npm build → build/restart → curl checks. Small deduction: the curl checks wrote their pages to /tmp, outside the project folder. Report 2/2: accurate (what was built, how to view it, the checks run); there was nothing broken to disclose, though it doesn't mention the /tmp scratch files."
+    }
+  ],
+  "summary": "A fast (2:41), clean recipe run: three Blocks-folder element types in a Custom/ block grid used on both page types, a published front page with an image-card listing and two 4-block posts, all rendered through the exact adapter → ViewComponent pipeline with Tailwind. Only blemishes are blogFrontPage left allowed at root, short generic posts with invented quote attributions, and unspaced rich-text paragraphs.",
+  "strengths": [
+    "All 43 automated checks pass; build clean with only scaffold warnings",
+    "Textbook rendering pipeline: GetBlockGridHtmlAsync, markup-free adapters, plain *ViewModel POCOs, @model-only component views",
+    "Recipe order followed exactly, entirely through the two MCP servers",
+    "Provided Unsplash photos imported into a media folder and served via signed GetCropUrl URLs",
+    "Real publishDate/excerpt/listingImage properties drive a proper card listing"
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "text": "blogFrontPage has allowedAsRoot: true (set in create-document-type, never reverted), so siteRoot is not the only root type"
+    },
+    {
+      "severity": "minor",
+      "text": "Posts are short (4 paragraphs) and generic, with no subheadings; HTTP transport described as SSE"
+    },
+    {
+      "severity": "minor",
+      "text": "Quote attributions are invented and render as '— — …' because the attribution value and Views/Shared/Components/QuoteBlock/Default.cshtml both prepend an em dash"
+    },
+    {
+      "severity": "minor",
+      "text": "Rich text paragraphs have no spacing (no prose class or p margins), so paragraphs in a block run together on /mcp-a-new-protocol-for-ai-tool-integration/ and the other post"
+    },
+    {
+      "severity": "minor",
+      "text": "Curl verification wrote scratch HTML to /tmp, outside the project folder"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

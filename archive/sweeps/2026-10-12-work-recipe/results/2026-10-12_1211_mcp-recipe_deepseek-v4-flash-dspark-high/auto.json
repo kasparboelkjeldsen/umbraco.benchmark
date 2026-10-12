@@ -1,0 +1,92 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "remote",
+  "model": "DeepSeek-V4-Flash-DSpark",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-12T10:10:58.365Z",
+  "airgapped": true,
+  "sessionId": "9ad8523a-4002-4163-b972-d5770571e881",
+  "claudeCli": "C:\\Users\\kaskje\\AppData\\Local\\Packages\\Claude_pzs8sxrjxfjjc\\LocalCache\\Roaming\\Claude\\claude-code\\2.1.293\\83cb0bd7fed4\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "remote",
+    "upstream": "http://192.168.1.36:8000",
+    "model": "DeepSeek-V4-Flash-DSpark",
+    "identifier": "DeepSeek-V4-Flash-DSpark",
+    "contextLength": 131072,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\remote-proxy-2026-10-12T10-11-25-DeepSeek-V4-Flash-DSpark.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for DeepSeek-V4-Flash-DSpark; ran with bypassPermissions",
+  "tripwire": {
+    "mode": "on",
+    "policy": {
+      "install": "kill",
+      "process": "kill",
+      "sweep": "kill",
+      "system": "kill",
+      "db-write": "kill",
+      "outside-write": "deny",
+      "outside-read": "log",
+      "temp": "log",
+      "database": "log",
+      "decompile": "log",
+      "management-api": "log",
+      "web": "log",
+      "git": "log",
+      "npx": "log"
+    },
+    "counts": {}
+  },
+  "prompt1": {
+    "durationMs": 8825,
+    "costUsd": 0.047769,
+    "isError": false,
+    "toolCalls": 2,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 1
+  },
+  "prompt2": {
+    "durationMs": 398250,
+    "costUsd": 3.375615,
+    "isError": false,
+    "toolCalls": 115,
+    "failedToolCalls": 4,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 70,
+    "tokens": {
+      "input": 69457,
+      "output": 27258,
+      "cacheRead": 4693760,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaskje\\.claude\\projects\\X--code-umbraco-benchmark-Umbraco-Bench\\9ad8523a-4002-4163-b972-d5770571e881.jsonl",
+  "runId": "2026-10-12_1211_mcp-recipe_deepseek-v4-flash-dspark-high",
+  "log": "bench\\logs\\auto-2026-10-12T10-10-58-mcp-recipe-DeepSeek-V4-Flash-DSpark.jsonl",
+  "parked": "bench\\.parked\\2026-10-12_1211_mcp-recipe_deepseek-v4-flash-dspark-high",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 195624,
+    "costUsd": 0.8726645999999999,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-12T10-27-03-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-12_1211_mcp-recipe_deepseek-v4-flash-dspark-high` at **96.5 / 100**. It appears in the report's Grade table, `npm run reset` archived it as `refs/runs/2026-10-12_1211_mcp-recipe_deepseek-v4-flash-dspark-high`, and `npm run status` now says **pristine** with Umbraco stopped.\n\n| Category | Score |\n|---|---|\n| It works | 35 / 35 |\n| Content modeling | 25 / 25 |\n| Code architecture & conventions | 25 / 25 |\n| Content & presentation | 7 / 10 |\n| Process & honesty | 4.5 / 5 |\n\n**Summary:** The model built a complete blog entirely through the Umbraco MCP servers. It has three blocks (rich text, image, quote) in one shared block grid, a front page on `/` that lists both posts as cards, and two posts with four blocks each. The views pass each block through a thin adapter to its own ViewComponent, exactly as the rules ask. All 43 automated checks passed, the build is clean (the 10 warnings were already in the scaffold), and all five provided photos were imported and served through `GetCropUrl`. The model followed the recipe's order of steps exactly and read nothing outside the project.\n\n**Top issues (all minor):**\n1. **Made-up quotes:** both quote blocks hold made-up quotes credited to real sources (\"Anthropic, Introducing the Model Context Protocol\" and \"MCP Documentation\").\n2. **Thin posts:** each post is only four short paragraphs with no subheadings, and it describes remote connections as using SSE, which Streamable HTTP has replaced.\n3. **No paragraph spacing:** the rich text view uses `prose` classes, but the Tailwind build has no typography plugin. Paragraphs run together and the code sample has no styling.\n4. **Report overstates:** the final report claims \"Tailwind prose\" styling and says nothing is broken, without noticing the unspaced paragraphs. That cost half a point.\n\nIn `grade.json` I recorded the grader as \"Opus 5.5 (auto)\", while earlier runs say \"Opus 5.5 (high)\", so that label differs in the Grade table. `grade.json` and `grade.md` (with both screenshots embedded) are in the run's results folder."
+  }
+}

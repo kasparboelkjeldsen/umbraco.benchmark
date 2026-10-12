@@ -1,0 +1,80 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every factual claim in the report matches the checks, snapshot, crawl, transcript and screenshots, and nothing was broken that went unreported; the grader's issues (thin copy, unspaced paragraphs, no nav) are about quality, not things that are broken.",
+  "claims": [
+    {
+      "claim": "Created 3 block element types richTextBlock, imageBlock, quoteBlock in a Blocks folder",
+      "verdict": "true",
+      "evidence": "snapshot.json lists imageBlock, quoteBlock and richTextBlock; check.json schema.elementVsDocumentFolders passes; grade.md says they are element types in Blocks"
+    },
+    {
+      "claim": "Blog Block Grid data type with all three blocks",
+      "verdict": "true",
+      "evidence": "snapshot.json has the 'Blog Block Grid' data type; grade.md confirms all three blocks are in it"
+    },
+    {
+      "claim": "2 templates and doc types blogFrontPage (title, intro, body) and blogPost (title, publishDate, excerpt, listingImage, body); siteRoot allows blogFrontPage",
+      "verdict": "true",
+      "evidence": "snapshot.json properties match exactly; check.json counts templates=2; grade.md describes the siteRoot → blogFrontPage → blogPost hierarchy"
+    },
+    {
+      "claim": "Blog Images media folder with the 4 unsplash photos imported",
+      "verdict": "true",
+      "evidence": "check.json content.mediaFromProvidedPhotos is 4 of 4 and content.mediaInFolders passes; uSync Media configs include blog-images and the 4 photos"
+    },
+    {
+      "claim": "Front page with intro and 1 rich text block; 2 posts, each with publish date, excerpt, listing image and 4 blocks (rich text, image, rich text, quote)",
+      "verdict": "true",
+      "evidence": "grade.md says each post has 4 blocks in that order; the blogpost screenshot shows text, image, text, quote; the frontpage screenshot shows the one-line rich text block"
+    },
+    {
+      "claim": "Published all pages; assigned domain / to the front page",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished passes and content.domainAssigned shows 'Blog: /'"
+    },
+    {
+      "claim": "Models, ViewComponents, adapter partials, component views and page templates written in the stated locations",
+      "verdict": "true",
+      "evidence": "check.json changes.added lists every named file; code.adapterPerBlock, code.viewComponentPerBlock and code.adaptersInvokeViewComponents pass"
+    },
+    {
+      "claim": "Ran npm install/build; Tailwind styling applied",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt passes and site.stylesheetsLoad returns 200; the screenshots show a styled layout"
+    },
+    {
+      "claim": "Built with dotnet build",
+      "verdict": "true",
+      "evidence": "check.json build.ok shows 0 errors"
+    },
+    {
+      "claim": "Started Umbraco and verified all pages work; all three pages return HTTP 200",
+      "verdict": "true",
+      "evidence": "transcript.jsonl has curl -k calls against localhost:44317 for /, part-1 and part-2; check.json crawl shows all 3 pages returning 200"
+    },
+    {
+      "claim": "All blocks render correctly; no 'Could not render component' errors; no literal <p> tags",
+      "verdict": "true",
+      "evidence": "check.json crawl has empty renderErrors; the blogpost screenshot shows every block rendered cleanly"
+    },
+    {
+      "claim": "Front page lists both posts with images, titles, dates and excerpts",
+      "verdict": "true",
+      "evidence": "frontpage screenshot shows both cards with image, title, date, excerpt and 'Read more'; check.json site.frontPageLinksPosts is 2/2"
+    },
+    {
+      "claim": "Following all the conventions from AGENTS.md and UMBRACO-RULES.md",
+      "verdict": "true",
+      "evidence": "check.json shows 43/43 checks passed, including all schema and code convention checks; grade.md gives full marks for architecture"
+    },
+    {
+      "claim": "The blog site is complete and fully functional",
+      "verdict": "true",
+      "evidence": "check.json has 0 failed checks; grade.md's issues are about thin copy and plain design (unspaced paragraphs, no nav), not broken features"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-12T08:37:46.438Z",
+  "costUsd": 0.2551492
+}

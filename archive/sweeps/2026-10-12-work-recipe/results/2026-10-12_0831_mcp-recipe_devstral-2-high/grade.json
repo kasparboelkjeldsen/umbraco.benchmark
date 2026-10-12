@@ -1,0 +1,70 @@
+{
+  "runId": "2026-10-12_0831_mcp-recipe_devstral-2-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-12T06:41:41.784Z",
+  "total": 95.5,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "Build OK: 0 errors. The 10 warnings are the scaffold's ImageSharp NuGet advisories, and the model added none. / returns 200 through the '/' domain on the Blog page. It lists both posts as cards with a listing image, title, date, excerpt and Read more link, and the links work. Both posts render all 4 blocks (rich text, image, rich text, quote) with no render errors. The 4 provided Unsplash photos were imported into a 'Blog Images' media folder and are served through GetCropUrl, and 4/4 images load. All content is published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 25,
+      "max": 25,
+      "notes": "richTextBlock, imageBlock and quoteBlock are element types in Blocks. blogFrontPage and blogPost are document types in Pages. 'Blog Block Grid' sits in Custom/Umbraco.BlockGrid, allows all three blocks, and is the body property on both page types. siteRoot is the only type allowed at root. The tree is siteRoot → blogFrontPage → blogPost, templates are assigned, and aliases are camelCase. publishDate, excerpt and listingImage are real properties. There are no compositions and no duplicated or orphaned types."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 25,
+      "max": 25,
+      "notes": "Both templates use Html.GetBlockGridHtmlAsync(Model, \"body\"), and the scaffold's grid partials are unchanged. There is one markup-free adapter per block at blockgrid/Components/<alias>.cshtml. Each maps BlockGridItem<T> to a plain model in Models/Blocks/ (it builds the GetCropUrl in the adapter) and calls Component.InvokeAsync. There is one ViewComponent per block, and the Default.cshtml views have no Umbraco dependencies. Program.cs and appsettings.json are untouched, there are no migrations, and styling goes through the Tailwind build. Nits, not deducted: both templates repeat the full HTML shell instead of sharing a layout, and the Back link is hard-coded to /."
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 5.5,
+      "max": 10,
+      "notes": "Content 3/6: both posts are on topic and spread over 4 blocks with relevant photos, but they are thin and generic. Each has about 4 short paragraphs (~110 words) and an invented anonymous quote ('Tech Enthusiast', 'Developer Advocate'). Part 2 says it will 'dive deeper into the technical aspects' but stays vague. Presentation 2.5/4: a clean, readable single-column Tailwind layout with proper listing cards and a tidy post page. It has no site header, nav or footer. Rich text is wrapped in a 'prose' class that does nothing without the typography plugin, so paragraphs run together with no spacing. The front page's rich text block is a single placeholder sentence."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 5,
+      "max": 5,
+      "notes": "Schema, media, content, publishing and the domain all went through the umbraco and umbraco-editor MCP servers (41 calls). It followed the recipe's order: schema → media → content → publish → domain → stop/build → Razor → npm build → rebuild/restart → curl checks. It used no forbidden channels, did not access memory, and stayed in the project folder. Its only read outside the folder was its own background-task output. The final report is accurate and was verified with curl."
+    }
+  ],
+  "summary": "Devstral 2 followed the MCP recipe cleanly and built a fully working, correctly modeled block-grid blog: 3 blocks, the adapter → ViewComponent pipeline with Umbraco-free component views, a / domain, and imported Unsplash media. Every automated check passes. The weak spots are the thin, generic post copy and a plain layout with unspaced rich-text paragraphs.",
+  "strengths": [
+    "All 43 automated checks pass, and the build, routing, rendering and images all work",
+    "Clean block architecture: markup-free adapters build the crop URL and pass plain models to ViewComponents",
+    "Correct schema: folders, element vs document, a Custom block grid data type, and real post metadata properties",
+    "Followed the recipe order exactly, using only the MCP channel"
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "text": "The posts are thin and generic: about 4 short paragraphs each, with invented anonymous quotes (/why-mcp-is-awesome-part-1/, /why-mcp-is-awesome-part-2/)"
+    },
+    {
+      "severity": "minor",
+      "text": "The \"prose\" class does nothing without @tailwindcss/typography, so rich-text paragraphs have no spacing (Views/Shared/Components/RichText/Default.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "There is no site header, nav or footer, and the front page body is a single placeholder sentence (Views/blogFrontPage.cshtml)"
+    },
+    {
+      "severity": "minor",
+      "text": "Both templates repeat the full HTML shell with Layout = null, and the Back link is hard-coded to \"/\" (Views/blogPost.cshtml)"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (low)"
+}

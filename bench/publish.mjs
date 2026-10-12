@@ -39,6 +39,8 @@ const MACHINE = [
   /^bench\/logs\/auto-.*\.jsonl$/,
   // runs parked on an airgapped network (npm run auto -- --airgapped), waiting to be graded on this machine
   /^bench\/\.parked(\/|$)/,
+  // the tripwire's per-session hook settings and trip files (each run folder keeps its own tripwire.jsonl)
+  /^bench\/\.tripwire(\/|$)/,
 ];
 // left out of the public lean copy only
 const LEAN = [

@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-12T10:06:02.616Z",
+  "updatedAt": "2026-10-12T10:10:02.918Z",
+  "done": [
+    {
+      "label": "DeepSeek-V4-Flash-DSpark · MCP Recipe",
+      "status": "parked",
+      "runId": "2026-10-12_1206_mcp-recipe_deepseek-v4-flash-dspark-high",
+      "grade": null,
+      "error": null
+    }
+  ],
+  "queued": []
+}

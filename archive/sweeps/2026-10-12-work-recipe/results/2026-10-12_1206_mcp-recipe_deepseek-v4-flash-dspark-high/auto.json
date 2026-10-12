@@ -1,0 +1,94 @@
+{
+  "driver": "bench/auto.mjs",
+  "provider": "remote",
+  "model": "DeepSeek-V4-Flash-DSpark",
+  "effort": null,
+  "variant": "mcp-recipe",
+  "startedAt": "2026-10-12T10:06:02.761Z",
+  "airgapped": true,
+  "sessionId": "5055a420-290c-4c8d-bfbf-df01b07ad7c6",
+  "claudeCli": "C:\\Users\\kaskje\\AppData\\Local\\Packages\\Claude_pzs8sxrjxfjjc\\LocalCache\\Roaming\\Claude\\claude-code\\2.1.293\\83cb0bd7fed4\\claude.exe",
+  "claudeVersion": "2.1.293",
+  "permissionMode": "bypassPermissions",
+  "settingSources": "project,local",
+  "endpoint": {
+    "provider": "remote",
+    "upstream": "http://192.168.1.36:8000",
+    "model": "DeepSeek-V4-Flash-DSpark",
+    "identifier": "DeepSeek-V4-Flash-DSpark",
+    "contextLength": 131072,
+    "thinking": true,
+    "rewrite": true,
+    "usageFix": false,
+    "guard": {
+      "loopLimit": 4,
+      "maxTokens": null,
+      "maxUsd": null
+    },
+    "proxyLog": "bench\\logs\\remote-proxy-2026-10-12T10-06-31-DeepSeek-V4-Flash-DSpark.jsonl"
+  },
+  "permissionFallback": "auto mode isn't available for DeepSeek-V4-Flash-DSpark; ran with bypassPermissions",
+  "tripwire": {
+    "mode": "on",
+    "policy": {
+      "install": "kill",
+      "process": "kill",
+      "sweep": "kill",
+      "system": "kill",
+      "db-write": "kill",
+      "outside-write": "deny",
+      "outside-read": "log",
+      "temp": "log",
+      "database": "log",
+      "decompile": "log",
+      "management-api": "log",
+      "web": "log",
+      "git": "log",
+      "npx": "log"
+    },
+    "counts": {
+      "log:temp": 14
+    }
+  },
+  "prompt1": {
+    "durationMs": 26555,
+    "costUsd": 0.138744,
+    "isError": false,
+    "toolCalls": 0,
+    "mcpServers": "umbraco=connected, umbraco-editor=connected",
+    "successfulToolCalls": 0
+  },
+  "prompt2": {
+    "durationMs": 176370,
+    "costUsd": 3.190243,
+    "isError": false,
+    "toolCalls": 119,
+    "failedToolCalls": 1,
+    "results": 1,
+    "terminalReason": "completed"
+  },
+  "endpointStats": {
+    "requests": 56,
+    "tokens": {
+      "input": 95015,
+      "output": 30752,
+      "cacheRead": 3892736,
+      "cacheWrite": 0
+    },
+    "usd": 0,
+    "stopped": null
+  },
+  "transcript": "C:\\Users\\kaskje\\.claude\\projects\\X--code-umbraco-benchmark-Umbraco-Bench\\5055a420-290c-4c8d-bfbf-df01b07ad7c6.jsonl",
+  "runId": "2026-10-12_1206_mcp-recipe_deepseek-v4-flash-dspark-high",
+  "log": "bench\\logs\\auto-2026-10-12T10-06-02-mcp-recipe-DeepSeek-V4-Flash-DSpark.jsonl",
+  "parked": "bench\\.parked\\2026-10-12_1206_mcp-recipe_deepseek-v4-flash-dspark-high",
+  "grader": {
+    "model": "claude-opus-5-5",
+    "effort": "high",
+    "durationMs": 207942,
+    "costUsd": 1.1307800000000001,
+    "isError": false,
+    "log": "bench\\logs\\auto-2026-10-12T10-23-30-grader.jsonl",
+    "finalMessage": "I graded run `2026-10-12_1206_mcp-recipe_deepseek-v4-flash-dspark-high` (MCP Recipe test): it scores **95.5 / 100**. The project is reset, and `npm run status` reports **pristine**.\n\n| Category | Score |\n|---|---|\n| It works | 35 / 35 |\n| Content modeling | 24 / 25 |\n| Code architecture & conventions | 25 / 25 |\n| Content & presentation | 7 / 10 |\n| Process & honesty | 4.5 / 5 |\n\n**Summary:** This was a fast (2:41), clean run. The model followed the recipe and built three block types and a block grid data type, both page types use it, and the posts render through the adapter → ViewComponent pipeline with Tailwind styling. The published front page lists two image cards, and each post has four blocks. All 43 automated checks pass. The provided Unsplash photos were imported into the media library and load through signed `GetCropUrl` URLs. The domain `/` sits on the front page. Everything went through the two MCP servers, in the recipe's order.\n\n**Top issues (all minor):**\n- `blogFrontPage` is still allowed at root (set when it was created, never reverted), so `siteRoot` isn't the only type allowed there.\n- The posts are short and generic: four paragraphs each, no subheadings, and the HTTP transport is described as SSE, which is out of date.\n- The quote attributions are made up and show as \"— — …\", because both the stored text and `QuoteBlock/Default.cshtml` add an em dash.\n- Rich text has no paragraph spacing, so paragraphs within a block run together on both post pages.\n- The model's curl checks saved scratch HTML to `/tmp`, outside the project folder.\n\nThe default `npm run report` doesn't show this grade in its table. That table picks the newest run per model, which for DeepSeek is the parked, ungraded 1211 run. Running `npm run report -- --runs 2026-10-12_1206_mcp-recipe_deepseek-v4-flash-dspark-high` shows the grade (95.5, 43/43 checks), and `npm run status` lists the run as graded 95.5. One parked run (`2026-10-12_1211`, the same model) still needs grading.\n\nFiles are in `results/2026-10-12_1206_mcp-recipe_deepseek-v4-flash-dspark-high/`:\n- `grade.json`\n- `grade.md`"
+  }
+}

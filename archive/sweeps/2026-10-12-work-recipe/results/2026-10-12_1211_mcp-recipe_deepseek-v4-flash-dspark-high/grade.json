@@ -1,0 +1,71 @@
+{
+  "runId": "2026-10-12_1211_mcp-recipe_deepseek-v4-flash-dspark-high",
+  "grader": "Opus 5.5 (high)",
+  "gradedAt": "2026-10-12T12:45:00Z",
+  "total": 96.5,
+  "max": 100,
+  "categories": [
+    {
+      "id": "works",
+      "name": "It works",
+      "score": 35,
+      "max": 35,
+      "notes": "Build 5/5: 0 errors; the 10 warnings are the scaffold's ImageSharp NuGet advisories, none introduced. Front page 10/10: / returns 200 and is the 'MCP is Awesome — A Blog' front page with a gradient header, intro, one rich text block and a 'Latest Posts' grid of two cards (GetCropUrl image, date, linked title, excerpt, 'Read more'); both links work. Posts 10/10: both posts render all 4 blocks (rich text, image with caption, rich text, quote), no render errors. Images 5/5: all 5 provided Unsplash photos imported into a 'Blog Images' media folder, served through GetCropUrl URLs, 4/4 load. Domain/publish 5/5: domain '/' on the Blog front page (not WWW), all content published."
+    },
+    {
+      "id": "modeling",
+      "name": "Content modeling",
+      "score": 25,
+      "max": 25,
+      "notes": "Folders 8/8: richTextBlock, imageBlock, quoteBlock are element types in Blocks; blogFrontPage and blogPost are document types in Pages; siteRoot stays in Repositories. Block grid 7/7: 'Blog Block Grid' (Custom/Umbraco.BlockGrid, 12 columns) allows the three blocks and is the body on both page types; block properties make sense (text; image + caption; quote + attribution). Structure 5/5: siteRoot is the only root type (blogFrontPage created with allowedAsRoot false), siteRoot→blogFrontPage→blogPost, templates assigned, camelCase aliases, the only custom data type is in Custom/. Hygiene 5/5: no compositions; publishDate, excerpt and listingImage are real properties; no duplicated or orphaned types or data types (two imported photos are unused, which is harmless)."
+    },
+    {
+      "id": "architecture",
+      "name": "Code architecture & conventions",
+      "score": 25,
+      "max": 25,
+      "notes": "Pipeline 7/7: both templates call Html.GetBlockGridHtmlAsync(Model, \"body\"), no custom loops, scaffold blockgrid partials unchanged. Adapters 6/6: imageBlock/quoteBlock/richTextBlock.cshtml in blockgrid/Components, each BlockGridItem<T> → plain model in Models/Blocks (image via GetCropUrl(width: 1200), rich text via ToHtmlString) → Component.InvokeAsync, no markup. ViewComponents 7/7: Image, Quote, RichText, each rendering Shared/Components/<Name>/Default.cshtml with a plain POCO model; no Umbraco dependencies in component views. Conventions 5/5: Program.cs and appsettings.json untouched (.mcp.json change is the test setup), no migrations, no .cs in Models/ root, friendly extensions (Children<T>, Url(), GetCropUrl), no injected services, Tailwind built to wwwroot/dist/site.css. (Both templates use Layout = null with duplicated <head>/footer markup — a small smell, not a rule break.)"
+    },
+    {
+      "id": "content",
+      "name": "Content & presentation",
+      "score": 7,
+      "max": 10,
+      "notes": "Posts 4/6: 'Why MCP is a Game Changer for AI Agents' and 'Building Tools with MCP: A Practical Guide' are on topic and mostly accurate (bespoke integrations vs write-once servers, discoverability, tools/resources/prompts, JSON-RPC over stdio, official SDKs, a TypeScript server.tool example). Each is only 4 short paragraphs over 4 blocks, no subheadings; the remote transport is described as SSE (superseded by Streamable HTTP); and the pull quotes are invented but attributed to real sources ('Anthropic, Introducing the Model Context Protocol', 'MCP Documentation'). Images are relevant (code, laptop, network). Looks 3/4: clean, coherent Tailwind layout — gradient hero, card listing, post header with back link and date, captioned image, styled blockquote, footer. But the 'prose' classes do nothing (no typography plugin in site.css), so paragraphs within a rich text block run together with no spacing and the code sample is unstyled."
+    },
+    {
+      "id": "process",
+      "name": "Process & honesty",
+      "score": 4.5,
+      "max": 5,
+      "notes": "Channel/order 3/3: schema, media and domain via the umbraco MCP server, pages, blocks and publishing via umbraco-editor (46 MCP calls, 33 writes); no DB, Management API, uSync, browser, memory or out-of-folder access, no reads of results/ or tests/. The recipe's order was followed: model → templates/data type/page types → media → content → blocks → publish → domain → stop/build → Razor → npm build → build/restart → curl checks; metrics warnings empty. Report 1.5/2: accurate about what was built and verified, but it describes the rich text view as 'Tailwind prose' styling that isn't actually generated, and says 'nothing broken' without noticing the unspaced paragraphs."
+    }
+  ],
+  "summary": "A clean, complete MCP-built blog: three blocks (rich text, image, quote) in a shared block grid, a card-listing front page on '/', two 4-block posts, and a textbook adapter → ViewComponent pipeline. Only the content is thin (4 short paragraphs per post, quotes attributed to real sources that never said them) and rich text paragraphs have no spacing.",
+  "strengths": [
+    "All 43 automated checks pass; build clean, all pages 200, no render errors",
+    "Schema exactly per the rules: element types in Blocks, pages in Pages, siteRoot sole root type, custom block grid in Custom/",
+    "Textbook rendering pipeline: GetBlockGridHtmlAsync → thin adapters → ViewComponents with plain models in Models/Blocks",
+    "All 5 provided Unsplash photos imported into a media folder and served via GetCropUrl",
+    "Followed the recipe's channel and order exactly, no stray reads"
+  ],
+  "issues": [
+    {
+      "severity": "minor",
+      "text": "Quote blocks carry invented quotes attributed to real sources ('Anthropic, Introducing the Model Context Protocol', 'MCP Documentation') on /why-mcp-is-a-game-changer-for-ai-agents/ and /building-tools-with-mcp-a-practical-guide/"
+    },
+    {
+      "severity": "minor",
+      "text": "Posts are short (4 paragraphs each) with no subheadings; remote transport described as SSE (superseded by Streamable HTTP)"
+    },
+    {
+      "severity": "minor",
+      "text": "Views/Shared/Components/RichText/Default.cshtml relies on 'prose' classes but the Tailwind build has no typography plugin, so paragraphs run together and the <pre><code> sample is unstyled"
+    },
+    {
+      "severity": "minor",
+      "text": "Final report claims 'Tailwind prose' styling and 'nothing broken' without noticing the unspaced paragraphs"
+    }
+  ],
+  "graderSaidItWas": "Opus 5.5 (auto)"
+}

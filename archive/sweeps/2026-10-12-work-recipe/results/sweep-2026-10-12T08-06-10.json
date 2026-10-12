@@ -1,0 +1,15 @@
+{
+  "state": "finished",
+  "startedAt": "2026-10-12T08:06:10.512Z",
+  "updatedAt": "2026-10-12T08:15:21.465Z",
+  "done": [
+    {
+      "label": "mistralai/mistral-small-2603 · MCP Recipe",
+      "status": "graded",
+      "runId": "2026-10-12_1007_mcp-recipe_mistral-small-2603-high",
+      "grade": "40.5/100",
+      "error": null
+    }
+  ],
+  "queued": []
+}

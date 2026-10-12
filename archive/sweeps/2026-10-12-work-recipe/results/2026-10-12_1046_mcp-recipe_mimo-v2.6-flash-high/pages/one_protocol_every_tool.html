@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<title>One Protocol, Every Tool — MCP Notes</title>
+	<link rel="stylesheet" href="/dist/site.css?v=aq5dGtfBUaqWxrIeVltE4xj4aF9nM1d72m9qJmq_2yk" />
+</head>
+<body class="min-h-screen bg-slate-50 font-sans text-slate-900 antialiased">
+	<header class="border-b border-slate-200 bg-white">
+		<div class="mx-auto max-w-3xl px-6 py-8">
+			<a href="/" class="text-sm font-semibold text-indigo-600 hover:underline">← MCP Notes</a>
+			<h1 class="mt-4 text-4xl font-bold tracking-tight sm:text-5xl">One Protocol, Every Tool</h1>
+			<div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500">
+				<time datetime="2026-10-08">8 October 2026</time>
+			</div>
+				<p class="mt-5 max-w-2xl text-lg leading-relaxed text-slate-600">Before MCP every integration was a one-off. Now a server you write on Monday works with every assistant on Tuesday. A look at what that means for day-to-day work.</p>
+		</div>
+	</header>
+
+	<main class="mx-auto max-w-3xl px-6 py-12">
+		<article>
+				<img src="/media/kzjj3ojo/connected-structure.jpg?rxy=0,0.5&amp;width=1400&amp;height=700&amp;v=1dd5a26b57d81a5&amp;hmac=a6ee7128925948a18092b8be7763d74bec818f683322167b0582b4d3bb7ac28f" alt="One Protocol, Every Tool" class="mb-8 w-full rounded-xl shadow-sm" />
+
+			
+<div class="umb-block-grid" data-grid-columns="12" style="--umb-block-grid--grid-columns: 12;">
+    
+<div class="umb-block-grid__layout-container">
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="2b8f8dae-1cca-438e-b2f2-b04fb7f8eff6"
+            data-element-key="420bae71-65d0-400a-a62e-2630c665b327"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+<div class="prose-headings:font-semibold my-6 space-y-4 text-lg leading-relaxed text-slate-700">
+    <p>The promise of MCP is unglamorous and that is exactly why it works: a server exposes what it can do, a client asks for it, and both sides agree on the shape of the conversation. No plugin marketplaces, no vendor handshake, no per-assistant packaging.</p><p>We noticed the change first in review meetings. Instead of arguing about which assistant to buy, we were writing small servers — an afternoon each — and letting every assistant in the company use them.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="imageBlock"
+            data-content-element-type-key="583c70a1-108e-40fd-86bb-4048e86f7db7"
+            data-element-key="3e77a927-6231-4b13-add9-92c214c19f7d"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+    <figure class="my-8">
+        <img src="/media/rsxhdxdx/puzzle-hands.jpg?rxy=0,0.5&amp;width=1400&amp;v=1dd5a26b594fe4c&amp;hmac=e26e65a58162105116bb9600175024ac9168b39d9f965e6e59764563caa926f6" alt="Two sides, one shape: pieces only fit when they were made to. Photo: Vardan Papikyan / Unsplash" class="w-full rounded-xl shadow-sm" loading="lazy" />
+            <figcaption class="mt-3 text-sm text-slate-500">Two sides, one shape: pieces only fit when they were made to. Photo: Vardan Papikyan / Unsplash</figcaption>
+    </figure>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="2b8f8dae-1cca-438e-b2f2-b04fb7f8eff6"
+            data-element-key="7453b634-00b9-402f-bd53-59fe0483e69c"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+<div class="prose-headings:font-semibold my-6 space-y-4 text-lg leading-relaxed text-slate-700">
+    <p>The numbers surprised us. Our first server — read-only access to the CMS content store — took less than a day including tests. The second took an hour, because the hard decisions had already been made once.</p><p>That is the compounding part. The protocol is the same every time, so the learning lives in your team instead of in each integration.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="2b8f8dae-1cca-438e-b2f2-b04fb7f8eff6"
+            data-element-key="6eadec94-9eea-4cd3-aaf5-0212b60eab36"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+<div class="prose-headings:font-semibold my-6 space-y-4 text-lg leading-relaxed text-slate-700">
+    <p>We also got a security story we could actually explain. Every server declares its tools, every client declares its scopes, and the whole exchange is visible in one log. Nothing hides inside a prompt.</p><p>Compare that with the alternative, where the only way to know what an assistant can reach is to ask it and hope the answer is honest.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="quoteBlock"
+            data-content-element-type-key="bffcd755-d31a-46b3-8724-36a391c2ed66"
+            data-element-key="4ad30f56-10b1-4e56-913b-87a8387a5660"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+    <blockquote class="my-8 border-l-4 border-indigo-500 pl-6">
+        <p class="text-xl italic leading-relaxed text-slate-700">One contract, written down once, and every assistant we have ever tried just works with it.</p>
+            <cite class="mt-3 block text-sm not-italic text-slate-500">— Tom&#xE1;s, engineering manager</cite>
+    </blockquote>
+
+        </div>
+</div>
+
+</div>
+
+		</article>
+
+		<nav class="mt-16 border-t border-slate-200 pt-6">
+			<a href="/" class="text-sm font-semibold text-indigo-600 hover:underline">← All posts</a>
+		</nav>
+	</main>
+
+	<footer class="border-t border-slate-200 bg-white">
+		<div class="mx-auto max-w-3xl px-6 py-8 text-sm text-slate-500">
+			Written by the team. Photographs from Unsplash.
+		</div>
+	</footer>
+</body>
+</html>

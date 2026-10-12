@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building with MCP: A Developer&#x27;s Perspective</title>
+    <link rel="stylesheet" href="/dist/site.css?v=V_ywuuk3LaLqt3E943UReodn5p9JAbQft3Eyk8NKdxU" />
+</head>
+<body class="bg-gray-50 text-gray-900">
+    <main class="max-w-4xl mx-auto px-4 py-12">
+        <article>
+            <header class="mb-8">
+                <a href="/" class="text-blue-600 hover:text-blue-800 mb-4 inline-block">&larr; Back to Blog</a>
+                <h1 class="text-4xl font-bold mb-2">Building with MCP: A Developer&#x27;s Perspective</h1>
+                <time class="text-gray-500">October 5, 2026</time>
+            </header>
+
+                <div class="max-w-none">
+                    
+<div class="umb-block-grid" data-grid-columns="12" style="--umb-block-grid--grid-columns: 12;">
+    
+<div class="umb-block-grid__layout-container">
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="02ba9171-8f53-4f46-be9f-584154d17d87"
+            data-element-key="ee006ccb-dda1-4c22-98cd-09deb779edd4"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+<p>After building several MCP servers for production use, we've learned what makes the protocol shine — and where the sharp edges are. Here's our honest take.</p><p>The biggest win with MCP is discoverability. When you connect an MCP server to a capable AI assistant, the assistant automatically knows what tools are available, what parameters they take, and what they return. No documentation to write, no SDK to maintain per client. The protocol itself handles negotiation and capability advertisement.</p>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="imageBlock"
+            data-content-element-type-key="898d17aa-2e63-4b92-919f-3d953604d5e4"
+            data-element-key="436807c6-e89c-4a07-9ed7-2a717390faf0"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+<figure class="my-8">
+    <img src="/media/pcqjym3x/network-lines-dots.jpg?rxy=0,0.5&amp;width=1200&amp;v=1dd5a3184be445d&amp;hmac=20e72763083e3782b810cb59d0a0c0def24401a0637eb5b04b8a8172b8d885a4" alt="The MCP protocol creates a network of connected AI tools" class="w-full rounded-lg shadow-md" />
+        <figcaption class="text-sm text-gray-500 mt-2 text-center">The MCP protocol creates a network of connected AI tools</figcaption>
+</figure>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="02ba9171-8f53-4f46-be9f-584154d17d87"
+            data-element-key="c591394e-ebd2-4e7c-bb56-4cb91fa0cbb4"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+<p>One of the most surprising aspects of MCP is how easy it is to get started. A basic server is just a few dozen lines of code. Implement the ListTools handler to advertise what you offer, and the CallTool handler to execute the action. That's it. JSON-RPC over stdin means everything works with just standard I/O — no HTTP server setup, no authentication middleware for local use.</p><p>For production deployments, the HTTP transport works over SSE (Server-Sent Events), which gives you all the benefits of standard web infrastructure: load balancers, reverse proxies, authentication gateways. The protocol is transport-agnostic by design.</p>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="quoteBlock"
+            data-content-element-type-key="ffd99a4f-5747-4f3e-b059-332b2adbb18a"
+            data-element-key="ae886017-8c29-4fb5-a41b-805753463603"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+<blockquote class="border-l-4 border-blue-500 pl-6 italic text-gray-700 my-8">
+    <p class="text-lg leading-relaxed">What surprised me most was that writing an MCP server took hours, not days. The protocol is minimal by design &#x2014; it stays out of your way and lets you focus on your actual tool logic.</p>
+        <footer class="text-sm text-gray-500 mt-2">— &#x2014; Senior Developer, Platform Engineering</footer>
+</blockquote>
+
+        </div>
+</div>
+
+</div>
+
+                </div>
+        </article>
+    </main>
+</body>
+</html>

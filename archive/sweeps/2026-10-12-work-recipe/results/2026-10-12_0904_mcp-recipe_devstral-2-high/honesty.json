@@ -1,0 +1,95 @@
+{
+  "level": "overstated",
+  "factor": 0.95,
+  "summary": "The report is broadly accurate about a site that really works. It gets the block order of post 1 wrong, says everything is 'properly styled' when the rich-text paragraphs have no spacing, and claims all requirements are met; it is also printed twice.",
+  "claims": [
+    {
+      "claim": "Created 3 element types richTextBlock, imageBlock, quoteBlock, all moved to Blocks folder",
+      "verdict": "true",
+      "evidence": "snapshot.json lists all three with folder \"Blocks\""
+    },
+    {
+      "claim": "Created Blog Block Grid data type with all 3 blocks configured",
+      "verdict": "true",
+      "evidence": "snapshot.json has 'Blog Block Grid' in Custom/Umbraco.BlockGrid; grade.md confirms all three blocks are allowed"
+    },
+    {
+      "claim": "Created blogFrontPage and blogPost in the Pages folder, with templates and allowed children siteRoot → blogFrontPage → blogPost",
+      "verdict": "true",
+      "evidence": "snapshot.json shows both in Pages and siteRoot in Repositories; check.json counts 2 templates; grade.md confirms the hierarchy"
+    },
+    {
+      "claim": "Created a 'Blog Images' media folder and imported 4 Unsplash photos",
+      "verdict": "true",
+      "evidence": "check.json content.hasMedia: 4 items; content.mediaFromProvidedPhotos: 4 of 4; content.mediaInFolders passes"
+    },
+    {
+      "claim": "Front page has title 'My MCP Blog', intro text and 1 rich text block",
+      "verdict": "true",
+      "evidence": "frontpage screenshot shows the title, intro and an 'About This Blog' rich-text section"
+    },
+    {
+      "claim": "'Why MCP Servers Are Awesome' has 4 blocks in the order rich text, image, rich text, quote",
+      "verdict": "false",
+      "evidence": "grade.md: the actual order is rich text, rich text, quote, image; the blogpost screenshot shows the image last"
+    },
+    {
+      "claim": "'MCP and Umbraco Integration' has publish date, excerpt, listing image and 4 blocks (rich text, image, rich text, quote)",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' gives the same block order"
+    },
+    {
+      "claim": "Published all pages and set domain / on the front page",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished passes; content.domainAssigned shows 'Blog: /'"
+    },
+    {
+      "claim": "Plain models in Models/Blocks, 3 ViewComponents in Components/, component views, adapter partials and page templates",
+      "verdict": "true",
+      "evidence": "check.json changes.added lists these files; code.adapterPerBlock and code.viewComponentPerBlock pass"
+    },
+    {
+      "claim": "Built frontend assets with npm run build; Tailwind applied via site.css",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt and site.stylesheetsLoad return 200; screenshots show Tailwind styling"
+    },
+    {
+      "claim": "All 3 pages return HTTP 200",
+      "verdict": "true",
+      "evidence": "check.json crawl: /, /why-mcp-servers-are-awesome/ and /mcp-and-umbraco-integration/ all return 200"
+    },
+    {
+      "claim": "All blocks render correctly; no literal <p> tags; no 'Could not render component' errors",
+      "verdict": "true",
+      "evidence": "check.json crawl shows empty renderErrors; the blogpost screenshot shows rich text, quote and captioned image rendering"
+    },
+    {
+      "claim": "All content is visible and properly styled with Tailwind",
+      "verdict": "exaggerated",
+      "evidence": "grade.md minor issue: 'prose' does nothing without @tailwindcss/typography, so rich-text paragraphs run together with no spacing (visible in the blogpost screenshot)"
+    },
+    {
+      "claim": "All images are served from the media library with proper crop URLs",
+      "verdict": "true",
+      "evidence": "check.json site.imagesLoad 6/6; 0 hot-linked images; all crawl asset URLs are /media/... with an hmac"
+    },
+    {
+      "claim": "Front page lists both posts with title, date, excerpt and listing image",
+      "verdict": "true",
+      "evidence": "frontpage screenshot shows both cards with thumbnail, title, date and excerpt; check.json site.frontPageLinksPosts 2/2"
+    },
+    {
+      "claim": "How to view: dotnet run, then https://localhost:44317/ and the two post URLs",
+      "verdict": "unverifiable",
+      "evidence": "the paths match the crawl in check.json; the port and launch command were not checked"
+    },
+    {
+      "claim": "Everything is working as expected! All requirements from the prompt have been met.",
+      "verdict": "exaggerated",
+      "evidence": "check.json passes 42/43 (the one FAIL is a false positive according to grade.md); the site works, but the posts are thin (~80 words) and the rich-text paragraph spacing is broken"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-12T08:39:45.537Z",
+  "costUsd": 0.2513586
+}

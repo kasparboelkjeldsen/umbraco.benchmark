@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Building Tools with MCP: A Practical Guide</title>
+    <link rel="stylesheet" href="/dist/site.css?v=ldczxHjVfrLdevs8sS0naZAOJ7t99e2CdENDESytGrE" />
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+    <header class="bg-white border-b border-gray-200 py-12 px-4">
+        <div class="max-w-4xl mx-auto">
+            <a href="/" class="text-blue-600 hover:text-blue-800 font-medium transition-colors">&larr; Back to Blog</a>
+            <h1 class="mt-4 text-3xl md:text-4xl font-extrabold text-gray-900 tracking-tight">Building Tools with MCP: A Practical Guide</h1>
+            <time class="mt-3 block text-gray-500 text-base" datetime="2026-10-05">October 5, 2026</time>
+        </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto py-8">
+
+<div class="umb-block-grid" data-grid-columns="12" style="--umb-block-grid--grid-columns: 12;">
+    
+<div class="umb-block-grid__layout-container">
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="840baff3-d038-4aaf-b905-e24b1a9bc20c"
+            data-element-key="5a562a9b-5fb4-4077-9088-ffdc2ecac7f8"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<div class="prose prose-lg max-w-none mx-auto px-4 py-6">
+    <p>Building your first MCP server is remarkably straightforward. At its heart, an MCP server is just a program that speaks JSON-RPC over stdio or SSE. You define <strong>tools</strong> (functions the agent can call), <strong>resources</strong> (data the agent can read), and <strong>prompts</strong> (templates to scaffold interactions).</p><p>The official SDKs — available for Python, TypeScript, Java, and Kotlin — handle all the protocol plumbing. You focus on what your tool does, not how to marshal JSON.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="imageBlock"
+            data-content-element-type-key="f6f04835-c513-4ccc-8f5d-cb024185c4da"
+            data-element-key="8178488e-435f-477c-ba50-538bdb393c2e"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<figure class="my-8 mx-auto max-w-4xl px-4">
+        <img src="/media/4o5jxywx/code-on-screen.jpg?rxy=0,0.5&amp;width=1200&amp;v=1dd5a324ab61150&amp;hmac=54af2b64bac86bdf28e9c13c30b7403820640d5eb80e95c52b78dd650764ccb5" alt="The MCP SDK makes server implementation a breeze" class="w-full h-auto rounded-lg shadow-md" />
+        <figcaption class="mt-3 text-center text-sm text-gray-500 italic">The MCP SDK makes server implementation a breeze</figcaption>
+</figure>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="richTextBlock"
+            data-content-element-type-key="840baff3-d038-4aaf-b905-e24b1a9bc20c"
+            data-element-key="55b5e8d2-8130-4e65-aac3-890b23970225"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<div class="prose prose-lg max-w-none mx-auto px-4 py-6">
+    <p>Here is a quick example of what a tool definition looks like in the TypeScript SDK:</p><pre><code>server.tool("get-weather",
+  { city: z.string() },
+  async ({ city }) =&gt; {
+    const data = await weatherApi.fetch(city)
+    return { content: [{ type: "text", text: data.summary }] }
+  }
+)</code></pre><p>That is it — one function call registers a tool. The SDK handles input validation (via Zod schemas), JSON-RPC wrapping, error reporting, and streaming. Your agent discovers it automatically on connection.</p>
+</div>
+
+        </div>
+        <div
+            class="umb-block-grid__layout-item"
+            data-content-element-type-alias="quoteBlock"
+            data-content-element-type-key="d1735b0d-4d92-4f30-8bfc-e720238392ee"
+            data-element-key="794e06ff-d15b-4a87-9583-195965ac26bf"
+            data-col-span="12"
+            data-row-span="1"
+            style=" --umb-block-grid--item-column-span: 12; --umb-block-grid--item-row-span: 1; ">
+
+<blockquote class="my-10 mx-auto max-w-3xl px-8 py-6 border-l-4 border-blue-500 bg-blue-50 rounded-r-lg">
+    <p class="text-xl font-medium text-gray-800 italic leading-relaxed">&ldquo;Every MCP server you build is an investment in the AI ecosystem. One server, any client, infinite possibilities.&rdquo;</p>
+        <footer class="mt-4 text-right text-gray-600 font-semibold">&mdash; MCP Documentation</footer>
+</blockquote>
+
+        </div>
+</div>
+
+</div>
+    </main>
+
+    <footer class="bg-gray-800 text-gray-400 py-8 text-center text-sm mt-16">
+        <p>&copy; 2026 MCP Blog. Powered by Umbraco.</p>
+    </footer>
+</body>
+</html>

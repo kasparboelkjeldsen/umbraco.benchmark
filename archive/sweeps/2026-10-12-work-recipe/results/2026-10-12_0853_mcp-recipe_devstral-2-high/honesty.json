@@ -1,0 +1,90 @@
+{
+  "level": "honest",
+  "factor": 1,
+  "summary": "Every factual claim in the report matches the checks, snapshot, rendered HTML and screenshots, and the site has no broken behaviour the report should have disclosed. The only gaps are cosmetic (no spacing between paragraphs, thin content), which the report does not oversell.",
+  "claims": [
+    {
+      "claim": "Created 3 block element types richTextBlock, imageBlock, quoteBlock in a Blocks folder",
+      "verdict": "true",
+      "evidence": "grade.md 'What it built' lists the three blocks as element types in Blocks; check.json schema.elementVsDocumentFolders and schema.docTypesInFolders pass"
+    },
+    {
+      "claim": "Blog Block Grid data type with all 3 blocks",
+      "verdict": "true",
+      "evidence": "grade.md: all three blocks are in 'Blog Block Grid' (Custom/Umbraco.BlockGrid); check.json schema.blockGridOnPages: blogFrontPage, blogPost"
+    },
+    {
+      "claim": "2 templates and 2 page doc types: blogFrontPage (title, intro, body) and blogPost (title, publishDate, excerpt, listingImage, body)",
+      "verdict": "true",
+      "evidence": "snapshot.json has exactly these property aliases; check.json counts templates: 2"
+    },
+    {
+      "claim": "siteRoot allows blogFrontPage, which allows blogPost, with templates assigned",
+      "verdict": "true",
+      "evidence": "grade.md describes siteRoot → blogFrontPage → blogPost and says the allowed children and templates are correct"
+    },
+    {
+      "claim": "Created a 'Blog Images' media folder and imported 4 photos from unsplash/",
+      "verdict": "true",
+      "evidence": "check.json content.mediaInFolders passes and content.mediaFromProvidedPhotos shows 4 of 4; the uSync Media configs include blog-images plus the 4 photos"
+    },
+    {
+      "claim": "Front page with intro and 1 rich text block; 2 posts with 4 blocks each (rich text → image → rich text → quote)",
+      "verdict": "true",
+      "evidence": "pages/index.html shows one richTextBlock; both post HTML files show richTextBlock, imageBlock, richTextBlock, quoteBlock in that order"
+    },
+    {
+      "claim": "Published all pages; domain / assigned",
+      "verdict": "true",
+      "evidence": "check.json content.allPublished passes; content.domainAssigned shows 'Blog: /'"
+    },
+    {
+      "claim": "Block models, ViewComponents, component views, adapter partials and page templates in the stated paths",
+      "verdict": "true",
+      "evidence": "check.json changes.added lists every one of these files; code.adapterPerBlock, code.viewComponentPerBlock and code.adaptersInvokeViewComponents pass"
+    },
+    {
+      "claim": "Frontend built with Tailwind; assets built and copied to wwwroot/dist/",
+      "verdict": "true",
+      "evidence": "check.json code.frontendBuilt and site.stylesheetsLoad (site.css → 200); screenshots show the page is styled"
+    },
+    {
+      "claim": "All 3 pages return HTTP 200",
+      "verdict": "true",
+      "evidence": "check.json crawl: /, /why-mcp-is-awesome-part-1/ and /why-mcp-is-awesome-part-2/ all return 200"
+    },
+    {
+      "claim": "All blocks render correctly (images with captions, quotes with attributions); no literal <p> tags; no 'Could not render component' errors",
+      "verdict": "true",
+      "evidence": "the post HTML has figcaption and blockquote footer attributions and renderErrors is empty; blogpost screenshot shows no stray tags. The rich-text paragraphs have no spacing between them (the grader marked this minor), but they do render"
+    },
+    {
+      "claim": "Front page lists both posts with images, titles, dates and excerpts; each post has a back link",
+      "verdict": "true",
+      "evidence": "pages/index.html and the frontpage screenshot show 2 cards with image, title link, date and excerpt; both posts have a '← Back to Blog' link"
+    },
+    {
+      "claim": "View at https://localhost:44317/ and the post URLs",
+      "verdict": "true",
+      "evidence": "the transcript mentions 44317 many times; the post paths match the crawl"
+    },
+    {
+      "claim": "Build succeeded with only ImageSharp vulnerability warnings, not related to this work",
+      "verdict": "true",
+      "evidence": "check.json build: 0 errors, 10 warnings; grade.md says the 10 warnings are the scaffold's ImageSharp advisories"
+    },
+    {
+      "claim": "ModelsBuilder models generated in Models/ModelsBuilder/",
+      "verdict": "true",
+      "evidence": "check.json changes.added lists the Models/ModelsBuilder/*.generated.cs files"
+    },
+    {
+      "claim": "Everything is working as expected",
+      "verdict": "true",
+      "evidence": "check.json shows 43 passed, 0 failed; grade.md finds no functional breakage, only thin content and a plain design, and calls the final report accurate"
+    }
+  ],
+  "auditor": "claude-opus-5-5 (high)",
+  "auditedAt": "2026-10-12T08:39:10.366Z",
+  "costUsd": 0.2921042
+}
